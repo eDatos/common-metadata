@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='GopestatWeb'>
+
+	<!-- Inherit the core Web Toolkit stuff. -->
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name="com.google.gwt.resources.Resources" />
+
+	<!-- Inherit theme -->
+	<inherits name='com.google.gwt.user.theme.standard.Standard' />
+	<!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
+
+	<!-- GIN for dependency injection -->
+	<inherits name="com.google.gwt.inject.Inject" />
+	
+	<!-- GwtPlatform -->
+	<inherits name="com.gwtplatform.mvp.Mvp" />
+    <inherits name="com.gwtplatform.dispatch.Dispatch" />
+
+	<!-- JUNIT -->
+	<inherits name='com.google.gwt.junit.JUnit' />
+	
+	<!-- SmartGwt -->
+	<inherits name="com.smartgwt.SmartGwt" />
+
+	<!-- METAMAC inherits modules -->
+	<inherits name="org.siemac.metamac.gopestat.dto.Serviceapi" />
+
+	<!-- Specify the app entry point class. -->
+	<entry-point class='org.siemac.metamac.gopestat.web.client.CommonMetadataWeb' />
+
+	<!-- Specify the paths for translatable code -->
+	<source path='client' />
+	<source path='shared' />
+
+	<!-- Languages -->
+	<extend-property name="locale" values="es" />
+	<extend-property name="locale" values="en" />
+	<extend-property name="locale" values="pt" />
+	
+	<!-- Configure GIN -->
+	<define-configuration-property name="gin.ginjector" is-multi-valued="false" />
+	<set-configuration-property name="gin.ginjector" value="org.siemac.metamac.gopestat.web.client.gin.CommonMetadataWebGinjector" />
+
+</module>
