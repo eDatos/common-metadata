@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>    
+  	<groupId>org.siemac.metamac.common.metadata</groupId>
+  	<artifactId>metamac-common-metadata</artifactId>
+  	<version>1.0</version>
+  	<packaging>pom</packaging>
+	<name>METAMAC :: COMMON :: METADATA</name>
+	<description>METAMAC :: COMMON :: METADATA</description>
+
+    <modules>
+    	<module>metamac-common-metadata-parent</module>
+        <module>metamac-common-metadata-core</module>
+        <module>metamac-common-metadata-web</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
