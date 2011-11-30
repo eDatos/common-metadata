@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<configuration>
+		<custom-converters>
+			<converter type="org.siemac.metamac.gopestat.service.dto.Date2JodaTimeConverter">
+				<class-a>org.joda.time.DateTime</class-a>
+				<class-b>java.util.Date</class-b>
+			</converter>
+			<converter type="org.siemac.metamac.gopestat.service.dto.Long2JodaDurationConverter">
+				<class-a>org.joda.time.Duration</class-a>
+				<class-b>java.lang.Long</class-b>
+			</converter>
+		</custom-converters>
+	</configuration>
+
+
+	<!-- ***********************************************************
+	 ONLY CLASS WITH DIRECT ID FIELD
+	**************************************************************** -->
+
+
+</mappings>
