@@ -1,0 +1,9 @@
+import "classpath:/btdesign/common-metadata-core-dtos.btdesign"
+import "classpath:/btdesign/common-metadata-core-lists.btdesign"
+import "classpath:/btdesign/common-metadata-core-base.btdesign"
+import "classpath:/btdesign/common-metadata-core-constraints.btdesign"
+
+Application CommonMetadata {
+    basePackage=org.siemac.metamac
+
+}

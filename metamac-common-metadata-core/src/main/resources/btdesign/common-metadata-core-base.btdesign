@@ -1,0 +1,16 @@
+import "classpath:/btdesign/common-metadata-core-dtos.btdesign"
+import "classpath:/btdesign/common-metadata-core-lists.btdesign"
+
+import "classpath:/btdesign/export/metamac-core-common-basictype.btdesign"
+import "classpath:/btdesign/export/metamac-core-common-vo.btdesign"
+import "classpath:/btdesign/export/metamac-core-common-entity.btdesign"
+
+
+Application Base {
+    basePackage=unused
+
+    Module base {
+		basePackage=org.siemac.metamac.common.metadata.base
+       
+    }
+}

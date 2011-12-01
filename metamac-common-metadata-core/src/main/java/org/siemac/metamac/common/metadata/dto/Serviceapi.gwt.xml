@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='GopestatWeb'>
+  <!-- Inherit the core Web Toolkit stuff. -->
+  <inherits name='com.google.gwt.user.User'/>
+
+  <!-- Specify the paths for translatable code -->
+  <source path='domain'/>
+  <source path='serviceapi'/>
+  <source path='tool'/>
+
+</module>

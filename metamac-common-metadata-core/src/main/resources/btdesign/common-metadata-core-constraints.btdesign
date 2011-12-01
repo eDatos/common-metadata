@@ -1,0 +1,9 @@
+
+Application Constraint {
+    basePackage=unused
+
+    Module constraint {
+   
+    }
+
+}

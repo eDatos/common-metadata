@@ -1,0 +1,10 @@
+import "classpath:/btdesign/metamac-core-common-dtos.btdesign"
+
+Application CommonMetadataDto {
+    basePackage=unused
+
+    Module common_metadata_dto {
+    	basePackage=org.siemac.metamac.common.metadata.dto
+            
+    }
+}
