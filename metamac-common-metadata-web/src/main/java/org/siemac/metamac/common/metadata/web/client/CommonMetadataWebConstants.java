@@ -8,7 +8,7 @@ public interface CommonMetadataWebConstants extends Constants {
 	// --------------------------------------------------------------------------------------------
 	// 										App Configuration
 	// --------------------------------------------------------------------------------------------
-	@DefaultStringValue("GOPESTAT")
+	@DefaultStringValue("COMMON METADATA")
 	String appTitle();
 	
 	@DefaultStringValue("Gobierno de Canarias")

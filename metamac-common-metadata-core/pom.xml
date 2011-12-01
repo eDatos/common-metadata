@@ -426,7 +426,7 @@
 							</checkFileset>
 						</checkFilesets>
 						<properties>
-							<modelFile>src/main/resources/btdesing/model-gopestat-core.btdesign</modelFile>
+							<modelFile>src/main/resources/btdesing/model-common-metadata-core.btdesign</modelFile>
 							<appProject>${project.artifactId}</appProject>
 						</properties>
 					</configuration>

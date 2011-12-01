@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module rename-to='GopestatWeb'>
+<module rename-to='CommonMetadataWeb'>
 
 	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name='com.google.gwt.user.User' />
@@ -24,10 +24,10 @@
 	<inherits name="com.smartgwt.SmartGwt" />
 
 	<!-- METAMAC inherits modules -->
-	<inherits name="org.siemac.metamac.gopestat.dto.Serviceapi" />
+	<inherits name="org.siemac.metamac.common.metadata.dto.Serviceapi" />
 
 	<!-- Specify the app entry point class. -->
-	<entry-point class='org.siemac.metamac.gopestat.web.client.CommonMetadataWeb' />
+	<entry-point class='org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb' />
 
 	<!-- Specify the paths for translatable code -->
 	<source path='client' />
@@ -40,6 +40,6 @@
 	
 	<!-- Configure GIN -->
 	<define-configuration-property name="gin.ginjector" is-multi-valued="false" />
-	<set-configuration-property name="gin.ginjector" value="org.siemac.metamac.gopestat.web.client.gin.CommonMetadataWebGinjector" />
+	<set-configuration-property name="gin.ginjector" value="org.siemac.metamac.common.metadata.web.client.gin.CommonMetadataWebGinjector" />
 
 </module>

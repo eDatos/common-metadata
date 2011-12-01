@@ -4,11 +4,11 @@
 
 	<configuration>
 		<custom-converters>
-			<converter type="org.siemac.metamac.gopestat.service.dto.Date2JodaTimeConverter">
+			<converter type="org.siemac.metamac.common.metadata.service.dto.Date2JodaTimeConverter">
 				<class-a>org.joda.time.DateTime</class-a>
 				<class-b>java.util.Date</class-b>
 			</converter>
-			<converter type="org.siemac.metamac.gopestat.service.dto.Long2JodaDurationConverter">
+			<converter type="org.siemac.metamac.common.metadata.service.dto.Long2JodaDurationConverter">
 				<class-a>org.joda.time.Duration</class-a>
 				<class-b>java.lang.Long</class-b>
 			</converter>
@@ -19,6 +19,19 @@
 	<!-- ***********************************************************
 	 ONLY CLASS WITH DIRECT ID FIELD
 	**************************************************************** -->
+
+	<mapping>
+		<class-a>org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto</class-a>
+  		<class-b>org.siemac.metamac.common.metadata.base.domain.Configuration</class-b>
+		<field>
+			<a>id</a>
+			<b is-accessible="true">id</b>
+		</field>
+		<field>
+			<a>uuid</a>
+			<b is-accessible="true">uuid</b>
+		</field>
+	</mapping>
 
 
 </mappings>

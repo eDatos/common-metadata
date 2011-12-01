@@ -5,6 +5,10 @@ Application CommonMetadataDto {
 
     Module common_metadata_dto {
     	basePackage=org.siemac.metamac.common.metadata.dto
-            
+         
+        DataTransferObject ConfigurationDto extends @AuditableDto   {
+        	String name;
+        }
+        
     }
 }

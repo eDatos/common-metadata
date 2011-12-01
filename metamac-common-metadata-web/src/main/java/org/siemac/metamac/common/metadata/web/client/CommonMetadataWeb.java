@@ -17,7 +17,7 @@ public class CommonMetadataWeb implements EntryPoint {
 	
 	interface GlobalResources extends ClientBundle {
 		@NotStrict
-		@Source("GopestatWebStyles.css")
+		@Source("CommonMetadataWebStyles.css")
 		CssResource css();
 	}
 
