@@ -1,0 +1,1 @@
+create sequence SEQ_COMMON_METADATA;
