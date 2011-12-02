@@ -15,6 +15,15 @@ Application Base {
 			hint="idSequence=CONFIGURATION"
 			
 			String name;
+			-@InternationalString legalActs cascade="all" nullable databaseColumn="LEGAL_ACTS_FK";
+			String legalActsUrl nullable;
+			-@InternationalString dataSharing cascade="all" nullable databaseColumn="DATA_SHARING_FK";
+			String dataSharingUrl nullable;
+			-@InternationalString confidentialityPolicy cascade="all" nullable databaseColumn="CONFIDENTIALITY_POLICY_FK";
+			String confidentialityPolicyUrl nullable;
+			-@InternationalString confidentialityDataTreatment cascade="all" nullable databaseColumn="CONFIDENTIALITY_DATA_TREATMENT_FK";
+			String confidentialityDataTreatmentUrl nullable;
+			-@ExternalItemBt contact nullable;
 			
 			Repository ConfigurationRepository {
 				findById;

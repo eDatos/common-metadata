@@ -32,6 +32,20 @@
 			<b is-accessible="true">uuid</b>
 		</field>
 	</mapping>
+	
+	<mapping>
+		<class-a>org.siemac.metamac.core.common.dto.serviceapi.InternationalStringDto</class-a>
+  		<class-b>org.siemac.metamac.core.common.ent.domain.InternationalString</class-b>
+		<field>
+			<a>id</a>
+			<b is-accessible="true">id</b>
+		</field>
+		<field>
+			<a>uuid</a>
+			<b is-accessible="true">uuid</b>
+		</field>
+	</mapping>
+	
 
 
 </mappings>

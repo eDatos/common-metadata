@@ -8,7 +8,16 @@ Application CommonMetadataDto {
          
         DataTransferObject ConfigurationDto extends @AuditableDto   {
         	String name;
+        	-@InternationalStringDto legalActs nullable;
+        	String legalActsUrl nullable;
+        	-@InternationalStringDto dataSharing nullable;
+        	String dataSharingUrl nullable;
+        	-@InternationalStringDto confidentialityPolicy nullable;
+        	String confidentialityPolicyUrl nullable;
+        	-@InternationalStringDto confidentialityDataTreatment nullable;
+        	String confidentialityDataTreatmentUrl nullable;
+        	-@ExternalItemBtDto contact nullable;
         }
-        
     }
+    
 }

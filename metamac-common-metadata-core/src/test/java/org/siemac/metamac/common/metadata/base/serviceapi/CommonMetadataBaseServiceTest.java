@@ -8,6 +8,8 @@ import static org.junit.Assert.assertTrue;
 import org.fornax.cartridges.sculptor.framework.test.AbstractDbUnitJpaTests;
 import org.junit.Test;
 import org.siemac.metamac.common.metadata.base.domain.Configuration;
+import org.siemac.metamac.core.common.ent.domain.InternationalString;
+import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -63,8 +65,63 @@ public class CommonMetadataBaseServiceTest extends AbstractDbUnitJpaTests implem
 
     private Configuration createConfiguration() {
     	Configuration configuration = new Configuration();
+    	// Name
     	configuration.setName("configuration-0123456789");
-    	return configuration;
+		// Legal Acts
+		InternationalString legalActs = new InternationalString();
+		LocalisedString legalActs_es = new LocalisedString();
+		legalActs_es.setLabel("ESPAÑOL Legal Acts");
+		legalActs_es.setLocale("es");
+		LocalisedString legalActs_en = new LocalisedString();
+		legalActs_en.setLabel("ENGLISH Legal Acts");
+		legalActs_en.setLocale("en");
+		legalActs.addText(legalActs_es);
+		legalActs.addText(legalActs_en);
+		configuration.setLegalActs(legalActs);
+		// Data Sharing
+		InternationalString dataSharing = new InternationalString();
+		LocalisedString dataSharing_es = new LocalisedString();
+		dataSharing_es.setLabel("ESPAÑOL Data Sharing");
+		dataSharing_es.setLocale("es");
+		LocalisedString dataSharing_en = new LocalisedString();
+		dataSharing_en.setLabel("ENGLISH Data Sharing");
+		dataSharing_en.setLocale("en");
+		dataSharing.addText(dataSharing_es);
+		dataSharing.addText(dataSharing_en);
+		configuration.setDataSharing(dataSharing);
+		// Confidentiality Policy
+		InternationalString confidentialityPolicy = new InternationalString();
+		LocalisedString confidentialityPolicy_es = new LocalisedString();
+		confidentialityPolicy_es.setLabel("ESPAÑOL Confidentiality Policy");
+		confidentialityPolicy_es.setLocale("es");
+		LocalisedString confidentialityPolicy_en = new LocalisedString();
+		confidentialityPolicy_en.setLabel("ENGLISH Confidentiality Policy");
+		confidentialityPolicy_en.setLocale("en");
+		confidentialityPolicy.addText(confidentialityPolicy_es);
+		confidentialityPolicy.addText(confidentialityPolicy_en);
+		configuration.setConfidentialityPolicy(confidentialityPolicy);
+		// Confidentiality Data Treatment
+		InternationalString confidentialityDataTreatment = new InternationalString();
+		LocalisedString confidentialityDataTreatment_es = new LocalisedString();
+		confidentialityDataTreatment_es.setLabel("ESPAÑOL Confidentiality Policy");
+		confidentialityDataTreatment_es.setLocale("es");
+		LocalisedString confidentialityDataTreatment_en = new LocalisedString();
+		confidentialityDataTreatment_en.setLabel("ENGLISH Confidentiality Policy");
+		confidentialityDataTreatment_en.setLocale("en");
+		confidentialityDataTreatment.addText(confidentialityDataTreatment_es);
+		confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
+		configuration.setConfidentialityDataTreatment(confidentialityDataTreatment);
+		// Legal Acts URL
+		configuration.setLegalActsUrl("http://legalActs.com");
+		// Data Sharing URL
+		configuration.setDataSharingUrl("http://dataSharing.com");
+		// Confidentiality Policy URL
+		configuration.setConfidentialityPolicyUrl("http://confidentialityPolicy.com");
+		// Confidentiality Data Treatment URL
+		configuration.setConfidentialityDataTreatmentUrl("http://confidentialityDataTreatment.com");
+		// Contact
+		// TODO
+		return configuration;
     }
     
 }
