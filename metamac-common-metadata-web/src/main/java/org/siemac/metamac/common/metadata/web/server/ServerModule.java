@@ -1,5 +1,7 @@
 package org.siemac.metamac.common.metadata.web.server;
 
+import org.siemac.metamac.common.metadata.web.server.handlers.FindAllConfigurationsActionHandler;
+import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -24,8 +26,14 @@ public class ServerModule extends HandlerModule {
 		return new DefaultActionValidator();
 	}
 	
-	protected void configureHandlers() {
+	@Bean
+	public FindAllConfigurationsActionHandler getFindAllConfigurationsActionHandler() {
+		return new FindAllConfigurationsActionHandler();
+	}
 	
+	
+	protected void configureHandlers() {
+		bindHandler(FindAllConfigurationsAction.class, FindAllConfigurationsActionHandler.class);
 	}
 	
 }
