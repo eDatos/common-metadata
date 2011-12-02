@@ -4,7 +4,9 @@ import org.siemac.metamac.common.metadata.web.client.CommonMetadataPlaceManager;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebConstants;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebMessages;
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
+import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.MainPagePresenter;
+import org.siemac.metamac.common.metadata.web.client.view.ConfigurationViewImpl;
 import org.siemac.metamac.common.metadata.web.client.view.MainPageViewImpl;
 
 import com.google.inject.Singleton;
@@ -24,10 +26,11 @@ public class ClientModule extends AbstractPresenterModule {
 	    install(new DefaultModule(CommonMetadataPlaceManager.class));
 	    
 	    // Constants
-	    bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.mainPage);
+	    bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.configurationPage);
 	    		
 		// Presenters
 	    bindPresenter(MainPagePresenter.class, MainPagePresenter.MainPageView.class, MainPageViewImpl.class, MainPagePresenter.MainPageProxy.class);
+	    bindPresenter(ConfigurationPresenter.class, ConfigurationPresenter.ConfigurationView.class, ConfigurationViewImpl.class, ConfigurationPresenter.ConfigurationProxy.class);
 	    
 		// Interfaces
 		bind(CommonMetadataWebConstants.class).in(Singleton.class);

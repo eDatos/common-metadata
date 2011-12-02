@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context debug="5" crossContext="true">
  
-    <Resource name="jdbc/COMMONMETADATADS"
+    <Resource name="jdbc/CommonMetadataDS"
     	auth="Container" type="javax.sql.DataSource"
     	maxActive="100" maxIdle="30" maxWait="10000"
     	username="common"

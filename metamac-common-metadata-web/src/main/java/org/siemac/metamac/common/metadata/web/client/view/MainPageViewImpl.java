@@ -2,7 +2,7 @@ package org.siemac.metamac.common.metadata.web.client.view;
 
 import org.siemac.metamac.common.metadata.web.client.presenter.MainPagePresenter;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHandlers;
-import org.siemac.metamac.common.metadata.web.client.widgets.MasterHead;
+import org.siemac.metamac.web.common.client.widgets.MasterHead;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;

@@ -25,6 +25,7 @@
 
 	<!-- METAMAC inherits modules -->
 	<inherits name="org.siemac.metamac.common.metadata.dto.Serviceapi" />
+	<inherits name="org.siemac.metamac.web.common.MetamacWebCommon"/>
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class='org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb' />

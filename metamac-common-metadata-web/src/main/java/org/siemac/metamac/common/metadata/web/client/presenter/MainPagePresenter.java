@@ -2,7 +2,7 @@ package org.siemac.metamac.common.metadata.web.client.presenter;
 
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHandlers;
-import org.siemac.metamac.common.metadata.web.client.widgets.MasterHead;
+import org.siemac.metamac.web.common.client.widgets.MasterHead;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent.Type;

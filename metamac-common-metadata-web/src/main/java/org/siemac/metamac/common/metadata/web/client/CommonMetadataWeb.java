@@ -15,18 +15,17 @@ import com.gwtplatform.mvp.client.DelayedBindRegistry;
  */
 public class CommonMetadataWeb implements EntryPoint {
 	
+	private static CommonMetadataWebConstants constants;
+	private static CommonMetadataWebMessages messages;
+
+	public static final CommonMetadataWebGinjector ginjector = GWT.create(CommonMetadataWebGinjector.class);
+	
 	interface GlobalResources extends ClientBundle {
 		@NotStrict
-		@Source("CommonMetadataWebStyles.css")
+		@Source("resources/CommonMetadataWebStyles.css")
 		CssResource css();
 	}
 
-	
-	private static CommonMetadataWebConstants constants;
-	private static CommonMetadataWebMessages messages;
-	
-	public static final CommonMetadataWebGinjector ginjector = GWT.create(CommonMetadataWebGinjector.class);
-	
     public void onModuleLoad() {
         // This is required for GWT-Platform proxy's generator.
         DelayedBindRegistry.bind(ginjector);
@@ -35,7 +34,6 @@ public class CommonMetadataWeb implements EntryPoint {
         // Inject global styles
         GWT.<GlobalResources>create(GlobalResources.class).css().ensureInjected();
     }
-
 
     public static CommonMetadataWebConstants getConstants() {
     	if (constants == null) {
@@ -51,7 +49,6 @@ public class CommonMetadataWeb implements EntryPoint {
     	return messages;
     }
 
-    
     public static CommonMetadataWebGinjector getCommonMetadataWebGinjector() {
       return ginjector;
     }
