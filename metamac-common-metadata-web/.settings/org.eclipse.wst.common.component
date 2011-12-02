@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-modules id="moduleCoreId" project-version="1.5.0">
   <wb-module deploy-name="${module}">
-        <wb-resource deploy-path="/WEB-INF/web.xml" source-path="/src/main/webapp/WEB-INF/web.xml"/>
+ 	<wb-resource deploy-path="/" source-path="/src/main/webapp"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/gwt"/>
-        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+        <dependent-module archiveName="metamac-web-common-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/metamac-web-common/metamac-web-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="metamac-common-metadata-core-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/metamac-common-metadata-core/metamac-common-metadata-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="metamac-core-common-1.0-SNAPSHOT-client.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/metamac-core-common/metamac-core-common">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <property name="java-output-path" value="/metamac-common-metadata-web/target/metamac-common-metadata-web-1.0/WEB-INF/classes"/>
-        <property name="context-root" value="metamac-common-metadata-web"/>
+        <property name="context-root" value="${module}"/>
+   		<property name="java-output-path" value="/${module}/target/www/WEB-INF/classes"/>
   </wb-module>
 </project-modules>
