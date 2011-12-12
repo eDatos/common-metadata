@@ -27,8 +27,8 @@ public class Do2DtoMapperImpl implements Do2DtoMapper {
 		ConfigurationDto configurationDto = getMapper().map(configuration, ConfigurationDto.class);
 		configurationDto.setLegalActs(internationalStringToDto(configuration.getLegalActs()));
 		configurationDto.setDataSharing(internationalStringToDto(configuration.getDataSharing()));
-		configurationDto.setConfidentialityPolicy(internationalStringToDto(configuration.getConfidentialityPolicy()));
-		configurationDto.setConfidentialityDataTreatment(internationalStringToDto(configuration.getConfidentialityDataTreatment()));
+		configurationDto.setConfPolicy(internationalStringToDto(configuration.getConfPolicy()));
+		configurationDto.setConfDataTreatment(internationalStringToDto(configuration.getConfDataTreatment()));
 		return configurationDto;
 	}
 

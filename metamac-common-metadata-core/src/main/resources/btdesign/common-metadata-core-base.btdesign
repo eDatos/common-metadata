@@ -19,10 +19,10 @@ Application Base {
 			String legalActsUrl nullable;
 			-@InternationalString dataSharing cascade="all" nullable databaseColumn="DATA_SHARING_FK";
 			String dataSharingUrl nullable;
-			-@InternationalString confidentialityPolicy cascade="all" nullable databaseColumn="CONFIDENTIALITY_POLICY_FK";
-			String confidentialityPolicyUrl nullable;
-			-@InternationalString confidentialityDataTreatment cascade="all" nullable databaseColumn="CONFIDENTIALITY_DATA_TREATMENT_FK";
-			String confidentialityDataTreatmentUrl nullable;
+			-@InternationalString confPolicy cascade="all" nullable databaseColumn="CONF_POLICY_FK";
+			String confPolicyUrl nullable;
+			-@InternationalString confDataTreatment cascade="all" nullable databaseColumn="CONF_DATA_TREATMENT_FK";
+			String confDataTreatmentUrl nullable;
 			-@ExternalItemBt contact nullable;
 			
 			Repository ConfigurationRepository {

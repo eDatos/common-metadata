@@ -99,7 +99,7 @@ public class CommonMetadataBaseServiceFacadeTest extends AbstractDbUnitJpaTests 
 		confidentialityPolicy_en.setLocale("en");
 		confidentialityPolicy.addText(confidentialityPolicy_es);
 		confidentialityPolicy.addText(confidentialityPolicy_en);
-		configurationDto.setConfidentialityPolicy(confidentialityPolicy);
+		configurationDto.setConfPolicy(confidentialityPolicy);
 		// Confidentiality Data Treatment
 		InternationalStringDto confidentialityDataTreatment = new InternationalStringDto();
 		LocalisedStringDto confidentialityDataTreatment_es = new LocalisedStringDto();
@@ -110,15 +110,15 @@ public class CommonMetadataBaseServiceFacadeTest extends AbstractDbUnitJpaTests 
 		confidentialityDataTreatment_en.setLocale("en");
 		confidentialityDataTreatment.addText(confidentialityDataTreatment_es);
 		confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
-		configurationDto.setConfidentialityDataTreatment(confidentialityDataTreatment);
+		configurationDto.setConfDataTreatment(confidentialityDataTreatment);
 		// Legal Acts URL
 		configurationDto.setLegalActsUrl("http://legalActs.com");
 		// Data Sharing URL
 		configurationDto.setDataSharingUrl("http://dataSharing.com");
 		// Confidentiality Policy URL
-		configurationDto.setConfidentialityPolicyUrl("http://confidentialityPolicy.com");
+		configurationDto.setConfPolicyUrl("http://confidentialityPolicy.com");
 		// Confidentiality Data Treatment URL
-		configurationDto.setConfidentialityDataTreatmentUrl("http://confidentialityDataTreatment.com");
+		configurationDto.setConfDataTreatmentUrl("http://confidentialityDataTreatment.com");
 		// TODO
 		return configurationDto;
 	}

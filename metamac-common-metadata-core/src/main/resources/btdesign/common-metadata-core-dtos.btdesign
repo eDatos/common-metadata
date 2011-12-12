@@ -12,10 +12,10 @@ Application CommonMetadataDto {
         	String legalActsUrl nullable;
         	-@InternationalStringDto dataSharing nullable;
         	String dataSharingUrl nullable;
-        	-@InternationalStringDto confidentialityPolicy nullable;
-        	String confidentialityPolicyUrl nullable;
-        	-@InternationalStringDto confidentialityDataTreatment nullable;
-        	String confidentialityDataTreatmentUrl nullable;
+        	-@InternationalStringDto confPolicy nullable;
+        	String confPolicyUrl nullable;
+        	-@InternationalStringDto confDataTreatment nullable;
+        	String confDataTreatmentUrl nullable;
         	-@ExternalItemBtDto contact nullable;
         }
     }

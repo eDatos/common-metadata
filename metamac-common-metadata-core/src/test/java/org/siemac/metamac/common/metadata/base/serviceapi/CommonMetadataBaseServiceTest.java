@@ -99,7 +99,7 @@ public class CommonMetadataBaseServiceTest extends AbstractDbUnitJpaTests implem
 		confidentialityPolicy_en.setLocale("en");
 		confidentialityPolicy.addText(confidentialityPolicy_es);
 		confidentialityPolicy.addText(confidentialityPolicy_en);
-		configuration.setConfidentialityPolicy(confidentialityPolicy);
+		configuration.setConfPolicy(confidentialityPolicy);
 		// Confidentiality Data Treatment
 		InternationalString confidentialityDataTreatment = new InternationalString();
 		LocalisedString confidentialityDataTreatment_es = new LocalisedString();
@@ -110,15 +110,15 @@ public class CommonMetadataBaseServiceTest extends AbstractDbUnitJpaTests implem
 		confidentialityDataTreatment_en.setLocale("en");
 		confidentialityDataTreatment.addText(confidentialityDataTreatment_es);
 		confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
-		configuration.setConfidentialityDataTreatment(confidentialityDataTreatment);
+		configuration.setConfDataTreatment(confidentialityDataTreatment);
 		// Legal Acts URL
 		configuration.setLegalActsUrl("http://legalActs.com");
 		// Data Sharing URL
 		configuration.setDataSharingUrl("http://dataSharing.com");
 		// Confidentiality Policy URL
-		configuration.setConfidentialityPolicyUrl("http://confidentialityPolicy.com");
+		configuration.setConfPolicyUrl("http://confidentialityPolicy.com");
 		// Confidentiality Data Treatment URL
-		configuration.setConfidentialityDataTreatmentUrl("http://confidentialityDataTreatment.com");
+		configuration.setConfDataTreatmentUrl("http://confidentialityDataTreatment.com");
 		// Contact
 		// TODO
 		return configuration;

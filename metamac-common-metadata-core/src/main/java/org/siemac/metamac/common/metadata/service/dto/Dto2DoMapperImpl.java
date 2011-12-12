@@ -41,8 +41,8 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
 		
 		configuration.setLegalActs(internationalStringToEntity(source.getLegalActs(), target.getLegalActs()));
 		configuration.setDataSharing(internationalStringToEntity(source.getDataSharing(), target.getDataSharing()));
-		configuration.setConfidentialityPolicy(internationalStringToEntity(source.getConfidentialityPolicy(), target.getConfidentialityPolicy()));
-		configuration.setConfidentialityDataTreatment(internationalStringToEntity(source.getConfidentialityDataTreatment(), target.getConfidentialityDataTreatment()));
+		configuration.setConfPolicy(internationalStringToEntity(source.getConfPolicy(), target.getConfPolicy()));
+		configuration.setConfDataTreatment(internationalStringToEntity(source.getConfDataTreatment(), target.getConfDataTreatment()));
 		
 		return configuration;
 	}
