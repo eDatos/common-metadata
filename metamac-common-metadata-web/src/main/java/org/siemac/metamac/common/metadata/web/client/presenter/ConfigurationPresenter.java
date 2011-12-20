@@ -6,6 +6,8 @@ import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
+import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
+import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListResult;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
@@ -48,7 +50,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 		void setConfigurations(List<ConfigurationDto> configurations);
 		void setConfiguration(ConfigurationDto configurationDto);
 		ConfigurationDto getConfiguration();
-		List<ConfigurationDto> getSelectedConfiguration();
+		List<ConfigurationDto> getSelectedConfigurations();
 		boolean validate();
 		HasClickHandlers getSave();
 		HasClickHandlers getDelete();
@@ -89,6 +91,13 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 				}
 			}
 		}));
+		
+		registerHandler(getView().getDelete().addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				deleteConfigurations(getView().getSelectedConfigurations());
+			}
+		}));
 	}
 	
 	private void populateConfigurations() {
@@ -115,6 +124,20 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 			@Override
 			public void onSuccess(SaveConfigurationResult result) {
 				getView().onConfigurationSaved(result.getConfigurationSaved());
+			}
+		});
+	}
+	
+	private void deleteConfigurations(List<ConfigurationDto> configurationDtos) {
+		dispatcher.execute(new DeleteConfigurationListAction(configurationDtos), new AsyncCallback<DeleteConfigurationListResult>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO
+				System.err.println("ERROR!");
+			}
+			@Override
+			public void onSuccess(DeleteConfigurationListResult result) {
+				populateConfigurations();
 			}
 		});
 	}

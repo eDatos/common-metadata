@@ -1,7 +1,9 @@
 package org.siemac.metamac.common.metadata.web.server;
 
+import org.siemac.metamac.common.metadata.web.server.handlers.DeleteConfigurationListActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.FindAllConfigurationsActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.SaveConfigurationActionHandler;
+import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.springframework.context.annotation.Bean;
@@ -38,10 +40,16 @@ public class ServerModule extends HandlerModule {
 		return new SaveConfigurationActionHandler();
 	}
 	
+	@Bean
+	public DeleteConfigurationListActionHandler getConfigurationListActionHandler() {
+		return new DeleteConfigurationListActionHandler();
+	}
+	
 	
 	protected void configureHandlers() {
 		bindHandler(FindAllConfigurationsAction.class, FindAllConfigurationsActionHandler.class);
 		bindHandler(SaveConfigurationAction.class, SaveConfigurationActionHandler.class);
+		bindHandler(DeleteConfigurationListAction.class, DeleteConfigurationListActionHandler.class);
 	}
 	
 }

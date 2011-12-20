@@ -334,7 +334,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 	}
 
 	@Override
-	public List<ConfigurationDto> getSelectedConfiguration() {
+	public List<ConfigurationDto> getSelectedConfigurations() {
 		if (configurationsGrid.getSelectedRecords() != null) {
 			List<ConfigurationDto> selectedConfigurations = new ArrayList<ConfigurationDto>();
 			ListGridRecord[] records = configurationsGrid.getSelectedRecords();
