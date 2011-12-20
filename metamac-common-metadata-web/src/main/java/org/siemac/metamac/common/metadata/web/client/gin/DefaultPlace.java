@@ -8,6 +8,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import org.siemac.metamac.common.metadata.web.client.CommonMetadataPlaceManager;
+
 import com.google.inject.BindingAnnotation;
 
 /**

@@ -1,10 +1,15 @@
 package org.siemac.metamac.common.metadata.web.client.presenter;
 
+import java.util.List;
+
+import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsResult;
+import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
+import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -17,14 +22,15 @@ import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.annotations.TitleFunction;
 import com.gwtplatform.mvp.client.proxy.Place;
-import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
+import com.smartgwt.client.widgets.events.ClickEvent;
+import com.smartgwt.client.widgets.events.ClickHandler;
+import com.smartgwt.client.widgets.events.HasClickHandlers;
 
 public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.ConfigurationView, ConfigurationPresenter.ConfigurationProxy> implements ConfigurationUiHandlers {
 
-	private final PlaceManager placeManager;
 	private final DispatchAsync dispatcher;
 	
 	@ProxyCodeSplit
@@ -39,14 +45,20 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 	}
 
 	public interface ConfigurationView extends View, HasUiHandlers<ConfigurationUiHandlers> {
-
+		void setConfigurations(List<ConfigurationDto> configurations);
+		void setConfiguration(ConfigurationDto configurationDto);
+		ConfigurationDto getConfiguration();
+		List<ConfigurationDto> getSelectedConfiguration();
+		boolean validate();
+		HasClickHandlers getSave();
+		HasClickHandlers getDelete();
+		void onConfigurationSaved(ConfigurationDto configurationDto);
 	}
 	
 	@Inject
-	public ConfigurationPresenter(EventBus eventBus, ConfigurationView configurationView, ConfigurationProxy configurationProxy, DispatchAsync dispatcher, PlaceManager placeManager) {
+	public ConfigurationPresenter(EventBus eventBus, ConfigurationView configurationView, ConfigurationProxy configurationProxy, DispatchAsync dispatcher) {
 		super(eventBus, configurationView, configurationProxy);
 		this.dispatcher = dispatcher;
-		this.placeManager = placeManager;
 		getView().setUiHandlers(this);
 	}
 
@@ -67,17 +79,44 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 		populateConfigurations();
 	}
 	
+	@Override
+	protected void onBind() {
+		registerHandler(getView().getSave().addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (getView().validate()) {
+					saveConfiguration(getView().getConfiguration());
+				}
+			}
+		}));
+	}
+	
 	private void populateConfigurations() {
 		dispatcher.execute(new FindAllConfigurationsAction(), new AsyncCallback<FindAllConfigurationsResult>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				System.out.println();
+				// TODO
+				System.err.println("ERROR!");
 			}
 			@Override
 			public void onSuccess(FindAllConfigurationsResult result) {
-				System.out.println();
+				getView().setConfigurations(result.getConfigurations());
 			}
 		});
 	}
 	
+	private void saveConfiguration(ConfigurationDto configurationDto) {
+		dispatcher.execute(new SaveConfigurationAction(configurationDto), new AsyncCallback<SaveConfigurationResult>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO
+				System.err.println("ERROR!");
+			}
+			@Override
+			public void onSuccess(SaveConfigurationResult result) {
+				getView().onConfigurationSaved(result.getConfigurationSaved());				
+			}
+		});
+	}
+
 }

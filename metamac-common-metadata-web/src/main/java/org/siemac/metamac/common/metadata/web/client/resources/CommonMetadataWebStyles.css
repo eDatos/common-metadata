@@ -1,0 +1,21 @@
+.subsectionTitle {
+	font-size: 16px;
+	color: #008BD0; /* Blue */
+}
+
+/*
+ * Overridden styles
+ */
+.groupLabel {
+	background-clip: border-box;
+	background-color: #F3F3F6;
+	color: #003168;
+	font-size: 14px;
+	font-weight: bolder;
+/*	position: relative !important;
+	top: auto !important; */
+}
+
+.formTitle,.formTitleFocused,.formCell,.formCellFocused {
+	vertical-align: top;
+}
