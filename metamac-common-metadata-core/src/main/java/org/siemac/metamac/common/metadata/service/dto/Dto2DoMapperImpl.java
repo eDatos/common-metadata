@@ -1,9 +1,6 @@
 package org.siemac.metamac.common.metadata.service.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
+import org.apache.commons.lang.StringUtils;
 import org.dozer.DozerBeanMapper;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.base.domain.Configuration;
@@ -13,6 +10,7 @@ import org.siemac.metamac.common.metadata.error.ServiceExceptionType;
 import org.siemac.metamac.core.common.dto.serviceapi.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.serviceapi.LocalisedStringDto;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
+import org.siemac.metamac.core.common.ent.domain.InternationalStringRepository;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +19,13 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
 
 	@Autowired
 	private DozerBeanMapper mapper;
+	
+	@Autowired
+	private InternationalStringRepository internationalStringRepository;
+
+	protected InternationalStringRepository getInternationalStringRepository() {
+		return internationalStringRepository;
+	}
 	
 	@Override
 	public Configuration configurationDtoToEntity(ConfigurationDto source, ServiceContext ctx) throws CommonMetadataException {
@@ -47,31 +52,35 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
 		return configuration;
 	}
 
-	
 	private InternationalString internationalStringToEntity(InternationalStringDto source, InternationalString target) {
 		if (source == null) {
+			// Delete old entity
+			if (target != null) {
+				getInternationalStringRepository().delete(target);
+			}
+			
 			return null;
 		}
+		// NAME
+		// InternationalStringDTO to InternationalString  
 		
-		if (target == null) {
-			target =  new InternationalString();	
+		// Avoid the appearance of trash.
+		if (target != null) {
+			source.setId(target.getId());
+			source.setUuid(target.getUuid());
+			source.setVersion(target.getVersion());
 		}
 		
-		target.getTexts().clear();
-		target.getTexts().addAll(localisedStringDtoToDo(source.getTexts()));
-		return target;
-	}
-	
-
-	private List<LocalisedString> localisedStringDtoToDo(Set<LocalisedStringDto> sources) {
-		List<LocalisedString> targets = new ArrayList<LocalisedString>();
-		for (LocalisedStringDto source : sources) {
-			LocalisedString target = new LocalisedString();
-    		target.setLabel(source.getLabel());
-    		target.setLocale(source.getLocale());
-			targets.add(target);
+		InternationalString internationalString = mapper.map(source, InternationalString.class);
+		
+		// LocalisedStringDto to LocalisedString  
+		for (LocalisedStringDto item : source.getTexts()) {
+			if (StringUtils.isNotBlank(item.getLabel())) {
+				internationalString.addText(mapper.map(item, LocalisedString.class));
+			}
 		}
-		return targets;
+		
+		return internationalString;
 	}
 
 }
