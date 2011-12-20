@@ -1,8 +1,8 @@
 package org.siemac.metamac.core.common.bt.domain;
 
-import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
-
 import javax.persistence.Embeddable;
+
+import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 
 /**
  * External codeList items
