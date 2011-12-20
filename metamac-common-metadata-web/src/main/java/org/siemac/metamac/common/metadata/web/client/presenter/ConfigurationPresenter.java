@@ -114,7 +114,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 			}
 			@Override
 			public void onSuccess(SaveConfigurationResult result) {
-				getView().onConfigurationSaved(result.getConfigurationSaved());				
+				getView().onConfigurationSaved(result.getConfigurationSaved());
 			}
 		});
 	}

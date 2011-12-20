@@ -328,6 +328,8 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 		configurationDto.setDataSharingUrl(dataSharingUrl.getValueAsString());
 		configurationDto.setConfPolicy(confPolicy.getValue(configurationDto.getConfPolicy()));
 		configurationDto.setConfPolicyUrl(confPolicyUrl.getValueAsString());
+		configurationDto.setConfDataTreatment(confDataTreatment.getValue(configurationDto.getConfDataTreatment()));
+		configurationDto.setConfDataTreatmentUrl(confDataTreatmentUrl.getValueAsString());
 		return configurationDto;
 	}
 
