@@ -1,5 +1,6 @@
 import "classpath:/btdesign/common-metadata-core-dtos.btdesign"
 
+import "classpath:/btdesign/metamac-core-common-dtos.btdesign"
 import "classpath:/btdesign/export/metamac-core-common-basictype.btdesign"
 import "classpath:/btdesign/export/metamac-core-common-vo.btdesign"
 import "classpath:/btdesign/export/metamac-core-common-entity.btdesign"
@@ -42,6 +43,7 @@ Application Base {
 			@ConfigurationDto saveConfiguration(@ConfigurationDto configuration) throws CommonMetadataException;
 			deleteConfiguration(@ConfigurationDto configuration) throws CommonMetadataException;
 			
+			List<@ExternalItemBtDto> findAllContacts throws CommonMetadataException;
 		}
 		
 		Service CommonMetadataBaseService {

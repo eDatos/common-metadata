@@ -2,6 +2,7 @@ import "classpath:/btdesign/common-metadata-core-dtos.btdesign"
 import "classpath:/btdesign/common-metadata-core-lists.btdesign"
 import "classpath:/btdesign/common-metadata-core-base.btdesign"
 import "classpath:/btdesign/common-metadata-core-constraints.btdesign"
+import "classpath:/btdesign/export/metamac-core-common-vo.btdesign"
 
 Application CommonMetadata {
     basePackage=org.siemac.metamac

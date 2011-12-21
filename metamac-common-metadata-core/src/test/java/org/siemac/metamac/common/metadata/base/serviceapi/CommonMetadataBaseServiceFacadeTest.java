@@ -58,6 +58,11 @@ public class CommonMetadataBaseServiceFacadeTest extends AbstractDbUnitJpaTests 
 		commonMetadataBaseServiceFacade.deleteConfiguration(getServiceContext(), configurationDto);
 		assertTrue(commonMetadataBaseServiceFacade.findAllConfigurations(getServiceContext()).size() == (numberConfigurations -1));
 	}
+    
+	@Override
+	public void testFindAllContacts() throws Exception {
+		
+	}
 	
 	
 	/**************************************************************************
@@ -122,5 +127,5 @@ public class CommonMetadataBaseServiceFacadeTest extends AbstractDbUnitJpaTests 
 		// TODO
 		return configurationDto;
 	}
-	
+
 }
