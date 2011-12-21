@@ -10,8 +10,11 @@ import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListActi
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListResult;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsResult;
+import org.siemac.metamac.common.metadata.web.shared.FindAllContactsAction;
+import org.siemac.metamac.common.metadata.web.shared.FindAllContactsResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
+import org.siemac.metamac.core.common.dto.serviceapi.ExternalItemBtDto;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -49,6 +52,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 	public interface ConfigurationView extends View, HasUiHandlers<ConfigurationUiHandlers> {
 		void setConfigurations(List<ConfigurationDto> configurations);
 		void setConfiguration(ConfigurationDto configurationDto);
+		void setContacts(List<ExternalItemBtDto> contacts);
 		ConfigurationDto getConfiguration();
 		List<ConfigurationDto> getSelectedConfigurations();
 		boolean validate();
@@ -78,6 +82,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 	@Override
 	public void prepareFromRequest(PlaceRequest request) {
 		super.prepareFromRequest(request);
+		populateContacts();
 		populateConfigurations();
 	}
 	
@@ -138,6 +143,20 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 			@Override
 			public void onSuccess(DeleteConfigurationListResult result) {
 				populateConfigurations();
+			}
+		});
+	}
+	
+	private void populateContacts() {
+		dispatcher.execute(new FindAllContactsAction(), new AsyncCallback<FindAllContactsResult>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO
+				System.err.println("ERROR!");
+			}
+			@Override
+			public void onSuccess(FindAllContactsResult result) {
+				getView().setContacts(result.getContacts());
 			}
 		});
 	}
