@@ -1,7 +1,6 @@
 package org.siemac.metamac.common.metadata.web.client.view;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
@@ -16,6 +15,7 @@ import org.siemac.metamac.web.common.client.utils.CommonUtils;
 import org.siemac.metamac.web.common.client.widgets.CustomListGrid;
 import org.siemac.metamac.web.common.client.widgets.DeleteConfirmationWindow;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
+import org.siemac.metamac.web.common.client.widgets.form.fields.ExternalSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.InternationalTextItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredTextItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewTextItem;
@@ -28,8 +28,9 @@ import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.HasClickHandlers;
-import com.smartgwt.client.widgets.form.fields.SelectItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
+import com.smartgwt.client.widgets.form.fields.events.ChangedEvent;
+import com.smartgwt.client.widgets.form.fields.events.ChangedHandler;
 import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.grid.events.RecordClickEvent;
@@ -51,9 +52,9 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 	private static final String CONF_POLYCY_URL = "policy-url";
 	private static final String CONF_DATA_TREATMENT = "data";
 	private static final String CONF_DATA_TREATMENT_URL = "data-url";
-	private static final String CONTACT = "contact";
+	private static final String ORGANISATION = "organ";
 	
-	private List<ExternalItemBtDto> contacts;
+	private List<ExternalItemBtDto> organisations;
 	
 	private ConfigurationDto configurationDto;
 	
@@ -77,14 +78,9 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 	// Static View Fields
 	private ViewTextItem staticName;
 	private InternationalTextItem staticLegalActs;
-	private ViewTextItem staticLegalActsUrl;
 	private InternationalTextItem staticDataSharing;
-	private ViewTextItem staticDataSharingUrl;
 	private InternationalTextItem staticConfPolicy;
-	private ViewTextItem staticConfPolicyUrl;
 	private InternationalTextItem staticConfDataTreatment;
-	private ViewTextItem staticConfDataTreatmentUrl;
-	private ViewTextItem staticContact;
 	
 	// Edition Fields
 	private RequiredTextItem name;
@@ -96,7 +92,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 	private TextItem confPolicyUrl;
 	private InternationalTextItem confDataTreatment;
 	private TextItem confDataTreatmentUrl;
-	private SelectItem contact;
+	private ExternalSelectItem organisationItem;
 
 	private VLayout selectedConfLayout;
 	
@@ -168,7 +164,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 					// No record selected
 					deselectAttribute();
 					if (configurationsGrid.getSelectedRecords().length > 1) {
-						// Delete more than one dimension with one click
+						// Delete more than one configuration with one click
 						deleteToolStripButton.show();
 					}
 				}
@@ -231,16 +227,15 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 	}
 	
 	@Override
-	public void setContacts(List<ExternalItemBtDto> contacts) {
-		this.contacts = contacts;
-		
-		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		for (ExternalItemBtDto c : contacts) {
-			map.put(c.getCodeId(), c.getCodeId());
-		}
-		contact.setValueMap(map);
+	public void setOrganisationSchemes(List<ExternalItemBtDto> schemes) {
+		organisationItem.setSchemesValueMap(CommonUtils.getExternalItemsHashMap(schemes));
 	}
 
+	@Override
+	public void setOrganisations(List<ExternalItemBtDto> organisations) {
+		this.organisations = organisations;
+		organisationItem.setItemsValueMap(CommonUtils.getExternalItemsHashMap(organisations));
+	}
 	
 	/**
 	 * Creates and returns the view layout
@@ -251,17 +246,17 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 		staticName = new ViewTextItem(NAME, CommonMetadataWeb.getConstants().confName());
 		staticName.setEndRow(true);
 		staticLegalActs = new InternationalTextItem(LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs(), true, false);
-		staticLegalActsUrl = new ViewTextItem(LEGAL_ACTS_URL, CommonMetadataWeb.getConstants().confLegalActsUrl());
+		ViewTextItem staticLegalActsUrl = new ViewTextItem(LEGAL_ACTS_URL, CommonMetadataWeb.getConstants().confLegalActsUrl());
 		staticDataSharing = new InternationalTextItem(DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing(), true, false);
-		staticDataSharingUrl = new ViewTextItem(DATA_SHARING_URL, CommonMetadataWeb.getConstants().confDataSharingUrl());
+		ViewTextItem staticDataSharingUrl = new ViewTextItem(DATA_SHARING_URL, CommonMetadataWeb.getConstants().confDataSharingUrl());
 		staticConfPolicy = new InternationalTextItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy(), true, false);
-		staticConfPolicyUrl = new ViewTextItem(CONF_POLYCY_URL, CommonMetadataWeb.getConstants().confPolicyUrl());
+		ViewTextItem staticConfPolicyUrl = new ViewTextItem(CONF_POLYCY_URL, CommonMetadataWeb.getConstants().confPolicyUrl());
 		staticConfDataTreatment = new InternationalTextItem(CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment(), true, false);
-		staticConfDataTreatmentUrl = new ViewTextItem(CONF_DATA_TREATMENT_URL, CommonMetadataWeb.getConstants().confDataTreatmentUrl());
-		staticContact = new ViewTextItem(CONTACT, CommonMetadataWeb.getConstants().confContact());
+		ViewTextItem staticConfDataTreatmentUrl = new ViewTextItem(CONF_DATA_TREATMENT_URL, CommonMetadataWeb.getConstants().confDataTreatmentUrl());
+		ViewTextItem staticOrganisation = new ViewTextItem(ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
 		
 		staticForm = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
-		staticForm.setFields(staticName, staticLegalActs, staticLegalActsUrl, staticDataSharing, staticDataSharingUrl, staticConfPolicy, staticConfPolicyUrl, staticConfDataTreatment, staticConfDataTreatmentUrl, staticContact);
+		staticForm.setFields(staticName, staticLegalActs, staticLegalActsUrl, staticDataSharing, staticDataSharingUrl, staticConfPolicy, staticConfPolicyUrl, staticConfDataTreatment, staticConfDataTreatmentUrl, staticOrganisation);
 		
 		VLayout viewLayout = new VLayout(15);
 		viewLayout.setAutoHeight();
@@ -317,10 +312,17 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 		confPolicy = new InternationalTextItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy(), false, false);
 		confPolicyUrl = new TextItem(CONF_POLYCY_URL, CommonMetadataWeb.getConstants().confPolicyUrl());
 		confDataTreatment = new InternationalTextItem(CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment(), false, false);
-		confDataTreatmentUrl = new TextItem(CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatmentUrl());
-		contact = new SelectItem(CONTACT, CommonMetadataWeb.getConstants().confContact());
-		contact.setType("comboBox");
-		form.setFields(name, legalActs, legalActsUrl, dataSharing, dataSharingUrl, confPolicy, confPolicyUrl, confDataTreatment, confDataTreatmentUrl, contact);
+		confDataTreatmentUrl = new TextItem(CONF_DATA_TREATMENT_URL, CommonMetadataWeb.getConstants().confDataTreatmentUrl());
+		organisationItem = new ExternalSelectItem(ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
+		organisationItem.getSchemeItem().addChangedHandler(new ChangedHandler() {
+			@Override
+			public void onChanged(ChangedEvent event) {
+				if (event.getValue() != null) {
+					getUiHandlers().populateOrganisations(event.getValue().toString());	
+				}
+			}
+		});
+		form.setFields(name, legalActs, legalActsUrl, dataSharing, dataSharingUrl, confPolicy, confPolicyUrl, confDataTreatment, confDataTreatmentUrl, organisationItem);
 
 		VLayout formLayout = new VLayout(15);
 		formLayout.setMargin(10);
@@ -347,7 +349,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 		configurationDto.setConfPolicyUrl(confPolicyUrl.getValueAsString());
 		configurationDto.setConfDataTreatment(confDataTreatment.getValue(configurationDto.getConfDataTreatment()));
 		configurationDto.setConfDataTreatmentUrl(confDataTreatmentUrl.getValueAsString());
-		configurationDto.setContact(CommonUtils.getExternalItemBtDtoFromCodeId(contacts, contact.getValueAsString()));
+		configurationDto.setContact(organisationItem.getSelectedExternalItem(organisations));
 		return configurationDto;
 	}
 
@@ -376,14 +378,14 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
 		staticName.setValue(configurationDto.getName());
 		staticLegalActs.setValue(configurationDto.getLegalActs());
-		staticLegalActsUrl.setValue(configurationDto.getLegalActsUrl());
+		staticForm.setValue(LEGAL_ACTS_URL, configurationDto.getLegalActsUrl());
 		staticDataSharing.setValue(configurationDto.getDataSharing());
-		staticDataSharingUrl.setValue(configurationDto.getDataSharingUrl());
+		staticForm.setValue(DATA_SHARING_URL, configurationDto.getDataSharingUrl());
 		staticConfPolicy.setValue(configurationDto.getConfPolicy());
-		staticConfPolicyUrl.setValue(configurationDto.getConfPolicyUrl());
+		staticForm.setValue(CONF_POLYCY_URL, configurationDto.getConfPolicyUrl());
 		staticConfDataTreatment.setValue(configurationDto.getConfDataTreatment());
-		staticConfDataTreatmentUrl.setValue(configurationDto.getConfDataTreatmentUrl());
-		staticContact.setValue(configurationDto.getContact() == null ? "" : configurationDto.getContact().getCodeId());
+		staticForm.setValue(CONF_DATA_TREATMENT_URL, configurationDto.getConfDataTreatmentUrl());
+		staticForm.setValue(ORGANISATION, configurationDto.getContact() == null ? "" : configurationDto.getContact().getCodeId());
 	}
 	
 	private void setConfigurationEditionMode(ConfigurationDto configurationDto) {
@@ -398,7 +400,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 		confPolicyUrl.setValue(configurationDto.getConfPolicyUrl());
 		confDataTreatment.setValue(configurationDto.getConfDataTreatment());
 		confDataTreatmentUrl.setValue(configurationDto.getConfDataTreatmentUrl());
-		contact.setValue(configurationDto.getContact() == null ? null : configurationDto.getContact().getCodeId());
+		organisationItem.setValue(configurationDto.getContact() == null ? null : configurationDto.getContact().getCodeId());
 	}
 	
 	@Override

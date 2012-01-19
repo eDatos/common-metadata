@@ -5,8 +5,8 @@ import java.util.List;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContextStore;
 import org.siemac.metamac.common.metadata.base.exception.CommonMetadataException;
 import org.siemac.metamac.common.metadata.base.serviceapi.CommonMetadataBaseServiceFacade;
-import org.siemac.metamac.common.metadata.web.shared.FindAllContactsAction;
-import org.siemac.metamac.common.metadata.web.shared.FindAllContactsResult;
+import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesAction;
+import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesResult;
 import org.siemac.metamac.core.common.dto.serviceapi.ExternalItemBtDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,29 +14,28 @@ import com.gwtplatform.dispatch.server.ExecutionContext;
 import com.gwtplatform.dispatch.server.actionhandler.AbstractActionHandler;
 import com.gwtplatform.dispatch.shared.ActionException;
 
-public class FindAllContactsActionHandler extends AbstractActionHandler<FindAllContactsAction, FindAllContactsResult> {
+public class FindAllOrganisationSchemesActionHandler extends AbstractActionHandler<FindAllOrganisationSchemesAction, FindAllOrganisationSchemesResult> {
 
 	@Autowired
 	private CommonMetadataBaseServiceFacade commonMetadataBaseServiceFacade;
 	
-	public FindAllContactsActionHandler() {
-		super(FindAllContactsAction.class);
+	public FindAllOrganisationSchemesActionHandler() {
+		super(FindAllOrganisationSchemesAction.class);
 	}
 
 	@Override
-	public FindAllContactsResult execute(FindAllContactsAction action, ExecutionContext context) throws ActionException { 
+	public FindAllOrganisationSchemesResult execute(FindAllOrganisationSchemesAction action, ExecutionContext context) throws ActionException { 
 		try {
-			List<ExternalItemBtDto> configurations = commonMetadataBaseServiceFacade.findAllContacts(ServiceContextStore.get());
-			return new FindAllContactsResult(configurations);
+			List<ExternalItemBtDto> schemes = commonMetadataBaseServiceFacade.findAllOrganisationSchemes(ServiceContextStore.get());
+			return new FindAllOrganisationSchemesResult(schemes);
 		} catch (CommonMetadataException e) {
 			throw new ActionException(e.getLocalizedMessage());
 		}
 	}
 
 	@Override
-	public void undo(FindAllContactsAction action, FindAllContactsResult result, ExecutionContext context) throws ActionException {
+	public void undo(FindAllOrganisationSchemesAction action, FindAllOrganisationSchemesResult result, ExecutionContext context) throws ActionException {
 		
 	}
 
-	
 }

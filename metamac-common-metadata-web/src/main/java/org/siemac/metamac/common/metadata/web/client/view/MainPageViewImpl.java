@@ -1,14 +1,21 @@
 package org.siemac.metamac.common.metadata.web.client.view;
 
+import java.util.List;
+
 import org.siemac.metamac.common.metadata.web.client.presenter.MainPagePresenter;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHandlers;
+import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
+import org.siemac.metamac.web.common.client.widgets.ErrorMessagePanel;
 import org.siemac.metamac.web.common.client.widgets.MasterHead;
+import org.siemac.metamac.web.common.client.widgets.SuccessMessagePanel;
 
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.smartgwt.client.types.Alignment;
+import com.smartgwt.client.types.AnimationEffect;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
@@ -19,6 +26,9 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
 
 	private final MasterHead masterHead;
 	
+	private final SuccessMessagePanel successMessagePanel;
+	private final ErrorMessagePanel errorMessagePanel;
+	
 	private VLayout panel;
 	private HLayout northLayout;
 	private HLayout southLayout;
@@ -26,8 +36,10 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
 	
 
 	@Inject
-	public MainPageViewImpl(MasterHead masterHead) {
+	public MainPageViewImpl(MasterHead masterHead, SuccessMessagePanel successMessagePanel, ErrorMessagePanel errorMessagePanel) {
 		this.masterHead = masterHead;
+		this.successMessagePanel = successMessagePanel;
+		this.errorMessagePanel = errorMessagePanel;
 
 		// get rid of scroll bars, and clear out the window's built-in margin,
 		// because we want to take advantage of the entire client area
@@ -59,6 +71,8 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
 		
 		footerLayout = new HLayout();
 		footerLayout.setBorder("1px solid #A7ABB4");
+		footerLayout.addMember(this.successMessagePanel);
+		footerLayout.addMember(this.errorMessagePanel);
 
 		// Add the North and South layout containers to the main layout
 		// container
@@ -72,6 +86,29 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
 		return panel;
 	}
 	
+	@Override
+	public void showMessage(List<String> messages, MessageTypeEnum type) {
+		// Hide messages before showing the new ones
+		hideMessages();
+		if (MessageTypeEnum.SUCCESS.equals(type)) {
+			successMessagePanel.showMessage(messages);
+			Timer timer = new Timer() {
+				@Override
+				public void run() {
+					successMessagePanel.animateHide(AnimationEffect.FADE);
+				}
+			};
+			timer.schedule(6000);
+		} else if (MessageTypeEnum.ERROR.equals(type)) {
+			errorMessagePanel.showMessage(messages);
+		}
+	}
+
+	@Override
+	public void hideMessages() {
+		successMessagePanel.hide();
+		errorMessagePanel.hide();
+	}
 
 	/****************************************************
 	 * Code for nested presenters.
@@ -102,7 +139,7 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
 	public MasterHead getMasterHead() {
 		return masterHead;
 	}
-	
+
 	/****************************************************
 	 * End code for nested presenters.
 	 ***************************************************/

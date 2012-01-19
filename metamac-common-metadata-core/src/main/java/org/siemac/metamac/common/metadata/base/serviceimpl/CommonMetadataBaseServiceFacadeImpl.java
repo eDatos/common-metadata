@@ -11,7 +11,7 @@ import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
 import org.siemac.metamac.common.metadata.service.dto.Do2DtoMapper;
 import org.siemac.metamac.common.metadata.service.dto.Dto2DoMapper;
 import org.siemac.metamac.core.common.dto.serviceapi.ExternalItemBtDto;
-import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
+import org.siemac.metamac.core.common.sw.ServicesResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,16 +72,8 @@ public class CommonMetadataBaseServiceFacadeImpl extends CommonMetadataBaseServi
     }
 
 	@Override
-	public List<ExternalItemBtDto> findAllContacts(ServiceContext ctx) throws CommonMetadataException {
-		List<ExternalItemBtDto> externalItemBtDtos = new ArrayList<ExternalItemBtDto>();
-		
-		externalItemBtDtos.add(new ExternalItemBtDto("urn:sdmx:org.sdmx.infomodel.contact.Contact=MY_AGENCY:CONTACT_ONE(1.0)", "urn:sdmx:org.sdmx.infomodel.contact.Contact=MY_AGENCY:CONTACT_ONE(1.0)", TypeExternalArtefactsEnum.CONTACT));
-		externalItemBtDtos.add(new ExternalItemBtDto("urn:sdmx:org.sdmx.infomodel.contact.Contact=MY_AGENCY:CONTACT_TWO(1.0)", "urn:sdmx:org.sdmx.infomodel.contact.Contact=MY_AGENCY:CONTACT_TWO(1.0)", TypeExternalArtefactsEnum.CONTACT));
-		externalItemBtDtos.add(new ExternalItemBtDto("urn:sdmx:org.sdmx.infomodel.contact.Contact=MY_AGENCY:CONTACT_THREE(1.0)", "urn:sdmx:org.sdmx.infomodel.contact.Contact=MY_AGENCY:CONTACT_THREE(1.0)", TypeExternalArtefactsEnum.CONTACT));
-		externalItemBtDtos.add(new ExternalItemBtDto("urn:sdmx:org.sdmx.infomodel.contact.Contact=MY_AGENCY:CONTACT_FOUR(1.0)", "urn:sdmx:org.sdmx.infomodel.contact.Contact=MY_AGENCY:CONTACT_FOUR(1.0)", TypeExternalArtefactsEnum.CONTACT));
-		externalItemBtDtos.add(new ExternalItemBtDto("urn:sdmx:org.sdmx.infomodel.contact.Contact=MY_AGENCY:CONTACT_FIVE(1.0)", "urn:sdmx:org.sdmx.infomodel.contact.Contact=MY_AGENCY:CONTACT_FIVE(1.0)", TypeExternalArtefactsEnum.CONTACT));
-		
-		return externalItemBtDtos;
+	public List<ExternalItemBtDto> findAllOrganisationSchemes(ServiceContext ctx) throws CommonMetadataException {
+		return ServicesResolver.findAllOrganisationSchemes();
 	}
 
 }

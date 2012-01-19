@@ -60,7 +60,7 @@ public class CommonMetadataBaseServiceFacadeTest extends AbstractDbUnitJpaTests 
 	}
     
 	@Override
-	public void testFindAllContacts() throws Exception {
+	public void testFindAllOrganisationSchemes() throws Exception {
 		
 	}
 	

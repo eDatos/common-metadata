@@ -5,16 +5,21 @@ import java.util.List;
 import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
+import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListResult;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsResult;
-import org.siemac.metamac.common.metadata.web.shared.FindAllContactsAction;
-import org.siemac.metamac.common.metadata.web.shared.FindAllContactsResult;
+import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesAction;
+import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesResult;
+import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeAction;
+import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
 import org.siemac.metamac.core.common.dto.serviceapi.ExternalItemBtDto;
+import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
+import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -52,7 +57,8 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 	public interface ConfigurationView extends View, HasUiHandlers<ConfigurationUiHandlers> {
 		void setConfigurations(List<ConfigurationDto> configurations);
 		void setConfiguration(ConfigurationDto configurationDto);
-		void setContacts(List<ExternalItemBtDto> contacts);
+		void setOrganisationSchemes(List<ExternalItemBtDto> schemes);
+		void setOrganisations(List<ExternalItemBtDto> organisations);
 		ConfigurationDto getConfiguration();
 		List<ConfigurationDto> getSelectedConfigurations();
 		boolean validate();
@@ -82,7 +88,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 	@Override
 	public void prepareFromRequest(PlaceRequest request) {
 		super.prepareFromRequest(request);
-		populateContacts();
+		populateOrganisationSchemes();
 		populateConfigurations();
 	}
 	
@@ -109,8 +115,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 		dispatcher.execute(new FindAllConfigurationsAction(), new AsyncCallback<FindAllConfigurationsResult>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO
-				System.err.println("ERROR!");
+				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(ErrorUtils.getErrorMessage(caught, CommonMetadataWeb.getMessages().errorRetrievingConfigurations())), MessageTypeEnum.ERROR);
 			}
 			@Override
 			public void onSuccess(FindAllConfigurationsResult result) {
@@ -123,8 +128,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 		dispatcher.execute(new SaveConfigurationAction(configurationDto), new AsyncCallback<SaveConfigurationResult>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO
-				System.err.println("ERROR!");
+				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(ErrorUtils.getErrorMessage(caught, CommonMetadataWeb.getMessages().errorSavingConfiguration())), MessageTypeEnum.ERROR);
 			}
 			@Override
 			public void onSuccess(SaveConfigurationResult result) {
@@ -137,8 +141,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 		dispatcher.execute(new DeleteConfigurationListAction(configurationDtos), new AsyncCallback<DeleteConfigurationListResult>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO
-				System.err.println("ERROR!");
+				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(ErrorUtils.getErrorMessage(caught, CommonMetadataWeb.getMessages().errorDeletingConfigurations())), MessageTypeEnum.ERROR);
 			}
 			@Override
 			public void onSuccess(DeleteConfigurationListResult result) {
@@ -147,16 +150,30 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 		});
 	}
 	
-	private void populateContacts() {
-		dispatcher.execute(new FindAllContactsAction(), new AsyncCallback<FindAllContactsResult>() {
+	
+	private void populateOrganisationSchemes() {
+		dispatcher.execute(new FindAllOrganisationSchemesAction(), new AsyncCallback<FindAllOrganisationSchemesResult>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO
-				System.err.println("ERROR!");
+				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(ErrorUtils.getErrorMessage(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations())), MessageTypeEnum.ERROR);
 			}
 			@Override
-			public void onSuccess(FindAllContactsResult result) {
-				getView().setContacts(result.getContacts());
+			public void onSuccess(FindAllOrganisationSchemesResult result) {
+				getView().setOrganisationSchemes(result.getOrganisationSchemes());
+			}
+		});
+	}
+
+	@Override
+	public void populateOrganisations(String organisationSchemeUri) {
+		dispatcher.execute(new GetOrganisationsFromSchemeAction(organisationSchemeUri), new AsyncCallback<GetOrganisationsFromSchemeResult>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(ErrorUtils.getErrorMessage(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations())), MessageTypeEnum.ERROR);
+			}
+			@Override
+			public void onSuccess(GetOrganisationsFromSchemeResult result) {
+				getView().setOrganisations(result.getOrganisations());
 			}
 		});
 	}

@@ -43,7 +43,7 @@ Application Base {
 			@ConfigurationDto saveConfiguration(@ConfigurationDto configuration) throws CommonMetadataException;
 			deleteConfiguration(@ConfigurationDto configuration) throws CommonMetadataException;
 			
-			List<@ExternalItemBtDto> findAllContacts throws CommonMetadataException;
+			List<@ExternalItemBtDto> findAllOrganisationSchemes throws CommonMetadataException;
 		}
 		
 		Service CommonMetadataBaseService {
