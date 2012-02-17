@@ -6,7 +6,7 @@
 	<groupId>org.siemac.metamac.common.metadata</groupId>
 	<artifactId>metamac-common-metadata-core</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>${metamac-common-metadata-core.version}</version>
 	<name>METAMAC :: COMMON :: METADATA</name>
 	
 	<parent>
@@ -17,7 +17,7 @@
 	</parent>
 	
 	<properties>
-		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	
 	<dependencies>
