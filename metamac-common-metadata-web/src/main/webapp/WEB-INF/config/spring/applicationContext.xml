@@ -25,6 +25,7 @@
     <!-- activates annotation-based bean configuration -->
 	<context:annotation-config/>
 	
+    <!-- Spring Beans for side server of GWT -->
 	<bean class="org.siemac.metamac.common.metadata.web.server.ServerModule" />
 	
 	<bean id="logger" class="com.gwtplatform.dispatch.server.spring.LoggerFactoryBean">
@@ -37,7 +38,7 @@
 		</constructor-arg>
 	</bean>
 	
-	<import resource="classpath:applicationContext.xml" />
+	<import resource="classpath:/spring/core/oracle/applicationContext-oracle.xml" />
 	
 </beans>
 

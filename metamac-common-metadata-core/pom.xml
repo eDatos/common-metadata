@@ -454,6 +454,45 @@
 					</execution>
 				</executions>
 			</plugin>
+   
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.6</version><!--$NO-MVN-MAN-VER$-->
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Delete wrong configuration files -->
+
+                                <!-- Runtime: Configuration files are manually configured -->
+                                <delete file="${basedir}/src/main/resources/spring.properties" />
+                                <delete file="${basedir}/src/main/resources/more.xml" />
+                                
+                                <delete file="${basedir}/src/generated/resources/applicationContext.xml" />                     
+                                <delete file="${basedir}/src/generated/resources/EntityManagerFactory.xml" />                       
+                                
+                                <!-- Test: Need these files that were excluded to runtime -->
+                                <move todir="${basedir}/src/test/resources" overwrite="true" verbose="true" includeEmptyDirs="false" failonerror="true">
+                                    <fileset dir="${basedir}/src/generated/resources">
+                                        <include name="Interceptor.xml" />
+                                        <include name="generated-spring.properties" />
+                                    </fileset>
+                                </move>
+                                <!-- Test: The database to this library will be Oracle -->
+                                <delete file="${basedir}/src/test/generated/resources/applicationContext-test.xml" />
+                                <delete file="${basedir}/src/test/generated/resources/EntityManagerFactory-test.xml" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+   
+   
 		</plugins>
 	</build>
 </project>

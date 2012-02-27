@@ -12,10 +12,12 @@ import org.siemac.metamac.common.metadata.base.domain.Configuration;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Spring based transactional test with DbUnit support.
  */
+@ContextConfiguration(locations = {"classpath:oracle/applicationContext-test.xml"})
 public class CommonMetadataBaseServiceTest extends AbstractDbUnitJpaTests implements CommonMetadataBaseServiceTestBase {
     
 	@Autowired
