@@ -36,8 +36,11 @@
 
 	<!-- Languages -->
 	<extend-property name="locale" values="es" />
-	<extend-property name="locale" values="en" />
-	<extend-property name="locale" values="pt" />
+<!-- 	<extend-property name="locale" values="en" /> -->
+<!-- 	<extend-property name="locale" values="pt" /> -->
+
+    <!-- Generate code in compilation time only for gecko-based browsers -->
+    <set-property name="user.agent" value="gecko1_8" />
 	
 	<!-- Configure GIN -->
 	<define-configuration-property name="gin.ginjector" is-multi-valued="false" />
