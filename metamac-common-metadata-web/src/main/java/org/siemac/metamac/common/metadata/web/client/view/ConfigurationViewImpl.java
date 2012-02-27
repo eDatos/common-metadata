@@ -15,9 +15,11 @@ import org.siemac.metamac.web.common.client.utils.CommonUtils;
 import org.siemac.metamac.web.common.client.widgets.CustomListGrid;
 import org.siemac.metamac.web.common.client.widgets.DeleteConfirmationWindow;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
+import org.siemac.metamac.web.common.client.widgets.form.InternationalMainFormLayout;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ExternalSelectItem;
-import org.siemac.metamac.web.common.client.widgets.form.fields.InternationalTextItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.MultiLanguageTextAndUrlItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredTextItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.ViewMultiLanguageTextAndUrlItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewTextItem;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -28,7 +30,6 @@ import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.HasClickHandlers;
-import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.fields.events.ChangedEvent;
 import com.smartgwt.client.widgets.form.fields.events.ChangedHandler;
 import com.smartgwt.client.widgets.grid.ListGridField;
@@ -45,13 +46,9 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
 	private static final String NAME = "name";
 	private static final String LEGAL_ACTS = "legal";
-	private static final String LEGAL_ACTS_URL = "legal-url";
 	private static final String DATA_SHARING = "sharing";
-	private static final String DATA_SHARING_URL = "sharing-url";
 	private static final String CONF_POLYCY = "policy";
-	private static final String CONF_POLYCY_URL = "policy-url";
 	private static final String CONF_DATA_TREATMENT = "data";
-	private static final String CONF_DATA_TREATMENT_URL = "data-url";
 	private static final String ORGANISATION = "organ";
 	
 	private List<ExternalItemBtDto> organisations;
@@ -60,38 +57,29 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 	
 	private VLayout panel;
 	private CustomListGrid configurationsGrid;
+	private InternationalMainFormLayout mainFormLayout;
 	
 	private ToolStripButton newToolStripButton;
-	private ToolStripButton editToolStripButton;
-	private ToolStripButton saveToolStripButton;
-	private ToolStripButton cancelToolStripButton;
 	private ToolStripButton deleteToolStripButton;
 	
 	private Label confFormTitle;
-	
-	private VLayout viewLayout;
-	private VLayout editionLayout;
 	
 	private GroupDynamicForm staticForm;
 	private GroupDynamicForm form;
 	
 	// Static View Fields
 	private ViewTextItem staticName;
-	private InternationalTextItem staticLegalActs;
-	private InternationalTextItem staticDataSharing;
-	private InternationalTextItem staticConfPolicy;
-	private InternationalTextItem staticConfDataTreatment;
+	private ViewMultiLanguageTextAndUrlItem staticLegalActs;
+	private ViewMultiLanguageTextAndUrlItem staticDataSharing;
+	private ViewMultiLanguageTextAndUrlItem staticConfPolicy;
+	private ViewMultiLanguageTextAndUrlItem staticConfDataTreatment;
 	
 	// Edition Fields
 	private RequiredTextItem name;
-	private InternationalTextItem legalActs;
-	private TextItem legalActsUrl;
-	private InternationalTextItem dataSharing;
-	private TextItem dataSharingUrl;
-	private InternationalTextItem confPolicy;
-	private TextItem confPolicyUrl;
-	private InternationalTextItem confDataTreatment;
-	private TextItem confDataTreatmentUrl;
+	private MultiLanguageTextAndUrlItem legalActs;
+	private MultiLanguageTextAndUrlItem dataSharing;
+	private MultiLanguageTextAndUrlItem confPolicy;
+	private MultiLanguageTextAndUrlItem confDataTreatment;
 	private ExternalSelectItem organisationItem;
 
 	private VLayout selectedConfLayout;
@@ -116,15 +104,6 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 			}
 		});
 		
-		editToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().actionEdit(), GlobalResources.RESOURCE.editListGrid().getURL());
-		editToolStripButton.setVisibility(Visibility.HIDDEN);
-		editToolStripButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				setEditionMode();
-			}
-		});
-
 		deleteConfirmationWindow = new DeleteConfirmationWindow(CommonMetadataWeb.getConstants().confDeleteConfirmationTitle(), CommonMetadataWeb.getConstants().confDeleteConfirmation());
 		deleteConfirmationWindow.setVisibility(Visibility.HIDDEN);
 		
@@ -141,7 +120,6 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         toolStrip.setWidth100();
         toolStrip.addButton(newToolStripButton);
         toolStrip.addSeparator();
-        toolStrip.addButton(editToolStripButton);
         toolStrip.addButton(deleteToolStripButton);
 		
 		
@@ -194,18 +172,33 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 		// Title
 		
 		confFormTitle = new Label();
-		confFormTitle.setStyleName("subsectionTitle");
+		confFormTitle.setStyleName("boldSubsectionTitle");
 		confFormTitle.setAutoHeight();
+
+		mainFormLayout = new InternationalMainFormLayout();
+		mainFormLayout.getTranslateToolStripButton().addClickHandler(new ClickHandler() {
+		    @Override
+		    public void onClick(ClickEvent event) {
+		        setTranslationsShowed(mainFormLayout.getTranslateToolStripButton().isSelected());
+		    }
+		});
+		mainFormLayout.getCancelToolStripButton().addClickHandler(new ClickHandler() {
+		    @Override
+		    public void onClick(ClickEvent event) {
+		        // If it is a new dimension, hide mainFormLayout
+		        if (configurationDto.getId() == null) {
+		            selectedConfLayout.hide();
+		        }
+		    }
+        });
 		
+		createViewLayout();
+		createEditionLayout();
 		
-		viewLayout = getViewLayout();
-		editionLayout = getEditionLayout();
 		
 		selectedConfLayout = new VLayout(10);
-		selectedConfLayout.setMargin(15);
 		selectedConfLayout.addMember(confFormTitle);
-		selectedConfLayout.addMember(viewLayout);
-		selectedConfLayout.addMember(editionLayout);
+		selectedConfLayout.addMember(mainFormLayout);
 		selectedConfLayout.setVisibility(Visibility.HIDDEN);
 		
 		panel.addMember(gridLayout);
@@ -242,27 +235,19 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 	 * 
 	 * @return
 	 */
-	private VLayout getViewLayout() {
+	private void createViewLayout() {
 		staticName = new ViewTextItem(NAME, CommonMetadataWeb.getConstants().confName());
 		staticName.setEndRow(true);
-		staticLegalActs = new InternationalTextItem(LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs(), true, false);
-		ViewTextItem staticLegalActsUrl = new ViewTextItem(LEGAL_ACTS_URL, CommonMetadataWeb.getConstants().confLegalActsUrl());
-		staticDataSharing = new InternationalTextItem(DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing(), true, false);
-		ViewTextItem staticDataSharingUrl = new ViewTextItem(DATA_SHARING_URL, CommonMetadataWeb.getConstants().confDataSharingUrl());
-		staticConfPolicy = new InternationalTextItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy(), true, false);
-		ViewTextItem staticConfPolicyUrl = new ViewTextItem(CONF_POLYCY_URL, CommonMetadataWeb.getConstants().confPolicyUrl());
-		staticConfDataTreatment = new InternationalTextItem(CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment(), true, false);
-		ViewTextItem staticConfDataTreatmentUrl = new ViewTextItem(CONF_DATA_TREATMENT_URL, CommonMetadataWeb.getConstants().confDataTreatmentUrl());
+		staticLegalActs = new ViewMultiLanguageTextAndUrlItem(LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
+		staticDataSharing = new ViewMultiLanguageTextAndUrlItem(DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
+		staticConfPolicy = new ViewMultiLanguageTextAndUrlItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
+		staticConfDataTreatment = new ViewMultiLanguageTextAndUrlItem(CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment());
 		ViewTextItem staticOrganisation = new ViewTextItem(ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
 		
 		staticForm = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
-		staticForm.setFields(staticName, staticLegalActs, staticLegalActsUrl, staticDataSharing, staticDataSharingUrl, staticConfPolicy, staticConfPolicyUrl, staticConfDataTreatment, staticConfDataTreatmentUrl, staticOrganisation);
+		staticForm.setFields(staticName, staticLegalActs, staticDataSharing, staticConfPolicy, staticConfDataTreatment, staticOrganisation);
 		
-		VLayout viewLayout = new VLayout(15);
-		viewLayout.setAutoHeight();
-		viewLayout.addMember(staticForm);
-		
-		return viewLayout;
+		mainFormLayout.addViewCanvas(staticForm);
 	}
 	
 	
@@ -271,32 +256,14 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 	 * 
 	 * @return
 	 */
-	private VLayout getEditionLayout() {
+	private void createEditionLayout() {
 		
 		// ·········
 		// ToolStrip
 		// ·········
 		
-		saveToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().actionSave(), GlobalResources.RESOURCE.saveListGrid().getURL());
-		
-		cancelToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().actionCancel(), GlobalResources.RESOURCE.cancelListGrid().getURL());
-		cancelToolStripButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (configurationDto.getId() == null) {
-					// Editing new configuration
-					editionLayout.hide();
-				} else {
-					// Editing existing configuration
-					setViewMode();
-				}
-			}
-		});
-		
 		ToolStrip formToolStrip = new ToolStrip();
 		formToolStrip.setWidth100();
-		formToolStrip.addButton(saveToolStripButton);
-		formToolStrip.addButton(cancelToolStripButton);
 		
 		// ····
 		// Form
@@ -305,14 +272,10 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 		form = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
 		name = new RequiredTextItem(NAME, CommonMetadataWeb.getConstants().confName());
 		name.setEndRow(true);
-		legalActs = new InternationalTextItem(LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs(), false, false);
-		legalActsUrl = new TextItem(LEGAL_ACTS_URL, CommonMetadataWeb.getConstants().confLegalActsUrl());
-		dataSharing = new InternationalTextItem(DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing(), false, false);
-		dataSharingUrl = new TextItem(DATA_SHARING_URL, CommonMetadataWeb.getConstants().confDataSharingUrl());
-		confPolicy = new InternationalTextItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy(), false, false);
-		confPolicyUrl = new TextItem(CONF_POLYCY_URL, CommonMetadataWeb.getConstants().confPolicyUrl());
-		confDataTreatment = new InternationalTextItem(CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment(), false, false);
-		confDataTreatmentUrl = new TextItem(CONF_DATA_TREATMENT_URL, CommonMetadataWeb.getConstants().confDataTreatmentUrl());
+		legalActs = new MultiLanguageTextAndUrlItem(LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
+		dataSharing = new MultiLanguageTextAndUrlItem(DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
+		confPolicy = new MultiLanguageTextAndUrlItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
+		confDataTreatment = new MultiLanguageTextAndUrlItem(CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment());
 		organisationItem = new ExternalSelectItem(ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
 		organisationItem.getSchemeItem().addChangedHandler(new ChangedHandler() {
 			@Override
@@ -322,33 +285,23 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 				}
 			}
 		});
-		form.setFields(name, legalActs, legalActsUrl, dataSharing, dataSharingUrl, confPolicy, confPolicyUrl, confDataTreatment, confDataTreatmentUrl, organisationItem);
-
-		VLayout formLayout = new VLayout(15);
-		formLayout.setMargin(10);
-		formLayout.addMember(form);
+		form.setFields(name, legalActs, dataSharing, confPolicy, confDataTreatment, organisationItem);
 		
-		VLayout editionLayout = new VLayout();
-		editionLayout.setVisibility(Visibility.HIDDEN);
-		editionLayout.setBorder("1px solid #d9d9d9");
-		editionLayout.setAutoHeight();
-		editionLayout.addMember(formToolStrip);
-		editionLayout.addMember(formLayout);
+		mainFormLayout.addEditionCanvas(form);
 		
-		return editionLayout;
 	}
 
 	@Override
 	public ConfigurationDto getConfiguration() {
 		configurationDto.setName(name.getValueAsString());
-		configurationDto.setLegalActs(legalActs.getValue(configurationDto.getLegalActs()));
-		configurationDto.setLegalActsUrl(legalActsUrl.getValueAsString());
-		configurationDto.setDataSharing(dataSharing.getValue(configurationDto.getDataSharing()));
-		configurationDto.setDataSharingUrl(dataSharingUrl.getValueAsString());
-		configurationDto.setConfPolicy(confPolicy.getValue(configurationDto.getConfPolicy()));
-		configurationDto.setConfPolicyUrl(confPolicyUrl.getValueAsString());
-		configurationDto.setConfDataTreatment(confDataTreatment.getValue(configurationDto.getConfDataTreatment()));
-		configurationDto.setConfDataTreatmentUrl(confDataTreatmentUrl.getValueAsString());
+		configurationDto.setLegalActs(legalActs.getTextValue());
+		configurationDto.setLegalActsUrl(legalActs.getUrlValue());
+		configurationDto.setDataSharing(dataSharing.getTextValue());
+		configurationDto.setDataSharingUrl(dataSharing.getUrlValue());
+		configurationDto.setConfPolicy(confPolicy.getTextValue());
+		configurationDto.setConfPolicyUrl(confPolicy.getUrlValue());
+		configurationDto.setConfDataTreatment(confDataTreatment.getTextValue());
+		configurationDto.setConfDataTreatmentUrl(confDataTreatment.getUrlValue());
 		configurationDto.setContact(organisationItem.getSelectedExternalItem(organisations));
 		return configurationDto;
 	}
@@ -375,31 +328,22 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 	
 	private void setConfigurationViewMode(ConfigurationDto configurationDto) {
 		this.configurationDto = configurationDto;
-
 		staticName.setValue(configurationDto.getName());
-		staticLegalActs.setValue(configurationDto.getLegalActs());
-		staticForm.setValue(LEGAL_ACTS_URL, configurationDto.getLegalActsUrl());
-		staticDataSharing.setValue(configurationDto.getDataSharing());
-		staticForm.setValue(DATA_SHARING_URL, configurationDto.getDataSharingUrl());
-		staticConfPolicy.setValue(configurationDto.getConfPolicy());
-		staticForm.setValue(CONF_POLYCY_URL, configurationDto.getConfPolicyUrl());
-		staticConfDataTreatment.setValue(configurationDto.getConfDataTreatment());
-		staticForm.setValue(CONF_DATA_TREATMENT_URL, configurationDto.getConfDataTreatmentUrl());
+		staticLegalActs.setValue(configurationDto.getLegalActs(), configurationDto.getLegalActsUrl());
+		staticDataSharing.setValue(configurationDto.getDataSharing(), configurationDto.getDataSharingUrl());
+		staticConfPolicy.setValue(configurationDto.getConfPolicy(), configurationDto.getConfPolicyUrl());
+		staticConfDataTreatment.setValue(configurationDto.getConfDataTreatment(), configurationDto.getConfDataTreatmentUrl());
 		staticForm.setValue(ORGANISATION, configurationDto.getContact() == null ? "" : configurationDto.getContact().getCodeId());
+		staticForm.redraw();
 	}
 	
 	private void setConfigurationEditionMode(ConfigurationDto configurationDto) {
 		this.configurationDto = configurationDto;
-		
 		name.setValue(configurationDto.getName());
-		legalActs.setValue(configurationDto.getLegalActs());
-		legalActsUrl.setValue(configurationDto.getLegalActsUrl());
-		dataSharing.setValue(configurationDto.getDataSharing());
-		dataSharingUrl.setValue(configurationDto.getDataSharingUrl());
-		confPolicy.setValue(configurationDto.getConfPolicy());
-		confPolicyUrl.setValue(configurationDto.getConfPolicyUrl());
-		confDataTreatment.setValue(configurationDto.getConfDataTreatment());
-		confDataTreatmentUrl.setValue(configurationDto.getConfDataTreatmentUrl());
+		legalActs.setValue(configurationDto.getLegalActs(), configurationDto.getLegalActsUrl());
+		dataSharing.setValue(configurationDto.getDataSharing(), configurationDto.getDataSharingUrl());
+		confPolicy.setValue(configurationDto.getConfPolicy(), configurationDto.getConfPolicyUrl());
+		confDataTreatment.setValue(configurationDto.getConfDataTreatment(), configurationDto.getConfDataTreatmentUrl());
 		organisationItem.setValue(configurationDto.getContact() == null ? null : configurationDto.getContact().getCodeId());
 	}
 	
@@ -410,7 +354,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
 	@Override
 	public HasClickHandlers getSave() {
-		return saveToolStripButton;
+		return mainFormLayout.getSave();
 	}
 
 	@Override
@@ -425,6 +369,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 		ConfigurationRecord record = RecordUtils.getConfigurationRecord(configurationDto);
 		configurationsGrid.addData(record);
 		configurationsGrid.selectRecord(record);
+		mainFormLayout.setViewMode();
 	}
 	
 	private void selectConfiguration(ConfigurationDto configurationSelected) {
@@ -432,16 +377,14 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 			// New attribute
 			confFormTitle.setContents(new String());
 			deleteToolStripButton.hide();
-			editToolStripButton.hide();
 			configurationsGrid.deselectAllRecords();
-			setEditionMode();
 			setConfigurationEditionMode(configurationSelected);
+			mainFormLayout.setEditionMode();
 		} else {
 			confFormTitle.setContents(configurationSelected.getName());
 			deleteToolStripButton.show();
-			editToolStripButton.show();
-			setViewMode();
 			setConfiguration(configurationSelected);
+			mainFormLayout.setViewMode();
 		}
 		
 		// Clear errors
@@ -454,29 +397,11 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 	private void deselectAttribute() {
 		selectedConfLayout.hide();
 		deleteToolStripButton.hide();
-		editToolStripButton.hide();
 	}
 	
-	/**
-	 * Set edition mode
-	 */
-	private void setEditionMode() {
-		viewLayout.hide();
-		editionLayout.show();
-		
-		editToolStripButton.hide();
-		deleteToolStripButton.hide();
-	}
-	
-	/**
-	 * Set view mode
-	 */
-	private void setViewMode() {
-		viewLayout.show();
-		editionLayout.hide();
-		
-		editToolStripButton.show();
-		deleteToolStripButton.show();
+	private void setTranslationsShowed(boolean translationsShowed) {
+	    staticForm.setTranslationsShowed(translationsShowed);
+	    form.setTranslationsShowed(translationsShowed);
 	}
 
 }
