@@ -16,6 +16,7 @@ import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.InternationalStringRepository;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.core.common.serviceimpl.utils.ValidationUtils;
 import org.siemac.metamac.core.common.vo.domain.ExternalItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -50,25 +51,22 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
 		Configuration configuration = null;
 		configuration = mapper.map(source, Configuration.class);
 		
-		configuration.setLegalActs(internationalStringToEntity(source.getLegalActs(), target.getLegalActs()));
-		configuration.setDataSharing(internationalStringToEntity(source.getDataSharing(), target.getDataSharing()));
-		configuration.setConfPolicy(internationalStringToEntity(source.getConfPolicy(), target.getConfPolicy()));
-		configuration.setConfDataTreatment(internationalStringToEntity(source.getConfDataTreatment(), target.getConfDataTreatment()));
+		configuration.setLegalActs(internationalStringToEntity(source.getLegalActs(), target.getLegalActs(), "CONFIGURATION.LEGAL_ACTS"));
+		configuration.setDataSharing(internationalStringToEntity(source.getDataSharing(), target.getDataSharing(), "CONFIGURATION.DATA_SHARING"));
+		configuration.setConfPolicy(internationalStringToEntity(source.getConfPolicy(), target.getConfPolicy(), "CONFIGURATION.CONF_POLICY"));
+		configuration.setConfDataTreatment(internationalStringToEntity(source.getConfDataTreatment(), target.getConfDataTreatment(), "CONFIGURATION.CONF_DATA_TREATMENT"));
 		
 		return configuration;
 	}
 
-	private InternationalString internationalStringToEntity(InternationalStringDto source, InternationalString target) {
+	private InternationalString internationalStringToEntity(InternationalStringDto source, InternationalString target, String metadataName) throws MetamacException {
 		if (source == null) {
 			// Delete old entity
 			if (target != null) {
 				getInternationalStringRepository().delete(target);
 			}
-			
 			return null;
 		}
-		// NAME
-		// InternationalStringDTO to InternationalString  
 		
 		// Avoid the appearance of trash.
 		if (target != null) {
@@ -76,6 +74,10 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
 			source.setUuid(target.getUuid());
 			source.setVersion(target.getVersion());
 		}
+		
+        if (ValidationUtils.isEmpty(source)) {
+            throw new MetamacException(ServiceExceptionType.METADATA_REQUIRED, metadataName);
+        }
 		
 		InternationalString internationalString = mapper.map(source, InternationalString.class);
 		
