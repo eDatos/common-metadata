@@ -115,7 +115,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 		dispatcher.execute(new FindAllConfigurationsAction(), new AsyncCallback<FindAllConfigurationsResult>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(ErrorUtils.getErrorMessage(caught, CommonMetadataWeb.getMessages().errorRetrievingConfigurations())), MessageTypeEnum.ERROR);
+				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingConfigurations()), MessageTypeEnum.ERROR);
 			}
 			@Override
 			public void onSuccess(FindAllConfigurationsResult result) {
@@ -128,7 +128,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 		dispatcher.execute(new SaveConfigurationAction(configurationDto), new AsyncCallback<SaveConfigurationResult>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(ErrorUtils.getErrorMessage(caught, CommonMetadataWeb.getMessages().errorSavingConfiguration())), MessageTypeEnum.ERROR);
+				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorSavingConfiguration()), MessageTypeEnum.ERROR);
 			}
 			@Override
 			public void onSuccess(SaveConfigurationResult result) {
@@ -141,7 +141,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 		dispatcher.execute(new DeleteConfigurationListAction(configurationDtos), new AsyncCallback<DeleteConfigurationListResult>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(ErrorUtils.getErrorMessage(caught, CommonMetadataWeb.getMessages().errorDeletingConfigurations())), MessageTypeEnum.ERROR);
+				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorDeletingConfigurations()), MessageTypeEnum.ERROR);
 			}
 			@Override
 			public void onSuccess(DeleteConfigurationListResult result) {
@@ -155,7 +155,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 		dispatcher.execute(new FindAllOrganisationSchemesAction(), new AsyncCallback<FindAllOrganisationSchemesResult>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(ErrorUtils.getErrorMessage(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations())), MessageTypeEnum.ERROR);
+				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
 			}
 			@Override
 			public void onSuccess(FindAllOrganisationSchemesResult result) {
@@ -169,7 +169,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 		dispatcher.execute(new GetOrganisationsFromSchemeAction(organisationSchemeUri), new AsyncCallback<GetOrganisationsFromSchemeResult>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(ErrorUtils.getErrorMessage(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations())), MessageTypeEnum.ERROR);
+				ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
 			}
 			@Override
 			public void onSuccess(GetOrganisationsFromSchemeResult result) {
