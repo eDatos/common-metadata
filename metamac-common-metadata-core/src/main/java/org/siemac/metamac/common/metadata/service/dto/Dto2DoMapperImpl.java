@@ -5,7 +5,6 @@ import org.dozer.DozerBeanMapper;
 import org.dozer.MappingException;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.base.domain.Configuration;
-import org.siemac.metamac.common.metadata.base.exception.CommonMetadataException;
 import org.siemac.metamac.common.metadata.base.serviceapi.CommonMetadataBaseService;
 import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
 import org.siemac.metamac.common.metadata.error.ServiceExceptionType;
@@ -16,6 +15,7 @@ import org.siemac.metamac.core.common.dto.serviceapi.LocalisedStringDto;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.InternationalStringRepository;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
+import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.vo.domain.ExternalItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,18 +33,18 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
 	}
 	
 	@Override
-	public Configuration configurationDtoToEntity(ConfigurationDto source, ServiceContext ctx) throws CommonMetadataException {
+	public Configuration configurationDtoToEntity(ConfigurationDto source, ServiceContext ctx) throws MetamacException {
 		Configuration target = new Configuration();
 		return configurationDtoToEntity(source, target, ctx);
 	}
 	
 	@Override
-	public Configuration configurationDtoToEntity(ConfigurationDto source, Configuration target, ServiceContext ctx) throws CommonMetadataException {
+	public Configuration configurationDtoToEntity(ConfigurationDto source, Configuration target, ServiceContext ctx) throws MetamacException {
 		if (source == null) {
 			return null;
 		}
 		if (target == null) {
-			throw new CommonMetadataException(ServiceExceptionType.SERVICE_INVALID_PARAMETER_NULL.getErrorCode(), ServiceExceptionType.SERVICE_INVALID_PARAMETER_NULL.getMessageForReasonType());
+			throw new MetamacException(ServiceExceptionType.SERVICE_INVALID_PARAMETER_NULL);
 		}
 		Configuration configuration = null;
 		configuration = mapper.map(source, Configuration.class);

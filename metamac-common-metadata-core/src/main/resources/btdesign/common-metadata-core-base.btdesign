@@ -38,21 +38,21 @@ Application Base {
 		Service CommonMetadataBaseServiceFacade {
 			>@CommonMetadataBaseService
 			
-			@ConfigurationDto findConfigurationById(Long id) throws CommonMetadataException;
-			List<@ConfigurationDto> findAllConfigurations throws CommonMetadataException;
-			@ConfigurationDto saveConfiguration(@ConfigurationDto configuration) throws CommonMetadataException;
-			deleteConfiguration(@ConfigurationDto configuration) throws CommonMetadataException;
+			@ConfigurationDto findConfigurationById(Long id) throws MetamacException;
+			List<@ConfigurationDto> findAllConfigurations throws MetamacException;
+			@ConfigurationDto saveConfiguration(@ConfigurationDto configuration) throws MetamacException;
+			deleteConfiguration(@ConfigurationDto configuration) throws MetamacException;
 			
-			List<@ExternalItemBtDto> findAllOrganisationSchemes throws CommonMetadataException;
+			List<@ExternalItemBtDto> findAllOrganisationSchemes throws MetamacException;
 		}
 		
 		Service CommonMetadataBaseService {
 			> @ConfigurationRepository
 			
-			@Configuration findConfigurationById(Long id) throws CommonMetadataException;
-			List<@Configuration> findAllConfigurations throws CommonMetadataException;
-			@Configuration saveConfiguration(@Configuration configuration) throws CommonMetadataException;
-			deleteConfiguration(@Configuration configuration) throws CommonMetadataException;
+			@Configuration findConfigurationById(Long id) throws MetamacException;
+			List<@Configuration> findAllConfigurations throws MetamacException;
+			@Configuration saveConfiguration(@Configuration configuration) throws MetamacException;
+			deleteConfiguration(@Configuration configuration) throws MetamacException;
 		}
 		
        

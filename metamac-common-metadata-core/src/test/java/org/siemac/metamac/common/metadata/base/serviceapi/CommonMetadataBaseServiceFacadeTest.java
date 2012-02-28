@@ -8,10 +8,10 @@ import java.util.List;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.fornax.cartridges.sculptor.framework.test.AbstractDbUnitJpaTests;
 import org.junit.Test;
-import org.siemac.metamac.common.metadata.base.exception.CommonMetadataException;
 import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
 import org.siemac.metamac.core.common.dto.serviceapi.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.serviceapi.LocalisedStringDto;
+import org.siemac.metamac.core.common.exception.MetamacException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -31,7 +31,7 @@ public class CommonMetadataBaseServiceFacadeTest extends AbstractDbUnitJpaTests 
     }
     
     @Test
-	public void testFindConfigurationById() throws CommonMetadataException {
+	public void testFindConfigurationById() throws MetamacException {
 		ConfigurationDto configurationDto = commonMetadataBaseServiceFacade.saveConfiguration(getServiceContext(), createConfigurationDto());
 		ConfigurationDto configurationRetrieved = commonMetadataBaseServiceFacade.findConfigurationById(getServiceContext(), configurationDto.getId());
 		assertNotNull(configurationRetrieved);
@@ -39,7 +39,7 @@ public class CommonMetadataBaseServiceFacadeTest extends AbstractDbUnitJpaTests 
 	}
 	
     @Test
-	public void testFindAllConfigurations() throws CommonMetadataException {
+	public void testFindAllConfigurations() throws MetamacException {
 		testSaveConfiguration();
 		List<ConfigurationDto> configurationDtos = commonMetadataBaseServiceFacade.findAllConfigurations(getServiceContext());
 		assertTrue(!configurationDtos.isEmpty());
@@ -47,13 +47,13 @@ public class CommonMetadataBaseServiceFacadeTest extends AbstractDbUnitJpaTests 
 	}
 
     @Test
-	public void testSaveConfiguration() throws CommonMetadataException {
+	public void testSaveConfiguration() throws MetamacException {
 		ConfigurationDto configurationDto = commonMetadataBaseServiceFacade.saveConfiguration(getServiceContext(), createConfigurationDto());
 		assertNotNull(configurationDto);
 	}
 
     @Test
-	public void testDeleteConfiguration() throws CommonMetadataException {
+	public void testDeleteConfiguration() throws MetamacException {
 		ConfigurationDto configurationDto = commonMetadataBaseServiceFacade.saveConfiguration(getServiceContext(), createConfigurationDto());
 		assertNotNull(configurationDto);
 		int numberConfigurations = commonMetadataBaseServiceFacade.findAllConfigurations(getServiceContext()).size();
