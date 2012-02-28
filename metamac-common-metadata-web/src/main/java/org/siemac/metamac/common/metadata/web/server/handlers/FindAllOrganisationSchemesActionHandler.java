@@ -2,12 +2,14 @@ package org.siemac.metamac.common.metadata.web.server.handlers;
 
 import java.util.List;
 
-import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContextStore;
-import org.siemac.metamac.common.metadata.base.exception.CommonMetadataException;
 import org.siemac.metamac.common.metadata.base.serviceapi.CommonMetadataBaseServiceFacade;
+import org.siemac.metamac.common.metadata.web.server.ServiceContextHelper;
 import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesResult;
 import org.siemac.metamac.core.common.dto.serviceapi.ExternalItemBtDto;
+import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
+import org.siemac.metamac.web.common.shared.exception.MetamacWebException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gwtplatform.dispatch.server.ExecutionContext;
@@ -26,10 +28,10 @@ public class FindAllOrganisationSchemesActionHandler extends AbstractActionHandl
 	@Override
 	public FindAllOrganisationSchemesResult execute(FindAllOrganisationSchemesAction action, ExecutionContext context) throws ActionException { 
 		try {
-			List<ExternalItemBtDto> schemes = commonMetadataBaseServiceFacade.findAllOrganisationSchemes(ServiceContextStore.get());
+			List<ExternalItemBtDto> schemes = commonMetadataBaseServiceFacade.findAllOrganisationSchemes(ServiceContextHelper.getServiceContext());
 			return new FindAllOrganisationSchemesResult(schemes);
-		} catch (CommonMetadataException e) {
-			throw new ActionException(e.getLocalizedMessage());
+		} catch (MetamacException e) {
+		    throw new MetamacWebException(WebExceptionUtils.getMetamacWebExceptionItem(e.getExceptionItems()));
 		}
 	}
 

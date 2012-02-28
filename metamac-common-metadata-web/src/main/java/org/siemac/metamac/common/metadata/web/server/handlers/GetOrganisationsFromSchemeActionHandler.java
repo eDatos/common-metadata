@@ -2,7 +2,7 @@ package org.siemac.metamac.common.metadata.web.server.handlers;
 
 import java.util.List;
 
-import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContextStore;
+import org.siemac.metamac.common.metadata.web.server.ServiceContextHelper;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeAction;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeResult;
 import org.siemac.metamac.core.common.dto.serviceapi.ExternalItemBtDto;
@@ -24,7 +24,7 @@ public class GetOrganisationsFromSchemeActionHandler extends AbstractActionHandl
 
 	@Override
 	public GetOrganisationsFromSchemeResult execute(GetOrganisationsFromSchemeAction action, ExecutionContext context) throws ActionException {
-		List<ExternalItemBtDto> organisations =  metamacCoreCommonService.retrieveOrganisationScheme(ServiceContextStore.get(), action.getOrganisationSchemeUri());
+		List<ExternalItemBtDto> organisations =  metamacCoreCommonService.retrieveOrganisationScheme(ServiceContextHelper.getServiceContext(), action.getOrganisationSchemeUri());
 		return new GetOrganisationsFromSchemeResult(organisations);
 	}
 

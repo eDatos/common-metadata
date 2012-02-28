@@ -3,12 +3,14 @@ package org.siemac.metamac.common.metadata.web.server.handlers;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContextStore;
-import org.siemac.metamac.common.metadata.base.exception.CommonMetadataException;
 import org.siemac.metamac.common.metadata.base.serviceapi.CommonMetadataBaseServiceFacade;
 import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
+import org.siemac.metamac.common.metadata.web.server.ServiceContextHelper;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
+import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
+import org.siemac.metamac.web.common.shared.exception.MetamacWebException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gwtplatform.dispatch.annotation.GenDispatch;
@@ -31,11 +33,11 @@ public class SaveConfigurationActionHandler extends AbstractActionHandler<SaveCo
 	@Override
 	public SaveConfigurationResult execute(SaveConfigurationAction action, ExecutionContext context) throws ActionException {
 		try {
-			ConfigurationDto configurationDto = commonMetadataBaseServiceFacade.saveConfiguration(ServiceContextStore.get(), action.getConfigurationDto());
+			ConfigurationDto configurationDto = commonMetadataBaseServiceFacade.saveConfiguration(ServiceContextHelper.getServiceContext(), action.getConfigurationDto());
 			return new SaveConfigurationResult(configurationDto);
-		} catch (CommonMetadataException e) {
+		} catch (MetamacException e) {
 			logger.log(Level.SEVERE, "Error saving Configuration with id = " + action.getConfigurationDto().getId() + ". " + e.getMessage());
-			throw new ActionException(e.getLocalizedMessage());
+			throw new MetamacWebException(WebExceptionUtils.getMetamacWebExceptionItem(e.getExceptionItems()));
 		}
 	}
 
