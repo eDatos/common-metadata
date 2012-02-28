@@ -18,8 +18,9 @@ import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.vo.domain.ExternalItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class Dto2DoMapperImpl implements Dto2DoMapper {
 
 	@Autowired

@@ -12,7 +12,9 @@ import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.vo.domain.ExternalItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Do2DtoMapperImpl implements Do2DtoMapper {
 	
 	@Autowired
