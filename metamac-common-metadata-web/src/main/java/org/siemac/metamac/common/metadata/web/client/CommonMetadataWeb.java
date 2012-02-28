@@ -17,6 +17,7 @@ public class CommonMetadataWeb implements EntryPoint {
 	
 	private static CommonMetadataWebConstants constants;
 	private static CommonMetadataWebMessages messages;
+	private static CommonMetadataWebCoreMessages coreMessages;
 
 	public static final CommonMetadataWebGinjector ginjector = GWT.create(CommonMetadataWebGinjector.class);
 	
@@ -49,6 +50,13 @@ public class CommonMetadataWeb implements EntryPoint {
     	return messages;
     }
 
+    public static CommonMetadataWebCoreMessages getCoreMessages() {
+        if (coreMessages == null) {
+            coreMessages = (CommonMetadataWebCoreMessages) GWT.create(CommonMetadataWebCoreMessages.class);
+        }
+        return coreMessages;
+    }
+    
     public static CommonMetadataWebGinjector getCommonMetadataWebGinjector() {
       return ginjector;
     }

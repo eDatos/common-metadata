@@ -168,6 +168,7 @@
               				<servicePattern>**/client/service/**/*Service.java</servicePattern>
               				<i18nConstantsBundle>org.siemac.metamac.common.metadata.web.client.CommonMetadataWebConstants</i18nConstantsBundle>
               				<i18nMessagesBundle>org.siemac.metamac.common.metadata.web.client.CommonMetadataWebMessages</i18nMessagesBundle>
+                            <i18nConstantsWithLookupBundle>org.siemac.metamac.common.metadata.web.client.CommonMetadataWebCoreMessages</i18nConstantsWithLookupBundle>
            				</configuration>
 						<goals>
 							<goal>resources</goal>
