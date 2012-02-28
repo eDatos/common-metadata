@@ -16,7 +16,6 @@
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:/generated-spring.properties</value>
                 <value>classpath:/spring-test.properties</value>
             </list>
         </property>

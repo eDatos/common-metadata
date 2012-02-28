@@ -476,13 +476,13 @@
                                 <delete file="${basedir}/src/generated/resources/applicationContext.xml" />                     
                                 <delete file="${basedir}/src/generated/resources/EntityManagerFactory.xml" />                       
                                 
-                                <!-- Test: Need these files that were excluded to runtime -->
-                                <move todir="${basedir}/src/test/resources" overwrite="true" verbose="true" includeEmptyDirs="false" failonerror="true">
-                                    <fileset dir="${basedir}/src/generated/resources">
-                                        <include name="Interceptor.xml" />
-                                        <include name="generated-spring.properties" />
-                                    </fileset>
-                                </move>
+                                <!-- Test: Configuration files are manually configured -->
+                                <delete file="${basedir}/src/test/resources/more-test.xml" />
+                                
+                                <delete file="${basedir}/src/test/generated/resources/Interceptor.xml" />
+                                <delete file="${basedir}/src/test/generated/resources/Interceptor-test.xml" />
+                                <delete file="${basedir}/src/test/generated/resources/generated-spring.properties" />
+                                
                                 <!-- Test: The database to this library will be Oracle -->
                                 <delete file="${basedir}/src/test/generated/resources/applicationContext-test.xml" />
                                 <delete file="${basedir}/src/test/generated/resources/EntityManagerFactory-test.xml" />
