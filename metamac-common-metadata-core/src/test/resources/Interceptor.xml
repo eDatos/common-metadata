@@ -16,7 +16,7 @@
       <tx:method name="get*" read-only="true"/>  
       <tx:method name="find*" read-only="true"/>  
       <!-- all other methods are transactional and ApplicationException will cause rollback -->  
-      <tx:method name="*" read-only="false" rollback-for="org.fornax.cartridges.sculptor.framework.errorhandling.ApplicationException, org.siemac.metamac.core.common.exception.MetamacException"/> 
+      <tx:method name="*" read-only="false" rollback-for="org.fornax.cartridges.sculptor.framework.errorhandling.ApplicationException"/> 
     </tx:attributes> 
   </tx:advice>  
   <aop:config> 
