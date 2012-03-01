@@ -25,6 +25,16 @@
 		<servlet-name>dispatch</servlet-name>
 		<url-pattern>/dispatch/*</url-pattern>
 	</servlet-mapping>
+ 
+    <!-- Remote logging -->
+    <servlet>
+        <servlet-name>remoteLogging</servlet-name>
+        <servlet-class>com.google.gwt.logging.server.RemoteLoggingServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>remoteLogging</servlet-name>
+        <url-pattern>/CommonMetadataWeb/remote_logging</url-pattern>
+    </servlet-mapping>
 	
 	<!-- ******************* Default page to serve ******************** -->
 	<welcome-file-list>
