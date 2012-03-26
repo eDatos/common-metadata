@@ -5,6 +5,8 @@ import java.util.List;
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHandlers;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
+import org.siemac.metamac.web.common.client.events.HideMessageEvent;
+import org.siemac.metamac.web.common.client.events.HideMessageEvent.HideMessageHandler;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent.ShowMessageHandler;
 import org.siemac.metamac.web.common.client.widgets.MasterHead;
@@ -26,7 +28,7 @@ import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
 
-public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView, MainPagePresenter.MainPageProxy> implements MainPageUiHandlers, ShowMessageHandler {
+public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView, MainPagePresenter.MainPageProxy> implements MainPageUiHandlers, ShowMessageHandler, HideMessageHandler {
 
 	private final PlaceManager placeManager;
 
@@ -74,6 +76,7 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView,
 	@Override
 	protected void onReset() {
 		super.onReset();
+		hideMessages();
 	}
 
 	@Override
@@ -102,6 +105,16 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView,
 	public void onShowMessage(ShowMessageEvent event) {
 		getView().showMessage(event.getMessages(), event.getMessageType());
 	}
+	
+    @ProxyEvent
+    @Override
+    public void onHideMessage(HideMessageEvent event) {
+        hideMessages();
+    }
+    
+    private void hideMessages() {
+        getView().hideMessages();
+    }
 	
 	public static MasterHead getMasterHead() {
 		return masterHead;
