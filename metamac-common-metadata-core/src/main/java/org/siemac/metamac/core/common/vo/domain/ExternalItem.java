@@ -13,6 +13,7 @@ import org.siemac.metamac.core.common.bt.domain.ExternalItemBt;
 @Entity
 @Table(name = "TBL_EXTERNAL_ITEMS")
 public class ExternalItem extends ExternalItemBase {
+
     private static final long serialVersionUID = 1L;
 
     protected ExternalItem() {
@@ -21,17 +22,15 @@ public class ExternalItem extends ExternalItemBase {
     public ExternalItem(ExternalItemBt ext) {
         super(ext);
     }
-    
-    @Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals
-			(this, obj,new String[] {"id", "uuid"});
-	}
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode
-				(this,new String[] {"id", "uuid"});
-	}
-	
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj, new String[]{"id", "uuid"});
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, new String[]{"id", "uuid"});
+    }
+
 }

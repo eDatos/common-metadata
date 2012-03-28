@@ -11,6 +11,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "TBL_LOCALISED_STRINGS", uniqueConstraints = {@UniqueConstraint(columnNames = {"LOCALE", "INTERNATIONAL_STRING_FK"})})
 public class LocalisedString extends LocalisedStringBase {
+
     private static final long serialVersionUID = 1L;
 
     public LocalisedString() {

@@ -15,32 +15,32 @@ import org.springframework.stereotype.Service;
  */
 @Service("commonMetadataBaseService")
 public class CommonMetadataBaseServiceImpl extends CommonMetadataBaseServiceImplBase {
-   
-	@Autowired
-	private ConfigurationRepository configurationRepository;
-	
-	public CommonMetadataBaseServiceImpl() {
+
+    @Autowired
+    private ConfigurationRepository configurationRepository;
+
+    public CommonMetadataBaseServiceImpl() {
     }
 
     public Configuration findConfigurationById(ServiceContext ctx, Long id) throws MetamacException {
-		try {
-			return configurationRepository.findById(id);
-		} catch (Exception e) {
-			throw new MetamacException(ServiceExceptionType.SERVICE_CONFIGURATION_NOT_FOUND);
-		}
+        try {
+            return configurationRepository.findById(id);
+        } catch (Exception e) {
+            throw new MetamacException(ServiceExceptionType.SERVICE_CONFIGURATION_NOT_FOUND);
+        }
 
     }
 
     public List<Configuration> findAllConfigurations(ServiceContext ctx) throws MetamacException {
-    	return configurationRepository.findAll();
+        return configurationRepository.findAll();
     }
 
     public Configuration saveConfiguration(ServiceContext ctx, Configuration configuration) throws MetamacException {
-    	return configurationRepository.save(configuration);
+        return configurationRepository.save(configuration);
     }
 
     public void deleteConfiguration(ServiceContext ctx, Configuration configuration) throws MetamacException {
-    	configurationRepository.delete(configuration);
+        configurationRepository.delete(configuration);
     }
 
 }

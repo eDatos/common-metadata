@@ -19,61 +19,60 @@ import org.springframework.stereotype.Service;
  * Implementation of CommonMetadataBaseServiceFacade.
  */
 @Service("commonMetadataBaseServiceFacade")
-public class CommonMetadataBaseServiceFacadeImpl extends CommonMetadataBaseServiceFacadeImplBase { 
-	
-	@Autowired
-    private Do2DtoMapper do2DtoMapper;
-    
+public class CommonMetadataBaseServiceFacadeImpl extends CommonMetadataBaseServiceFacadeImplBase {
+
     @Autowired
-    private Dto2DoMapper dto2DoMapper;
+    private Do2DtoMapper              do2DtoMapper;
 
-	@Autowired
-	private CommonMetadataBaseService commonMetadataBaseService;
-	
+    @Autowired
+    private Dto2DoMapper              dto2DoMapper;
+
+    @Autowired
+    private CommonMetadataBaseService commonMetadataBaseService;
+
     protected Do2DtoMapper getDo2DtoMapper() {
-		return do2DtoMapper;
-	}
+        return do2DtoMapper;
+    }
 
-	protected Dto2DoMapper getDto2DoMapper() {
-		return dto2DoMapper;
-	}
+    protected Dto2DoMapper getDto2DoMapper() {
+        return dto2DoMapper;
+    }
 
-	protected CommonMetadataBaseService getCommonMetadataBaseService() {
-		return commonMetadataBaseService;
-	}
-	
-	
-	public CommonMetadataBaseServiceFacadeImpl() {
+    protected CommonMetadataBaseService getCommonMetadataBaseService() {
+        return commonMetadataBaseService;
+    }
+
+    public CommonMetadataBaseServiceFacadeImpl() {
     }
 
     public ConfigurationDto findConfigurationById(ServiceContext ctx, Long id) throws MetamacException {
-    	return getDo2DtoMapper().configurationEntityToDto(getCommonMetadataBaseService().findConfigurationById(ctx, id));
+        return getDo2DtoMapper().configurationEntityToDto(getCommonMetadataBaseService().findConfigurationById(ctx, id));
     }
 
     public List<ConfigurationDto> findAllConfigurations(ServiceContext ctx) throws MetamacException {
-    	List<Configuration> configurations = getCommonMetadataBaseService().findAllConfigurations(ctx);
-    	List<ConfigurationDto> configurationDtos = new ArrayList<ConfigurationDto>();
-    	for (Configuration configuration : configurations) {
-    		configurationDtos.add(getDo2DtoMapper().configurationEntityToDto(configuration));
-    	}
-    	return configurationDtos;
+        List<Configuration> configurations = getCommonMetadataBaseService().findAllConfigurations(ctx);
+        List<ConfigurationDto> configurationDtos = new ArrayList<ConfigurationDto>();
+        for (Configuration configuration : configurations) {
+            configurationDtos.add(getDo2DtoMapper().configurationEntityToDto(configuration));
+        }
+        return configurationDtos;
     }
 
     public ConfigurationDto saveConfiguration(ServiceContext ctx, ConfigurationDto configurationDto) throws MetamacException {
-    	Configuration configuration = getDto2DoMapper().configurationDtoToEntity(configurationDto, ctx);
-    	configuration = getCommonMetadataBaseService().saveConfiguration(ctx, configuration);
-    	configurationDto = getDo2DtoMapper().configurationEntityToDto(configuration);
-    	return configurationDto;
+        Configuration configuration = getDto2DoMapper().configurationDtoToEntity(configurationDto, ctx);
+        configuration = getCommonMetadataBaseService().saveConfiguration(ctx, configuration);
+        configurationDto = getDo2DtoMapper().configurationEntityToDto(configuration);
+        return configurationDto;
     }
 
     public void deleteConfiguration(ServiceContext ctx, ConfigurationDto configurationDto) throws MetamacException {
-    	Configuration configuration = getDto2DoMapper().configurationDtoToEntity(configurationDto, ctx);
-    	getCommonMetadataBaseService().deleteConfiguration(ctx, configuration);
+        Configuration configuration = getDto2DoMapper().configurationDtoToEntity(configurationDto, ctx);
+        getCommonMetadataBaseService().deleteConfiguration(ctx, configuration);
     }
 
-	@Override
-	public List<ExternalItemBtDto> findAllOrganisationSchemes(ServiceContext ctx) throws MetamacException {
-		return ServicesResolver.findAllOrganisationSchemes();
-	}
+    @Override
+    public List<ExternalItemBtDto> findAllOrganisationSchemes(ServiceContext ctx) throws MetamacException {
+        return ServicesResolver.findAllOrganisationSchemes();
+    }
 
 }

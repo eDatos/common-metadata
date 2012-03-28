@@ -16,65 +16,63 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Do2DtoMapperImpl implements Do2DtoMapper {
-	
-	@Autowired
-	private DozerBeanMapper mapper;
-	
 
-	protected DozerBeanMapper getMapper() {
-		return mapper;
-	}
+    @Autowired
+    private DozerBeanMapper mapper;
 
-	@Override
-	public ConfigurationDto configurationEntityToDto(Configuration configuration) {
-		if (configuration == null) {
-			return null;
-		}
-		ConfigurationDto configurationDto = getMapper().map(configuration, ConfigurationDto.class);
-		configurationDto.setLegalActs(internationalStringToDto(configuration.getLegalActs()));
-		configurationDto.setDataSharing(internationalStringToDto(configuration.getDataSharing()));
-		configurationDto.setConfPolicy(internationalStringToDto(configuration.getConfPolicy()));
-		configurationDto.setConfDataTreatment(internationalStringToDto(configuration.getConfDataTreatment()));
-		
-		if (configuration.getContact() != null) {
-			configurationDto.setContact(getMapper().map(configuration.getContact(), ExternalItemBtDto.class));
-		}
-		
-		return configurationDto;
-	}
+    protected DozerBeanMapper getMapper() {
+        return mapper;
+    }
 
-	
-	/**
-	 * {@link InternationalString} to {@link InternationalStringDto}
-	 * 
-	 * @param name
-	 * @return
-	 */
-	private InternationalStringDto internationalStringToDto(InternationalString internationalString) {
-		if (internationalString == null) {
-			return null;
-		}
-		
-    	// InternationalString to InternationalString  Dto
-    	InternationalStringDto internationalStringDto = getMapper().map(internationalString, InternationalStringDto.class);
-    	
-    	// LocalisedStringDto to LocalisedString  
-    	for (LocalisedString item : internationalString.getTexts()) {
-    		internationalStringDto.addText(getMapper().map(item, LocalisedStringDto.class));
-    	}
-    	
-    	return internationalStringDto;
-	}
+    @Override
+    public ConfigurationDto configurationEntityToDto(Configuration configuration) {
+        if (configuration == null) {
+            return null;
+        }
+        ConfigurationDto configurationDto = getMapper().map(configuration, ConfigurationDto.class);
+        configurationDto.setLegalActs(internationalStringToDto(configuration.getLegalActs()));
+        configurationDto.setDataSharing(internationalStringToDto(configuration.getDataSharing()));
+        configurationDto.setConfPolicy(internationalStringToDto(configuration.getConfPolicy()));
+        configurationDto.setConfDataTreatment(internationalStringToDto(configuration.getConfDataTreatment()));
 
-	@Override
-	public ExternalItemBtDto externalItemToExternalItemBtDto(ExternalItem externalItem, ServiceContext ctx, CommonMetadataBaseService commonMetadataBaseService) {
-		if (externalItem == null) {
-			return null;
-		}
-		
-		ExternalItemBtDto result = new ExternalItemBtDto(externalItem.getExt().getUriInt(), externalItem.getExt().getCodeId(), externalItem.getExt().getType());
-		
-		return result;
-	}
+        if (configuration.getContact() != null) {
+            configurationDto.setContact(getMapper().map(configuration.getContact(), ExternalItemBtDto.class));
+        }
+
+        return configurationDto;
+    }
+
+    /**
+     * {@link InternationalString} to {@link InternationalStringDto}
+     * 
+     * @param name
+     * @return
+     */
+    private InternationalStringDto internationalStringToDto(InternationalString internationalString) {
+        if (internationalString == null) {
+            return null;
+        }
+
+        // InternationalString to InternationalString Dto
+        InternationalStringDto internationalStringDto = getMapper().map(internationalString, InternationalStringDto.class);
+
+        // LocalisedStringDto to LocalisedString
+        for (LocalisedString item : internationalString.getTexts()) {
+            internationalStringDto.addText(getMapper().map(item, LocalisedStringDto.class));
+        }
+
+        return internationalStringDto;
+    }
+
+    @Override
+    public ExternalItemBtDto externalItemToExternalItemBtDto(ExternalItem externalItem, ServiceContext ctx, CommonMetadataBaseService commonMetadataBaseService) {
+        if (externalItem == null) {
+            return null;
+        }
+
+        ExternalItemBtDto result = new ExternalItemBtDto(externalItem.getExt().getUriInt(), externalItem.getExt().getCodeId(), externalItem.getExt().getType());
+
+        return result;
+    }
 
 }

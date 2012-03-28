@@ -9,8 +9,8 @@ import org.siemac.metamac.core.common.vo.domain.ExternalItem;
 
 public interface Do2DtoMapper {
 
-	public ConfigurationDto configurationEntityToDto(Configuration configuration);
-	
-	public ExternalItemBtDto externalItemToExternalItemBtDto(ExternalItem externalItem, ServiceContext ctx, CommonMetadataBaseService commonMetadataBaseService);
-	
+    public ConfigurationDto configurationEntityToDto(Configuration configuration);
+
+    public ExternalItemBtDto externalItemToExternalItemBtDto(ExternalItem externalItem, ServiceContext ctx, CommonMetadataBaseService commonMetadataBaseService);
+
 }

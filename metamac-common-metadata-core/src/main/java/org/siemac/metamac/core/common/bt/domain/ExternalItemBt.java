@@ -11,23 +11,23 @@ import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
  */
 @Embeddable
 public class ExternalItemBt extends ExternalItemBtBase {
+
     private static final long serialVersionUID = 1L;
 
     protected ExternalItemBt() {
     }
 
-    public ExternalItemBt(String uri, String codeId,
-        TypeExternalArtefactsEnum type) {
+    public ExternalItemBt(String uri, String codeId, TypeExternalArtefactsEnum type) {
         super(uri, codeId, type);
     }
-    
-    @Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 }
