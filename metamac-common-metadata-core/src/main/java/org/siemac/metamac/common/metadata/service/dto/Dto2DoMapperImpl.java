@@ -71,7 +71,6 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
         // Avoid the appearance of trash.
         if (target != null) {
             source.setId(target.getId());
-            source.setUuid(target.getUuid());
             source.setVersion(target.getVersion());
         }
 
