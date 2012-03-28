@@ -30,94 +30,95 @@ import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
 
 public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView, MainPagePresenter.MainPageProxy> implements MainPageUiHandlers, ShowMessageHandler, HideMessageHandler {
 
-	private final PlaceManager placeManager;
+    private final PlaceManager placeManager;
 
-	private static MasterHead masterHead;
+    private static MasterHead  masterHead;
 
-	@ProxyStandard
-	@NameToken(NameTokens.mainPage)
-	public interface MainPageProxy extends Proxy<MainPagePresenter>, Place {
+    @ProxyStandard
+    @NameToken(NameTokens.mainPage)
+    public interface MainPageProxy extends Proxy<MainPagePresenter>, Place {
 
-	}
-	
-	public interface MainPageView extends View, HasUiHandlers<MainPageUiHandlers> {
-		MasterHead getMasterHead();
+    }
 
-		void showMessage(List<String> messages, MessageTypeEnum type);
-		void hideMessages();
-	}
+    public interface MainPageView extends View, HasUiHandlers<MainPageUiHandlers> {
 
-	/**
-	 * Use this in leaf presenters, inside their {@link #revealInParent} method.
-	 * Is used to define a type to use in child presenters when you want to
-	 * include them inside this page.
-	 */
-	@ContentSlot
-	public static final Type<RevealContentHandler<?>> TYPE_SetContextAreaContent = new Type<RevealContentHandler<?>>();
+        MasterHead getMasterHead();
 
-	@Inject
-	public MainPagePresenter(EventBus eventBus, MainPageView view, MainPageProxy proxy, PlaceManager placeManager) {
-		super(eventBus, view, proxy);
-		getView().setUiHandlers(this);
-		this.placeManager = placeManager;
-		MainPagePresenter.masterHead = getView().getMasterHead();
-	}
+        void showMessage(List<String> messages, MessageTypeEnum type);
+        void hideMessages();
+    }
 
-	@Override
-	protected void onBind() {
-		super.onBind();
-	}
+    /**
+     * Use this in leaf presenters, inside their {@link #revealInParent} method.
+     * Is used to define a type to use in child presenters when you want to
+     * include them inside this page.
+     */
+    @ContentSlot
+    public static final Type<RevealContentHandler<?>> TYPE_SetContextAreaContent = new Type<RevealContentHandler<?>>();
 
-	@Override
-	protected void onReveal() {
-		super.onReveal();
-	}
+    @Inject
+    public MainPagePresenter(EventBus eventBus, MainPageView view, MainPageProxy proxy, PlaceManager placeManager) {
+        super(eventBus, view, proxy);
+        getView().setUiHandlers(this);
+        this.placeManager = placeManager;
+        MainPagePresenter.masterHead = getView().getMasterHead();
+    }
 
-	@Override
-	protected void onReset() {
-		super.onReset();
-		hideMessages();
-	}
+    @Override
+    protected void onBind() {
+        super.onBind();
+    }
 
-	@Override
-	protected void revealInParent() {
-		RevealRootContentEvent.fire(this, this);
-	}
+    @Override
+    protected void onReveal() {
+        super.onReveal();
+    }
 
-	@Override
-	public void onNavigationPaneSectionHeaderClicked(String place) {
-		if (place.length() != 0) {
-			PlaceRequest placeRequest = new PlaceRequest(place);
-			placeManager.revealPlace(placeRequest);
-		}
-	}
+    @Override
+    protected void onReset() {
+        super.onReset();
+        hideMessages();
+    }
 
-	@Override
-	public void onNavigationPaneSectionClicked(String place) {
-		if (place.length() != 0) {
-			PlaceRequest placeRequest = new PlaceRequest(place);
-			placeManager.revealPlace(placeRequest);
-		}
-	}
+    @Override
+    protected void revealInParent() {
+        RevealRootContentEvent.fire(this, this);
+    }
 
-	@ProxyEvent
-	@Override
-	public void onShowMessage(ShowMessageEvent event) {
-		getView().showMessage(event.getMessages(), event.getMessageType());
-	}
-	
+    @Override
+    public void onNavigationPaneSectionHeaderClicked(String place) {
+        if (place.length() != 0) {
+            PlaceRequest placeRequest = new PlaceRequest(place);
+            placeManager.revealPlace(placeRequest);
+        }
+    }
+
+    @Override
+    public void onNavigationPaneSectionClicked(String place) {
+        if (place.length() != 0) {
+            PlaceRequest placeRequest = new PlaceRequest(place);
+            placeManager.revealPlace(placeRequest);
+        }
+    }
+
+    @ProxyEvent
+    @Override
+    public void onShowMessage(ShowMessageEvent event) {
+        getView().showMessage(event.getMessages(), event.getMessageType());
+    }
+
     @ProxyEvent
     @Override
     public void onHideMessage(HideMessageEvent event) {
         hideMessages();
     }
-    
+
     private void hideMessages() {
         getView().hideMessages();
     }
-	
-	public static MasterHead getMasterHead() {
-		return masterHead;
-	}
+
+    public static MasterHead getMasterHead() {
+        return masterHead;
+    }
 
 }

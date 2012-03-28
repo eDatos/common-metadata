@@ -11,12 +11,10 @@ import org.siemac.metamac.web.common.client.utils.CommonErrorUtils;
 import org.siemac.metamac.web.common.shared.exception.MetamacWebException;
 import org.siemac.metamac.web.common.shared.exception.MetamacWebExceptionItem;
 
-
 public class ErrorUtils extends CommonErrorUtils {
 
     private static Logger logger = Logger.getLogger(ErrorUtils.class.getName());
-    
-    
+
     public static List<String> getErrorMessages(Throwable caught, String alternativeMessage) {
         List<String> list = new ArrayList<String>();
         if (caught instanceof MetamacWebException) {
@@ -52,7 +50,7 @@ public class ErrorUtils extends CommonErrorUtils {
                 String message = getCoreMessages().getString(code);
                 return getMessageWithParameters(message, item.getMessageParameters());
             } catch (Exception e) {
-                String errorMessage = "Message with code = " + code + " not found"; 
+                String errorMessage = "Message with code = " + code + " not found";
                 logger.log(Level.SEVERE, errorMessage);
                 throw new Exception(errorMessage);
             }
@@ -61,5 +59,5 @@ public class ErrorUtils extends CommonErrorUtils {
         logger.log(Level.SEVERE, errorMessage);
         throw new Exception(errorMessage);
     }
-    
+
 }

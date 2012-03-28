@@ -11,10 +11,10 @@ import com.gwtplatform.dispatch.annotation.Out;
 @GenDispatch(isSecure = false)
 public class GetOrganisationsFromScheme {
 
-	@In(1)
-	String organisationSchemeUri;
-	
-	@Out(1)
-	List<ExternalItemBtDto> organisations;
-	
+    @In(1)
+    String                  organisationSchemeUri;
+
+    @Out(1)
+    List<ExternalItemBtDto> organisations;
+
 }

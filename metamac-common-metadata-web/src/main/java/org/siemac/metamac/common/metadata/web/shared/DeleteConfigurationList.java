@@ -10,7 +10,7 @@ import com.gwtplatform.dispatch.annotation.In;
 @GenDispatch(isSecure = false)
 public class DeleteConfigurationList {
 
-	@In(1)
-	List<ConfigurationDto> configurationDtos;
-	
+    @In(1)
+    List<ConfigurationDto> configurationDtos;
+
 }

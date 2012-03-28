@@ -26,45 +26,45 @@ import com.gwtplatform.dispatch.server.spring.configuration.DefaultModule;
 @Import(DefaultModule.class)
 public class ServerModule extends HandlerModule {
 
-	public ServerModule() {
-	}
+    public ServerModule() {
+    }
 
-	@Bean
-	public ActionValidator getDefaultActionValidator() {
-		return new DefaultActionValidator();
-	}
-	
-	@Bean
-	public FindAllConfigurationsActionHandler getFindAllConfigurationsActionHandler() {
-		return new FindAllConfigurationsActionHandler();
-	}
-	
-	@Bean
-	public SaveConfigurationActionHandler getSaveConfigurationActionHandler() {
-		return new SaveConfigurationActionHandler();
-	}
-	
-	@Bean
-	public DeleteConfigurationListActionHandler getConfigurationListActionHandler() {
-		return new DeleteConfigurationListActionHandler();
-	}
-	
-	@Bean
-	public FindAllOrganisationSchemesActionHandler getFindAllOrganisationSchemesActionHandler() {
-		return new FindAllOrganisationSchemesActionHandler();
-	}
-	
-	@Bean 
-	public GetOrganisationsFromSchemeActionHandler getOrganisationsFromSchemeActionHandler() {
-		return new GetOrganisationsFromSchemeActionHandler();
-	}
-	
-	protected void configureHandlers() {
-		bindHandler(FindAllConfigurationsAction.class, FindAllConfigurationsActionHandler.class);
-		bindHandler(SaveConfigurationAction.class, SaveConfigurationActionHandler.class);
-		bindHandler(DeleteConfigurationListAction.class, DeleteConfigurationListActionHandler.class);
-		bindHandler(FindAllOrganisationSchemesAction.class, FindAllOrganisationSchemesActionHandler.class);
-		bindHandler(GetOrganisationsFromSchemeAction.class, GetOrganisationsFromSchemeActionHandler.class);
-	}
-	
+    @Bean
+    public ActionValidator getDefaultActionValidator() {
+        return new DefaultActionValidator();
+    }
+
+    @Bean
+    public FindAllConfigurationsActionHandler getFindAllConfigurationsActionHandler() {
+        return new FindAllConfigurationsActionHandler();
+    }
+
+    @Bean
+    public SaveConfigurationActionHandler getSaveConfigurationActionHandler() {
+        return new SaveConfigurationActionHandler();
+    }
+
+    @Bean
+    public DeleteConfigurationListActionHandler getConfigurationListActionHandler() {
+        return new DeleteConfigurationListActionHandler();
+    }
+
+    @Bean
+    public FindAllOrganisationSchemesActionHandler getFindAllOrganisationSchemesActionHandler() {
+        return new FindAllOrganisationSchemesActionHandler();
+    }
+
+    @Bean
+    public GetOrganisationsFromSchemeActionHandler getOrganisationsFromSchemeActionHandler() {
+        return new GetOrganisationsFromSchemeActionHandler();
+    }
+
+    protected void configureHandlers() {
+        bindHandler(FindAllConfigurationsAction.class, FindAllConfigurationsActionHandler.class);
+        bindHandler(SaveConfigurationAction.class, SaveConfigurationActionHandler.class);
+        bindHandler(DeleteConfigurationListAction.class, DeleteConfigurationListActionHandler.class);
+        bindHandler(FindAllOrganisationSchemesAction.class, FindAllOrganisationSchemesActionHandler.class);
+        bindHandler(GetOrganisationsFromSchemeAction.class, GetOrganisationsFromSchemeActionHandler.class);
+    }
+
 }

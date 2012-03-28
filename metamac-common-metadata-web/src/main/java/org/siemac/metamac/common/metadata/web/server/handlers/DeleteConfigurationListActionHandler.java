@@ -18,34 +18,34 @@ import com.gwtplatform.dispatch.server.ExecutionContext;
 import com.gwtplatform.dispatch.server.actionhandler.AbstractActionHandler;
 import com.gwtplatform.dispatch.shared.ActionException;
 
-public class DeleteConfigurationListActionHandler  extends AbstractActionHandler<DeleteConfigurationListAction, DeleteConfigurationListResult> {
+public class DeleteConfigurationListActionHandler extends AbstractActionHandler<DeleteConfigurationListAction, DeleteConfigurationListResult> {
 
-	private static Logger logger = Logger.getLogger(DeleteConfigurationListActionHandler.class.getName());
-	
-	@Autowired
-	private CommonMetadataBaseServiceFacade commonMetadataBaseServiceFacade;
-	
-	public DeleteConfigurationListActionHandler() {
-		super(DeleteConfigurationListAction.class);
-	}
+    private static Logger                   logger = Logger.getLogger(DeleteConfigurationListActionHandler.class.getName());
 
-	@Override
-	public DeleteConfigurationListResult execute(DeleteConfigurationListAction action, ExecutionContext context) throws ActionException {
-		List<ConfigurationDto> configurationDtos = action.getConfigurationDtos();
-		for (ConfigurationDto c : configurationDtos) {
-			try {
-				commonMetadataBaseServiceFacade.deleteConfiguration(ServiceContextHelper.getServiceContext(), c);
-			} catch (MetamacException e) {
-				logger.log(Level.SEVERE, "Error deleting configuration with id = " + c.getId() + ". " + e.getMessage());
-				throw new MetamacWebException(WebExceptionUtils.getMetamacWebExceptionItem(e.getExceptionItems()));
-			}
-		}
-		return new DeleteConfigurationListResult();
-	}
-	
-	@Override
-	public void undo(DeleteConfigurationListAction action, DeleteConfigurationListResult result, ExecutionContext context) throws ActionException {
-		
-	}
+    @Autowired
+    private CommonMetadataBaseServiceFacade commonMetadataBaseServiceFacade;
+
+    public DeleteConfigurationListActionHandler() {
+        super(DeleteConfigurationListAction.class);
+    }
+
+    @Override
+    public DeleteConfigurationListResult execute(DeleteConfigurationListAction action, ExecutionContext context) throws ActionException {
+        List<ConfigurationDto> configurationDtos = action.getConfigurationDtos();
+        for (ConfigurationDto c : configurationDtos) {
+            try {
+                commonMetadataBaseServiceFacade.deleteConfiguration(ServiceContextHelper.getServiceContext(), c);
+            } catch (MetamacException e) {
+                logger.log(Level.SEVERE, "Error deleting configuration with id = " + c.getId() + ". " + e.getMessage());
+                throw new MetamacWebException(WebExceptionUtils.getMetamacWebExceptionItem(e.getExceptionItems()));
+            }
+        }
+        return new DeleteConfigurationListResult();
+    }
+
+    @Override
+    public void undo(DeleteConfigurationListAction action, DeleteConfigurationListResult result, ExecutionContext context) throws ActionException {
+
+    }
 
 }

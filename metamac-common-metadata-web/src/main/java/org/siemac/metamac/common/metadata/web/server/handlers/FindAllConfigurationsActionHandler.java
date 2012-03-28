@@ -16,29 +16,28 @@ import com.gwtplatform.dispatch.server.ExecutionContext;
 import com.gwtplatform.dispatch.server.actionhandler.AbstractActionHandler;
 import com.gwtplatform.dispatch.shared.ActionException;
 
-
 public class FindAllConfigurationsActionHandler extends AbstractActionHandler<FindAllConfigurationsAction, FindAllConfigurationsResult> {
 
-	@Autowired
-	private CommonMetadataBaseServiceFacade commonMetadataBaseServiceFacade;
-	
-	public FindAllConfigurationsActionHandler() {
-		super(FindAllConfigurationsAction.class);
-	}
+    @Autowired
+    private CommonMetadataBaseServiceFacade commonMetadataBaseServiceFacade;
 
-	@Override
-	public FindAllConfigurationsResult execute(FindAllConfigurationsAction action, ExecutionContext context) throws ActionException {
-		try {
-			List<ConfigurationDto> configurations = commonMetadataBaseServiceFacade.findAllConfigurations(ServiceContextHelper.getServiceContext());
-			return new FindAllConfigurationsResult(configurations);
-		} catch (MetamacException e) {
-		    throw new MetamacWebException(WebExceptionUtils.getMetamacWebExceptionItem(e.getExceptionItems()));
-		}
-	}
+    public FindAllConfigurationsActionHandler() {
+        super(FindAllConfigurationsAction.class);
+    }
 
-	@Override
-	public void undo(FindAllConfigurationsAction action, FindAllConfigurationsResult result, ExecutionContext context) throws ActionException {
-		
-	}
-	
+    @Override
+    public FindAllConfigurationsResult execute(FindAllConfigurationsAction action, ExecutionContext context) throws ActionException {
+        try {
+            List<ConfigurationDto> configurations = commonMetadataBaseServiceFacade.findAllConfigurations(ServiceContextHelper.getServiceContext());
+            return new FindAllConfigurationsResult(configurations);
+        } catch (MetamacException e) {
+            throw new MetamacWebException(WebExceptionUtils.getMetamacWebExceptionItem(e.getExceptionItems()));
+        }
+    }
+
+    @Override
+    public void undo(FindAllConfigurationsAction action, FindAllConfigurationsResult result, ExecutionContext context) throws ActionException {
+
+    }
+
 }

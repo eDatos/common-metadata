@@ -21,29 +21,29 @@ import com.gwtplatform.dispatch.shared.ActionException;
 @GenDispatch(isSecure = false)
 public class SaveConfigurationActionHandler extends AbstractActionHandler<SaveConfigurationAction, SaveConfigurationResult> {
 
-	private static Logger logger = Logger.getLogger(SaveConfigurationActionHandler.class.getName());
-	
-	@Autowired
-	private CommonMetadataBaseServiceFacade commonMetadataBaseServiceFacade;
-	
-	public SaveConfigurationActionHandler() {
-		super(SaveConfigurationAction.class);
-	}
+    private static Logger                   logger = Logger.getLogger(SaveConfigurationActionHandler.class.getName());
 
-	@Override
-	public SaveConfigurationResult execute(SaveConfigurationAction action, ExecutionContext context) throws ActionException {
-		try {
-			ConfigurationDto configurationDto = commonMetadataBaseServiceFacade.saveConfiguration(ServiceContextHelper.getServiceContext(), action.getConfigurationDto());
-			return new SaveConfigurationResult(configurationDto);
-		} catch (MetamacException e) {
-			logger.log(Level.SEVERE, "Error saving Configuration with id = " + action.getConfigurationDto().getId() + ". " + e.getMessage());
-			throw new MetamacWebException(WebExceptionUtils.getMetamacWebExceptionItem(e.getExceptionItems()));
-		}
-	}
+    @Autowired
+    private CommonMetadataBaseServiceFacade commonMetadataBaseServiceFacade;
 
-	@Override
-	public void undo(SaveConfigurationAction action, SaveConfigurationResult result, ExecutionContext context) throws ActionException {
-		
-	}
-	
+    public SaveConfigurationActionHandler() {
+        super(SaveConfigurationAction.class);
+    }
+
+    @Override
+    public SaveConfigurationResult execute(SaveConfigurationAction action, ExecutionContext context) throws ActionException {
+        try {
+            ConfigurationDto configurationDto = commonMetadataBaseServiceFacade.saveConfiguration(ServiceContextHelper.getServiceContext(), action.getConfigurationDto());
+            return new SaveConfigurationResult(configurationDto);
+        } catch (MetamacException e) {
+            logger.log(Level.SEVERE, "Error saving Configuration with id = " + action.getConfigurationDto().getId() + ". " + e.getMessage());
+            throw new MetamacWebException(WebExceptionUtils.getMetamacWebExceptionItem(e.getExceptionItems()));
+        }
+    }
+
+    @Override
+    public void undo(SaveConfigurationAction action, SaveConfigurationResult result, ExecutionContext context) throws ActionException {
+
+    }
+
 }

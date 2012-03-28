@@ -10,7 +10,7 @@ import com.gwtplatform.dispatch.annotation.Out;
 @GenDispatch(isSecure = false)
 public class FindAllConfigurations {
 
-	@Out(1)
-	List<ConfigurationDto> configurations;
-	
+    @Out(1)
+    List<ConfigurationDto> configurations;
+
 }

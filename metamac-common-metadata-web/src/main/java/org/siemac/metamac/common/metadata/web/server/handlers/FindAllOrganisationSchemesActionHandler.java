@@ -18,26 +18,26 @@ import com.gwtplatform.dispatch.shared.ActionException;
 
 public class FindAllOrganisationSchemesActionHandler extends AbstractActionHandler<FindAllOrganisationSchemesAction, FindAllOrganisationSchemesResult> {
 
-	@Autowired
-	private CommonMetadataBaseServiceFacade commonMetadataBaseServiceFacade;
-	
-	public FindAllOrganisationSchemesActionHandler() {
-		super(FindAllOrganisationSchemesAction.class);
-	}
+    @Autowired
+    private CommonMetadataBaseServiceFacade commonMetadataBaseServiceFacade;
 
-	@Override
-	public FindAllOrganisationSchemesResult execute(FindAllOrganisationSchemesAction action, ExecutionContext context) throws ActionException { 
-		try {
-			List<ExternalItemBtDto> schemes = commonMetadataBaseServiceFacade.findAllOrganisationSchemes(ServiceContextHelper.getServiceContext());
-			return new FindAllOrganisationSchemesResult(schemes);
-		} catch (MetamacException e) {
-		    throw new MetamacWebException(WebExceptionUtils.getMetamacWebExceptionItem(e.getExceptionItems()));
-		}
-	}
+    public FindAllOrganisationSchemesActionHandler() {
+        super(FindAllOrganisationSchemesAction.class);
+    }
 
-	@Override
-	public void undo(FindAllOrganisationSchemesAction action, FindAllOrganisationSchemesResult result, ExecutionContext context) throws ActionException {
-		
-	}
+    @Override
+    public FindAllOrganisationSchemesResult execute(FindAllOrganisationSchemesAction action, ExecutionContext context) throws ActionException {
+        try {
+            List<ExternalItemBtDto> schemes = commonMetadataBaseServiceFacade.findAllOrganisationSchemes(ServiceContextHelper.getServiceContext());
+            return new FindAllOrganisationSchemesResult(schemes);
+        } catch (MetamacException e) {
+            throw new MetamacWebException(WebExceptionUtils.getMetamacWebExceptionItem(e.getExceptionItems()));
+        }
+    }
+
+    @Override
+    public void undo(FindAllOrganisationSchemesAction action, FindAllOrganisationSchemesResult result, ExecutionContext context) throws ActionException {
+
+    }
 
 }

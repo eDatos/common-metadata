@@ -15,26 +15,26 @@ import com.gwtplatform.mvp.client.gin.DefaultModule;
 
 public class ClientModule extends AbstractPresenterModule {
 
-	@Override
-	protected void configure() {
-	    // Default implementation of standard resources
-		//	 |_   bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
-		//	 |_   bind(TokenFormatter.class).to(ParameterTokenFormatter.class).in(Singleton.class);
-		//	 |_   bind(RootPresenter.class).asEagerSingleton();
-		//	 |_   bind(PlaceManager.class).to(MyPlaceManager.class).in(Singleton.class);
-		//	 |_   bind(GoogleAnalytics.class).to(GoogleAnalyticsImpl.class).in(Singleton.class);		
-	    install(new DefaultModule(CommonMetadataPlaceManager.class));
-	    
-	    // Constants
-	    bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.configurationPage);
-	    		
-		// Presenters
-	    bindPresenter(MainPagePresenter.class, MainPagePresenter.MainPageView.class, MainPageViewImpl.class, MainPagePresenter.MainPageProxy.class);
-	    bindPresenter(ConfigurationPresenter.class, ConfigurationPresenter.ConfigurationView.class, ConfigurationViewImpl.class, ConfigurationPresenter.ConfigurationProxy.class);
-	    
-		// Interfaces
-		bind(CommonMetadataWebConstants.class).in(Singleton.class);
-		bind(CommonMetadataWebMessages.class).in(Singleton.class);
-	}
-	
+    @Override
+    protected void configure() {
+        // Default implementation of standard resources
+        // |_ bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
+        // |_ bind(TokenFormatter.class).to(ParameterTokenFormatter.class).in(Singleton.class);
+        // |_ bind(RootPresenter.class).asEagerSingleton();
+        // |_ bind(PlaceManager.class).to(MyPlaceManager.class).in(Singleton.class);
+        // |_ bind(GoogleAnalytics.class).to(GoogleAnalyticsImpl.class).in(Singleton.class);
+        install(new DefaultModule(CommonMetadataPlaceManager.class));
+
+        // Constants
+        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.configurationPage);
+
+        // Presenters
+        bindPresenter(MainPagePresenter.class, MainPagePresenter.MainPageView.class, MainPageViewImpl.class, MainPagePresenter.MainPageProxy.class);
+        bindPresenter(ConfigurationPresenter.class, ConfigurationPresenter.ConfigurationView.class, ConfigurationViewImpl.class, ConfigurationPresenter.ConfigurationProxy.class);
+
+        // Interfaces
+        bind(CommonMetadataWebConstants.class).in(Singleton.class);
+        bind(CommonMetadataWebMessages.class).in(Singleton.class);
+    }
+
 }

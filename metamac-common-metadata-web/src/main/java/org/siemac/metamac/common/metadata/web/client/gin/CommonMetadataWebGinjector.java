@@ -15,15 +15,15 @@ import com.gwtplatform.mvp.client.proxy.PlaceManager;
 
 @GinModules({DispatchAsyncModule.class, ClientModule.class})
 public interface CommonMetadataWebGinjector extends Ginjector {
-	
-	PlaceManager getPlaceManager();
-	EventBus getEventBus();
-		
-	Provider<MainPagePresenter> getMainPagePresenter();
-	AsyncProvider<ConfigurationPresenter> getConfigurationPresenter();
 
-	// Interfaces
-	public CommonMetadataWebConstants getCommonMetadataWebConstants();
-	public CommonMetadataWebMessages getCommonMetadataWebMessages();
+    PlaceManager getPlaceManager();
+    EventBus getEventBus();
+
+    Provider<MainPagePresenter> getMainPagePresenter();
+    AsyncProvider<ConfigurationPresenter> getConfigurationPresenter();
+
+    // Interfaces
+    public CommonMetadataWebConstants getCommonMetadataWebConstants();
+    public CommonMetadataWebMessages getCommonMetadataWebMessages();
 
 }

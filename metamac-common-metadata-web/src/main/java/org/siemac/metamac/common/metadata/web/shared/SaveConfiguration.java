@@ -9,10 +9,10 @@ import com.gwtplatform.dispatch.annotation.Out;
 @GenDispatch(isSecure = false)
 public class SaveConfiguration {
 
-	@In(1)
-	ConfigurationDto configurationDto;
-	
-	@Out(1)
-	ConfigurationDto configurationSaved;
-	
+    @In(1)
+    ConfigurationDto configurationDto;
+
+    @Out(1)
+    ConfigurationDto configurationSaved;
+
 }

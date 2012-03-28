@@ -9,45 +9,45 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.CssResource.NotStrict;
 import com.gwtplatform.mvp.client.DelayedBindRegistry;
 
-
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class CommonMetadataWeb implements EntryPoint {
-	
-	private static CommonMetadataWebConstants constants;
-	private static CommonMetadataWebMessages messages;
-	private static CommonMetadataWebCoreMessages coreMessages;
 
-	public static final CommonMetadataWebGinjector ginjector = GWT.create(CommonMetadataWebGinjector.class);
-	
-	interface GlobalResources extends ClientBundle {
-		@NotStrict
-		@Source("resources/CommonMetadataWebStyles.css")
-		CssResource css();
-	}
+    private static CommonMetadataWebConstants      constants;
+    private static CommonMetadataWebMessages       messages;
+    private static CommonMetadataWebCoreMessages   coreMessages;
+
+    public static final CommonMetadataWebGinjector ginjector = GWT.create(CommonMetadataWebGinjector.class);
+
+    interface GlobalResources extends ClientBundle {
+
+        @NotStrict
+        @Source("resources/CommonMetadataWebStyles.css")
+        CssResource css();
+    }
 
     public void onModuleLoad() {
         // This is required for GWT-Platform proxy's generator.
         DelayedBindRegistry.bind(ginjector);
         ginjector.getPlaceManager().revealCurrentPlace();
-        
+
         // Inject global styles
-        GWT.<GlobalResources>create(GlobalResources.class).css().ensureInjected();
+        GWT.<GlobalResources> create(GlobalResources.class).css().ensureInjected();
     }
 
     public static CommonMetadataWebConstants getConstants() {
-    	if (constants == null) {
-    		constants = (CommonMetadataWebConstants) GWT.create(CommonMetadataWebConstants.class);
-    	}
-    	return constants;
+        if (constants == null) {
+            constants = (CommonMetadataWebConstants) GWT.create(CommonMetadataWebConstants.class);
+        }
+        return constants;
     }
-    
+
     public static CommonMetadataWebMessages getMessages() {
-    	if (messages == null) {
-    		messages = (CommonMetadataWebMessages) GWT.create(CommonMetadataWebMessages.class);
-    	}
-    	return messages;
+        if (messages == null) {
+            messages = (CommonMetadataWebMessages) GWT.create(CommonMetadataWebMessages.class);
+        }
+        return messages;
     }
 
     public static CommonMetadataWebCoreMessages getCoreMessages() {
@@ -56,9 +56,9 @@ public class CommonMetadataWeb implements EntryPoint {
         }
         return coreMessages;
     }
-    
+
     public static CommonMetadataWebGinjector getCommonMetadataWebGinjector() {
-      return ginjector;
+        return ginjector;
     }
-    
+
 }
