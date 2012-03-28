@@ -11,7 +11,7 @@ import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
 import org.siemac.metamac.core.common.dto.serviceapi.ExternalItemBtDto;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
-import org.siemac.metamac.web.common.client.utils.CommonUtils;
+import org.siemac.metamac.web.common.client.utils.ExternalItemUtils;
 import org.siemac.metamac.web.common.client.widgets.CustomListGrid;
 import org.siemac.metamac.web.common.client.widgets.DeleteConfirmationWindow;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
@@ -222,13 +222,13 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
     @Override
     public void setOrganisationSchemes(List<ExternalItemBtDto> schemes) {
-        organisationItem.setSchemesValueMap(CommonUtils.getExternalItemsHashMap(schemes));
+        organisationItem.setSchemesValueMap(ExternalItemUtils.getExternalItemsHashMap(schemes));
     }
 
     @Override
     public void setOrganisations(List<ExternalItemBtDto> organisations) {
         this.organisations = organisations;
-        organisationItem.setItemsValueMap(CommonUtils.getExternalItemsHashMap(organisations));
+        organisationItem.setItemsValueMap(ExternalItemUtils.getExternalItemsHashMap(organisations));
     }
 
     /**
