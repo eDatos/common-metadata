@@ -3,23 +3,27 @@ package org.siemac.metamac.common.metadata.base.serviceapi;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
-import org.fornax.cartridges.sculptor.framework.test.AbstractDbUnitJpaTests;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
+import org.siemac.metamac.common.test.MetamacBaseTests;
 import org.siemac.metamac.core.common.dto.serviceapi.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.serviceapi.LocalisedStringDto;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Spring based transactional test with DbUnit support.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:oracle/applicationContext-test.xml"})
-public class CommonMetadataBaseServiceFacadeTest extends AbstractDbUnitJpaTests implements CommonMetadataBaseServiceFacadeTestBase {
+public class CommonMetadataBaseServiceFacadeTest extends MetamacBaseTests implements CommonMetadataBaseServiceFacadeTestBase {
 
     @Autowired
     protected CommonMetadataBaseServiceFacade commonMetadataBaseServiceFacade;
@@ -127,6 +131,31 @@ public class CommonMetadataBaseServiceFacadeTest extends AbstractDbUnitJpaTests 
         configurationDto.setConfDataTreatmentUrl("http://confidentialityDataTreatment.com");
         // TODO
         return configurationDto;
+    }
+
+    @Override
+    protected String getDataSetFile() {
+        return "dbunit/CommonMetadataBaseServiceTest.xml";
+    }
+
+    @Override
+    protected List<String> getTablesToRemoveContent() {
+        List<String> tables = new ArrayList<String>();
+        tables.add("TB_CONFIGURATIONS");
+        tables.add("TB_EXTERNAL_ITEMS");
+        tables.add("TB_LOCALISED_STRINGS");
+        tables.add("TB_INTERNATIONAL_STRINGS");
+        return tables;
+    }
+
+    @Override
+    protected List<String> getSequencesToRestart() {
+        List<String> sequences = new ArrayList<String>();
+        sequences.add("SEQ_EXTERNAL_ITEMS");
+        sequences.add("SEQ_L10NSTRS");
+        sequences.add("SEQ_I18NSTRS");
+        sequences.add("SEQ_CONFIGURATION");
+        return sequences;
     }
 
 }

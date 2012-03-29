@@ -3,22 +3,27 @@ package org.siemac.metamac.common.metadata.base.serviceapi;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
-import org.fornax.cartridges.sculptor.framework.test.AbstractDbUnitJpaTests;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.siemac.metamac.common.metadata.base.domain.Configuration;
+import org.siemac.metamac.common.test.MetamacBaseTests;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Spring based transactional test with DbUnit support.
  */
+
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:oracle/applicationContext-test.xml"})
-public class CommonMetadataBaseServiceTest extends AbstractDbUnitJpaTests implements CommonMetadataBaseServiceTestBase {
+public class CommonMetadataBaseServiceTest extends MetamacBaseTests implements CommonMetadataBaseServiceTestBase {
 
     @Autowired
     protected CommonMetadataBaseService commonMetadataBaseService;
@@ -123,6 +128,31 @@ public class CommonMetadataBaseServiceTest extends AbstractDbUnitJpaTests implem
         // Contact
         // TODO
         return configuration;
+    }
+
+    @Override
+    protected String getDataSetFile() {
+        return "dbunit/CommonMetadataBaseServiceTest.xml";
+    }
+
+    @Override
+    protected List<String> getTablesToRemoveContent() {
+        List<String> tables = new ArrayList<String>();
+        tables.add("TB_CONFIGURATIONS");
+        tables.add("TB_EXTERNAL_ITEMS");
+        tables.add("TB_LOCALISED_STRINGS");
+        tables.add("TB_INTERNATIONAL_STRINGS");
+        return tables;
+    }
+
+    @Override
+    protected List<String> getSequencesToRestart() {
+        List<String> sequences = new ArrayList<String>();
+        sequences.add("SEQ_EXTERNAL_ITEMS");
+        sequences.add("SEQ_L10NSTRS");
+        sequences.add("SEQ_I18NSTRS");
+        sequences.add("SEQ_CONFIGURATION");
+        return sequences;
     }
 
 }

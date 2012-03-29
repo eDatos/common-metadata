@@ -28,6 +28,12 @@
 			<classifier>client</classifier>
 		</dependency>
 		<dependency>
+			<groupId>org.siemac.metamac</groupId>
+			<artifactId>metamac-common-test</artifactId>
+			<version>${metamac-common-test.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>jsr250-api</artifactId>
 			<version>${jsr250-api.version}</version>

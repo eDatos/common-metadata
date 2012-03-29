@@ -12,7 +12,7 @@ Application Base {
 		basePackage=org.siemac.metamac.common.metadata.base
 		
 		Entity Configuration {
-			databaseTable="TBL_CONFIGURATION"
+			databaseTable="TB_CONFIGURATIONS"
 			hint="idSequence=CONFIGURATION"
 			
 			String name;

@@ -11,7 +11,7 @@ import org.siemac.metamac.core.common.bt.domain.ExternalItemBt;
  * Dto for ExternalItem
  */
 @Entity
-@Table(name = "TBL_EXTERNAL_ITEMS")
+@Table(name = "TB_EXTERNAL_ITEMS")
 public class ExternalItem extends ExternalItemBase {
 
     private static final long serialVersionUID = 1L;

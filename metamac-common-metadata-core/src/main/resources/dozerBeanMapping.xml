@@ -40,10 +40,6 @@
 			<a>id</a>
 			<b is-accessible="true">id</b>
 		</field>
-		<field>
-			<a>uuid</a>
-			<b is-accessible="true">uuid</b>
-		</field>
 	</mapping>
 	
 	<mapping>

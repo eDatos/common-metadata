@@ -7,6 +7,6 @@
         <wb-resource deploy-path="/" source-path="/src/generated/resources"/>
         <wb-resource deploy-path="/" source-path="/src/test/generated/java"/>
         <wb-resource deploy-path="/" source-path="/src/test/generated/resources"/>
-        <wb-resource deploy-path="/" source-path="/src/test/resources/oracle"/>
+        <wb-resource deploy-path="/" source-path="/src/test/resources"/>
     </wb-module>
 </project-modules>
