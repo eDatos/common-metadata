@@ -3,7 +3,6 @@ package org.siemac.metamac.common.metadata.base.serviceapi;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
@@ -132,27 +131,17 @@ public class CommonMetadataBaseServiceTest extends MetamacBaseTests implements C
 
     @Override
     protected String getDataSetFile() {
-        return "dbunit/CommonMetadataBaseServiceTest.xml";
+        return CommonMetadataTestConfiguration.getDataSetFile();
     }
 
     @Override
     protected List<String> getTablesToRemoveContent() {
-        List<String> tables = new ArrayList<String>();
-        tables.add("TB_CONFIGURATIONS");
-        tables.add("TB_EXTERNAL_ITEMS");
-        tables.add("TB_LOCALISED_STRINGS");
-        tables.add("TB_INTERNATIONAL_STRINGS");
-        return tables;
+        return CommonMetadataTestConfiguration.getTablesToRemoveContent();
     }
 
     @Override
     protected List<String> getSequencesToRestart() {
-        List<String> sequences = new ArrayList<String>();
-        sequences.add("SEQ_EXTERNAL_ITEMS");
-        sequences.add("SEQ_L10NSTRS");
-        sequences.add("SEQ_I18NSTRS");
-        sequences.add("SEQ_CONFIGURATION");
-        return sequences;
+        return CommonMetadataTestConfiguration.getSequencesToRestart();
     }
 
 }
