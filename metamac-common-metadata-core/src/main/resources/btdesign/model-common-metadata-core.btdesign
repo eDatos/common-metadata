@@ -1,10 +1,72 @@
-import "classpath:/btdesign/common-metadata-core-dtos.btdesign"
-import "classpath:/btdesign/common-metadata-core-lists.btdesign"
-import "classpath:/btdesign/common-metadata-core-base.btdesign"
-import "classpath:/btdesign/common-metadata-core-constraints.btdesign"
-import "classpath:/btdesign/export/metamac-core-common-vo.btdesign"
+import "classpath:/btdesign/metamac-api-domain-dtos-common-metadata.btdesign"
+
+import "classpath:/btdesign/export/metamac-core-common-basictype.btdesign" 
+import "classpath:/btdesign/export/metamac-core-common-vo.btdesign" 
+import "classpath:/btdesign/export/metamac-core-common-entity.btdesign" 
 
 Application CommonMetadata {
-    basePackage=org.siemac.metamac
+    basePackage=org.siemac.metamac.common.metadata
+
+	Module core {
+		basePackage=org.siemac.metamac.common.metadata.core
+		
+		// ----------------------------------------------------------------
+		// 							FACADE SERVICES
+		// ----------------------------------------------------------------
+		
+		Service CommonMetadataServiceFacade {
+			>@CommonMetadataService
+			
+			@ConfigurationDto findConfigurationById(Long id) throws MetamacException;
+			List<@ConfigurationDto> findAllConfigurations throws MetamacException;
+			@ConfigurationDto saveConfiguration(@ConfigurationDto configuration) throws MetamacException;
+			deleteConfiguration(@ConfigurationDto configuration) throws MetamacException;
+		}
+		
+		
+		
+		// ----------------------------------------------------------------
+		// 							SERVICES
+		// ----------------------------------------------------------------  
+		
+		Service CommonMetadataService {
+			> @ConfigurationRepository
+			
+			@Configuration findConfigurationById(Long id) throws MetamacException;
+			List<@Configuration> findAllConfigurations throws MetamacException;
+			@Configuration saveConfiguration(@Configuration configuration) throws MetamacException;
+			deleteConfiguration(@Configuration configuration) throws MetamacException;
+		}
+		
+		
+		
+		// ----------------------------------------------------------------
+		// 							ENTITIES
+		// ---------------------------------------------------------------- 
+		
+		Entity Configuration {
+			databaseTable="TB_CONFIGURATIONS"
+			hint="idSequence=CONFIGURATION"
+			
+			String name;
+			-@InternationalString legalActs cascade="all" nullable databaseColumn="LEGAL_ACTS_FK";
+			String legalActsUrl nullable;
+			-@InternationalString dataSharing cascade="all" nullable databaseColumn="DATA_SHARING_FK";
+			String dataSharingUrl nullable;
+			-@InternationalString confPolicy cascade="all" nullable databaseColumn="CONF_POLICY_FK";
+			String confPolicyUrl nullable;
+			-@InternationalString confDataTreatment cascade="all" nullable databaseColumn="CONF_DATA_TREATMENT_FK";
+			String confDataTreatmentUrl nullable;
+			-@ExternalItemBt contact nullable;
+			
+			Repository ConfigurationRepository {
+				findById;
+		   		findAll;
+		   		save;
+		   		delete;
+			}
+		}
+		
+    }
 
 }
