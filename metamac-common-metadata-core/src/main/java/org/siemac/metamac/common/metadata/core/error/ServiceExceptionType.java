@@ -1,4 +1,4 @@
-package org.siemac.metamac.common.metadata.error;
+package org.siemac.metamac.common.metadata.core.error;
 
 import org.siemac.metamac.core.common.exception.CommonServiceExceptionType;
 

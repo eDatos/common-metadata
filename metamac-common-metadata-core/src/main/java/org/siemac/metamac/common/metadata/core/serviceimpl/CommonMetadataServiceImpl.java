@@ -1,25 +1,25 @@
-package org.siemac.metamac.common.metadata.base.serviceimpl;
+package org.siemac.metamac.common.metadata.core.serviceimpl;
 
 import java.util.List;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
-import org.siemac.metamac.common.metadata.base.domain.Configuration;
-import org.siemac.metamac.common.metadata.base.domain.ConfigurationRepository;
-import org.siemac.metamac.common.metadata.error.ServiceExceptionType;
+import org.siemac.metamac.common.metadata.core.domain.Configuration;
+import org.siemac.metamac.common.metadata.core.domain.ConfigurationRepository;
+import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Implementation of CommonMetadataBaseService.
+ * Implementation of CommonMetadataService.
  */
-@Service("commonMetadataBaseService")
-public class CommonMetadataBaseServiceImpl extends CommonMetadataBaseServiceImplBase {
+@Service("commonMetadataService")
+public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Autowired
     private ConfigurationRepository configurationRepository;
 
-    public CommonMetadataBaseServiceImpl() {
+    public CommonMetadataServiceImpl() {
     }
 
     public Configuration findConfigurationById(ServiceContext ctx, Long id) throws MetamacException {
