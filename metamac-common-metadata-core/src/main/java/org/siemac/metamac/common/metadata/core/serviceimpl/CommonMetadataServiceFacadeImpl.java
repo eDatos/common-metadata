@@ -7,7 +7,6 @@ import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.mapper.Do2DtoMapper;
 import org.siemac.metamac.common.metadata.core.mapper.Dto2DoMapper;
-import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.domain.common.metadata.dto.serviceapi.ConfigurationDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,52 +19,78 @@ import org.springframework.stereotype.Service;
 public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacadeImplBase {
 
     @Autowired
-    private Do2DtoMapper              do2DtoMapper;
+    private Do2DtoMapper do2DtoMapper;
 
     @Autowired
-    private Dto2DoMapper              dto2DoMapper;
-
-    @Autowired
-    private CommonMetadataService commonMetadataService;
-
-    protected Do2DtoMapper getDo2DtoMapper() {
-        return do2DtoMapper;
-    }
-
-    protected Dto2DoMapper getDto2DoMapper() {
-        return dto2DoMapper;
-    }
-
-    protected CommonMetadataService getCommonMetadataService() {
-        return commonMetadataService;
-    }
+    private Dto2DoMapper dto2DoMapper;
 
     public CommonMetadataServiceFacadeImpl() {
     }
 
     public ConfigurationDto findConfigurationById(ServiceContext ctx, Long id) throws MetamacException {
-        return getDo2DtoMapper().configurationEntityToDto(getCommonMetadataService().findConfigurationById(ctx, id));
-    }
+        // Service call
+        Configuration configuration = getCommonMetadataService().findConfigurationById(ctx, id);
 
-    public List<ConfigurationDto> findAllConfigurations(ServiceContext ctx) throws MetamacException {
-        List<Configuration> configurations = getCommonMetadataService().findAllConfigurations(ctx);
-        List<ConfigurationDto> configurationDtos = new ArrayList<ConfigurationDto>();
-        for (Configuration configuration : configurations) {
-            configurationDtos.add(getDo2DtoMapper().configurationEntityToDto(configuration));
-        }
-        return configurationDtos;
-    }
+        // Transform to Dto
+        ConfigurationDto configurationDto = do2DtoMapper.configurationDoToDto(configuration);
 
-    public ConfigurationDto saveConfiguration(ServiceContext ctx, ConfigurationDto configurationDto) throws MetamacException {
-        Configuration configuration = getDto2DoMapper().configurationDtoToEntity(configurationDto, ctx);
-        configuration = getCommonMetadataService().saveConfiguration(ctx, configuration);
-        configurationDto = getDo2DtoMapper().configurationEntityToDto(configuration);
         return configurationDto;
     }
 
-    public void deleteConfiguration(ServiceContext ctx, ConfigurationDto configurationDto) throws MetamacException {
-        Configuration configuration = getDto2DoMapper().configurationDtoToEntity(configurationDto, ctx);
-        getCommonMetadataService().deleteConfiguration(ctx, configuration);
+    public List<ConfigurationDto> findAllConfigurations(ServiceContext ctx) throws MetamacException {
+        // Service call
+        List<Configuration> configurations = getCommonMetadataService().findAllConfigurations(ctx);
+
+        // Transform to Dto
+        List<ConfigurationDto> configurationDtos = configurationsListDo2Dto(configurations);
+
+        return configurationDtos;
+    }
+
+    public ConfigurationDto createConfiguration(ServiceContext ctx, ConfigurationDto configurationDto) throws MetamacException {
+        // Transform to Entity
+        Configuration configuration = dto2DoMapper.configurationDtoToDo(ctx, configurationDto);
+
+        // Service call
+        configuration = getCommonMetadataService().createConfiguration(ctx, configuration);
+
+        // Transform to Dto
+        configurationDto = do2DtoMapper.configurationDoToDto(configuration);
+
+        // Return
+        return configurationDto;
+    }
+    
+    public ConfigurationDto updateConfiguration(ServiceContext ctx, ConfigurationDto configurationDto) throws MetamacException {
+        // Transform to Entity
+        Configuration configuration = dto2DoMapper.configurationDtoToDo(ctx, configurationDto);
+
+        // Service call
+        configuration = getCommonMetadataService().updateConfiguration(ctx, configuration);
+
+        // Transform to Dto
+        configurationDto = do2DtoMapper.configurationDoToDto(configuration);
+
+        // Return
+        return configurationDto;
+    }
+
+    public void deleteConfiguration(ServiceContext ctx, Long configurationId) throws MetamacException {
+        // Service call
+        getCommonMetadataService().deleteConfiguration(ctx, configurationId);
+    }
+    
+    
+    // --------------------------------------------------------------------------------
+    // TRANSFORM LISTS
+    // --------------------------------------------------------------------------------
+
+    private List<ConfigurationDto> configurationsListDo2Dto(List<Configuration> configurations) {
+        List<ConfigurationDto> configurationsDto = new ArrayList<ConfigurationDto>();
+        for (Configuration configuration : configurations) {
+            configurationsDto.add(do2DtoMapper.configurationDoToDto(configuration));
+        }
+        return configurationsDto;
     }
 
 }

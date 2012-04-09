@@ -19,8 +19,9 @@ Application CommonMetadata {
 			
 			@ConfigurationDto findConfigurationById(Long id) throws MetamacException;
 			List<@ConfigurationDto> findAllConfigurations throws MetamacException;
-			@ConfigurationDto saveConfiguration(@ConfigurationDto configuration) throws MetamacException;
-			deleteConfiguration(@ConfigurationDto configuration) throws MetamacException;
+			@ConfigurationDto createConfiguration(@ConfigurationDto configuration) throws MetamacException;
+			@ConfigurationDto updateConfiguration(@ConfigurationDto configuration) throws MetamacException;
+			deleteConfiguration(Long configurationId) throws MetamacException;
 		}
 		
 		
@@ -34,8 +35,10 @@ Application CommonMetadata {
 			
 			@Configuration findConfigurationById(Long id) throws MetamacException;
 			List<@Configuration> findAllConfigurations throws MetamacException;
-			@Configuration saveConfiguration(@Configuration configuration) throws MetamacException;
-			deleteConfiguration(@Configuration configuration) throws MetamacException;
+			List<@Configuration> findConfigurationByCondition(List<ConditionalCriteria> condition) throws MetamacException;
+			@Configuration createConfiguration(@Configuration configuration) throws MetamacException;
+			@Configuration updateConfiguration(@Configuration configuration) throws MetamacException;
+			deleteConfiguration(Long configurationId) throws MetamacException;
 		}
 		
 		
@@ -48,7 +51,9 @@ Application CommonMetadata {
 			databaseTable="TB_CONFIGURATIONS"
 			hint="idSequence=CONFIGURATION"
 			
-			String name;
+			gap
+			
+			String code;
 			-@InternationalString legalActs cascade="all" nullable databaseColumn="LEGAL_ACTS_FK";
 			String legalActsUrl nullable;
 			-@InternationalString dataSharing cascade="all" nullable databaseColumn="DATA_SHARING_FK";
@@ -62,6 +67,7 @@ Application CommonMetadata {
 			Repository ConfigurationRepository {
 				findById;
 		   		findAll;
+		   		findByCondition;
 		   		save;
 		   		delete;
 			}

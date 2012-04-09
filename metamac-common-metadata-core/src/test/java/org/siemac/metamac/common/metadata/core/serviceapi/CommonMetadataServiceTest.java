@@ -1,10 +1,13 @@
 package org.siemac.metamac.common.metadata.core.serviceapi;
 
+import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder.criteriaFor;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +30,7 @@ public class CommonMetadataServiceTest extends MetamacBaseTests implements Commo
     @Autowired
     protected CommonMetadataService commonMetadataService;
 
-    private final ServiceContext        serviceContext = new ServiceContext("system", "123456", "junit");
+    private final ServiceContext    serviceContext = new ServiceContext("system", "123456", "junit");
 
     protected ServiceContext getServiceContext() {
         return serviceContext;
@@ -35,7 +38,7 @@ public class CommonMetadataServiceTest extends MetamacBaseTests implements Commo
 
     @Test
     public void testFindConfigurationById() throws Exception {
-        Configuration configuration = commonMetadataService.saveConfiguration(getServiceContext(), createConfiguration());
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContext(), createConfiguration());
         assertNotNull(configuration);
         Configuration configurationRetrieved = commonMetadataService.findConfigurationById(getServiceContext(), configuration.getId());
         assertNotNull(configurationRetrieved);
@@ -44,34 +47,63 @@ public class CommonMetadataServiceTest extends MetamacBaseTests implements Commo
 
     @Test
     public void testFindAllConfigurations() throws Exception {
-        testSaveConfiguration();
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContext(), createConfiguration());
+        assertNotNull(configuration);
+        
         List<Configuration> configurations = commonMetadataService.findAllConfigurations(getServiceContext());
         assertTrue(!configurations.isEmpty());
     }
 
     @Test
-    public void testSaveConfiguration() throws Exception {
-        Configuration configuration = commonMetadataService.saveConfiguration(getServiceContext(), createConfiguration());
+    public void testCreateConfiguration() throws Exception {
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContext(), createConfiguration());
         assertNotNull(configuration);
     }
 
     @Test
     public void testDeleteConfiguration() throws Exception {
-        testSaveConfiguration();
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContext(), createConfiguration());
+        assertNotNull(configuration);
+        
         List<Configuration> configurations = commonMetadataService.findAllConfigurations(getServiceContext());
-        Configuration configuration = configurations.get(configurations.size() - 1);
-        commonMetadataService.deleteConfiguration(getServiceContext(), configuration);
+        commonMetadataService.deleteConfiguration(getServiceContext(), configuration.getId());
         assertTrue(commonMetadataService.findAllConfigurations(getServiceContext()).size() < configurations.size());
     }
+    
+    @Test
+    public void testFindConfigurationByCondition() throws Exception {
+        String code = "conf-ISTAC";
 
-    /**************************************************************************
-     * PRIVATE UTILS
-     **************************************************************************/
+        Configuration configuration = createConfiguration();
+        configuration.setCode(code);
+        configuration = commonMetadataService.createConfiguration(getServiceContext(), configuration);
+        assertNotNull(configuration);
+        
+        List<ConditionalCriteria> condition = criteriaFor(Configuration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties.code()).ignoreCaseLike("%" + code + "%").build();
+        List<Configuration> configurations = commonMetadataService.findConfigurationByCondition(getServiceContext(), condition);
+        assertEquals(1, configurations.size());
+        
+    }
+
+    @Test
+    public void testUpdateConfiguration() throws Exception {
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContext(), createConfiguration());
+        assertNotNull(configuration);
+        
+        configuration.setCode("Conf-modified");
+        configuration = commonMetadataService.updateConfiguration(getServiceContext(), configuration);
+        assertNotNull(configuration);
+        
+    }
+
+    // ------------------------------------------------------------------------------------
+    // PRIVATE UTILS
+    // ------------------------------------------------------------------------------------
 
     private Configuration createConfiguration() {
         Configuration configuration = new Configuration();
-        // Name
-        configuration.setName("configuration-0123456789");
+        // Code
+        configuration.setCode("configuration-0123456789");
         // Legal Acts
         InternationalString legalActs = new InternationalString();
         LocalisedString legalActs_es = new LocalisedString();
@@ -129,6 +161,10 @@ public class CommonMetadataServiceTest extends MetamacBaseTests implements Commo
         return configuration;
     }
 
+    // ------------------------------------------------------------------------------------
+    // TESTS CONFIGURATION
+    // ------------------------------------------------------------------------------------
+
     @Override
     protected String getDataSetFile() {
         return CommonMetadataTestConfiguration.getDataSetFile();
@@ -143,5 +179,6 @@ public class CommonMetadataServiceTest extends MetamacBaseTests implements Commo
     protected List<String> getSequencesToRestart() {
         return CommonMetadataTestConfiguration.getSequencesToRestart();
     }
+
 
 }
