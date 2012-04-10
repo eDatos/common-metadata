@@ -3,11 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.siemac.metamac.common.metadata</groupId>
-	<artifactId>metamac-common-metadata-core</artifactId>
-	<packaging>jar</packaging>
-	<version>${metamac-common-metadata-core.version}</version>
-	<name>METAMAC :: COMMON :: METADATA</name>
 	
 	<parent>
 		<groupId>org.siemac.metamac.common.metadata</groupId>
@@ -16,9 +11,11 @@
 		<relativePath>../metamac-common-metadata-parent/pom.xml</relativePath>
 	</parent>
 	
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+	<groupId>org.siemac.metamac.common.metadata</groupId>
+	<artifactId>metamac-common-metadata-core</artifactId>
+	<packaging>jar</packaging>
+	<version>${metamac-common-metadata-core.version}</version>
+	<name>METAMAC :: COMMON :: METADATA</name>
 	
 	<dependencies>
 		<dependency>
