@@ -1,5 +1,6 @@
 package org.siemac.metamac.common.metadata.core.serviceapi;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -8,6 +9,7 @@ import java.util.List;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.test.MetamacBaseTests;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
@@ -39,6 +41,15 @@ public class CommonMetadataServiceFacadeTest extends MetamacBaseTests implements
         ConfigurationDto configurationRetrieved = commonMetadataServiceFacade.findConfigurationById(getServiceContext(), configurationDto.getId());
         assertNotNull(configurationRetrieved);
         assertTrue(configurationDto.getId().equals(configurationRetrieved.getId()));
+    }
+    
+    @Test
+    public void testFindConfigurationByIdNotFound() throws MetamacException {
+        try {
+            commonMetadataServiceFacade.findConfigurationById(getServiceContext(), Long.valueOf(-1));
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.CONFIGURATION_NOT_FOUND.getCode(), e.getExceptionItems().get(0).getCode());
+        }
     }
 
     @Test
