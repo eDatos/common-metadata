@@ -7,12 +7,12 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.core.common.bt.domain.ExternalItemBt;
-import org.siemac.metamac.core.common.dto.serviceapi.ExternalItemBtDto;
-import org.siemac.metamac.core.common.dto.serviceapi.InternationalStringDto;
-import org.siemac.metamac.core.common.dto.serviceapi.LocalisedStringDto;
+import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
+import org.siemac.metamac.core.common.dto.InternationalStringDto;
+import org.siemac.metamac.core.common.dto.LocalisedStringDto;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
-import org.siemac.metamac.domain.common.metadata.dto.serviceapi.ConfigurationDto;
+import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.springframework.stereotype.Component;
 
 @Component
