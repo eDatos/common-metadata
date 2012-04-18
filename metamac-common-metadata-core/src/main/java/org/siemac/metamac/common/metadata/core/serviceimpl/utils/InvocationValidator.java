@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
+import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
@@ -22,7 +23,7 @@ public class InvocationValidator {
             exceptions = new ArrayList<MetamacExceptionItem>();
         }
 
-        ValidationUtils.checkParameterRequired(id, "ID", exceptions);
+        ValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
@@ -44,7 +45,7 @@ public class InvocationValidator {
         }
 
         checkConfiguration(configuration, exceptions);
-        ValidationUtils.checkMetadataEmpty(configuration.getId(), "CONFIGURATION.ID", exceptions);
+        ValidationUtils.checkMetadataEmpty(configuration.getId(), ServiceExceptionParameters.CONFIGURATION_ID, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
@@ -55,8 +56,8 @@ public class InvocationValidator {
         }
 
         checkConfiguration(configuration, exceptions);
-        ValidationUtils.checkMetadataRequired(configuration.getId(), "CONFIGURATION.ID", exceptions);
-        ValidationUtils.checkMetadataRequired(configuration.getUuid(), "CONFIGURATION.UUID", exceptions);
+        ValidationUtils.checkMetadataRequired(configuration.getId(), ServiceExceptionParameters.CONFIGURATION_ID, exceptions);
+        ValidationUtils.checkMetadataRequired(configuration.getUuid(), ServiceExceptionParameters.CONFIGURATION_UUID, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
@@ -66,7 +67,7 @@ public class InvocationValidator {
             exceptions = new ArrayList<MetamacExceptionItem>();
         }
 
-        ValidationUtils.checkParameterRequired(id, "ID", exceptions);
+        ValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
@@ -87,10 +88,10 @@ public class InvocationValidator {
     // PRIVATE METHODS
     // ------------------------------------------------------------------------------------
     private static void checkConfiguration(Configuration configuration, List<MetamacExceptionItem> exceptions) {
-        ValidationUtils.checkParameterRequired(configuration, "CONFIGURATION", exceptions);
-        ValidationUtils.checkMetadataRequired(configuration.getCode(), "CONFIGURATION.CODE", exceptions);
+        ValidationUtils.checkParameterRequired(configuration, ServiceExceptionParameters.CONFIGURATION, exceptions);
+        ValidationUtils.checkMetadataRequired(configuration.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
         if (configuration.getCode() != null && !CoreCommonUtil.isSemanticIdentifier(configuration.getCode())) {
-            exceptions.add(new MetamacExceptionItem(ServiceExceptionType.METADATA_INCORRECT, "CONFIGURATION.CODE"));
+            exceptions.add(new MetamacExceptionItem(ServiceExceptionType.METADATA_INCORRECT, ServiceExceptionParameters.CONFIGURATION_CODE));
             }
 
     }

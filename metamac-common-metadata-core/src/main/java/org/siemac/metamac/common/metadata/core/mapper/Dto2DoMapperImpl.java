@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
+import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
@@ -47,7 +48,7 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
     
     private Configuration configurationDtoToDo(ConfigurationDto source, Configuration target) throws MetamacException {
         if (target == null) {
-            throw new MetamacException(ServiceExceptionType.PARAMETER_REQUIRED, "CONFIGURATION");
+            throw new MetamacException(ServiceExceptionType.PARAMETER_REQUIRED, ServiceExceptionParameters.CONFIGURATION);
         }
 
         target.setCode(source.getCode());
@@ -55,12 +56,10 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
         target.setDataSharingUrl(source.getDataSharingUrl());
         target.setConfPolicyUrl(source.getConfPolicyUrl());
         target.setConfDataTreatmentUrl(source.getConfDataTreatmentUrl());
-        target.setLegalActsUrl(source.getLegalActsUrl());
-        target.setLegalActs(internationalStringToDo(source.getLegalActs(), target.getLegalActs(), "LEGAL_ACTS"));
-        target.setDataSharing(internationalStringToDo(source.getDataSharing(), target.getDataSharing(), "DATA_SHARING"));
-        target.setLegalActs(internationalStringToDo(source.getLegalActs(), target.getLegalActs(), "LEGAL_ACTS"));
-        target.setConfPolicy(internationalStringToDo(source.getConfPolicy(), target.getConfPolicy(), "CONF_POLICY"));
-        target.setConfDataTreatment(internationalStringToDo(source.getConfDataTreatment(), target.getConfDataTreatment(), "CONF_DATA_TREATMENT"));
+        target.setLegalActs(internationalStringToDo(source.getLegalActs(), target.getLegalActs(), ServiceExceptionParameters.CONFIGURATION_LEGAL_ACTS));
+        target.setDataSharing(internationalStringToDo(source.getDataSharing(), target.getDataSharing(), ServiceExceptionParameters.CONFIGURATION_DATA_SHARING));
+        target.setConfPolicy(internationalStringToDo(source.getConfPolicy(), target.getConfPolicy(), ServiceExceptionParameters.CONFIGURATION_CONF_POLICY));
+        target.setConfDataTreatment(internationalStringToDo(source.getConfDataTreatment(), target.getConfDataTreatment(), ServiceExceptionParameters.CONFIGURATION_CONF_DATA_TREATMENT));
         
         return target;
     }
