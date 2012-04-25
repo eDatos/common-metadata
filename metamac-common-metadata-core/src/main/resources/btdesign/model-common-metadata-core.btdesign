@@ -64,6 +64,9 @@ Application CommonMetadata {
 			String confDataTreatmentUrl nullable length="4000";
 			-@ExternalItemBt contact nullable;
 			
+			"Last update to optimistic locking"
+			DateTimeTZ updateDate nullable;
+			
 			Repository ConfigurationRepository {
 				findById;
 		   		findAll;
