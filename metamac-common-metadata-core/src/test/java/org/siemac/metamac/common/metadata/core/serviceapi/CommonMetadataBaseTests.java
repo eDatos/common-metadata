@@ -24,6 +24,62 @@ public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
         return serviceContext;
     }
     
+    protected ServiceContext getServiceContextJefeNormalizacion() {
+        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.JEFE_NORMALIZACION);
+        return serviceContext;
+    }
+    
+    protected ServiceContext getServiceContextTecnicoNormalizacion() {
+        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_NORMALIZACION);
+        return serviceContext;
+    }
+    
+    protected ServiceContext getServiceContextTecnicoApoyoNormalizacion() {
+        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_NORMALIZACION);
+        return serviceContext;
+    }
+    
+    protected ServiceContext getServiceContextTecnicoPlanificacion() {
+        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_PLANIFICACION);
+        return serviceContext;
+    }
+    
+    protected ServiceContext getServiceContextTecnicoApoyoPlanificacion() {
+        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_PLANIFICACION);
+        return serviceContext;
+    }
+    
+    protected ServiceContext getServiceContextTecnicoProduccion() {
+        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_PRODUCCION);
+        return serviceContext;
+    }
+    
+    protected ServiceContext getServiceContextTecnicoApoyoProduccion() {
+        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_PRODUCCION);
+        return serviceContext;
+    }
+    
+    protected ServiceContext getServiceContextTecnicoDifusion() {
+        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_DIFUSION);
+        return serviceContext;
+    }
+    
+    protected ServiceContext getServiceContextTecnicoApoyoDifusion() {
+        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_DIFUSION);
+        return serviceContext;
+    }
+    
+    
+    
     private void putMetamacPrincipalInServiceContext(ServiceContext serviceContext, CommonMetadataRoleEnum role) {
         MetamacPrincipal metamacPrincipal = new MetamacPrincipal();
         metamacPrincipal.setUserId(serviceContext.getUserId());

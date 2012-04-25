@@ -7,8 +7,10 @@ import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.mapper.Do2DtoMapper;
 import org.siemac.metamac.common.metadata.core.mapper.Dto2DoMapper;
+import org.siemac.metamac.common.metadata.core.security.SecurityUtils;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
+import org.siemac.metamac.domain.common.metadata.enume.domain.CommonMetadataRoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,9 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
     }
 
     public ConfigurationDto findConfigurationById(ServiceContext ctx, Long id) throws MetamacException {
+        // Security
+        SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.ANY_ROLE_ALLOWED);
+
         // Service call
         Configuration configuration = getCommonMetadataService().findConfigurationById(ctx, id);
 
@@ -38,6 +43,10 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
     }
 
     public List<ConfigurationDto> findAllConfigurations(ServiceContext ctx) throws MetamacException {
+
+        // Security
+        SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.ANY_ROLE_ALLOWED);
+
         // Service call
         List<Configuration> configurations = getCommonMetadataService().findAllConfigurations(ctx);
 
@@ -48,6 +57,9 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
     }
 
     public ConfigurationDto createConfiguration(ServiceContext ctx, ConfigurationDto configurationDto) throws MetamacException {
+        // Security
+        SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.JEFE_NORMALIZACION);
+
         // Transform to Entity
         Configuration configuration = dto2DoMapper.configurationDtoToDo(ctx, configurationDto);
 
@@ -60,8 +72,11 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         // Return
         return configurationDto;
     }
-    
+
     public ConfigurationDto updateConfiguration(ServiceContext ctx, ConfigurationDto configurationDto) throws MetamacException {
+        // Security
+        SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.JEFE_NORMALIZACION);
+
         // Transform to Entity
         Configuration configuration = dto2DoMapper.configurationDtoToDo(ctx, configurationDto);
 
@@ -76,11 +91,13 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
     }
 
     public void deleteConfiguration(ServiceContext ctx, Long configurationId) throws MetamacException {
+        // Security
+        SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.JEFE_NORMALIZACION);
+        
         // Service call
         getCommonMetadataService().deleteConfiguration(ctx, configurationId);
     }
-    
-    
+
     // --------------------------------------------------------------------------------
     // TRANSFORM LISTS
     // --------------------------------------------------------------------------------
