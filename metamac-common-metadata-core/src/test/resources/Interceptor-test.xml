@@ -29,23 +29,22 @@
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
-		<aop:pointcut id="businessService"
-			expression="execution(public * org.siemac.metamac..serviceapi.*.*(..))" />
-		<aop:pointcut id="readOnlyBusinessService"
-			expression="execution(public * org.siemac.metamac..serviceapi.*.get*(..)) or execution(public * org.siemac.metamac..serviceapi.*.find*(..))" />
+		<aop:pointcut id="serviceFacadePointCut"
+			expression="execution(public * org.siemac.metamac.common.metadata..serviceapi.*ServiceFacade.*(..))" />
 		<!-- Repeating the expression, since I can't find a way to refer to the 
 			other pointcuts. -->
-		<aop:pointcut id="updatingBusinessService"
-			expression="execution(public * org.siemac.metamac..serviceapi.*.*(..)) and not (execution(public * org.siemac.metamac..serviceapi.*.get*(..)) or execution(public * org.siemac.metamac..serviceapi.*.find*(..)))" />
-		<aop:advisor pointcut-ref="businessService" advice-ref="txAdvice"
-			order="1" />
-		<aop:advisor pointcut-ref="businessService" advice-ref="serviceContextStoreAdvice"
-			order="2" />
-		<aop:advisor pointcut-ref="businessService" advice-ref="errorHandlingAdvice"
-			order="3" />
-		<aop:advisor pointcut-ref="businessService" advice-ref="hibernateErrorHandlingAdvice"
-			order="4" />
-		<aop:advisor pointcut-ref="updatingBusinessService"
+		<aop:pointcut id="updatingServiceFacade"
+			expression="execution(public * org.siemac.metamac.common.metadata..serviceapi.*ServiceFacade.*(..)) and not (execution(public * org.siemac.metamac.common.metadata..serviceapi.*.get*(..)) or execution(public * org.siemac.metamac..serviceapi.*.find*(..)))" />
+			
+		<aop:advisor pointcut-ref="serviceFacadePointCut"
+			advice-ref="txAdvice" order="1" />
+		<aop:advisor pointcut-ref="serviceFacadePointCut"
+			advice-ref="serviceContextStoreAdvice" order="2" />
+		<aop:advisor pointcut-ref="serviceFacadePointCut"
+			advice-ref="errorHandlingAdvice" order="3" />
+		<aop:advisor pointcut-ref="serviceFacadePointCut"
+			advice-ref="hibernateErrorHandlingAdvice" order="4" />
+		<aop:advisor pointcut-ref="updatingServiceFacade"
 			advice-ref="jpaInterceptorFlushEager" order="5" />
 	</aop:config>
 </beans>
