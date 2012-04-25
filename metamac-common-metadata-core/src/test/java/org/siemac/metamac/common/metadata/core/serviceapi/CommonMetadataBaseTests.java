@@ -1,0 +1,62 @@
+package org.siemac.metamac.common.metadata.core.serviceapi;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
+import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConstants;
+import org.siemac.metamac.common.test.MetamacBaseTests;
+import org.siemac.metamac.domain.common.metadata.enume.domain.CommonMetadataRoleEnum;
+import org.siemac.metamac.sso.client.MetamacPrincipal;
+import org.siemac.metamac.sso.client.MetamacPrincipalAccess;
+import org.siemac.metamac.sso.client.SsoClientConstants;
+
+public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
+
+    // --------------------------------------------------------------------------------------------------------------
+    // SERVICE CONTEXT
+    // --------------------------------------------------------------------------------------------------------------
+    
+    @Override
+    protected ServiceContext getServiceContextAdministrador() {
+        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.ADMINISTRADOR);
+        return serviceContext;
+    }
+    
+    private void putMetamacPrincipalInServiceContext(ServiceContext serviceContext, CommonMetadataRoleEnum role) {
+        MetamacPrincipal metamacPrincipal = new MetamacPrincipal();
+        metamacPrincipal.setUserId(serviceContext.getUserId());
+        metamacPrincipal.getAccesses().add(new MetamacPrincipalAccess(role.getName(), CommonMetadataConstants.SECURITY_APPLICATION_ID, null));
+        serviceContext.setProperty(SsoClientConstants.PRINCIPAL_ATTRIBUTE, metamacPrincipal);
+    }
+
+    // --------------------------------------------------------------------------------------------------------------
+    // DBUNIT CONFIGURATION
+    // --------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public String getDataSetFile() {
+        return "dbunit/CommonMetadataServiceTest.xml";
+    }
+
+    @Override
+    public List<String> getTablesToRemoveContent() {
+        List<String> tables = new ArrayList<String>();
+        tables.add("TB_CONFIGURATIONS");
+        tables.add("TB_EXTERNAL_ITEMS");
+        tables.add("TB_LOCALISED_STRINGS");
+        tables.add("TB_INTERNATIONAL_STRINGS");
+        return tables;
+    }
+
+    @Override
+    public List<String> getSequencesToRestart() {
+        List<String> sequences = new ArrayList<String>();
+        sequences.add("SEQ_EXTERNAL_ITEMS");
+        sequences.add("SEQ_L10NSTRS");
+        sequences.add("SEQ_I18NSTRS");
+        sequences.add("SEQ_CONFIGURATION");
+        return sequences;
+    }
+}

@@ -6,11 +6,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
-import org.siemac.metamac.common.test.MetamacBaseTests;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
 import org.siemac.metamac.core.common.exception.MetamacException;
@@ -24,21 +22,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:oracle/applicationContext-test.xml"})
-public class CommonMetadataServiceFacadeTest extends MetamacBaseTests implements CommonMetadataServiceFacadeTestBase {
+public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests implements CommonMetadataServiceFacadeTestBase {
 
     @Autowired
     protected CommonMetadataServiceFacade commonMetadataServiceFacade;
 
-    private final ServiceContext              serviceContext = new ServiceContext("system", "123456", "junit");
-
-    protected ServiceContext getServiceContext() {
-        return serviceContext;
-    }
-
     @Test
     public void testFindConfigurationById() throws MetamacException {
-        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContext(), createConfigurationDto());
-        ConfigurationDto configurationRetrieved = commonMetadataServiceFacade.findConfigurationById(getServiceContext(), configurationDto.getId());
+        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), createConfigurationDto());
+        ConfigurationDto configurationRetrieved = commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), configurationDto.getId());
         assertNotNull(configurationRetrieved);
         assertTrue(configurationDto.getId().equals(configurationRetrieved.getId()));
     }
@@ -46,7 +38,7 @@ public class CommonMetadataServiceFacadeTest extends MetamacBaseTests implements
     @Test
     public void testFindConfigurationByIdNotFound() throws MetamacException {
         try {
-            commonMetadataServiceFacade.findConfigurationById(getServiceContext(), Long.valueOf(-1));
+            commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), Long.valueOf(-1));
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.CONFIGURATION_NOT_FOUND.getCode(), e.getExceptionItems().get(0).getCode());
         }
@@ -54,37 +46,37 @@ public class CommonMetadataServiceFacadeTest extends MetamacBaseTests implements
 
     @Test
     public void testFindAllConfigurations() throws MetamacException {
-        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContext(), createConfigurationDto());
+        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), createConfigurationDto());
         assertNotNull(configurationDto);
         
-        List<ConfigurationDto> configurationDtos = commonMetadataServiceFacade.findAllConfigurations(getServiceContext());
+        List<ConfigurationDto> configurationDtos = commonMetadataServiceFacade.findAllConfigurations(getServiceContextAdministrador());
         assertTrue(!configurationDtos.isEmpty());
 
     }
 
     @Test
     public void testCreateConfiguration() throws MetamacException {
-        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContext(), createConfigurationDto());
+        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), createConfigurationDto());
         assertNotNull(configurationDto);
     }
     
     @Test
     public void testUpdateConfiguration() throws Exception {
-        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContext(), createConfigurationDto());
+        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), createConfigurationDto());
         assertNotNull(configurationDto);
         
         configurationDto.setCode("Conf-modified");
-        configurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContext(), configurationDto);
+        configurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
         assertNotNull(configurationDto);
     }
 
     @Test
     public void testDeleteConfiguration() throws MetamacException {
-        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContext(), createConfigurationDto());
+        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), createConfigurationDto());
         assertNotNull(configurationDto);
-        int numberConfigurations = commonMetadataServiceFacade.findAllConfigurations(getServiceContext()).size();
-        commonMetadataServiceFacade.deleteConfiguration(getServiceContext(), configurationDto.getId());
-        assertTrue(commonMetadataServiceFacade.findAllConfigurations(getServiceContext()).size() == (numberConfigurations - 1));
+        int numberConfigurations = commonMetadataServiceFacade.findAllConfigurations(getServiceContextAdministrador()).size();
+        commonMetadataServiceFacade.deleteConfiguration(getServiceContextAdministrador(), configurationDto.getId());
+        assertTrue(commonMetadataServiceFacade.findAllConfigurations(getServiceContextAdministrador()).size() == (numberConfigurations - 1));
     }
 
 
@@ -149,26 +141,6 @@ public class CommonMetadataServiceFacadeTest extends MetamacBaseTests implements
         configurationDto.setConfDataTreatmentUrl("http://confidentialityDataTreatment.com");
         // TODO
         return configurationDto;
-    }
-
-    
-    // ------------------------------------------------------------------------------------
-    // TESTS CONFIGURATION
-    // ------------------------------------------------------------------------------------
-    
-    @Override
-    protected String getDataSetFile() {
-        return CommonMetadataTestConfiguration.getDataSetFile();
-    }
-
-    @Override
-    protected List<String> getTablesToRemoveContent() {
-        return CommonMetadataTestConfiguration.getTablesToRemoveContent();
-    }
-
-    @Override
-    protected List<String> getSequencesToRestart() {
-        return CommonMetadataTestConfiguration.getSequencesToRestart();
     }
 
 }
