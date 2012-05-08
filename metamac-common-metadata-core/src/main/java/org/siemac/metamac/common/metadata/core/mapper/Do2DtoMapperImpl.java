@@ -45,6 +45,8 @@ public class Do2DtoMapperImpl implements Do2DtoMapper {
         if (source.getContact() != null) {
             target.setContact(externalItemToDto(source.getContact()));
         }
+        
+        target.setOptimisticLockingVersion(source.getVersion());
 
         return target;
     }

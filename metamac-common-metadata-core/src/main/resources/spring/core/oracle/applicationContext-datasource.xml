@@ -47,6 +47,9 @@
 
 	<!-- |_ General Advices -->
 	<import resource="classpath:/spring/general-beans-advice.xml" />
+	
+	<bean id="flushingHandlingAdvice"
+		class="org.siemac.metamac.common.metadata.core.aop.FlushingInterceptor" />
 
 	<tx:advice id="txAdvice" transaction-manager="txManager">
 		<tx:attributes>
@@ -61,6 +64,7 @@
 	</tx:advice>
 
 	<aop:config>
+		<aop:pointcut id="updateServicePointCut" expression="execution(public * org.siemac.metamac.common.metadata..serviceapi.*Service.*update*(..))" />
 		<aop:pointcut id="serviceFacadePointCut"
 			expression="execution(public * org.siemac.metamac.common.metadata..serviceapi.*ServiceFacade.*(..))" />
 		<!-- Repeating the expression, since I can't find a way to refer to the 
@@ -78,6 +82,10 @@
 			advice-ref="hibernateErrorHandlingAdvice" order="4" />
 		<aop:advisor pointcut-ref="updatingServiceFacade"
 			advice-ref="jpaInterceptorFlushEager" order="5" />
+			
+		<aop:aspect id="flushing" ref="flushingHandlingAdvice">
+			<aop:after pointcut-ref="updateServicePointCut" method="forceFlushToOptimisticLocking" />
+		</aop:aspect>
 	</aop:config>
 
 </beans>

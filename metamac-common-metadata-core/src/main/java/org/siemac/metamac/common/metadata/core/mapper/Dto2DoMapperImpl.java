@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
+import org.joda.time.DateTime;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
@@ -15,19 +16,19 @@ import org.siemac.metamac.core.common.ent.domain.InternationalStringRepository;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.serviceimpl.utils.ValidationUtils;
+import org.siemac.metamac.core.common.util.OptimisticLockingUtils;
 import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Dto2DoMapperImpl implements Dto2DoMapper {
-    
+
     @Autowired
-    private CommonMetadataService commonMetadataService;
-    
+    private CommonMetadataService         commonMetadataService;
+
     @Autowired
     private InternationalStringRepository internationalStringRepository;
-    
 
     @Override
     public Configuration configurationDtoToDo(ServiceContext ctx, ConfigurationDto source) throws MetamacException {
@@ -39,13 +40,13 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
         Configuration target = new Configuration();
         if (source.getId() != null) {
             target = commonMetadataService.findConfigurationById(ctx, source.getId());
+            OptimisticLockingUtils.checkVersion(target.getVersion(), source.getOptimisticLockingVersion());
         }
 
         configurationDtoToDo(source, target);
         return target;
     }
-    
-    
+
     private Configuration configurationDtoToDo(ConfigurationDto source, Configuration target) throws MetamacException {
         if (target == null) {
             throw new MetamacException(ServiceExceptionType.PARAMETER_REQUIRED, ServiceExceptionParameters.CONFIGURATION);
@@ -60,11 +61,13 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
         target.setDataSharing(internationalStringToDo(source.getDataSharing(), target.getDataSharing(), ServiceExceptionParameters.CONFIGURATION_DATA_SHARING));
         target.setConfPolicy(internationalStringToDo(source.getConfPolicy(), target.getConfPolicy(), ServiceExceptionParameters.CONFIGURATION_CONF_POLICY));
         target.setConfDataTreatment(internationalStringToDo(source.getConfDataTreatment(), target.getConfDataTreatment(), ServiceExceptionParameters.CONFIGURATION_CONF_DATA_TREATMENT));
-        
+
+        // Optimistic locking: Update "update date" attribute to force update of the root entity in order to increase attribute "version"
+        target.setUpdateDate(new DateTime());
+
         return target;
     }
-    
-    
+
     private InternationalString internationalStringToDo(InternationalStringDto source, InternationalString target, String metadataName) throws MetamacException {
         if (source == null) {
             if (target != null) {
