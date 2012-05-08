@@ -65,7 +65,7 @@ public class CommonMetadataDtoMocks {
         configurationDto.setConfPolicyUrl("http://confidentialityPolicy.com");
         // Confidentiality Data Treatment URL
         configurationDto.setConfDataTreatmentUrl("http://confidentialityDataTreatment.com");
-        // TODO
+        // TODO: Add contact
         return configurationDto;
     }
 
