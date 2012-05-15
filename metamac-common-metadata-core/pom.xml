@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.siemac.metamac.common.metadata</groupId>
 		<artifactId>metamac-common-metadata-parent</artifactId>
-		<version>${metamac-common-metadata-parent.version}</version>
+		<version>1.0-SNAPSHOT</version>
 		<relativePath>../metamac-common-metadata-parent/pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.siemac.metamac.common.metadata</groupId>
 	<artifactId>metamac-common-metadata-core</artifactId>
 	<packaging>jar</packaging>
-	<version>${metamac-common-metadata-core.version}</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>METAMAC :: COMMON :: METADATA</name>
 
 	<dependencies>
@@ -51,8 +51,7 @@
 			<!-- <scope>provided</scope> -->
 		</dependency>
 		<dependency>
-			<!-- Remove dependency to javax.transaction when running in a transaction 
-				supporting container (jboss etc) -->
+			<!-- Remove dependency to javax.transaction when running in a transaction supporting container (jboss etc) -->
 			<groupId>javax.transaction</groupId>
 			<artifactId>jta</artifactId>
 			<version>${jta.version}</version>
@@ -77,9 +76,9 @@
 					<artifactId>jta</artifactId>
 				</exclusion>
 				<exclusion>
-                    <groupId>xml-apis</groupId>
-                    <artifactId>xml-apis</artifactId>
-                </exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -158,7 +157,7 @@
 			<!-- Add scope provided when deployed in jboss -->
 			<!-- <scope>provided</scope> -->
 		</dependency>
-		
+
 		<!-- SPRING -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -217,7 +216,7 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<!-- ASPECTJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -229,14 +228,14 @@
 			<artifactId>aspectjrt</artifactId>
 			<version>${aspectj.version}</version>
 		</dependency>
-		
+
 		<!-- AOP ALLIANCE -->
 		<dependency>
 			<groupId>aopalliance</groupId>
 			<artifactId>aopalliance</artifactId>
 			<version>${aopalliance.version}</version>
 		</dependency>
-		
+
 		<!-- COMMONS -->
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -274,7 +273,7 @@
 			<!-- Add scope test when running with a persistent database (mysql etc) -->
 			<!-- <scope>test</scope> -->
 		</dependency>
-		
+
 		<!-- TESTS -->
 		<dependency>
 			<groupId>org.dbunit</groupId>
@@ -301,7 +300,7 @@
 			<!-- Add scope test when running with a persistent database (mysql etc) -->
 			<!-- <scope>test</scope> -->
 		</dependency>
-		
+
 		<!-- SCULPTOR -->
 		<dependency>
 			<groupId>org.fornax.cartridges</groupId>
@@ -309,11 +308,9 @@
 			<version>${sculptor.version}</version>
 			<scope>provided</scope>
 			<exclusions>
-				<!-- La inclusion de esta libreria provoca un BUG en el plugin de eclipse 
-					de GWT cuando usamos GIN en un proyecto GWT, es demasiado antigua esta version. 
-					No importa que el scope sea PROVIDED, el plugin de GWT no es capaz de tragarselo. -->
-				<!-- POR TANTO CUANDO SE EJECUTE EL PLUGIN DE GWT DE ECLIPSE ES NECESARIO 
-					DESCOMENTAR ESTAS LINEAS -->
+				<!-- La inclusion de esta libreria provoca un BUG en el plugin de eclipse de GWT cuando usamos GIN en un proyecto GWT, es demasiado antigua esta version. No importa que el scope sea PROVIDED, el plugin de GWT 
+					no es capaz de tragarselo. -->
+				<!-- POR TANTO CUANDO SE EJECUTE EL PLUGIN DE GWT DE ECLIPSE ES NECESARIO DESCOMENTAR ESTAS LINEAS -->
 				<!-- <exclusion> -->
 				<!-- <groupId>p2.osgi.bundle</groupId> -->
 				<!-- <artifactId>com.google.inject</artifactId> -->
@@ -331,7 +328,7 @@
 			<version>${sculptor.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- JODA TIME -->
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -369,7 +366,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<!-- CGLIB -->
 		<dependency>
 			<groupId>cglib</groupId>
@@ -378,7 +375,7 @@
 			<!-- Add scope provided when deployed in jboss -->
 			<!--scope>provided</scope -->
 		</dependency>
-		
+
 		<!-- ORACLE -->
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -438,32 +435,14 @@
 						<phase>package</phase>
 						<configuration>
 							<classifier>client</classifier>
-							<includes>
-								<include>**/*.gwt.xml</include>
-								<include>**/serviceapi/*.class</include>
-								<include>**/domain/*.class</include>
-								<include>**/exception/*.class</include>
-								<include>**/*.btdesign</include>
-								<include>**/sculptor-generator.properties</include>
-							</includes>
+							<excludes>
+								<exclude>**/*.dot</exclude>
+								<exclude>**/generator/</exclude>
+							</excludes>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-
-			<!-- <plugin> -->
-			<!-- <groupId>org.fornax.toolsupport</groupId> -->
-			<!-- <artifactId>fornax-graphviz-m2-plugin</artifactId> -->
-			<!-- <version>1.0.0</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <phase>generate-resources</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>run</goal> -->
-			<!-- </goals> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
 
 			<plugin>
 				<groupId>org.fornax.toolsupport</groupId>
@@ -507,32 +486,23 @@
 						</goals>
 						<configuration>
 							<target>
-								<!-- Delete wrong configuration files -->
-
-								<!-- Runtime: Configuration files are manually configured -->
+								<!-- Delete spring configuration files -->
 								<delete file="${basedir}/src/main/resources/spring.properties" />
 								<delete file="${basedir}/src/main/resources/more.xml" />
 
-								<delete
-									file="${basedir}/src/generated/resources/applicationContext.xml" />
-								<delete
-									file="${basedir}/src/generated/resources/EntityManagerFactory.xml" />
+								<delete file="${basedir}/src/generated/resources/applicationContext.xml" />
+								<delete file="${basedir}/src/generated/resources/pub-sub.xml" />
+								<delete file="${basedir}/src/generated/resources/EntityManagerFactory.xml" />
+								<delete file="${basedir}/src/generated/resources/Interceptor.xml" />
+								<delete file="${basedir}/src/generated/resources/beanRefContext.xml" />
+								<delete file="${basedir}/src/generated/resources/generated-spring.properties" />
 
-								<!-- Test: Configuration files are manually configured -->
 								<delete file="${basedir}/src/test/resources/more-test.xml" />
+								<delete file="${basedir}/src/test/resources/spring-test.properties" />
 
-								<delete
-									file="${basedir}/src/test/generated/resources/Interceptor.xml" />
-								<delete
-									file="${basedir}/src/test/generated/resources/Interceptor-test.xml" />
-								<delete
-									file="${basedir}/src/test/generated/resources/generated-spring.properties" />
-
-								<!-- Test: The database to this library will be Oracle -->
-								<delete
-									file="${basedir}/src/test/generated/resources/applicationContext-test.xml" />
-								<delete
-									file="${basedir}/src/test/generated/resources/EntityManagerFactory-test.xml" />
+								<delete file="${basedir}/src/test/generated/resources/Interceptor-test.xml" />
+								<delete file="${basedir}/src/test/generated/resources/applicationContext-test.xml" />
+								<delete file="${basedir}/src/test/generated/resources/EntityManagerFactory-test.xml" />
 							</target>
 						</configuration>
 					</execution>
