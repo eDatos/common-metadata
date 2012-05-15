@@ -3,13 +3,13 @@ package org.siemac.metamac.common.metadata.web.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.model.ConfigurationRecord;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
-import org.siemac.metamac.core.common.dto.serviceapi.ExternalItemBtDto;
+import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
+import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.client.utils.ExternalItemUtils;
 import org.siemac.metamac.web.common.client.widgets.CustomListGrid;
@@ -44,7 +44,7 @@ import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
 public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHandlers> implements ConfigurationPresenter.ConfigurationView {
 
-    private static final String             NAME                = "name";
+    private static final String             CODE                = "code";
     private static final String             LEGAL_ACTS          = "legal";
     private static final String             DATA_SHARING        = "sharing";
     private static final String             CONF_POLYCY         = "policy";
@@ -68,14 +68,14 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     private GroupDynamicForm                form;
 
     // Static View Fields
-    private ViewTextItem                    staticName;
+    private ViewTextItem                    staticCode;
     private ViewMultiLanguageTextAndUrlItem staticLegalActs;
     private ViewMultiLanguageTextAndUrlItem staticDataSharing;
     private ViewMultiLanguageTextAndUrlItem staticConfPolicy;
     private ViewMultiLanguageTextAndUrlItem staticConfDataTreatment;
 
     // Edition Fields
-    private RequiredTextItem                name;
+    private RequiredTextItem                code;
     private MultiLanguageTextAndUrlItem     legalActs;
     private MultiLanguageTextAndUrlItem     dataSharing;
     private MultiLanguageTextAndUrlItem     confPolicy;
@@ -127,8 +127,8 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         configurationsGrid = new CustomListGrid();
         configurationsGrid.setWidth100();
         configurationsGrid.setHeight(150);
-        ListGridField nameField = new ListGridField(ConfigurationRecord.NAME, CommonMetadataWeb.getConstants().configurationName());
-        configurationsGrid.setFields(nameField);
+        ListGridField codeField = new ListGridField(ConfigurationRecord.CODE, CommonMetadataWeb.getConstants().configurationCode());
+        configurationsGrid.setFields(codeField);
         // Show configuration details when record clicked
         configurationsGrid.addSelectionChangedHandler(new SelectionChangedHandler() {
 
@@ -237,8 +237,8 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
      * @return
      */
     private void createViewLayout() {
-        staticName = new ViewTextItem(NAME, CommonMetadataWeb.getConstants().confName());
-        staticName.setEndRow(true);
+        staticCode = new ViewTextItem(CODE, CommonMetadataWeb.getConstants().confCode());
+        staticCode.setEndRow(true);
         staticLegalActs = new ViewMultiLanguageTextAndUrlItem(LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
         staticDataSharing = new ViewMultiLanguageTextAndUrlItem(DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
         staticConfPolicy = new ViewMultiLanguageTextAndUrlItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
@@ -246,7 +246,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         ViewTextItem staticOrganisation = new ViewTextItem(ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
 
         staticForm = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
-        staticForm.setFields(staticName, staticLegalActs, staticDataSharing, staticConfPolicy, staticConfDataTreatment, staticOrganisation);
+        staticForm.setFields(staticCode, staticLegalActs, staticDataSharing, staticConfPolicy, staticConfDataTreatment, staticOrganisation);
 
         mainFormLayout.addViewCanvas(staticForm);
     }
@@ -270,8 +270,8 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         // ····
 
         form = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
-        name = new RequiredTextItem(NAME, CommonMetadataWeb.getConstants().confName());
-        name.setEndRow(true);
+        code = new RequiredTextItem(CODE, CommonMetadataWeb.getConstants().confCode());
+        code.setEndRow(true);
         legalActs = new MultiLanguageTextAndUrlItem(LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
         dataSharing = new MultiLanguageTextAndUrlItem(DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
         confPolicy = new MultiLanguageTextAndUrlItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
@@ -286,7 +286,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
                 }
             }
         });
-        form.setFields(name, legalActs, dataSharing, confPolicy, confDataTreatment, organisationItem);
+        form.setFields(code, legalActs, dataSharing, confPolicy, confDataTreatment, organisationItem);
 
         mainFormLayout.addEditionCanvas(form);
 
@@ -294,7 +294,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
     @Override
     public ConfigurationDto getConfiguration() {
-        configurationDto.setName(name.getValueAsString());
+        configurationDto.setCode(code.getValueAsString());
         configurationDto.setLegalActs(legalActs.getTextValue());
         configurationDto.setLegalActsUrl(legalActs.getUrlValue());
         configurationDto.setDataSharing(dataSharing.getTextValue());
@@ -308,13 +308,13 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     }
 
     @Override
-    public List<ConfigurationDto> getSelectedConfigurations() {
+    public List<Long> getSelectedConfigurations() {
         if (configurationsGrid.getSelectedRecords() != null) {
-            List<ConfigurationDto> selectedConfigurations = new ArrayList<ConfigurationDto>();
+            List<Long> selectedConfigurations = new ArrayList<Long>();
             ListGridRecord[] records = configurationsGrid.getSelectedRecords();
             for (int i = 0; i < records.length; i++) {
                 ConfigurationRecord record = (ConfigurationRecord) records[i];
-                selectedConfigurations.add(record.getConfigurationDto());
+                selectedConfigurations.add(record.getConfigurationDto().getId());
             }
             return selectedConfigurations;
         }
@@ -329,7 +329,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
     private void setConfigurationViewMode(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
-        staticName.setValue(configurationDto.getName());
+        staticCode.setValue(configurationDto.getCode());
         staticLegalActs.setValue(configurationDto.getLegalActs(), configurationDto.getLegalActsUrl());
         staticDataSharing.setValue(configurationDto.getDataSharing(), configurationDto.getDataSharingUrl());
         staticConfPolicy.setValue(configurationDto.getConfPolicy(), configurationDto.getConfPolicyUrl());
@@ -340,7 +340,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
     private void setConfigurationEditionMode(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
-        name.setValue(configurationDto.getName());
+        code.setValue(configurationDto.getCode());
         legalActs.setValue(configurationDto.getLegalActs(), configurationDto.getLegalActsUrl());
         dataSharing.setValue(configurationDto.getDataSharing(), configurationDto.getDataSharingUrl());
         confPolicy.setValue(configurationDto.getConfPolicy(), configurationDto.getConfPolicyUrl());
@@ -382,7 +382,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             setConfigurationEditionMode(configurationSelected);
             mainFormLayout.setEditionMode();
         } else {
-            confFormTitle.setContents(configurationSelected.getName());
+            confFormTitle.setContents(configurationSelected.getCode());
             deleteToolStripButton.show();
             setConfiguration(configurationSelected);
             mainFormLayout.setViewMode();

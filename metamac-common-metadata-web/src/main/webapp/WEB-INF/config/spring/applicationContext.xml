@@ -44,7 +44,7 @@
 		</constructor-arg>
 	</bean>
 	
-	<import resource="classpath:/spring/core/oracle/applicationContext-oracle.xml" />
+	<import resource="classpath:/spring/common-metadata/applicationContext.xml" />
 	
 </beans>
 

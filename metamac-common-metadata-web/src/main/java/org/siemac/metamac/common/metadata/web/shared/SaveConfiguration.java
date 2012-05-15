@@ -1,6 +1,6 @@
 package org.siemac.metamac.common.metadata.web.shared;
 
-import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
+import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 
 import com.gwtplatform.dispatch.annotation.GenDispatch;
 import com.gwtplatform.dispatch.annotation.In;
@@ -10,7 +10,7 @@ import com.gwtplatform.dispatch.annotation.Out;
 public class SaveConfiguration {
 
     @In(1)
-    ConfigurationDto configurationDto;
+    ConfigurationDto configurationToSave;
 
     @Out(1)
     ConfigurationDto configurationSaved;

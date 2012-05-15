@@ -2,7 +2,6 @@ package org.siemac.metamac.common.metadata.web.client.presenter;
 
 import java.util.List;
 
-import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
@@ -17,7 +16,8 @@ import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeA
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
-import org.siemac.metamac.core.common.dto.serviceapi.ExternalItemBtDto;
+import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
+import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 
@@ -61,7 +61,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
         void setOrganisationSchemes(List<ExternalItemBtDto> schemes);
         void setOrganisations(List<ExternalItemBtDto> organisations);
         ConfigurationDto getConfiguration();
-        List<ConfigurationDto> getSelectedConfigurations();
+        List<Long> getSelectedConfigurations();
         boolean validate();
         HasClickHandlers getSave();
         HasClickHandlers getDelete();
@@ -142,8 +142,8 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
         });
     }
 
-    private void deleteConfigurations(List<ConfigurationDto> configurationDtos) {
-        dispatcher.execute(new DeleteConfigurationListAction(configurationDtos), new AsyncCallback<DeleteConfigurationListResult>() {
+    private void deleteConfigurations(List<Long> configurationIds) {
+        dispatcher.execute(new DeleteConfigurationListAction(configurationIds), new AsyncCallback<DeleteConfigurationListResult>() {
 
             @Override
             public void onFailure(Throwable caught) {

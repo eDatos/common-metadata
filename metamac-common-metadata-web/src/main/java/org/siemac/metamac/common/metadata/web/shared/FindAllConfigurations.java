@@ -2,7 +2,7 @@ package org.siemac.metamac.common.metadata.web.shared;
 
 import java.util.List;
 
-import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
+import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 
 import com.gwtplatform.dispatch.annotation.GenDispatch;
 import com.gwtplatform.dispatch.annotation.Out;

@@ -1,28 +1,28 @@
 package org.siemac.metamac.common.metadata.web.client.model;
 
-import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
+import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 
 public class ConfigurationRecord extends ListGridRecord {
 
-    public static final String NAME              = "name";
+    public static final String CODE              = "code";
     public static final String CONFIGURATION_DTO = "conf-dto";
 
     public ConfigurationRecord() {
     }
 
     public ConfigurationRecord(String name, ConfigurationDto configurationDto) {
-        setName(name);
+        setCode(name);
         setConfigurationDto(configurationDto);
     }
 
-    public void setName(String value) {
-        setAttribute(NAME, value);
+    public void setCode(String value) {
+        setAttribute(CODE, value);
     }
 
-    public String getName() {
-        return getAttributeAsString(NAME);
+    public String getCode() {
+        return getAttributeAsString(CODE);
     }
 
     public void setConfigurationDto(ConfigurationDto value) {

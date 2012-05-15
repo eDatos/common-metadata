@@ -1,16 +1,12 @@
 package org.siemac.metamac.common.metadata.web.server.handlers;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.siemac.metamac.common.metadata.base.serviceapi.CommonMetadataBaseServiceFacade;
-import org.siemac.metamac.common.metadata.dto.serviceapi.ConfigurationDto;
-import org.siemac.metamac.common.metadata.web.server.ServiceContextHelper;
+import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataServiceFacade;
+import org.siemac.metamac.common.metadata.web.server.ServiceContextHolder;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
 import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
-import org.siemac.metamac.web.common.shared.exception.MetamacWebException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gwtplatform.dispatch.annotation.GenDispatch;
@@ -21,10 +17,8 @@ import com.gwtplatform.dispatch.shared.ActionException;
 @GenDispatch(isSecure = false)
 public class SaveConfigurationActionHandler extends AbstractActionHandler<SaveConfigurationAction, SaveConfigurationResult> {
 
-    private static Logger                   logger = Logger.getLogger(SaveConfigurationActionHandler.class.getName());
-
     @Autowired
-    private CommonMetadataBaseServiceFacade commonMetadataBaseServiceFacade;
+    private CommonMetadataServiceFacade commonMetadataServiceFacade;
 
     public SaveConfigurationActionHandler() {
         super(SaveConfigurationAction.class);
@@ -32,12 +26,17 @@ public class SaveConfigurationActionHandler extends AbstractActionHandler<SaveCo
 
     @Override
     public SaveConfigurationResult execute(SaveConfigurationAction action, ExecutionContext context) throws ActionException {
+        ConfigurationDto configurationToSave = action.getConfigurationToSave();
         try {
-            ConfigurationDto configurationDto = commonMetadataBaseServiceFacade.saveConfiguration(ServiceContextHelper.getServiceContext(), action.getConfigurationDto());
+            ConfigurationDto configurationDto = null;
+            if (configurationToSave.getId() == null) {
+                configurationDto = commonMetadataServiceFacade.createConfiguration(ServiceContextHolder.getCurrentServiceContext(), configurationToSave);
+            } else {
+                configurationDto = commonMetadataServiceFacade.updateConfiguration(ServiceContextHolder.getCurrentServiceContext(), configurationToSave); 
+            }
             return new SaveConfigurationResult(configurationDto);
         } catch (MetamacException e) {
-            logger.log(Level.SEVERE, "Error saving Configuration with id = " + action.getConfigurationDto().getId() + ". " + e.getMessage());
-            throw new MetamacWebException(WebExceptionUtils.getMetamacWebExceptionItem(e.getExceptionItems()));
+            throw WebExceptionUtils.createMetamacWebException(e);
         }
     }
 
