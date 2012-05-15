@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:oracle/applicationContext-test.xml"})
+@ContextConfiguration(locations = {"classpath:spring/common-metadata/applicationContext-test.xml"})
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = false)
 @Transactional
 public class CommonMetadataServiceTest extends CommonMetadataBaseTests implements CommonMetadataServiceTestBase {

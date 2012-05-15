@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * Spring based transactional test with DbUnit support.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:oracle/applicationContext-test.xml"})
+@ContextConfiguration(locations = {"classpath:spring/common-metadata/applicationContext-test.xml"})
 public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests implements CommonMetadataServiceFacadeTestBase {
 
     @Autowired
