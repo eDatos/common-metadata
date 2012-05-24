@@ -20,9 +20,9 @@ import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
 import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
+import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
 
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.gwtplatform.dispatch.shared.DispatchAsync;
 import com.gwtplatform.mvp.client.HasUiHandlers;
@@ -115,56 +115,56 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     }
 
     private void populateConfigurations() {
-        dispatcher.execute(new FindAllConfigurationsAction(), new AsyncCallback<FindAllConfigurationsResult>() {
+        dispatcher.execute(new FindAllConfigurationsAction(), new WaitingAsyncCallback<FindAllConfigurationsResult>() {
 
             @Override
-            public void onFailure(Throwable caught) {
+            public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingConfigurations()), MessageTypeEnum.ERROR);
             }
             @Override
-            public void onSuccess(FindAllConfigurationsResult result) {
+            public void onWaitSuccess(FindAllConfigurationsResult result) {
                 getView().setConfigurations(result.getConfigurations());
             }
         });
     }
 
     private void saveConfiguration(ConfigurationDto configurationDto) {
-        dispatcher.execute(new SaveConfigurationAction(configurationDto), new AsyncCallback<SaveConfigurationResult>() {
+        dispatcher.execute(new SaveConfigurationAction(configurationDto), new WaitingAsyncCallback<SaveConfigurationResult>() {
 
             @Override
-            public void onFailure(Throwable caught) {
+            public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorSavingConfiguration()), MessageTypeEnum.ERROR);
             }
             @Override
-            public void onSuccess(SaveConfigurationResult result) {
+            public void onWaitSuccess(SaveConfigurationResult result) {
                 getView().onConfigurationSaved(result.getConfigurationSaved());
             }
         });
     }
 
     private void deleteConfigurations(List<Long> configurationIds) {
-        dispatcher.execute(new DeleteConfigurationListAction(configurationIds), new AsyncCallback<DeleteConfigurationListResult>() {
+        dispatcher.execute(new DeleteConfigurationListAction(configurationIds), new WaitingAsyncCallback<DeleteConfigurationListResult>() {
 
             @Override
-            public void onFailure(Throwable caught) {
+            public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorDeletingConfigurations()), MessageTypeEnum.ERROR);
             }
             @Override
-            public void onSuccess(DeleteConfigurationListResult result) {
+            public void onWaitSuccess(DeleteConfigurationListResult result) {
                 populateConfigurations();
             }
         });
     }
 
     private void populateOrganisationSchemes() {
-        dispatcher.execute(new FindAllOrganisationSchemesAction(), new AsyncCallback<FindAllOrganisationSchemesResult>() {
+        dispatcher.execute(new FindAllOrganisationSchemesAction(),new WaitingAsyncCallback<FindAllOrganisationSchemesResult>() {
 
             @Override
-            public void onFailure(Throwable caught) {
+            public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
             }
             @Override
-            public void onSuccess(FindAllOrganisationSchemesResult result) {
+            public void onWaitSuccess(FindAllOrganisationSchemesResult result) {
                 getView().setOrganisationSchemes(result.getOrganisationSchemes());
             }
         });
@@ -172,14 +172,14 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
     @Override
     public void populateOrganisations(String organisationSchemeUri) {
-        dispatcher.execute(new GetOrganisationsFromSchemeAction(organisationSchemeUri), new AsyncCallback<GetOrganisationsFromSchemeResult>() {
+        dispatcher.execute(new GetOrganisationsFromSchemeAction(organisationSchemeUri),new WaitingAsyncCallback<GetOrganisationsFromSchemeResult>() {
 
             @Override
-            public void onFailure(Throwable caught) {
+            public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
             }
             @Override
-            public void onSuccess(GetOrganisationsFromSchemeResult result) {
+            public void onWaitSuccess(GetOrganisationsFromSchemeResult result) {
                 getView().setOrganisations(result.getOrganisations());
             }
         });
