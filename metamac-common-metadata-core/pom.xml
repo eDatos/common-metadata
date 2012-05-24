@@ -18,7 +18,7 @@
 	<dependencies>
 		<!-- METAMAC -->
 		<dependency>
-			<groupId>org.siemac.metamac</groupId>
+			<groupId>org.siemac.metamac.metamac-sso</groupId>
 			<artifactId>metamac-sso-client</artifactId>
 			<version>${metamac-sso.version}</version>
 		</dependency>

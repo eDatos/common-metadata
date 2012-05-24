@@ -194,7 +194,7 @@
                     <runTarget>CommonMetadataWeb.html</runTarget>
                     <hostedWebapp>${webappDirectory}</hostedWebapp>
                     <compileSourcesArtifacts>
-                        <artifact>org.siemac.metamac:metamac-common-metadata-core:jar:client</artifact>
+                        <artifact>org.siemac.metamac.metamac-common-metadata:metamac-common-metadata-core:jar:client</artifact>
                         <artifact>org.siemac.metamac:metamac-core-common:jar:client</artifact>
                         <artifact>org.siemac.metamac:metamac-api-domain:jar:client</artifact>
                     </compileSourcesArtifacts>
