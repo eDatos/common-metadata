@@ -13,7 +13,7 @@
 	<groupId>org.siemac.metamac.metamac-common-metadata</groupId>
 	<artifactId>metamac-common-metadata-core</artifactId>
 	<packaging>jar</packaging>
-	<name>METAMAC :: COMMON :: METADATA</name>
+	<name>METAMAC :: COMMON :: METADATA :: CORE</name>
 
 	<dependencies>
 		<!-- METAMAC -->
