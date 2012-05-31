@@ -9,11 +9,13 @@ import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListResu
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.gwtplatform.dispatch.server.ExecutionContext;
 import com.gwtplatform.dispatch.server.actionhandler.AbstractActionHandler;
 import com.gwtplatform.dispatch.shared.ActionException;
 
+@Component
 public class DeleteConfigurationListActionHandler extends AbstractActionHandler<DeleteConfigurationListAction, DeleteConfigurationListResult> {
 
     @Autowired

@@ -8,13 +8,13 @@ import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import com.gwtplatform.dispatch.annotation.GenDispatch;
 import com.gwtplatform.dispatch.server.ExecutionContext;
 import com.gwtplatform.dispatch.server.actionhandler.AbstractActionHandler;
 import com.gwtplatform.dispatch.shared.ActionException;
 
-@GenDispatch(isSecure = false)
+@Component
 public class SaveConfigurationActionHandler extends AbstractActionHandler<SaveConfigurationAction, SaveConfigurationResult> {
 
     @Autowired
@@ -32,7 +32,7 @@ public class SaveConfigurationActionHandler extends AbstractActionHandler<SaveCo
             if (configurationToSave.getId() == null) {
                 configurationDto = commonMetadataServiceFacade.createConfiguration(ServiceContextHolder.getCurrentServiceContext(), configurationToSave);
             } else {
-                configurationDto = commonMetadataServiceFacade.updateConfiguration(ServiceContextHolder.getCurrentServiceContext(), configurationToSave); 
+                configurationDto = commonMetadataServiceFacade.updateConfiguration(ServiceContextHolder.getCurrentServiceContext(), configurationToSave);
             }
             return new SaveConfigurationResult(configurationDto);
         } catch (MetamacException e) {

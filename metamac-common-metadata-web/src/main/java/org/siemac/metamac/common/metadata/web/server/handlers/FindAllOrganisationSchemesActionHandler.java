@@ -8,11 +8,13 @@ import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesR
 import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
 import org.siemac.metamac.core.common.serviceapi.MetamacCoreCommonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.gwtplatform.dispatch.server.ExecutionContext;
 import com.gwtplatform.dispatch.server.actionhandler.AbstractActionHandler;
 import com.gwtplatform.dispatch.shared.ActionException;
 
+@Component
 public class FindAllOrganisationSchemesActionHandler extends AbstractActionHandler<FindAllOrganisationSchemesAction, FindAllOrganisationSchemesResult> {
 
     @Autowired
@@ -34,4 +36,3 @@ public class FindAllOrganisationSchemesActionHandler extends AbstractActionHandl
     }
 
 }
-
