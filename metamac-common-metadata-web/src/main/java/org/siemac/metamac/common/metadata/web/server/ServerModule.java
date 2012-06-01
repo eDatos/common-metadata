@@ -5,11 +5,17 @@ import org.siemac.metamac.common.metadata.web.server.handlers.FindAllConfigurati
 import org.siemac.metamac.common.metadata.web.server.handlers.FindAllOrganisationSchemesActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetOrganisationsFromSchemeActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.SaveConfigurationActionHandler;
+import org.siemac.metamac.common.metadata.web.server.handlers.ValidateTicketActionHandler;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesAction;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
+import org.siemac.metamac.web.common.server.handlers.CloseSessionActionHandler;
+import org.siemac.metamac.web.common.server.handlers.GetLoginPageUrlActionHandler;
+import org.siemac.metamac.web.common.shared.CloseSessionAction;
+import org.siemac.metamac.web.common.shared.GetLoginPageUrlAction;
+import org.siemac.metamac.web.common.shared.ValidateTicketAction;
 import org.springframework.stereotype.Component;
 
 import com.gwtplatform.dispatch.server.spring.HandlerModule;
@@ -29,6 +35,10 @@ public class ServerModule extends HandlerModule {
         bindHandler(DeleteConfigurationListAction.class, DeleteConfigurationListActionHandler.class);
         bindHandler(FindAllOrganisationSchemesAction.class, FindAllOrganisationSchemesActionHandler.class);
         bindHandler(GetOrganisationsFromSchemeAction.class, GetOrganisationsFromSchemeActionHandler.class);
+
+        bindHandler(ValidateTicketAction.class, ValidateTicketActionHandler.class);
+        bindHandler(GetLoginPageUrlAction.class, GetLoginPageUrlActionHandler.class);
+        bindHandler(CloseSessionAction.class, CloseSessionActionHandler.class);
     }
 
 }

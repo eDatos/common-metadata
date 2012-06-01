@@ -98,6 +98,10 @@
                     <groupId>javax.servlet</groupId>
                     <artifactId>servlet-api</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>net.sourceforge.htmlunit</groupId>
+                    <artifactId>htmlunit</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -123,6 +127,53 @@
             <artifactId>guice-assistedinject</artifactId>
             <version>${guice.version}</version>
         </dependency>
+
+        <!-- CAS -->
+        <dependency>
+            <groupId>org.jasig.cas.client</groupId>
+            <artifactId>cas-client-core</artifactId>
+            <version>${cas-client.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.opensaml</groupId>
+            <artifactId>opensaml</artifactId>
+            <version>${opensaml.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xml-security</groupId>
+            <artifactId>xmlsec</artifactId>
+            <version>${xmlsec.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xmlParserAPIs</artifactId>
+            <version>${xerces.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>${xerces.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -143,7 +194,7 @@
                 </configuration>
             </plugin>
 
-            <!-- WORKAROUND: El plugin de maven-compiler-plugin tiene un problema a la hora de crear clases usando anotaciones. Por ello se pasa en el compilar el argumento "-proc:none" y se añade el plugin: maven-processor-plugin: 
+            <!-- WORKAROUND: El plugin de maven-compiler-plugin tiene un problema a la hora de crear clases usando anotaciones. Por ello se pasa en el compilar el argumento "-proc:none" y se añade el plugin: maven-processor-plugin:
                 Véase: http://docs.jboss.org/hibernate/validator/4.2/reference/en-US/html/validator-annotation-processor.html#d0e3740 y http://jira.codehaus.org/browse/MCOMPILER-157 -->
             <plugin>
                 <groupId>org.bsc.maven</groupId>
@@ -194,9 +245,10 @@
                     <runTarget>CommonMetadataWeb.html</runTarget>
                     <hostedWebapp>${webappDirectory}</hostedWebapp>
                     <compileSourcesArtifacts>
-                        <artifact>org.siemac.metamac.metamac-common-metadata:metamac-common-metadata-core:jar:client</artifact>
+                        <artifact>org.siemac.metamac.metamac-common-metadata:metamac-common-metadata-core:jar</artifact>
                         <artifact>org.siemac.metamac:metamac-core-common:jar:client</artifact>
                         <artifact>org.siemac.metamac:metamac-api-domain:jar:client</artifact>
+                        <artifact>org.siemac.metamac.metamac-sso:metamac-sso-client:jar</artifact>
                     </compileSourcesArtifacts>
                     <!-- In inplace mode, the warSourceDirectory is used to match the same use case of the war:inplace http://maven.apache.org/plugins/maven-war-plugin/inplace-mojo.html goal. -->
                     <inplace>true</inplace>

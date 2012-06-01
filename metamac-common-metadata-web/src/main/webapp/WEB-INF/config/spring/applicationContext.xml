@@ -19,7 +19,7 @@
 
     <!-- activates annotation-based bean configuration -->
     <context:annotation-config />
-    
+
     <!-- Spring Beans for side server of GWT -->
     <bean class="com.gwtplatform.dispatch.server.spring.configuration.DefaultModule" />
     <bean class="com.gwtplatform.dispatch.server.spring.actionvalidator.DefaultActionValidator" />
@@ -57,6 +57,10 @@
     <bean id="loggingSetup" class="org.siemac.metamac.web.common.server.logging.LoggingSetup">
         <property name="logConfigurationFile" value="${environment.metamac.data}/common-metadata/conf/dynamic/logback-common-metadata-web.xml" />
     </bean>
+
+    <!-- ActionHandler beans -->
+    <bean class="org.siemac.metamac.web.common.server.handlers.CloseSessionActionHandler" />
+    <bean class="org.siemac.metamac.web.common.server.handlers.GetLoginPageUrlActionHandler" />
 
     <import resource="classpath:/spring/common-metadata/applicationContext.xml" />
 

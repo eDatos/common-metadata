@@ -1,6 +1,8 @@
 package org.siemac.metamac.common.metadata.web.client.presenter;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHandlers;
@@ -10,10 +12,15 @@ import org.siemac.metamac.web.common.client.events.HideMessageEvent.HideMessageH
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent.ShowMessageHandler;
 import org.siemac.metamac.web.common.client.widgets.MasterHead;
+import org.siemac.metamac.web.common.shared.CloseSessionAction;
+import org.siemac.metamac.web.common.shared.CloseSessionResult;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
+import com.gwtplatform.dispatch.shared.DispatchAsync;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
@@ -30,9 +37,12 @@ import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
 
 public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView, MainPagePresenter.MainPageProxy> implements MainPageUiHandlers, ShowMessageHandler, HideMessageHandler {
 
-    private final PlaceManager placeManager;
+    private static Logger       logger = Logger.getLogger(MainPagePresenter.class.getName());
 
-    private static MasterHead  masterHead;
+    private final PlaceManager  placeManager;
+    private final DispatchAsync dispatcher;
+
+    private static MasterHead   masterHead;
 
     @ProxyStandard
     @NameToken(NameTokens.mainPage)
@@ -57,10 +67,11 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView,
     public static final Type<RevealContentHandler<?>> TYPE_SetContextAreaContent = new Type<RevealContentHandler<?>>();
 
     @Inject
-    public MainPagePresenter(EventBus eventBus, MainPageView view, MainPageProxy proxy, PlaceManager placeManager) {
+    public MainPagePresenter(EventBus eventBus, MainPageView view, MainPageProxy proxy, PlaceManager placeManager, DispatchAsync dispatcher) {
         super(eventBus, view, proxy);
         getView().setUiHandlers(this);
         this.placeManager = placeManager;
+        this.dispatcher = dispatcher;
         MainPagePresenter.masterHead = getView().getMasterHead();
     }
 
@@ -119,6 +130,21 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView,
 
     public static MasterHead getMasterHead() {
         return masterHead;
+    }
+
+    @Override
+    public void closeSession() {
+        dispatcher.execute(new CloseSessionAction(), new AsyncCallback<CloseSessionResult>() {
+
+            @Override
+            public void onFailure(Throwable caught) {
+                logger.log(Level.SEVERE, "Error closing session");
+            }
+            @Override
+            public void onSuccess(CloseSessionResult result) {
+                Window.Location.assign(result.getLogoutPageUrl());
+            }
+        });
     }
 
 }

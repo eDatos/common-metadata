@@ -3,11 +3,11 @@ package org.siemac.metamac.common.metadata.web.server.handlers;
 import java.util.List;
 
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataServiceFacade;
-import org.siemac.metamac.common.metadata.web.server.ServiceContextHolder;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsResult;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
+import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

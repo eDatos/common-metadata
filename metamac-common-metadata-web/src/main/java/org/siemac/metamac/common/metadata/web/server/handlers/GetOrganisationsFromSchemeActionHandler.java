@@ -2,11 +2,11 @@ package org.siemac.metamac.common.metadata.web.server.handlers;
 
 import java.util.List;
 
-import org.siemac.metamac.common.metadata.web.server.ServiceContextHolder;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeAction;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeResult;
 import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
 import org.siemac.metamac.core.common.serviceapi.MetamacCoreCommonService;
+import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
