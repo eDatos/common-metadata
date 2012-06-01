@@ -157,7 +157,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     }
 
     private void populateOrganisationSchemes() {
-        dispatcher.execute(new FindAllOrganisationSchemesAction(),new WaitingAsyncCallback<FindAllOrganisationSchemesResult>() {
+        dispatcher.execute(new FindAllOrganisationSchemesAction(), new WaitingAsyncCallback<FindAllOrganisationSchemesResult>() {
 
             @Override
             public void onWaitFailure(Throwable caught) {
@@ -172,7 +172,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
     @Override
     public void populateOrganisations(String organisationSchemeUri) {
-        dispatcher.execute(new GetOrganisationsFromSchemeAction(organisationSchemeUri),new WaitingAsyncCallback<GetOrganisationsFromSchemeResult>() {
+        dispatcher.execute(new GetOrganisationsFromSchemeAction(organisationSchemeUri), new WaitingAsyncCallback<GetOrganisationsFromSchemeResult>() {
 
             @Override
             public void onWaitFailure(Throwable caught) {
