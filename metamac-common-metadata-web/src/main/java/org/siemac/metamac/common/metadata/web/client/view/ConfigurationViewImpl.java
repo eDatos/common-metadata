@@ -12,6 +12,7 @@ import org.siemac.metamac.common.metadata.web.client.view.handlers.Configuration
 import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
 import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
+import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.ExternalItemUtils;
 import org.siemac.metamac.web.common.client.widgets.CustomListGrid;
 import org.siemac.metamac.web.common.client.widgets.DeleteConfirmationWindow;
@@ -27,7 +28,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.smartgwt.client.types.Visibility;
-import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.HasClickHandlers;
@@ -62,8 +62,6 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
     private ToolStripButton                 newToolStripButton;
     private ToolStripButton                 deleteToolStripButton;
-
-    private Label                           confFormTitle;
 
     private GroupDynamicForm                staticForm;
     private GroupDynamicForm                form;
@@ -129,7 +127,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         configurationsGrid = new CustomListGrid();
         configurationsGrid.setWidth100();
         configurationsGrid.setHeight(150);
-        ListGridField codeField = new ListGridField(ConfigurationRecord.CODE, CommonMetadataWeb.getConstants().configurationCode());
+        ListGridField codeField = new ListGridField(ConfigurationRecord.CODE, CommonMetadataWeb.getConstants().configurationIdentifier());
         configurationsGrid.setFields(codeField);
         // Show configuration details when record clicked
         configurationsGrid.addSelectionChangedHandler(new SelectionChangedHandler() {
@@ -173,10 +171,6 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
         // Title
 
-        confFormTitle = new Label();
-        confFormTitle.setStyleName("boldSubsectionTitle");
-        confFormTitle.setAutoHeight();
-
         mainFormLayout = new InternationalMainFormLayout(ClientSecurityUtils.canUpdateConfiguration());
         mainFormLayout.getTranslateToolStripButton().addClickHandler(new ClickHandler() {
 
@@ -200,7 +194,6 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         createEditionLayout();
 
         selectedConfLayout = new VLayout(10);
-        selectedConfLayout.addMember(confFormTitle);
         selectedConfLayout.addMember(mainFormLayout);
         selectedConfLayout.setVisibility(Visibility.HIDDEN);
 
@@ -272,8 +265,11 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         // ····
 
         form = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
+
         code = new RequiredTextItem(CODE, CommonMetadataWeb.getConstants().confCode());
         code.setEndRow(true);
+        code.setValidators(CommonWebUtils.getSemanticIdentifierCustomValidator());
+
         legalActs = new MultiLanguageTextAndUrlItem(LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
         dataSharing = new MultiLanguageTextAndUrlItem(DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
         confPolicy = new MultiLanguageTextAndUrlItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
@@ -378,13 +374,13 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     private void selectConfiguration(ConfigurationDto configurationSelected) {
         if (configurationSelected.getId() == null) {
             // New attribute
-            confFormTitle.setContents(new String());
+            mainFormLayout.setTitleLabelContents(new String());
             deleteToolStripButton.hide();
             configurationsGrid.deselectAllRecords();
             setConfigurationEditionMode(configurationSelected);
             mainFormLayout.setEditionMode();
         } else {
-            confFormTitle.setContents(configurationSelected.getCode());
+            mainFormLayout.setTitleLabelContents(configurationSelected.getCode());
             showDeleteConfigurationButton();
             setConfiguration(configurationSelected);
             mainFormLayout.setViewMode();
