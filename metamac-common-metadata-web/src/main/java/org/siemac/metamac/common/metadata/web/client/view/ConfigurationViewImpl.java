@@ -6,6 +6,7 @@ import java.util.List;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.model.ConfigurationRecord;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
+import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
 import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
@@ -102,6 +103,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
                 selectConfiguration(new ConfigurationDto());
             }
         });
+        newToolStripButton.setVisibility(ClientSecurityUtils.canCreateConfiguration() ? Visibility.VISIBLE : Visibility.HIDDEN);
 
         deleteConfirmationWindow = new DeleteConfirmationWindow(CommonMetadataWeb.getConstants().confDeleteConfirmationTitle(), CommonMetadataWeb.getConstants().confDeleteConfirmation());
         deleteConfirmationWindow.setVisibility(Visibility.HIDDEN);
@@ -143,7 +145,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
                     deselectAttribute();
                     if (configurationsGrid.getSelectedRecords().length > 1) {
                         // Delete more than one configuration with one click
-                        deleteToolStripButton.show();
+                        showDeleteConfigurationButton();
                     }
                 }
             }
@@ -175,7 +177,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         confFormTitle.setStyleName("boldSubsectionTitle");
         confFormTitle.setAutoHeight();
 
-        mainFormLayout = new InternationalMainFormLayout();
+        mainFormLayout = new InternationalMainFormLayout(ClientSecurityUtils.canUpdateConfiguration());
         mainFormLayout.getTranslateToolStripButton().addClickHandler(new ClickHandler() {
 
             @Override
@@ -383,7 +385,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             mainFormLayout.setEditionMode();
         } else {
             confFormTitle.setContents(configurationSelected.getCode());
-            deleteToolStripButton.show();
+            showDeleteConfigurationButton();
             setConfiguration(configurationSelected);
             mainFormLayout.setViewMode();
         }
@@ -403,6 +405,12 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     private void setTranslationsShowed(boolean translationsShowed) {
         staticForm.setTranslationsShowed(translationsShowed);
         form.setTranslationsShowed(translationsShowed);
+    }
+
+    private void showDeleteConfigurationButton() {
+        if (ClientSecurityUtils.canDeleteConfiguration()) {
+            deleteToolStripButton.show();
+        }
     }
 
 }
