@@ -19,7 +19,7 @@ import org.siemac.metamac.web.common.client.widgets.DeleteConfirmationWindow;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.InternationalMainFormLayout;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ExternalSelectItem;
-import org.siemac.metamac.web.common.client.widgets.form.fields.MultiLanguageTextAndUrlItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.MultiLanguageTextAreaAndUrlItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredTextItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewMultiLanguageTextAndUrlItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewTextItem;
@@ -75,10 +75,10 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
     // Edition Fields
     private RequiredTextItem                code;
-    private MultiLanguageTextAndUrlItem     legalActs;
-    private MultiLanguageTextAndUrlItem     dataSharing;
-    private MultiLanguageTextAndUrlItem     confPolicy;
-    private MultiLanguageTextAndUrlItem     confDataTreatment;
+    private MultiLanguageTextAreaAndUrlItem legalActs;
+    private MultiLanguageTextAreaAndUrlItem dataSharing;
+    private MultiLanguageTextAreaAndUrlItem confPolicy;
+    private MultiLanguageTextAreaAndUrlItem confDataTreatment;
     private ExternalSelectItem              organisationItem;
 
     private VLayout                         selectedConfLayout;
@@ -233,7 +233,6 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
      */
     private void createViewLayout() {
         staticCode = new ViewTextItem(CODE, CommonMetadataWeb.getConstants().confCode());
-        staticCode.setEndRow(true);
         staticLegalActs = new ViewMultiLanguageTextAndUrlItem(LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
         staticDataSharing = new ViewMultiLanguageTextAndUrlItem(DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
         staticConfPolicy = new ViewMultiLanguageTextAndUrlItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
@@ -241,7 +240,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         ViewTextItem staticOrganisation = new ViewTextItem(ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
 
         staticForm = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
-        staticForm.setFields(staticCode, staticLegalActs, staticDataSharing, staticConfPolicy, staticConfDataTreatment, staticOrganisation);
+        staticForm.setFields(staticCode, staticOrganisation, staticLegalActs, staticDataSharing, staticConfPolicy, staticConfDataTreatment);
 
         mainFormLayout.addViewCanvas(staticForm);
     }
@@ -267,13 +266,12 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         form = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
 
         code = new RequiredTextItem(CODE, CommonMetadataWeb.getConstants().confCode());
-        code.setEndRow(true);
         code.setValidators(CommonWebUtils.getSemanticIdentifierCustomValidator());
 
-        legalActs = new MultiLanguageTextAndUrlItem(LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
-        dataSharing = new MultiLanguageTextAndUrlItem(DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
-        confPolicy = new MultiLanguageTextAndUrlItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
-        confDataTreatment = new MultiLanguageTextAndUrlItem(CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment());
+        legalActs = new MultiLanguageTextAreaAndUrlItem(LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
+        dataSharing = new MultiLanguageTextAreaAndUrlItem(DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
+        confPolicy = new MultiLanguageTextAreaAndUrlItem(CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
+        confDataTreatment = new MultiLanguageTextAreaAndUrlItem(CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment());
         organisationItem = new ExternalSelectItem(ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
         organisationItem.getSchemeItem().addChangedHandler(new ChangedHandler() {
 
@@ -284,7 +282,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
                 }
             }
         });
-        form.setFields(code, legalActs, dataSharing, confPolicy, confDataTreatment, organisationItem);
+        form.setFields(code, organisationItem, legalActs, dataSharing, confPolicy, confDataTreatment);
 
         mainFormLayout.addEditionCanvas(form);
 
