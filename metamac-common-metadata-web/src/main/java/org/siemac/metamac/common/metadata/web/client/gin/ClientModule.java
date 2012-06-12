@@ -5,9 +5,13 @@ import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebConstants;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebMessages;
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
+import org.siemac.metamac.common.metadata.web.client.presenter.ErrorPagePresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.MainPagePresenter;
+import org.siemac.metamac.common.metadata.web.client.presenter.UnauthorizedPagePresenter;
 import org.siemac.metamac.common.metadata.web.client.view.ConfigurationViewImpl;
+import org.siemac.metamac.common.metadata.web.client.view.ErrorPageViewImpl;
 import org.siemac.metamac.common.metadata.web.client.view.MainPageViewImpl;
+import org.siemac.metamac.common.metadata.web.client.view.UnauthorizedPageViewImpl;
 
 import com.google.inject.Singleton;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
@@ -31,6 +35,10 @@ public class ClientModule extends AbstractPresenterModule {
         // Presenters
         bindPresenter(MainPagePresenter.class, MainPagePresenter.MainPageView.class, MainPageViewImpl.class, MainPagePresenter.MainPageProxy.class);
         bindPresenter(ConfigurationPresenter.class, ConfigurationPresenter.ConfigurationView.class, ConfigurationViewImpl.class, ConfigurationPresenter.ConfigurationProxy.class);
+
+        // Error pages
+        bindPresenter(ErrorPagePresenter.class, ErrorPagePresenter.ErrorPageView.class, ErrorPageViewImpl.class, ErrorPagePresenter.ErrorPageProxy.class);
+        bindPresenter(UnauthorizedPagePresenter.class, UnauthorizedPagePresenter.UnauthorizedPageView.class, UnauthorizedPageViewImpl.class, UnauthorizedPagePresenter.UnauthorizedPageProxy.class);
 
         // Interfaces
         bind(CommonMetadataWebConstants.class).in(Singleton.class);
