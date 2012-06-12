@@ -6,16 +6,16 @@ import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
+import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gwtplatform.dispatch.server.ExecutionContext;
-import com.gwtplatform.dispatch.server.actionhandler.AbstractActionHandler;
 import com.gwtplatform.dispatch.shared.ActionException;
 
 @Component
-public class SaveConfigurationActionHandler extends AbstractActionHandler<SaveConfigurationAction, SaveConfigurationResult> {
+public class SaveConfigurationActionHandler extends SecurityActionHandler<SaveConfigurationAction, SaveConfigurationResult> {
 
     @Autowired
     private CommonMetadataServiceFacade commonMetadataServiceFacade;
@@ -25,7 +25,7 @@ public class SaveConfigurationActionHandler extends AbstractActionHandler<SaveCo
     }
 
     @Override
-    public SaveConfigurationResult execute(SaveConfigurationAction action, ExecutionContext context) throws ActionException {
+    public SaveConfigurationResult executeSecurityAction(SaveConfigurationAction action) throws ActionException {
         ConfigurationDto configurationToSave = action.getConfigurationToSave();
         try {
             ConfigurationDto configurationDto = null;
