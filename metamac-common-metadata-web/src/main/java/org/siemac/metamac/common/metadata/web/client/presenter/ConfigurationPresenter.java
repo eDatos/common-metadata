@@ -3,6 +3,7 @@ package org.siemac.metamac.common.metadata.web.client.presenter;
 import java.util.List;
 
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
+import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
@@ -31,6 +32,7 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.annotations.TitleFunction;
+import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.Place;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.Proxy;
@@ -45,6 +47,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
     @ProxyCodeSplit
     @NameToken(NameTokens.configurationPage)
+    @UseGatekeeper(LoggedInGatekeeper.class)
     public interface ConfigurationProxy extends Proxy<ConfigurationPresenter>, Place {
 
     }

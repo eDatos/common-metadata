@@ -3,6 +3,7 @@ package org.siemac.metamac.common.metadata.web.client.gin;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataPlaceManager;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebConstants;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebMessages;
+import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.ErrorPagePresenter;
@@ -28,6 +29,9 @@ public class ClientModule extends AbstractPresenterModule {
         // |_ bind(PlaceManager.class).to(MyPlaceManager.class).in(Singleton.class);
         // |_ bind(GoogleAnalytics.class).to(GoogleAnalyticsImpl.class).in(Singleton.class);
         install(new DefaultModule(CommonMetadataPlaceManager.class));
+
+        // Gate keeper
+        bind(LoggedInGatekeeper.class).in(Singleton.class);
 
         // Constants
         bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.configurationPage);

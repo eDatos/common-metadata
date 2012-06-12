@@ -2,6 +2,7 @@ package org.siemac.metamac.common.metadata.web.client.gin;
 
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebConstants;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebMessages;
+import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.ErrorPagePresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.MainPagePresenter;
@@ -22,6 +23,8 @@ public interface CommonMetadataWebGinjector extends Ginjector {
     PlaceManager getPlaceManager();
     EventBus getEventBus();
     DispatchAsync getDispatcher();
+
+    LoggedInGatekeeper getLoggedInGatekeeper();
 
     Provider<MainPagePresenter> getMainPagePresenter();
     AsyncProvider<ConfigurationPresenter> getConfigurationPresenter();
