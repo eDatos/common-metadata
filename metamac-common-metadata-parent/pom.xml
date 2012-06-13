@@ -29,11 +29,11 @@
     </repositories>
 
     <properties>
-        <metamac-core-common.version>1.0.1-SNAPSHOT</metamac-core-common.version>
-        <metamac-common-test.version>1.0.1-SNAPSHOT</metamac-common-test.version>
-        <metamac-web-common.version>1.1.1-SNAPSHOT</metamac-web-common.version>
-        <metamac-sso.version>1.0.1-SNAPSHOT</metamac-sso.version>
-        <metamac-api-domain.version>1.0.1-SNAPSHOT</metamac-api-domain.version>
+        <metamac-core-common.version>1.1.0</metamac-core-common.version>
+        <metamac-common-test.version>1.1.0</metamac-common-test.version>
+        <metamac-web-common.version>1.2.0</metamac-web-common.version>
+        <metamac-sso.version>1.1.0</metamac-sso.version>
+        <metamac-api-domain.version>1.1.0</metamac-api-domain.version>
     </properties>
 
 </project>
