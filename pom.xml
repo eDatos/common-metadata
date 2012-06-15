@@ -24,7 +24,7 @@
     <modules>
         <module>metamac-common-metadata-parent</module>
         <module>metamac-common-metadata-core</module>
-<!--         <module>metamac-common-metadata-web</module> -->
+        <module>metamac-common-metadata-web</module>
     </modules>
 
     <build>
