@@ -9,5 +9,5 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({CommonMetadataServiceFacadeTest.class, CommonMetadataServiceTest.class, SecurityCommonMetadataServiceFacadeTest.class})
-public class CommonMetadataSuiteTest {
+public class CommonMetadataSuite {
 }
