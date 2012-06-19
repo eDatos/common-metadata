@@ -15,7 +15,7 @@
 
 
     <!-- SpringBeanProvider GWTP -->
-    <context:component-scan base-package="com.gwtplatform.dispatch.server.spring, org.siemac.metamac.common.metadata.web" />
+    <context:component-scan base-package="com.gwtplatform.dispatch.server.spring, org.siemac.metamac.common.metadata.web,org.siemac.metamac.web.common.server.handlers" />
 
     <!-- activates annotation-based bean configuration -->
     <context:annotation-config />
@@ -57,11 +57,6 @@
     <bean id="loggingSetup" class="org.siemac.metamac.core.common.logging.LoggingSetup">
         <property name="logConfigurationFile" value="${environment.metamac.data}/common-metadata/conf/dynamic/logback-common-metadata-web.xml" />
     </bean>
-
-    <!-- ActionHandler beans -->
-    <bean class="org.siemac.metamac.web.common.server.handlers.CloseSessionActionHandler" />
-    <bean class="org.siemac.metamac.web.common.server.handlers.GetLoginPageUrlActionHandler" />
-    <bean class="org.siemac.metamac.web.common.server.handlers.MockCASUserActionHandler" /> <!-- This method should be removed to use CAS authentication -->
 
     <import resource="classpath:/spring/common-metadata/applicationContext.xml" />
 

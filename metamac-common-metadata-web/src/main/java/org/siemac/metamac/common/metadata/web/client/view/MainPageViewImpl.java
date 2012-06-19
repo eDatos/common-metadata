@@ -8,6 +8,7 @@ import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHan
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
 import org.siemac.metamac.web.common.client.widgets.ErrorMessagePanel;
+import org.siemac.metamac.web.common.client.widgets.IstacNavBar;
 import org.siemac.metamac.web.common.client.widgets.MasterHead;
 import org.siemac.metamac.web.common.client.widgets.SuccessMessagePanel;
 
@@ -91,8 +92,14 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
             }
         });
 
+        IstacNavBar navBar = new IstacNavBar();
+        northLayout.setZIndex(0);
+        southLayout.setZIndex(0);
+        footerLayout.setZIndex(0);
+
         // Add the North and South layout containers to the main layout
         // container
+        panel.addMember(navBar);
         panel.addMember(northLayout);
         panel.addMember(southLayout);
         panel.addMember(footerLayout);

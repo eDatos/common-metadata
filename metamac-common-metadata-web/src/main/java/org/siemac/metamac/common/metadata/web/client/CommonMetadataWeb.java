@@ -6,9 +6,12 @@ import java.util.logging.Logger;
 import org.siemac.metamac.common.metadata.web.client.gin.CommonMetadataWebGinjector;
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.web.common.client.MetamacEntryPoint;
+import org.siemac.metamac.web.common.client.widgets.IstacNavBar;
 import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
 import org.siemac.metamac.web.common.shared.GetLoginPageUrlAction;
 import org.siemac.metamac.web.common.shared.GetLoginPageUrlResult;
+import org.siemac.metamac.web.common.shared.GetNavigationBarUrlAction;
+import org.siemac.metamac.web.common.shared.GetNavigationBarUrlResult;
 import org.siemac.metamac.web.common.shared.MockCASUserAction;
 import org.siemac.metamac.web.common.shared.MockCASUserResult;
 
@@ -39,10 +42,28 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
         @Source("resources/CommonMetadataWebStyles.css")
         CssResource css();
     }
+    
+    public void onModuleLoad() {
+        ginjector.getDispatcher().execute(new GetNavigationBarUrlAction(), new WaitingAsyncCallback<GetNavigationBarUrlResult>() {
+            
+            @Override
+            public void onWaitFailure(Throwable caught) {
+                logger.log(Level.SEVERE, "Error loading toolbar");
+            }
+            
+            public void onWaitSuccess(GetNavigationBarUrlResult result) {
+                //Load scripts for navigation bar
+                IstacNavBar.loadScripts(result.getNavigationBarUrl());
+                
+                checkAuthentication();
+            };
+        });
+       
+    }
 
     // TODO This method should be removed to use CAS authentication
     // Application id should be the same than the one defined in org.siemac.metamac.common.metadata.core.constants.SECURITY_APPLICATION_ID
-    public void onModuleLoad() {
+    public void checkAuthentication() {
         ginjector.getDispatcher().execute(new MockCASUserAction("GESTOR_METADATOS_COMUNES"), new WaitingAsyncCallback<MockCASUserResult>() {
 
             @Override
