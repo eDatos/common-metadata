@@ -25,6 +25,11 @@
     <dependencies>
         <dependency>
             <groupId>org.siemac.metamac</groupId>
+            <artifactId>metamac-navbar</artifactId>
+            <version>${metamac-navbar.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.siemac.metamac</groupId>
             <artifactId>metamac-web-common</artifactId>
             <version>${metamac-web-common.version}</version>
         </dependency>
