@@ -27,6 +27,7 @@ import org.siemac.metamac.web.common.client.widgets.form.fields.ViewTextItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
+import com.smartgwt.client.types.Overflow;
 import com.smartgwt.client.types.Visibility;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
@@ -90,6 +91,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         super();
 
         panel = new VLayout();
+        panel.setOverflow(Overflow.SCROLL);
 
         // ToolStrip
 
