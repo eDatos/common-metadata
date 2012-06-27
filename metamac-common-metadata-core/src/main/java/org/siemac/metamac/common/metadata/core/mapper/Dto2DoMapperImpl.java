@@ -53,10 +53,6 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
         }
 
         target.setCode(source.getCode());
-        target.setLegalActsUrl(source.getLegalActsUrl());
-        target.setDataSharingUrl(source.getDataSharingUrl());
-        target.setConfPolicyUrl(source.getConfPolicyUrl());
-        target.setConfDataTreatmentUrl(source.getConfDataTreatmentUrl());
         target.setLegalActs(internationalStringToDo(source.getLegalActs(), target.getLegalActs(), ServiceExceptionParameters.CONFIGURATION_LEGAL_ACTS));
         target.setDataSharing(internationalStringToDo(source.getDataSharing(), target.getDataSharing(), ServiceExceptionParameters.CONFIGURATION_DATA_SHARING));
         target.setConfPolicy(internationalStringToDo(source.getConfPolicy(), target.getConfPolicy(), ServiceExceptionParameters.CONFIGURATION_CONF_POLICY));

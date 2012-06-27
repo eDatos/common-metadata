@@ -92,10 +92,6 @@ public class InvocationValidator {
         if (configuration.getCode() != null && !CoreCommonUtil.isSemanticIdentifier(configuration.getCode())) {
             exceptions.add(new MetamacExceptionItem(ServiceExceptionType.METADATA_INCORRECT, ServiceExceptionParameters.CONFIGURATION_CODE));
         }
-        ValidationUtils.validateUrl(configuration.getConfDataTreatmentUrl(), ServiceExceptionParameters.CONFIGURATION_CONF_DATA_TREATMENT_URL, exceptions);
-        ValidationUtils.validateUrl(configuration.getConfPolicyUrl(), ServiceExceptionParameters.CONFIGURATION_CONF_POLICY_URL, exceptions);
-        ValidationUtils.validateUrl(configuration.getDataSharingUrl(), ServiceExceptionParameters.CONFIGURATION_DATA_SHARING_URL, exceptions);
-        ValidationUtils.validateUrl(configuration.getLegalActsUrl(), ServiceExceptionParameters.CONFIGURATION_LEGAL_ACTS_URL, exceptions);
 
     }
 }

@@ -55,13 +55,9 @@ Application CommonMetadata {
 			
 			String code;
 			-@InternationalString legalActs cascade="all" nullable databaseColumn="LEGAL_ACTS_FK";
-			String legalActsUrl nullable length="4000";
 			-@InternationalString dataSharing cascade="all" nullable databaseColumn="DATA_SHARING_FK";
-			String dataSharingUrl nullable length="4000";
 			-@InternationalString confPolicy cascade="all" nullable databaseColumn="CONF_POLICY_FK";
-			String confPolicyUrl nullable length="4000";
 			-@InternationalString confDataTreatment cascade="all" nullable databaseColumn="CONF_DATA_TREATMENT_FK";
-			String confDataTreatmentUrl nullable length="4000";
 			-@ExternalItemBt contact nullable;
 			
 			"Last update to optimistic locking"

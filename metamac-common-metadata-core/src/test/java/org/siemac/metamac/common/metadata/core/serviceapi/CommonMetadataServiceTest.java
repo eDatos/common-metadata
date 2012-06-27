@@ -202,14 +202,6 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         confidentialityDataTreatment.addText(confidentialityDataTreatment_es);
         confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
         configuration.setConfDataTreatment(confidentialityDataTreatment);
-        // Legal Acts URL
-        configuration.setLegalActsUrl("http://legalActs.com");
-        // Data Sharing URL
-        configuration.setDataSharingUrl("http://dataSharing.com");
-        // Confidentiality Policy URL
-        configuration.setConfPolicyUrl("http://confidentialityPolicy.com");
-        // Confidentiality Data Treatment URL
-        configuration.setConfDataTreatmentUrl("http://confidentialityDataTreatment.com");
         // Contact
         // TODO: It's an externalItem from organisation schemes
         return configuration;
@@ -272,14 +264,6 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         confidentialityDataTreatment.addText(confidentialityDataTreatment_es);
         confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
         configuration.setConfDataTreatment(confidentialityDataTreatment);
-        // Legal Acts URL
-        configuration.setLegalActsUrl("httpa://legalActs.com");
-        // Data Sharing URL
-        configuration.setDataSharingUrl("incorrectUrl");
-        // Confidentiality Policy URL
-        configuration.setConfPolicyUrl("ahttp://confidentialityPolicy.com");
-        // Confidentiality Data Treatment URL
-        configuration.setConfDataTreatmentUrl("http:a//confidentialityDataTreatment.com");
         // Contact
         // TODO: It's an externalItem from organisation schemes
         return configuration;
