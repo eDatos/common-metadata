@@ -1,0 +1,21 @@
+import "classpath:/btdesign/metamac-core-common-dtos.btdesign"
+
+Application CommonMetadataDto {
+    basePackage=org.siemac.metamac.common.metadata
+
+    Module dto {
+    	basePackage=org.siemac.metamac.common.metadata.core.dto
+         
+        DataTransferObject ConfigurationDto extends @AuditableDto   {
+        	String code;
+        	-@InternationalStringDto legalActs nullable;
+        	-@InternationalStringDto dataSharing nullable;
+        	-@InternationalStringDto confPolicy nullable;
+        	-@InternationalStringDto confDataTreatment nullable;
+        	-@ExternalItemBtDto contact nullable;
+        	
+        	Long optimisticLockingVersion;
+        }
+    }
+    
+}

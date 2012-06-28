@@ -1,9 +1,9 @@
 package org.siemac.metamac.common.metadata.core.serviceapi.utils;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
-import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 
 /**
  * Mocks
@@ -57,14 +57,6 @@ public class CommonMetadataDtoMocks {
         confidentialityDataTreatment.addText(confidentialityDataTreatment_es);
         confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
         configurationDto.setConfDataTreatment(confidentialityDataTreatment);
-        // Legal Acts URL
-        configurationDto.setLegalActsUrl("http://legalActs.com");
-        // Data Sharing URL
-        configurationDto.setDataSharingUrl("http://dataSharing.com");
-        // Confidentiality Policy URL
-        configurationDto.setConfPolicyUrl("http://confidentialityPolicy.com");
-        // Confidentiality Data Treatment URL
-        configurationDto.setConfDataTreatmentUrl("http://confidentialityDataTreatment.com");
         // TODO: Add contact
         return configurationDto;
     }

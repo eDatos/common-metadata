@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.mapper.Do2DtoMapper;
 import org.siemac.metamac.common.metadata.core.mapper.Dto2DoMapper;
 import org.siemac.metamac.common.metadata.core.security.SecurityUtils;
 import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.siemac.metamac.domain.common.metadata.enume.domain.CommonMetadataRoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

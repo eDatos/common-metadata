@@ -1,7 +1,7 @@
 package org.siemac.metamac.common.metadata.web.client.utils;
 
 import org.siemac.metamac.common.metadata.web.client.model.ConfigurationRecord;
-import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 
 public class RecordUtils {
 

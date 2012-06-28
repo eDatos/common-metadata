@@ -6,6 +6,7 @@ import java.util.Set;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.joda.time.DateTime;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
@@ -17,7 +18,6 @@ import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.serviceimpl.utils.ValidationUtils;
 import org.siemac.metamac.core.common.util.OptimisticLockingUtils;
-import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

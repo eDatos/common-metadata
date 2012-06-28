@@ -6,6 +6,7 @@
     <!-- Specify the paths for translatable code -->
     <source path='common/metadata/core/security/shared' />
     <source path='common/metadata/core/constants' />
+    <source path='common/metadata/core/dto' />
     <source path='domain/common/metadata/enume/domain' />
 
 </module>

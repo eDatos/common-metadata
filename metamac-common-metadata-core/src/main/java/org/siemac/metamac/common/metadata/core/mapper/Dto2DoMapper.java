@@ -2,8 +2,8 @@ package org.siemac.metamac.common.metadata.core.mapper;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 
 public interface Dto2DoMapper {
 

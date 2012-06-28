@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDtoMocks;
 import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

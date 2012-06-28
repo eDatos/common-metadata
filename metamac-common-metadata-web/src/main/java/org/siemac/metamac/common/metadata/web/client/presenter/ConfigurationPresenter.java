@@ -18,7 +18,7 @@ import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeR
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
 import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
-import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;

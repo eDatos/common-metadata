@@ -10,7 +10,7 @@ import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
 import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
-import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.ExternalItemUtils;

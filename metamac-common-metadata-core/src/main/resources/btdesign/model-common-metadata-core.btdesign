@@ -1,4 +1,4 @@
-import "classpath:/btdesign/metamac-api-domain-dtos-common-metadata.btdesign"
+import "classpath:/btdesign/common-metadata-dtos.btdesign"
 
 import "classpath:/btdesign/export/metamac-core-common-basictype.btdesign" 
 import "classpath:/btdesign/export/metamac-core-common-vo.btdesign" 

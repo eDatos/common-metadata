@@ -1,6 +1,6 @@
 package org.siemac.metamac.common.metadata.web.client.model;
 
-import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 

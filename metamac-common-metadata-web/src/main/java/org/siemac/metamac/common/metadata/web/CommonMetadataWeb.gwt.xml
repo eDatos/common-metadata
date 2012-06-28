@@ -33,7 +33,6 @@
     <inherits name="com.smartgwt.SmartGwt" />
 
     <!-- METAMAC inherits modules -->
-    <inherits name="org.siemac.metamac.Serviceapi" />
     <inherits name="org.siemac.metamac.web.common.MetamacWebCommon" />
     <inherits name="org.siemac.metamac.SsoClient" />
     <inherits name="org.siemac.metamac.CommonMetadataCore" />

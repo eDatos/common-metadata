@@ -6,7 +6,7 @@ import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataServiceF
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsResult;
 import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.domain.common.metadata.dto.ConfigurationDto;
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
