@@ -1,10 +1,10 @@
 package org.siemac.metamac.common.metadata.web.client.utils;
 
-import static org.siemac.metamac.domain.common.metadata.enume.domain.CommonMetadataRoleEnum.JEFE_NORMALIZACION;
+import static org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataRoleEnum.JEFE_NORMALIZACION;
 
+import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataRoleEnum;
 import org.siemac.metamac.common.metadata.core.security.shared.SharedSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
-import org.siemac.metamac.domain.common.metadata.enume.domain.CommonMetadataRoleEnum;
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 
 public class ClientSecurityUtils {
