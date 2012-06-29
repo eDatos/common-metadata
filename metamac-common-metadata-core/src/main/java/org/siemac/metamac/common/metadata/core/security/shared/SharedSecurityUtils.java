@@ -1,7 +1,7 @@
 package org.siemac.metamac.common.metadata.core.security.shared;
 
 import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConstants;
-import org.siemac.metamac.domain.common.metadata.enume.domain.CommonMetadataRoleEnum;
+import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataRoleEnum;
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.sso.client.MetamacPrincipalAccess;
 

@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConstants;
+import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataRoleEnum;
 import org.siemac.metamac.common.test.MetamacBaseTests;
-import org.siemac.metamac.domain.common.metadata.enume.domain.CommonMetadataRoleEnum;
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.sso.client.MetamacPrincipalAccess;
 import org.siemac.metamac.sso.client.SsoClientConstants;

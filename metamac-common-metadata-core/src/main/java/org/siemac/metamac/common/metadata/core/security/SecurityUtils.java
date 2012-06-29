@@ -1,10 +1,10 @@
 package org.siemac.metamac.common.metadata.core.security;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
+import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataRoleEnum;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.security.shared.SharedSecurityUtils;
 import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.domain.common.metadata.enume.domain.CommonMetadataRoleEnum;
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.sso.client.SsoClientConstants;
 

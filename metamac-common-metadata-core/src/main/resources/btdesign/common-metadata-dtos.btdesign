@@ -18,4 +18,22 @@ Application CommonMetadataDto {
         }
     }
     
+    Module enume {
+		basePackage=org.siemac.metamac.common.metadata.core.enume
+		
+		enum CommonMetadataRoleEnum {
+			JEFE_NORMALIZACION,
+			TECNICO_NORMALIZACION,
+			TECNICO_APOYO_NORMALIZACION,
+    		TECNICO_APOYO_PRODUCCION,
+    		TECNICO_PRODUCCION,
+    		TECNICO_APOYO_DIFUSION,
+    		TECNICO_DIFUSION,
+    		TECNICO_APOYO_PLANIFICACION,
+    		TECNICO_PLANIFICACION,
+    		ADMINISTRADOR,
+    		ANY_ROLE_ALLOWED
+    	}
+	}
+    
 }
