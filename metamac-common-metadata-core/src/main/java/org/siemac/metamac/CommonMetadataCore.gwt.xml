@@ -7,6 +7,6 @@
     <source path='common/metadata/core/security/shared' />
     <source path='common/metadata/core/constants' />
     <source path='common/metadata/core/dto' />
-    <source path='domain/common/metadata/enume/domain' />
+    <source path='common/metadata/core/enume/domain' />
 
 </module>
