@@ -141,6 +141,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
             @Override
             public void onWaitSuccess(SaveConfigurationResult result) {
                 getView().onConfigurationSaved(result.getConfigurationSaved());
+                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationSaved()), MessageTypeEnum.SUCCESS);
             }
         });
     }
@@ -155,6 +156,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
             @Override
             public void onWaitSuccess(DeleteConfigurationListResult result) {
                 populateConfigurations();
+                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationDeleted()), MessageTypeEnum.SUCCESS);
             }
         });
     }
