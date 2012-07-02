@@ -20,9 +20,6 @@ import org.siemac.metamac.web.common.shared.MockCASUserAction;
 import org.siemac.metamac.web.common.shared.MockCASUserResult;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.resources.client.CssResource.NotStrict;
 import com.google.gwt.user.client.Window;
 import com.gwtplatform.mvp.client.DelayedBindRegistry;
 
@@ -39,13 +36,6 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
     private static CommonMetadataWebCoreMessages   coreMessages;
 
     public static final CommonMetadataWebGinjector ginjector = GWT.create(CommonMetadataWebGinjector.class);
-
-    interface GlobalResources extends ClientBundle {
-
-        @NotStrict
-        @Source("resources/CommonMetadataWebStyles.css")
-        CssResource css();
-    }
 
     public void onModuleLoad() {
         ginjector.getDispatcher().execute(new GetNavigationBarUrlAction(), new WaitingAsyncCallback<GetNavigationBarUrlResult>() {
@@ -160,8 +150,6 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
         // This is required for GWT-Platform proxy's generator.
         DelayedBindRegistry.bind(ginjector);
         ginjector.getPlaceManager().revealCurrentPlace();
-        // Inject global styles
-        GWT.<GlobalResources> create(GlobalResources.class).css().ensureInjected();
     }
 
     public void displayLoginView() {
