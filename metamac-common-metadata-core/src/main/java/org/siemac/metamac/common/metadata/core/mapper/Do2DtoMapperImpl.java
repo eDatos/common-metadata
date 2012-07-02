@@ -37,6 +37,8 @@ public class Do2DtoMapperImpl implements Do2DtoMapper {
         target.setDataSharing(internationalStringToDto(source.getDataSharing()));
         target.setConfPolicy(internationalStringToDto(source.getConfPolicy()));
         target.setConfDataTreatment(internationalStringToDto(source.getConfDataTreatment()));
+        
+        target.setStatus(source.getStatus());
 
         if (source.getContact() != null) {
             target.setContact(externalItemToDto(source.getContact()));

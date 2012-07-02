@@ -60,6 +60,8 @@ Application CommonMetadata {
 			-@InternationalString confDataTreatment cascade="all" nullable databaseColumn="CONF_DATA_TREATMENT_FK";
 			-@ExternalItemBt contact nullable;
 			
+			-@CommonMetadataStatusEnum status not nullable;
+			
 			"Last update to optimistic locking"
 			DateTimeTZ updateDate nullable;
 			

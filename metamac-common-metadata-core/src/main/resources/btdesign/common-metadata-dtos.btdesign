@@ -14,6 +14,8 @@ Application CommonMetadataDto {
         	-@InternationalStringDto confDataTreatment nullable;
         	-@ExternalItemBtDto contact nullable;
         	
+        	-@CommonMetadataStatusEnum status not nullable;
+        	
         	Long optimisticLockingVersion;
         }
     }
@@ -33,6 +35,11 @@ Application CommonMetadataDto {
     		TECNICO_PLANIFICACION,
     		ADMINISTRADOR,
     		ANY_ROLE_ALLOWED
+    	}
+    	
+    	enum CommonMetadataStatusEnum {
+    		ENABLED,
+    		DISABLED
     	}
 	}
     

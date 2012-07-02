@@ -2,6 +2,7 @@ package org.siemac.metamac.common.metadata.core.serviceapi.utils;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
+import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
 
@@ -57,8 +58,11 @@ public class CommonMetadataDtoMocks {
         confidentialityDataTreatment.addText(confidentialityDataTreatment_es);
         confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
         configurationDto.setConfDataTreatment(confidentialityDataTreatment);
+        
         // TODO: Add contact
+        
+        configurationDto.setStatus(CommonMetadataStatusEnum.ENABLED);
+        
         return configurationDto;
     }
-
 }
