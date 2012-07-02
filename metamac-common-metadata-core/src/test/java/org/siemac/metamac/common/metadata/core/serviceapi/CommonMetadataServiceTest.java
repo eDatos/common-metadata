@@ -98,19 +98,6 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         assertNotNull(configuration);
     }
     
-    
-    @Test
-    public void testCreateConfigurationWithIncorrectUrls() throws Exception {
-        try {
-            commonMetadataService.createConfiguration(getServiceContextAdministrador(), createConfigurationWithIncorrectUrls());
-        } catch (MetamacException e) {
-            assertEquals(4, e.getExceptionItems().size());
-            assertEquals(ServiceExceptionType.METADATA_INVALID_URL.getCode(), e.getExceptionItems().get(0).getCode());
-            assertEquals(ServiceExceptionType.METADATA_INVALID_URL.getCode(), e.getExceptionItems().get(1).getCode());
-            assertEquals(ServiceExceptionType.METADATA_INVALID_URL.getCode(), e.getExceptionItems().get(2).getCode());
-            assertEquals(ServiceExceptionType.METADATA_INVALID_URL.getCode(), e.getExceptionItems().get(3).getCode());
-        }
-    }
 
     @Test
     public void testCreateConfigurationCodeDuplicated() throws Exception {
