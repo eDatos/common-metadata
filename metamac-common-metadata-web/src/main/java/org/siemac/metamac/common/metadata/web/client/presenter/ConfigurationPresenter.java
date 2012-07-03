@@ -2,6 +2,8 @@ package org.siemac.metamac.common.metadata.web.client.presenter;
 
 import java.util.List;
 
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
+import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.NameTokens;
@@ -17,8 +19,9 @@ import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeA
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
+import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusAction;
+import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusResult;
 import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
-import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
@@ -188,6 +191,25 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
                 getView().setOrganisations(result.getOrganisations());
             }
         });
+    }
+
+    @Override
+    public void updateConfigurationsStatus(List<Long> configurationIds, CommonMetadataStatusEnum statusEnum) {
+        dispatcher.execute(new UpdateConfigurationsStatusAction(configurationIds, statusEnum), new WaitingAsyncCallback<UpdateConfigurationsStatusResult>() {
+
+            @Override
+            public void onWaitFailure(Throwable caught) {
+                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorUpdatingConfigurationStatus()), MessageTypeEnum.ERROR);
+                // TODO
+            }
+
+            @Override
+            public void onWaitSuccess(UpdateConfigurationsStatusResult result) {
+                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationStatusUpdated()), MessageTypeEnum.SUCCESS);
+                // TODO
+            }
+        });
+
     }
 
 }

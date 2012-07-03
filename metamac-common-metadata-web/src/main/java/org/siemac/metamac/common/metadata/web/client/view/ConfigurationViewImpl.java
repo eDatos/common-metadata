@@ -120,8 +120,23 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
         enableToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().confEnable(), GlobalResources.RESOURCE.success().getURL());
         enableToolStripButton.setVisibility(Visibility.HIDDEN);
+        enableToolStripButton.addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                getUiHandlers().updateConfigurationsStatus(getSelectedConfigurations(), CommonMetadataStatusEnum.ENABLED);
+            }
+        });
+
         disableToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().confDisable(), GlobalResources.RESOURCE.disable().getURL());
         disableToolStripButton.setVisibility(Visibility.HIDDEN);
+        disableToolStripButton.addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                getUiHandlers().updateConfigurationsStatus(getSelectedConfigurations(), CommonMetadataStatusEnum.DISABLED);
+            }
+        });
 
         ToolStrip toolStrip = new ToolStrip();
         toolStrip.setWidth100();
