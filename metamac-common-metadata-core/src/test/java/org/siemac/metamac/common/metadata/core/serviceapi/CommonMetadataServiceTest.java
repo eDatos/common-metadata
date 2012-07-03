@@ -16,6 +16,7 @@ import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
+import org.siemac.metamac.common.test.utils.DirtyDatabase;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.exception.MetamacException;
@@ -35,8 +36,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/common-metadata/applicationContext-test.xml"})
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = false)
-@Transactional
+@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 public class CommonMetadataServiceTest extends CommonMetadataBaseTests implements CommonMetadataServiceTestBase {
 
     @Autowired
@@ -46,6 +46,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     private PlatformTransactionManager transactionManager = null;
 
     @Test
+    @Transactional
     public void testFindConfigurationById() throws Exception {
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
@@ -55,6 +56,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @Transactional
     public void testFindAllConfigurations() throws Exception {
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
@@ -64,12 +66,14 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @Transactional
     public void testCreateConfiguration() throws Exception {
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
     }
 
     @Test
+    @Transactional
     public void testCreateConfigurationWithIncorrectCode() throws Exception {
         Configuration configuration = createEnableConfiguration();
         configuration.setCode("1ISTAC");
@@ -82,6 +86,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @Transactional
     public void testCreateConfigurationRequiredStatus() throws Exception {
         Configuration configuration = createEnableConfiguration();
         configuration.setStatus(null);
@@ -94,12 +99,14 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @Transactional
     public void testCreateConfigurationBase() throws Exception {
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createConfigurationBase());
         assertNotNull(configuration);
     }
 
     @Test
+    @Transactional
     public void testCreateConfigurationCodeDuplicated() throws Exception {
         // Create first configuration
         {
@@ -124,6 +131,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @Transactional
     public void testDeleteConfiguration() throws Exception {
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
@@ -134,6 +142,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @Transactional
     public void testFindConfigurationByCondition() throws Exception {
         String code = "conf-ISTAC";
 
@@ -150,6 +159,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @Transactional
     public void testUpdateConfiguration() throws Exception {
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
@@ -161,6 +171,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @DirtyDatabase
     public void testUpdateConfigurationStatusRequired() throws Exception {
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
@@ -181,6 +192,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @Transactional
     public void testUpdateConfigurationStatus() throws Exception {
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
@@ -197,6 +209,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @Transactional
     public void testUpdateConfigurationsStatus() throws Exception {
 
         // Create configurations
@@ -217,6 +230,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @Transactional
     public void testUpdateConfigurationsStatusConfigurationIdsRequired() throws Exception {
 
         try {
@@ -228,6 +242,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
+    @Transactional
     public void testUpdateConfigurationsStatusStatusRequired() throws Exception {
 
         // Create configurations
