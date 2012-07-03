@@ -200,16 +200,15 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
             @Override
             public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorUpdatingConfigurationStatus()), MessageTypeEnum.ERROR);
-                // TODO
+                populateConfigurations();
             }
 
             @Override
             public void onWaitSuccess(UpdateConfigurationsStatusResult result) {
                 ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationStatusUpdated()), MessageTypeEnum.SUCCESS);
-                // TODO
+                populateConfigurations();
             }
         });
-
     }
 
 }

@@ -243,6 +243,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     @Override
     public void setConfigurations(List<ConfigurationDto> configurations) {
         configurationsGrid.removeAllData();
+        hideStatusConfigurationButtons();
         for (ConfigurationDto configurationDto : configurations) {
             ConfigurationRecord record = RecordUtils.getConfigurationRecord(configurationDto);
             configurationsGrid.addData(record);
