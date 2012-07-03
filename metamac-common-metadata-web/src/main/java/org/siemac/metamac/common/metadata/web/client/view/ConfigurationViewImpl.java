@@ -61,6 +61,8 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
     private ToolStripButton                 newToolStripButton;
     private ToolStripButton                 deleteToolStripButton;
+    private ToolStripButton                 enableToolStripButton;
+    private ToolStripButton                 disableToolStripButton;
 
     private GroupDynamicForm                staticForm;
     private GroupDynamicForm                form;
@@ -116,11 +118,18 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             }
         });
 
+        enableToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().confEnable(), GlobalResources.RESOURCE.success().getURL());
+        enableToolStripButton.setVisibility(Visibility.HIDDEN);
+        disableToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().confDisable(), GlobalResources.RESOURCE.disable().getURL());
+        disableToolStripButton.setVisibility(Visibility.HIDDEN);
+
         ToolStrip toolStrip = new ToolStrip();
         toolStrip.setWidth100();
         toolStrip.addButton(newToolStripButton);
-        toolStrip.addSeparator();
         toolStrip.addButton(deleteToolStripButton);
+        toolStrip.addSeparator();
+        toolStrip.addButton(enableToolStripButton);
+        toolStrip.addButton(disableToolStripButton);
 
         // ListGrid
 
@@ -147,6 +156,14 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
                     if (configurationsGrid.getSelectedRecords().length > 1) {
                         // Delete more than one configuration with one click
                         showDeleteConfigurationButton();
+                        // If all selected configurations are ENABLED, show disableConfigurationButton
+                        if (areSelectedConfigurationsEnabled()) {
+                            showDisableConfigurationButton();
+                        }
+                        // If all selected configurations are DISABLED, show enableConfigurationButton
+                        if (areSelectedConfigurationsDisabled()) {
+                            showEnableConfigurationButton();
+                        }
                     }
                 }
             }
@@ -203,7 +220,6 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         panel.addMember(gridLayout);
         panel.addMember(selectedConfLayout);
     }
-
     @Override
     public Widget asWidget() {
         return panel;
@@ -385,12 +401,18 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             // New configuration
             mainFormLayout.setTitleLabelContents(new String());
             deleteToolStripButton.hide();
+            hideStatusConfigurationButtons();
             configurationsGrid.deselectAllRecords();
             setConfigurationEditionMode(configurationSelected);
             mainFormLayout.setEditionMode();
         } else {
             mainFormLayout.setTitleLabelContents(configurationSelected.getCode());
             showDeleteConfigurationButton();
+            if (CommonMetadataStatusEnum.ENABLED.equals(configurationSelected.getStatus())) {
+                showDisableConfigurationButton();
+            } else if (CommonMetadataStatusEnum.DISABLED.equals(configurationSelected.getStatus())) {
+                showEnableConfigurationButton();
+            }
             setConfiguration(configurationSelected);
             mainFormLayout.setViewMode();
         }
@@ -405,6 +427,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     private void deselectAttribute() {
         selectedConfLayout.hide();
         deleteToolStripButton.hide();
+        hideStatusConfigurationButtons();
     }
 
     private void setTranslationsShowed(boolean translationsShowed) {
@@ -416,6 +439,47 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         if (ClientSecurityUtils.canDeleteConfiguration()) {
             deleteToolStripButton.show();
         }
+    }
+
+    private void showEnableConfigurationButton() {
+        if (ClientSecurityUtils.canUpdateConfiguration()) {
+            enableToolStripButton.show();
+            disableToolStripButton.hide();
+        }
+    }
+
+    private void showDisableConfigurationButton() {
+        if (ClientSecurityUtils.canUpdateConfiguration()) {
+            enableToolStripButton.hide();
+            disableToolStripButton.show();
+        }
+    }
+
+    private void hideStatusConfigurationButtons() {
+        enableToolStripButton.hide();
+        disableToolStripButton.hide();
+    }
+
+    private boolean areSelectedConfigurationsEnabled() {
+        boolean allConfigurationsEnabled = true;
+        for (ListGridRecord record : configurationsGrid.getSelectedRecords()) {
+            ConfigurationRecord configurationRecord = (ConfigurationRecord) record;
+            if (CommonMetadataStatusEnum.DISABLED.equals(configurationRecord.getConfigurationDto().getStatus())) {
+                allConfigurationsEnabled = false;
+            }
+        }
+        return allConfigurationsEnabled;
+    }
+
+    private boolean areSelectedConfigurationsDisabled() {
+        boolean allConfigurationsDisabled = true;
+        for (ListGridRecord record : configurationsGrid.getSelectedRecords()) {
+            ConfigurationRecord configurationRecord = (ConfigurationRecord) record;
+            if (CommonMetadataStatusEnum.ENABLED.equals(configurationRecord.getConfigurationDto().getStatus())) {
+                allConfigurationsDisabled = false;
+            }
+        }
+        return allConfigurationsDisabled;
     }
 
 }
