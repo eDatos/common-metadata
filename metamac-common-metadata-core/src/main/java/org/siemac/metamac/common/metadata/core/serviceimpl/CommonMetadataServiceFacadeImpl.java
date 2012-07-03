@@ -7,6 +7,7 @@ import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataRoleEnum;
+import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.core.mapper.Do2DtoMapper;
 import org.siemac.metamac.common.metadata.core.mapper.Dto2DoMapper;
 import org.siemac.metamac.common.metadata.core.security.SecurityUtils;
@@ -93,7 +94,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
     public void deleteConfiguration(ServiceContext ctx, Long configurationId) throws MetamacException {
         // Security
         SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.JEFE_NORMALIZACION);
-        
+
         // Service call
         getCommonMetadataService().deleteConfiguration(ctx, configurationId);
     }
@@ -110,4 +111,18 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         return configurationsDto;
     }
 
+    @Override
+    public List<ConfigurationDto> updateConfigurationsStatus(ServiceContext ctx, List<Long> configurationIds, CommonMetadataStatusEnum status) throws MetamacException {
+        // Security
+        SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.JEFE_NORMALIZACION);
+
+        // Service call
+        List<Configuration> configurations = getCommonMetadataService().updateConfigurationsStatus(ctx, configurationIds, status);
+
+        // Transform to Dto
+        List<ConfigurationDto> configurationDtos = configurationsListDo2Dto(configurations);
+
+        return configurationDtos;
+
+    }
 }

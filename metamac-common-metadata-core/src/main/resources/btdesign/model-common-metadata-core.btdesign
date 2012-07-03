@@ -22,6 +22,7 @@ Application CommonMetadata {
 			@ConfigurationDto createConfiguration(@ConfigurationDto configuration) throws MetamacException;
 			@ConfigurationDto updateConfiguration(@ConfigurationDto configuration) throws MetamacException;
 			deleteConfiguration(Long configurationId) throws MetamacException;
+			List<@ConfigurationDto> updateConfigurationsStatus(List<Long> configurationIds, @CommonMetadataStatusEnum status) throws MetamacException; 
 		}
 		
 		
@@ -39,6 +40,7 @@ Application CommonMetadata {
 			@Configuration createConfiguration(@Configuration configuration) throws MetamacException;
 			@Configuration updateConfiguration(@Configuration configuration) throws MetamacException;
 			deleteConfiguration(Long configurationId) throws MetamacException;
+			List<@Configuration> updateConfigurationsStatus(List<Long> configurationIds, @CommonMetadataStatusEnum status) throws MetamacException;
 		}
 		
 		

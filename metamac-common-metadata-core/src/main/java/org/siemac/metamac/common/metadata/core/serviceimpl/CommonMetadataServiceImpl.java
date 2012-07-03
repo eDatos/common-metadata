@@ -2,6 +2,7 @@ package org.siemac.metamac.common.metadata.core.serviceimpl;
 
 import static org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder.criteriaFor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
@@ -9,6 +10,7 @@ import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBui
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationRepository;
+import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceimpl.utils.InvocationValidator;
 import org.siemac.metamac.core.common.exception.MetamacException;
@@ -90,6 +92,25 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
         Configuration configuration = findConfigurationById(ctx, configurationId);
         configurationRepository.delete(configuration);
     }
+    
+    @Override
+    public List<Configuration> updateConfigurationsStatus(ServiceContext ctx, List<Long> configurationIds, CommonMetadataStatusEnum status) throws MetamacException {
+        // Validations
+        InvocationValidator.checkUpdateConfigurationsStatus(configurationIds, status, null);
+        
+        // Update status
+        List<Configuration> updatedCondifurations = new ArrayList<Configuration>();
+        
+        for (Long id : configurationIds) {
+            Configuration configuration = findConfigurationById(ctx, id);
+            configuration.setStatus(status);
+            configuration = updateConfiguration(ctx, configuration);
+            updatedCondifurations.add(configuration);
+        }
+        
+        // Return
+        return updatedCondifurations;
+    }
 
     // ----------------------------------------------------------------------
     // VALIDATORS
@@ -129,5 +150,6 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
         }
         return conditionsEntity;
     }
+
 
 }

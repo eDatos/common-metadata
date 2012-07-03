@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
+import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.core.common.exception.MetamacException;
@@ -82,6 +83,18 @@ public class InvocationValidator {
         ExceptionUtils.throwIfException(exceptions);
 
     }
+    
+    public static void checkUpdateConfigurationsStatus(List<Long> configurationIds, CommonMetadataStatusEnum status, List<MetamacExceptionItem> exceptions)  throws MetamacException {
+        if (exceptions == null) {
+            exceptions = new ArrayList<MetamacExceptionItem>();
+        }
+
+        ValidationUtils.checkParameterRequired(configurationIds, ServiceExceptionParameters.CONFIGURATION_IDS, exceptions);
+        ValidationUtils.checkParameterRequired(status, ServiceExceptionParameters.STATUS, exceptions);
+
+        ExceptionUtils.throwIfException(exceptions);
+        
+    }
 
     // ------------------------------------------------------------------------------------
     // PRIVATE METHODS
@@ -96,4 +109,5 @@ public class InvocationValidator {
         }
 
     }
+
 }
