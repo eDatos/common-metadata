@@ -2,9 +2,13 @@ package org.siemac.metamac.common.metadata.core.serviceapi;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
+import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDtoMocks;
 import org.siemac.metamac.core.common.exception.MetamacException;
@@ -24,7 +28,7 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
 
     @Test
     public void testFindConfigurationById() throws Exception {
-        Long configurationId = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockConfigurationDto()).getId();
+        Long configurationId = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto()).getId();
 
         commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), configurationId);
         commonMetadataServiceFacade.findConfigurationById(getServiceContextJefeNormalizacion(), configurationId);
@@ -55,45 +59,45 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
 
     @Test
     public void testCreateConfiguration() throws Exception {
-        commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockConfigurationDto());
-        commonMetadataServiceFacade.createConfiguration(getServiceContextJefeNormalizacion(), CommonMetadataDtoMocks.mockConfigurationDto());
+        commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
+        commonMetadataServiceFacade.createConfiguration(getServiceContextJefeNormalizacion(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         try {
-            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoNormalizacion(), CommonMetadataDtoMocks.mockConfigurationDto());
+            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoNormalizacion(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoApoyoNormalizacion(), CommonMetadataDtoMocks.mockConfigurationDto());
+            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoApoyoNormalizacion(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoPlanificacion(), CommonMetadataDtoMocks.mockConfigurationDto());
+            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoPlanificacion(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoApoyoPlanificacion(), CommonMetadataDtoMocks.mockConfigurationDto());
+            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoApoyoPlanificacion(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoProduccion(), CommonMetadataDtoMocks.mockConfigurationDto());
+            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoProduccion(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoApoyoProduccion(), CommonMetadataDtoMocks.mockConfigurationDto());
+            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoApoyoProduccion(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoDifusion(), CommonMetadataDtoMocks.mockConfigurationDto());
+            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoDifusion(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoApoyoDifusion(), CommonMetadataDtoMocks.mockConfigurationDto());
+            commonMetadataServiceFacade.createConfiguration(getServiceContextTecnicoApoyoDifusion(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
@@ -102,7 +106,7 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
 
     @Test
     public void testUpdateConfiguration() throws Exception {
-        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockConfigurationDto());
+        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
 
         configurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
         configurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextJefeNormalizacion(), configurationDto);
@@ -152,22 +156,22 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
     @Test
     public void testDeleteConfiguration() throws Exception {
 
-        // ADMINISTRADOR 
+        // ADMINISTRADOR
         {
-            Long configurationId = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockConfigurationDto()).getId();
+            Long configurationId = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto()).getId();
             commonMetadataServiceFacade.deleteConfiguration(getServiceContextAdministrador(), configurationId);
         }
-        
+
         // JEFE_NORMALIZACION
         {
-            Long configurationId = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockConfigurationDto()).getId();
+            Long configurationId = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto()).getId();
             commonMetadataServiceFacade.deleteConfiguration(getServiceContextJefeNormalizacion(), configurationId);
         }
-        
+
         // Roles that can't delete
         {
-            Long configurationId = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockConfigurationDto()).getId();
-            
+            Long configurationId = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto()).getId();
+
             try {
                 commonMetadataServiceFacade.deleteConfiguration(getServiceContextTecnicoNormalizacion(), configurationId);
             } catch (MetamacException e) {
@@ -210,6 +214,61 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
             }
         }
 
+    }
+
+    @Test
+    public void testUpdateConfigurationsStatus() throws Exception {
+        Long configuration01 = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto()).getId();
+        Long configuration02 = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto()).getId();
+
+        // Update status
+        List<Long> configurationIds = new ArrayList<Long>();
+        configurationIds.add(configuration01);
+        configurationIds.add(configuration02);
+
+        commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextAdministrador(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+        commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextJefeNormalizacion(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+        
+        try {
+            commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextTecnicoNormalizacion(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextTecnicoApoyoNormalizacion(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextTecnicoPlanificacion(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextTecnicoApoyoPlanificacion(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextTecnicoProduccion(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextTecnicoApoyoProduccion(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextTecnicoDifusion(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextTecnicoApoyoDifusion(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
     }
 
 }

@@ -11,7 +11,7 @@ import org.siemac.metamac.core.common.dto.LocalisedStringDto;
  */
 public class CommonMetadataDtoMocks {
 
-    public static ConfigurationDto mockConfigurationDto() {
+    public static ConfigurationDto mockEnableConfigurationDto() {
         ConfigurationDto configurationDto = new ConfigurationDto();
         configurationDto.setCode("configuration-" + RandomStringUtils.randomAlphabetic(5));
         // Legal Acts

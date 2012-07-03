@@ -5,8 +5,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,14 +40,14 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 public class CommonMetadataServiceTest extends CommonMetadataBaseTests implements CommonMetadataServiceTestBase {
 
     @Autowired
-    protected CommonMetadataService commonMetadataService;
-    
+    protected CommonMetadataService    commonMetadataService;
+
     @Autowired
-    private PlatformTransactionManager          transactionManager = null;
+    private PlatformTransactionManager transactionManager = null;
 
     @Test
     public void testFindConfigurationById() throws Exception {
-        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createConfiguration());
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
         Configuration configurationRetrieved = commonMetadataService.findConfigurationById(getServiceContextAdministrador(), configuration.getId());
         assertNotNull(configurationRetrieved);
@@ -54,7 +56,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
     @Test
     public void testFindAllConfigurations() throws Exception {
-        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createConfiguration());
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
 
         List<Configuration> configurations = commonMetadataService.findAllConfigurations(getServiceContextAdministrador());
@@ -63,47 +65,45 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
     @Test
     public void testCreateConfiguration() throws Exception {
-        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createConfiguration());
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
     }
-    
+
     @Test
     public void testCreateConfigurationWithIncorrectCode() throws Exception {
-        Configuration configuration = createConfiguration();
+        Configuration configuration = createEnableConfiguration();
         configuration.setCode("1ISTAC");
-        
+
         try {
             commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.METADATA_INCORRECT.getCode(), e.getExceptionItems().get(0).getCode());
         }
     }
-    
+
     @Test
     public void testCreateConfigurationRequiredStatus() throws Exception {
-        Configuration configuration = createConfiguration();
+        Configuration configuration = createEnableConfiguration();
         configuration.setStatus(null);
-        
+
         try {
             commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.METADATA_REQUIRED.getCode(), e.getExceptionItems().get(0).getCode());
         }
     }
-    
-    
+
     @Test
     public void testCreateConfigurationBase() throws Exception {
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createConfigurationBase());
         assertNotNull(configuration);
     }
-    
 
     @Test
     public void testCreateConfigurationCodeDuplicated() throws Exception {
         // Create first configuration
         {
-            Configuration configuration = createConfiguration();
+            Configuration configuration = createEnableConfiguration();
             configuration.setCode("ISTAC");
             configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
             assertNotNull(configuration);
@@ -111,9 +111,9 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
         // Create second configuration
         {
-            Configuration configuration = createConfiguration();
+            Configuration configuration = createEnableConfiguration();
             configuration.setCode("ISTAC");
-            
+
             try {
                 commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
             } catch (MetamacException e) {
@@ -125,7 +125,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
     @Test
     public void testDeleteConfiguration() throws Exception {
-        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createConfiguration());
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
 
         List<Configuration> configurations = commonMetadataService.findAllConfigurations(getServiceContextAdministrador());
@@ -137,7 +137,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     public void testFindConfigurationByCondition() throws Exception {
         String code = "conf-ISTAC";
 
-        Configuration configuration = createConfiguration();
+        Configuration configuration = createEnableConfiguration();
         configuration.setCode(code);
         configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
         assertNotNull(configuration);
@@ -151,7 +151,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
     @Test
     public void testUpdateConfiguration() throws Exception {
-        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createConfiguration());
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
 
         configuration.setCode("Conf-modified");
@@ -159,19 +159,18 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         assertNotNull(configuration);
 
     }
-    
-    
+
     @Test
     public void testUpdateConfigurationStatusRequired() throws Exception {
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
         TransactionStatus status = transactionManager.getTransaction(defaultTransactionDefinition);
-        
-        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createConfiguration());
+
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
 
         transactionManager.commit(status);
-        
+
         configuration.setStatus(null);
         try {
             commonMetadataService.updateConfiguration(getServiceContextAdministrador(), configuration);
@@ -180,31 +179,82 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
             assertEquals(ServiceExceptionParameters.CONFIGURATION_STATUS, e.getExceptionItems().get(0).getMessageParameters()[0]);
         }
     }
-    
+
     @Test
     public void testUpdateConfigurationStatus() throws Exception {
-        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createConfiguration());
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
 
         configuration.setCode("Conf-modified");
         configuration.setStatus(CommonMetadataStatusEnum.DISABLED);
-        
+
         configuration = commonMetadataService.updateConfiguration(getServiceContextAdministrador(), configuration);
-        
+
         assertNotNull(configuration);
         assertEquals("Conf-modified", configuration.getCode());
         assertEquals(CommonMetadataStatusEnum.DISABLED, configuration.getStatus());
 
     }
 
+    @Test
+    public void testUpdateConfigurationsStatus() throws Exception {
+
+        // Create configurations
+        Long configuration01 = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration()).getId();
+        Long configuration02 = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration()).getId();
+
+        // Update status
+        List<Long> configurationIds = new ArrayList<Long>();
+        configurationIds.add(configuration01);
+        configurationIds.add(configuration02);
+
+        List<Configuration> updatedConfigurations = commonMetadataService.updateConfigurationsStatus(getServiceContextAdministrador(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+
+        // Check status
+        for (Configuration configuration : updatedConfigurations) {
+            assertEquals(CommonMetadataStatusEnum.DISABLED, configuration.getStatus());
+        }
+    }
+
+    @Test
+    public void testUpdateConfigurationsStatusConfigurationIdsRequired() throws Exception {
+
+        try {
+            commonMetadataService.updateConfigurationsStatus(getServiceContextAdministrador(), null, CommonMetadataStatusEnum.DISABLED);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.PARAMETER_REQUIRED.getCode(), e.getExceptionItems().get(0).getCode());
+            assertEquals(ServiceExceptionParameters.CONFIGURATION_IDS, e.getExceptionItems().get(0).getMessageParameters()[0]);
+        }
+    }
+
+    @Test
+    public void testUpdateConfigurationsStatusStatusRequired() throws Exception {
+
+        // Create configurations
+        Long configuration01 = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration()).getId();
+        Long configuration02 = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration()).getId();
+
+        // Update status
+        List<Long> configurationIds = new ArrayList<Long>();
+        configurationIds.add(configuration01);
+        configurationIds.add(configuration02);
+
+        try {
+            commonMetadataService.updateConfigurationsStatus(getServiceContextAdministrador(), configurationIds, null);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.PARAMETER_REQUIRED.getCode(), e.getExceptionItems().get(0).getCode());
+            assertEquals(ServiceExceptionParameters.STATUS, e.getExceptionItems().get(0).getMessageParameters()[0]);
+        }
+    }
+
     // ------------------------------------------------------------------------------------
     // PRIVATE UTILS
     // ------------------------------------------------------------------------------------
 
-    private Configuration createConfiguration() {
+    private Configuration createEnableConfiguration() {
         Configuration configuration = new Configuration();
         // Code
-        configuration.setCode("configuration-0123456789");
+        configuration.setCode("configuration-" + RandomStringUtils.randomAlphabetic(5));
         // Legal Acts
         InternationalString legalActs = new InternationalString();
         LocalisedString legalActs_es = new LocalisedString();
@@ -251,23 +301,22 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         configuration.setConfDataTreatment(confidentialityDataTreatment);
         // Contact
         // TODO: It's an externalItem from organisation schemes
-        
+
         configuration.setStatus(CommonMetadataStatusEnum.ENABLED);
-        
+
         return configuration;
     }
-    
-    
+
     private Configuration createConfigurationBase() {
         Configuration configuration = new Configuration();
         // Code
         configuration.setCode("configuration-0123456789");
-        
+
         configuration.setStatus(CommonMetadataStatusEnum.ENABLED);
-        
+
         return configuration;
     }
-    
+
     private Configuration createConfigurationWithIncorrectUrls() {
         Configuration configuration = new Configuration();
         // Code
