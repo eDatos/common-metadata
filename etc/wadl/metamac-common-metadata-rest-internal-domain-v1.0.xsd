@@ -10,6 +10,7 @@
             <xs:element name="id" type="xs:string" />
             <xs:element name="kind" type="xs:string" />
             <xs:element name="selfLink" type="xs:string" />
+            <xs:element name="dataSharing" type="common:InternationalString" />
             <xs:element name="legalActs" type="common:InternationalString" />
             <xs:element name="confPolicy" type="common:InternationalString" />
             <xs:element name="confDataTreatment" type="common:InternationalString" />
