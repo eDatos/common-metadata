@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wadl:application
+			 xmlns:wadl="http://wadl.dev.java.net/2009/02"
+			 xmlns:domain="http://www.siemac.org/metamac/common/metadata/rest/internal/v1.0/domain"
+			 xmlns:common="http://www.siemac.org/metamac/rest/common/v1.0/domain">
+ 	
+	<wadl:grammars>
+ 		<wadl:include href="metamac-common-metadata-rest-internal-domain-v1.0.xsd" />
+ 		<wadl:include href="metamac-rest-api:metamac-rest-common-domain-v1.0.xsd" />
+ 	</wadl:grammars>
+ 	
+	<wadl:resources base="URL_RESOURCES_BASE">
+		<wadl:resource id="commonMetadataRestFacadeV10">
+			<wadl:resource path="configurations">
+				<wadl:method name="GET" id="findConfigurations">
+					<wadl:request>
+						<wadl:param name="limit" style="query" required="false"/>
+						<wadl:param name="offset" style="query" required="false"/>
+					</wadl:request>
+	                <wadl:response status="200">
+						<wadl:representation mediaType="application/xml" element="common:relatedResourcesNoPagedResult"/> 
+                        <wadl:representation mediaType="application/json" element="common:relatedResourcesNoPagedResult"/> 
+	                </wadl:response>
+					<wadl:response status="404 500">
+						<wadl:representation mediaType="application/xml" element="common:error"/> 
+                        <wadl:representation mediaType="application/json" element="common:error"/> 
+	                </wadl:response>
+				</wadl:method>
+			</wadl:resource>				
+			<wadl:resource path="configurations/{code}">
+				<wadl:method name="GET" id="retrieveConfigurationByCode">
+					<wadl:request>
+						<wadl:param name="code" style="template"/>
+					</wadl:request>
+	                <wadl:response status="200">
+						<wadl:representation mediaType="application/xml" element="domain:configuration"/> 
+                        <wadl:representation mediaType="application/json" element="domain:configuration"/> 
+	                </wadl:response>
+					<wadl:response status="404 500">
+						<wadl:representation mediaType="application/xml" element="common:error"/> 
+                        <wadl:representation mediaType="application/json" element="common:error"/> 
+	                </wadl:response>
+				</wadl:method>
+			</wadl:resource>
+		</wadl:resource>
+	</wadl:resources>  
+</wadl:application>

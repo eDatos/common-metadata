@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:tns="http://www.siemac.org/metamac/common/metadata/rest/internal/v1.0/domain" xmlns:common="http://www.siemac.org/metamac/rest/common/v1.0/domain"
+    targetNamespace="http://www.siemac.org/metamac/common/metadata/rest/internal/v1.0/domain" jaxb:version="2.1">
+
+    <xs:import namespace="http://www.siemac.org/metamac/rest/common/v1.0/domain" schemaLocation="metamac-rest-api:metamac-rest-common-domain-v1.0.xsd" />
+                          
+    <xs:complexType name="Configuration">
+        <xs:sequence>
+            <xs:element name="id" type="xs:string" />
+            <xs:element name="kind" type="xs:string" />
+            <xs:element name="selfLink" type="xs:string" />
+            <xs:element name="legalActs" type="common:InternationalString" />
+            <xs:element name="confPolicy" type="common:InternationalString" />
+            <xs:element name="confDataTreatment" type="common:InternationalString" />
+            <xs:element name="contact" type="common:RelatedResource" />
+            <xs:element name="status" type="xs:string" />
+            <xs:element name="parent" type="common:RelatedResource" />
+            <xs:element name="child" type="common:RelatedResource" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType> 
+       
+    <!-- Elements -->
+    <xs:element name="configuration" type="tns:Configuration" />
+</xs:schema>
