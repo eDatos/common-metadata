@@ -18,8 +18,8 @@
 						<wadl:param name="offset" style="query" required="false"/>
 					</wadl:request>
 	                <wadl:response status="200">
-						<wadl:representation mediaType="application/xml" element="common:relatedResourcesNoPagedResult"/> 
-                        <wadl:representation mediaType="application/json" element="common:relatedResourcesNoPagedResult"/> 
+						<wadl:representation mediaType="application/xml" element="common:resourcesNoPagedResult"/> 
+                        <wadl:representation mediaType="application/json" element="common:resourcesNoPagedResult"/> 
 	                </wadl:response>
 					<wadl:response status="404 500">
 						<wadl:representation mediaType="application/xml" element="common:error"/> 

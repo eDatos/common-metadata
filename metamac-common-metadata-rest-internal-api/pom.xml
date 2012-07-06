@@ -129,7 +129,7 @@
                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${metamac-common-metadata.baseDir}/etc/wadl</directory>
+                                    <directory>${basedir}/../etc/wadl</directory>
                                     <targetPath>META-INF/wadl</targetPath>
                                     <includes>
                                         <include>**/*</include>

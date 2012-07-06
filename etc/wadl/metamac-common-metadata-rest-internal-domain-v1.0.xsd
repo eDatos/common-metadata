@@ -13,10 +13,10 @@
             <xs:element name="legalActs" type="common:InternationalString" />
             <xs:element name="confPolicy" type="common:InternationalString" />
             <xs:element name="confDataTreatment" type="common:InternationalString" />
-            <xs:element name="contact" type="common:RelatedResource" />
+            <xs:element name="contact" type="common:Resource" />
             <xs:element name="status" type="xs:string" />
-            <xs:element name="parent" type="common:RelatedResource" />
-            <xs:element name="child" type="common:RelatedResource" maxOccurs="unbounded" />
+            <xs:element name="parent" type="common:Resource" />
+            <xs:element name="child" type="common:Resource" maxOccurs="unbounded" />
         </xs:sequence>
     </xs:complexType> 
        
