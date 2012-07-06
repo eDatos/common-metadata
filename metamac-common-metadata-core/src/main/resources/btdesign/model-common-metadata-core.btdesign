@@ -1,7 +1,5 @@
 import "classpath:/btdesign/common-metadata-dtos.btdesign"
 
-import "classpath:/btdesign/export/metamac-core-common-basictype.btdesign" 
-import "classpath:/btdesign/export/metamac-core-common-vo.btdesign" 
 import "classpath:/btdesign/export/metamac-core-common-entity.btdesign" 
 
 Application CommonMetadata {
@@ -60,7 +58,7 @@ Application CommonMetadata {
 			-@InternationalString dataSharing cascade="all" nullable databaseColumn="DATA_SHARING_FK";
 			-@InternationalString confPolicy cascade="all" nullable databaseColumn="CONF_POLICY_FK";
 			-@InternationalString confDataTreatment cascade="all" nullable databaseColumn="CONF_DATA_TREATMENT_FK";
-			-@ExternalItemBt contact nullable;
+			-@ExternalItem contact cascade="all" nullable databaseColumn="CONTACT_FK" ;
 			
 			-@CommonMetadataStatusEnum status not nullable;
 			

@@ -3,8 +3,11 @@ package org.siemac.metamac.common.metadata.core.serviceapi.utils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
+import org.siemac.metamac.common.test.utils.MetamacMocks;
+import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
+import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 
 /**
  * Mocks
@@ -14,6 +17,7 @@ public class CommonMetadataDtoMocks {
     public static ConfigurationDto mockEnableConfigurationDto() {
         ConfigurationDto configurationDto = new ConfigurationDto();
         configurationDto.setCode("configuration-" + RandomStringUtils.randomAlphabetic(5));
+        
         // Legal Acts
         InternationalStringDto legalActs = new InternationalStringDto();
         LocalisedStringDto legalActs_es = new LocalisedStringDto();
@@ -25,6 +29,7 @@ public class CommonMetadataDtoMocks {
         legalActs.addText(legalActs_es);
         legalActs.addText(legalActs_en);
         configurationDto.setLegalActs(legalActs);
+        
         // Data Sharing
         InternationalStringDto dataSharing = new InternationalStringDto();
         LocalisedStringDto dataSharing_es = new LocalisedStringDto();
@@ -36,6 +41,7 @@ public class CommonMetadataDtoMocks {
         dataSharing.addText(dataSharing_es);
         dataSharing.addText(dataSharing_en);
         configurationDto.setDataSharing(dataSharing);
+        
         // Confidentiality Policy
         InternationalStringDto confidentialityPolicy = new InternationalStringDto();
         LocalisedStringDto confidentialityPolicy_es = new LocalisedStringDto();
@@ -47,6 +53,7 @@ public class CommonMetadataDtoMocks {
         confidentialityPolicy.addText(confidentialityPolicy_es);
         confidentialityPolicy.addText(confidentialityPolicy_en);
         configurationDto.setConfPolicy(confidentialityPolicy);
+        
         // Confidentiality Data Treatment
         InternationalStringDto confidentialityDataTreatment = new InternationalStringDto();
         LocalisedStringDto confidentialityDataTreatment_es = new LocalisedStringDto();
@@ -59,8 +66,16 @@ public class CommonMetadataDtoMocks {
         confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
         configurationDto.setConfDataTreatment(confidentialityDataTreatment);
         
-        // TODO: Add contact
+        // Contact
+        ExternalItemDto contact = new ExternalItemDto();
+        contact.setUri("CONTACT-URI");
+        contact.setUrn("CONTACT-URN");
+        contact.setType(TypeExternalArtefactsEnum.AGENCY);
+        contact.setManagementAppUrl("CONTACT-MANAGEMENT_APP_URL");
+        contact.setTitle(MetamacMocks.mockInternationalString("es", "contact-title-es", "en", "contact-title-en"));
+        configurationDto.setContact(contact);
         
+        // Status
         configurationDto.setStatus(CommonMetadataStatusEnum.ENABLED);
         
         return configurationDto;

@@ -12,7 +12,7 @@ Application CommonMetadataDto {
         	-@InternationalStringDto dataSharing nullable;
         	-@InternationalStringDto confPolicy nullable;
         	-@InternationalStringDto confDataTreatment nullable;
-        	-@ExternalItemBtDto contact nullable;
+        	-@ExternalItemDto contact nullable;
         	
         	-@CommonMetadataStatusEnum status not nullable;
         	

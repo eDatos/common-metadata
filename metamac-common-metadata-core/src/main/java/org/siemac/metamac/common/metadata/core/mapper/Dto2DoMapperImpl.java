@@ -10,8 +10,11 @@ import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
+import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
+import org.siemac.metamac.core.common.ent.domain.ExternalItem;
+import org.siemac.metamac.core.common.ent.domain.ExternalItemRepository;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.InternationalStringRepository;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
@@ -29,6 +32,9 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
 
     @Autowired
     private InternationalStringRepository internationalStringRepository;
+    
+    @Autowired
+    private ExternalItemRepository externalItemRepository;
 
     @Override
     public Configuration configurationDtoToDo(ServiceContext ctx, ConfigurationDto source) throws MetamacException {
@@ -57,6 +63,7 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
         target.setDataSharing(internationalStringToDo(source.getDataSharing(), target.getDataSharing(), ServiceExceptionParameters.CONFIGURATION_DATA_SHARING));
         target.setConfPolicy(internationalStringToDo(source.getConfPolicy(), target.getConfPolicy(), ServiceExceptionParameters.CONFIGURATION_CONF_POLICY));
         target.setConfDataTreatment(internationalStringToDo(source.getConfDataTreatment(), target.getConfDataTreatment(), ServiceExceptionParameters.CONFIGURATION_CONF_DATA_TREATMENT));
+        target.setContact(externalItemDtoToDo(source.getContact(), target.getContact(), ServiceExceptionParameters.CONFIGURATION_CONTACT));
         
         target.setStatus(source.getStatus());
 
@@ -64,6 +71,29 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
         target.setUpdateDate(new DateTime());
 
         return target;
+    }
+    
+    private ExternalItem externalItemDtoToDo(ExternalItemDto source, ExternalItem target, String metadataName) throws MetamacException {
+        if (source == null) {
+            if (target != null) {
+                // delete previous entity
+                externalItemRepository.delete(target);
+            }
+            return null;
+        }
+        
+        if (target == null) {
+            target = new ExternalItem(source.getUri(), source.getUrn(), source.getType(), internationalStringToDo(source.getTitle(), null, metadataName), source.getManagementAppUrl());
+        } else {
+            target.setUri(source.getUri());
+            target.setUrn(source.getUrn());
+            target.setType(source.getType());
+            target.setManagementAppUrl(source.getManagementAppUrl());
+            target.setTitle(internationalStringToDo(source.getTitle(), target.getTitle(), metadataName));
+        }
+        
+        return target;
+         
     }
 
     private InternationalString internationalStringToDo(InternationalStringDto source, InternationalString target, String metadataName) throws MetamacException {

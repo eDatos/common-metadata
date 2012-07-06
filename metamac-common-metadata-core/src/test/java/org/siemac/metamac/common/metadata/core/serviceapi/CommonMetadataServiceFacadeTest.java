@@ -13,7 +13,11 @@ import org.junit.runner.RunWith;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
+import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataAsserts;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDtoMocks;
+import org.siemac.metamac.common.test.utils.MetamacMocks;
+import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,7 +42,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         ConfigurationDto configurationRetrieved = commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), configurationDto.getId());
         assertNotNull(configurationRetrieved);
-        assertTrue(configurationDto.getId().equals(configurationRetrieved.getId()));
+        CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, configurationRetrieved);
     }
 
     @Test
@@ -62,18 +66,38 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
 
     @Test
     public void testCreateConfiguration() throws MetamacException {
-        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
+        ConfigurationDto expectedConfigurationDto = CommonMetadataDtoMocks.mockEnableConfigurationDto();
+        
+        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), expectedConfigurationDto);
         assertNotNull(configurationDto);
+        CommonMetadataAsserts.assertEqualsConfigurationDto(expectedConfigurationDto, configurationDto);
     }
 
     @Test
     public void testUpdateConfiguration() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
-        assertNotNull(configurationDto);
-
         configurationDto.setCode("Conf-modified");
-        configurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
+        
+        ConfigurationDto updatedConfigurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
         assertNotNull(configurationDto);
+        CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, updatedConfigurationDto);
+    }
+    
+    @Test
+    public void testUpdateConfigurationContact() throws Exception {
+        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
+        
+        ExternalItemDto contact = new ExternalItemDto();
+        contact.setUri("new-contact-uri");
+        contact.setUrn("new-contact-urn");
+        contact.setType(TypeExternalArtefactsEnum.AGENCY);
+        contact.setManagementAppUrl("new-management-app-url");
+        contact.setTitle(MetamacMocks.mockInternationalString("es", "new-contact-title-es"));
+        configurationDto.setContact(contact);
+        
+        ConfigurationDto updatedConfigurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
+        assertNotNull(configurationDto);
+        CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, updatedConfigurationDto);
     }
 
     @Test
@@ -129,10 +153,9 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         configurationDto.setCode("Conf-modified");
         configurationDto.setStatus(CommonMetadataStatusEnum.DISABLED);
 
-        configurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
+        ConfigurationDto updatedConfigurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
 
         assertNotNull(configurationDto);
-        assertEquals("Conf-modified", configurationDto.getCode());
-        assertEquals(CommonMetadataStatusEnum.DISABLED, configurationDto.getStatus());
+        CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, updatedConfigurationDto);
     }
 }

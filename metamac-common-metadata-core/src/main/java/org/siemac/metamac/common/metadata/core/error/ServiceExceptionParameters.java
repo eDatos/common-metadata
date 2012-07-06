@@ -15,6 +15,7 @@ public class ServiceExceptionParameters {
     public static final String CONFIGURATION_DATA_SHARING        = "configuration.data_sharing";
     public static final String CONFIGURATION_CONF_POLICY         = "configuration.conf_policy";
     public static final String CONFIGURATION_CONF_DATA_TREATMENT = "configuration.data_treatment";
+    public static final String CONFIGURATION_CONTACT             = "configuration.contact";
 
     public static final String CONFIGURATION_STATUS              = "configuration.status";
 }

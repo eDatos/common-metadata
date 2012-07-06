@@ -7,10 +7,10 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
-import org.siemac.metamac.core.common.bt.domain.ExternalItemBt;
-import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
+import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
+import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.springframework.stereotype.Component;
@@ -69,14 +69,14 @@ public class Do2DtoMapperImpl implements Do2DtoMapper {
         return targets;
     }
 
-    private ExternalItemBtDto externalItemToDto(ExternalItemBt externalItemBt) {
-        if (externalItemBt == null) {
+    private ExternalItemDto externalItemToDto(ExternalItem source) {
+        if (source == null) {
             return null;
         }
 
-        ExternalItemBtDto result = new ExternalItemBtDto(externalItemBt.getUriInt(), externalItemBt.getCodeId(), externalItemBt.getType());
+        ExternalItemDto target = new ExternalItemDto(source.getUri(), source.getUrn(), source.getType(), internationalStringToDto(source.getTitle()), source.getManagementAppUrl());
 
-        return result;
+        return target;
     }
 
     private Date dateDoToDto(DateTime source) {
