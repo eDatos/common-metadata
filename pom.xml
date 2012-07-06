@@ -25,7 +25,7 @@
         <module>metamac-common-metadata-parent</module>
         <module>metamac-common-metadata-core</module>
         <module>metamac-common-metadata-rest-internal-api</module>
-<!--         <module>metamac-common-metadata-rest-internal-impl</module>         -->
+        <module>metamac-common-metadata-rest-internal-impl</module>        
         <module>metamac-common-metadata-web</module>
     </modules>
 

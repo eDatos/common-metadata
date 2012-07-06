@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:util="http://www.springframework.org/schema/util" 
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+            http://www.springframework.org/schema/util   http://www.springframework.org/schema/util/spring-util-3.1.xsd
+            http://cxf.apache.org/jaxrs                  http://cxf.apache.org/schemas/jaxrs.xsd
+            http://cxf.apache.org/core                   http://cxf.apache.org/schemas/core.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+    <jaxrs:server id="restFacadeV1_0" address="/internal/v1.0" docLocation="classpath:META-INF/wadl/metamac-common-metadata-rest-internal-v1.0.wadl">
+
+        <jaxrs:features>
+            <cxf:logging />
+        </jaxrs:features>
+
+        <jaxrs:serviceBeans>
+            <ref bean="commonMetadataRestFacadeV10" />
+        </jaxrs:serviceBeans>
+
+        <jaxrs:providers>
+            <ref bean="wadlGenerator" />
+            <ref bean="jsonProvider" />
+            <ref bean="jaxbProvider" />
+        </jaxrs:providers>
+
+    </jaxrs:server>
+
+    <bean id="wadlGenerator" class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
+        <!-- externalLinks let access to xsd urls before access to wadl url  -->
+        <property name="externalLinks" ref="externalLinks" />
+    </bean>
+
+    <util:list id="externalLinks">
+        <value>classpath:META-INF/wadl/metamac-common-metadata-rest-internal-domain-v1.0.xsd</value>
+        <value>classpath:META-INF/wadl/metamac-rest-common-domain-v1.0.xsd</value>
+    </util:list>
+    
+    <bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
+        <property name="marshallerProperties" ref="propertiesMap" />
+    </bean>
+
+    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
+        <property name="mapper" ref="jacksonJsonMapper" />
+    </bean>
+    
+    <bean id="jacksonJsonMapper" class="org.siemac.metamac.rest.jackson.JacksonJsonMapper" />
+    
+    <util:map id="propertiesMap">
+        <entry key="jaxb.formatted.output">
+            <value type="java.lang.Boolean">true</value>
+        </entry>
+    </util:map>
+</beans>
