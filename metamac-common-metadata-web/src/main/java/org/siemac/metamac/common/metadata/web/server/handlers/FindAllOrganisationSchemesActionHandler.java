@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesResult;
-import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
+import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.serviceapi.MetamacCoreCommonService;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
@@ -26,7 +26,7 @@ public class FindAllOrganisationSchemesActionHandler extends SecurityActionHandl
 
     @Override
     public FindAllOrganisationSchemesResult executeSecurityAction(FindAllOrganisationSchemesAction action) throws ActionException {
-        List<ExternalItemBtDto> organisationSchemes = metamacCoreCommonService.findAllOrganisationSchemes(ServiceContextHolder.getCurrentServiceContext());
+        List<ExternalItemDto> organisationSchemes = metamacCoreCommonService.findAllOrganisationSchemes(ServiceContextHolder.getCurrentServiceContext());
         return new FindAllOrganisationSchemesResult(organisationSchemes);
     }
 

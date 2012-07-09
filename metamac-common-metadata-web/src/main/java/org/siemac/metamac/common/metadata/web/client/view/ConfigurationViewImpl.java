@@ -13,7 +13,7 @@ import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
-import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
+import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.ExternalItemUtils;
@@ -51,7 +51,7 @@ import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
 public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHandlers> implements ConfigurationPresenter.ConfigurationView {
 
-    private List<ExternalItemBtDto>         organisations;
+    private List<ExternalItemDto>           organisations;
 
     private ConfigurationDto                configurationDto;
 
@@ -251,12 +251,12 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     }
 
     @Override
-    public void setOrganisationSchemes(List<ExternalItemBtDto> schemes) {
+    public void setOrganisationSchemes(List<ExternalItemDto> schemes) {
         organisationItem.setSchemesValueMap(ExternalItemUtils.getExternalItemsHashMap(schemes));
     }
 
     @Override
-    public void setOrganisations(List<ExternalItemBtDto> organisations) {
+    public void setOrganisations(List<ExternalItemDto> organisations) {
         this.organisations = organisations;
         organisationItem.setItemsValueMap(ExternalItemUtils.getExternalItemsHashMap(organisations));
     }
@@ -364,7 +364,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     private void setConfigurationViewMode(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
         staticCode.setValue(configurationDto.getCode());
-        staticForm.setValue(ConfigurationDS.ORGANISATION, configurationDto.getContact() == null ? new String() : configurationDto.getContact().getCodeId());
+        staticForm.setValue(ConfigurationDS.ORGANISATION, configurationDto.getContact() == null ? new String() : configurationDto.getContact().getUrn());
         staticForm.setValue(
                 ConfigurationDS.STATUS,
                 configurationDto.getStatus() == null ? new String() : CommonMetadataWeb.getCoreMessages().getString(
@@ -379,7 +379,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     private void setConfigurationEditionMode(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
         code.setValue(configurationDto.getCode());
-        organisationItem.setValue(configurationDto.getContact() == null ? null : configurationDto.getContact().getCodeId());
+        organisationItem.setValue(configurationDto.getContact() == null ? null : configurationDto.getContact().getUrn());
         form.setValue(ConfigurationDS.STATUS, configurationDto.getStatus() != null ? configurationDto.getStatus().toString() : new String());
         form.setValue(ConfigurationDS.LEGAL_ACTS, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getLegalActs()));
         form.setValue(ConfigurationDS.DATA_SHARING, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getDataSharing()));

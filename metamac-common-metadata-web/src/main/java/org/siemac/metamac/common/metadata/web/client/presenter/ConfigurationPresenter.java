@@ -21,7 +21,7 @@ import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusAction;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusResult;
-import org.siemac.metamac.core.common.dto.ExternalItemBtDto;
+import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
@@ -64,8 +64,8 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
         void setConfigurations(List<ConfigurationDto> configurations);
         void setConfiguration(ConfigurationDto configurationDto);
-        void setOrganisationSchemes(List<ExternalItemBtDto> schemes);
-        void setOrganisations(List<ExternalItemBtDto> organisations);
+        void setOrganisationSchemes(List<ExternalItemDto> schemes);
+        void setOrganisations(List<ExternalItemDto> organisations);
         ConfigurationDto getConfiguration();
         List<Long> getSelectedConfigurations();
         boolean validate();

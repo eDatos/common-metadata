@@ -2,11 +2,11 @@ package org.siemac.metamac.common.metadata.web.server.handlers;
 
 import java.util.List;
 
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataServiceFacade;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsResult;
 import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
