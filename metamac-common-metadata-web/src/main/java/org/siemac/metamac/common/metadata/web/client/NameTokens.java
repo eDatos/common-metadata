@@ -2,10 +2,10 @@ package org.siemac.metamac.common.metadata.web.client;
 
 public class NameTokens {
 
-    public static final String mainPage               = "!MainPage";
-    public static final String configurationPage      = "!ConfigurationPage";
+    public static final String mainPage               = "main";
+    public static final String configurationPage      = "configurations";
 
-    public static final String errorPage              = "!ErrorPage";
-    public static final String unauthorizedAccessPage = "!UnauthorizedAccessPage";
+    public static final String errorPage              = "error";
+    public static final String unauthorizedAccessPage = "unauthorizedAccess";
 
 }
