@@ -14,6 +14,7 @@ import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatus
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceimpl.utils.InvocationValidator;
 import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.core.common.util.GeneratorUrnUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,6 +67,9 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Override
     public Configuration createConfiguration(ServiceContext ctx, Configuration configuration) throws MetamacException {
+        // Fill metadata
+        configuration.setUrn(GeneratorUrnUtils.generateSiemacCommonMetadataUrn(configuration.getCode()));
+        
         // Validations
         InvocationValidator.checkCreateConfiguration(configuration, null);
         validateConfigurationCodeUnique(ctx, configuration.getCode(), null);
@@ -78,7 +82,6 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
     public Configuration updateConfiguration(ServiceContext ctx, Configuration configuration) throws MetamacException {
         // Validations
         InvocationValidator.checkUpdateConfiguration(configuration, null);
-        validateConfigurationCodeUnique(ctx, configuration.getCode(), configuration.getId());
 
         // Repository operation
         return configurationRepository.save(configuration);

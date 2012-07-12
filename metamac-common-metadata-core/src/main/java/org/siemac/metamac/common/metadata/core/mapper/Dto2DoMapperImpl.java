@@ -1,6 +1,8 @@
 package org.siemac.metamac.common.metadata.core.mapper;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
@@ -19,6 +21,8 @@ import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.InternationalStringRepository;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
+import org.siemac.metamac.core.common.exception.utils.ExceptionUtils;
 import org.siemac.metamac.core.common.serviceimpl.utils.ValidationUtils;
 import org.siemac.metamac.core.common.util.OptimisticLockingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +36,9 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
 
     @Autowired
     private InternationalStringRepository internationalStringRepository;
-    
+
     @Autowired
-    private ExternalItemRepository externalItemRepository;
+    private ExternalItemRepository        externalItemRepository;
 
     @Override
     public Configuration configurationDtoToDo(ServiceContext ctx, ConfigurationDto source) throws MetamacException {
@@ -47,6 +51,12 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
         if (source.getId() != null) {
             target = commonMetadataService.findConfigurationById(ctx, source.getId());
             OptimisticLockingUtils.checkVersion(target.getVersion(), source.getOptimisticLockingVersion());
+
+            // Metadata unmodifiable
+            // It's necessary to check that all the metadata that conforms the URN are unmodifibale.
+            List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
+            ValidationUtils.checkMetadataUnmodifiable(target.getCode(), source.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
+            ExceptionUtils.throwIfException(exceptions);
         }
 
         configurationDtoToDo(source, target);
@@ -59,12 +69,13 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
         }
 
         target.setCode(source.getCode());
+        target.setUrn(source.getUrn());
         target.setLegalActs(internationalStringToDo(source.getLegalActs(), target.getLegalActs(), ServiceExceptionParameters.CONFIGURATION_LEGAL_ACTS));
         target.setDataSharing(internationalStringToDo(source.getDataSharing(), target.getDataSharing(), ServiceExceptionParameters.CONFIGURATION_DATA_SHARING));
         target.setConfPolicy(internationalStringToDo(source.getConfPolicy(), target.getConfPolicy(), ServiceExceptionParameters.CONFIGURATION_CONF_POLICY));
         target.setConfDataTreatment(internationalStringToDo(source.getConfDataTreatment(), target.getConfDataTreatment(), ServiceExceptionParameters.CONFIGURATION_CONF_DATA_TREATMENT));
         target.setContact(externalItemDtoToDo(source.getContact(), target.getContact(), ServiceExceptionParameters.CONFIGURATION_CONTACT));
-        
+
         target.setStatus(source.getStatus());
 
         // Optimistic locking: Update "update date" attribute to force update of the root entity in order to increase attribute "version"
@@ -72,7 +83,7 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
 
         return target;
     }
-    
+
     private ExternalItem externalItemDtoToDo(ExternalItemDto source, ExternalItem target, String metadataName) throws MetamacException {
         if (source == null) {
             if (target != null) {
@@ -81,20 +92,21 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
             }
             return null;
         }
-        
-        if (target == null) { 
-            target = new ExternalItem(source.getCode(), source.getUri(), source.getUrn(), source.getType(), internationalStringToDo(source.getTitle(), null, metadataName), source.getManagementAppUrl()); 
-        } else { 
-            target.setCode(source.getCode()); 
-            target.setUri(source.getUri()); 
-            target.setUrn(source.getUrn()); 
-            target.setType(source.getType()); 
-            target.setManagementAppUrl(source.getManagementAppUrl()); 
-            target.setTitle(internationalStringToDo(source.getTitle(), target.getTitle(), metadataName)); 
-        } 
-        
+
+        if (target == null) {
+            target = new ExternalItem(source.getCode(), source.getUri(), source.getUrn(), source.getType(), internationalStringToDo(source.getTitle(), null, metadataName),
+                    source.getManagementAppUrl());
+        } else {
+            target.setCode(source.getCode());
+            target.setUri(source.getUri());
+            target.setUrn(source.getUrn());
+            target.setType(source.getType());
+            target.setManagementAppUrl(source.getManagementAppUrl());
+            target.setTitle(internationalStringToDo(source.getTitle(), target.getTitle(), metadataName));
+        }
+
         return target;
-         
+
     }
 
     private InternationalString internationalStringToDo(InternationalStringDto source, InternationalString target, String metadataName) throws MetamacException {
