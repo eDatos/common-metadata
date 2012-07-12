@@ -8,6 +8,7 @@ import com.smartgwt.client.data.fields.DataSourceTextField;
 public class ConfigurationDS extends DataSource {
 
     public static final String CODE                = "code";
+    public static final String STATIC_CODE         = "code-view"; // Not mapped in DTO
     public static final String STATUS              = "status";
     public static final String LEGAL_ACTS          = "legal";
     public static final String DATA_SHARING        = "sharing";

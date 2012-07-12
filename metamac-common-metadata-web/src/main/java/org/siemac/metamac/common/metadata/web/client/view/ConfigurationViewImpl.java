@@ -37,6 +37,9 @@ import com.smartgwt.client.types.Visibility;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.HasClickHandlers;
+import com.smartgwt.client.widgets.form.DynamicForm;
+import com.smartgwt.client.widgets.form.FormItemIfFunction;
+import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.events.ChangedEvent;
 import com.smartgwt.client.widgets.form.fields.events.ChangedHandler;
 import com.smartgwt.client.widgets.grid.ListGridField;
@@ -303,6 +306,24 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
         code = new RequiredTextItem(ConfigurationDS.CODE, CommonMetadataWeb.getConstants().confCode());
         code.setValidators(CommonWebUtils.getSemanticIdentifierCustomValidator());
+        code.setShowIfCondition(new FormItemIfFunction() {
+
+            @Override
+            public boolean execute(FormItem item, Object value, DynamicForm form) {
+                // Code cannot be edited
+                return configurationDto.getId() == null;
+            }
+        });
+
+        ViewTextItem staticCode = new ViewTextItem(ConfigurationDS.STATIC_CODE, CommonMetadataWeb.getConstants().confCode());
+        staticCode.setShowIfCondition(new FormItemIfFunction() {
+
+            @Override
+            public boolean execute(FormItem item, Object value, DynamicForm form) {
+                // Code cannot be edited
+                return configurationDto.getId() != null;
+            }
+        });
 
         organisationItem = new ExternalSelectItem(ConfigurationDS.ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
         organisationItem.getSchemeItem().addChangedHandler(new ChangedHandler() {
@@ -324,7 +345,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         confPolicy = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
         confDataTreatment = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment());
 
-        form.setFields(code, organisationItem, status, legalActs, dataSharing, confPolicy, confDataTreatment);
+        form.setFields(staticCode, code, organisationItem, status, legalActs, dataSharing, confPolicy, confDataTreatment);
 
         mainFormLayout.addEditionCanvas(form);
     }
@@ -378,6 +399,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
     private void setConfigurationEditionMode(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
+        form.setValue(ConfigurationDS.STATIC_CODE, configurationDto.getCode());
         code.setValue(configurationDto.getCode());
         organisationItem.setValue(configurationDto.getContact() == null ? null : configurationDto.getContact().getUrn());
         form.setValue(ConfigurationDS.STATUS, configurationDto.getStatus() != null ? configurationDto.getStatus().toString() : new String());
