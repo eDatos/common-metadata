@@ -75,6 +75,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), configurationExpected);
         assertNotNull(configuration);
+        assertEquals("urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=" + configuration.getCode(), configuration.getUrn());
         CommonMetadataAsserts.assertEqualsConfiguration(configurationExpected, configuration);
     }
 
@@ -174,10 +175,34 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
 
-        configuration.setCode("Conf-modified");
+        // Legal Acts
+        InternationalString legalActs = new InternationalString();
+        LocalisedString legalActs_es = new LocalisedString();
+        legalActs_es.setLabel("new es Legal Acts");
+        legalActs_es.setLocale("es");
+        legalActs.addText(legalActs_es);
+        configuration.setLegalActs(legalActs);
+        
         Configuration updatedConfiguration = commonMetadataService.updateConfiguration(getServiceContextAdministrador(), configuration);
         assertNotNull(configuration);
         CommonMetadataAsserts.assertEqualsConfiguration(configuration, updatedConfiguration);
+
+    }
+    
+    @Test
+    @Transactional
+    public void testUpdateConfigurationCodeUnmodifiable() throws Exception {
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
+        assertNotNull(configuration);
+
+        configuration.setCode("Conf-modified");
+        
+        try {
+            commonMetadataService.updateConfiguration(getServiceContextAdministrador(), configuration);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.METADATA_UNMODIFIABLE.getCode(), e.getExceptionItems().get(0).getCode());
+            assertEquals(ServiceExceptionParameters.CONFIGURATION_CODE, e.getExceptionItems().get(0).getMessageParameters()[0]);
+        }
 
     }
 
