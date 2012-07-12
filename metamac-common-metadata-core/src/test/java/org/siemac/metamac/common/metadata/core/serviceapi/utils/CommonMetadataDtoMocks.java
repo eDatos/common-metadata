@@ -68,6 +68,7 @@ public class CommonMetadataDtoMocks {
         
         // Contact
         ExternalItemDto contact = new ExternalItemDto();
+        contact.setCode("CONTACT-CODE");
         contact.setUri("CONTACT-URI");
         contact.setUrn("CONTACT-URN");
         contact.setType(TypeExternalArtefactsEnum.AGENCY);

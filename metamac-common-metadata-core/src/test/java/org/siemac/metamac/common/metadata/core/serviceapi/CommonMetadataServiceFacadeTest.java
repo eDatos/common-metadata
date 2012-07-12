@@ -88,6 +88,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         
         ExternalItemDto contact = new ExternalItemDto();
+        contact.setCode("new-contact-code");
         contact.setUri("new-contact-uri");
         contact.setUrn("new-contact-urn");
         contact.setType(TypeExternalArtefactsEnum.AGENCY);

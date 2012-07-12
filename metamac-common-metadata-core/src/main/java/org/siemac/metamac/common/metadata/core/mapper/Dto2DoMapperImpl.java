@@ -82,15 +82,16 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
             return null;
         }
         
-        if (target == null) {
-            target = new ExternalItem(source.getUri(), source.getUrn(), source.getType(), internationalStringToDo(source.getTitle(), null, metadataName), source.getManagementAppUrl());
-        } else {
-            target.setUri(source.getUri());
-            target.setUrn(source.getUrn());
-            target.setType(source.getType());
-            target.setManagementAppUrl(source.getManagementAppUrl());
-            target.setTitle(internationalStringToDo(source.getTitle(), target.getTitle(), metadataName));
-        }
+        if (target == null) { 
+            target = new ExternalItem(source.getCode(), source.getUri(), source.getUrn(), source.getType(), internationalStringToDo(source.getTitle(), null, metadataName), source.getManagementAppUrl()); 
+        } else { 
+            target.setCode(source.getCode()); 
+            target.setUri(source.getUri()); 
+            target.setUrn(source.getUrn()); 
+            target.setType(source.getType()); 
+            target.setManagementAppUrl(source.getManagementAppUrl()); 
+            target.setTitle(internationalStringToDo(source.getTitle(), target.getTitle(), metadataName)); 
+        } 
         
         return target;
          

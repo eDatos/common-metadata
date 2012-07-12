@@ -74,7 +74,7 @@ public class Do2DtoMapperImpl implements Do2DtoMapper {
             return null;
         }
 
-        ExternalItemDto target = new ExternalItemDto(source.getUri(), source.getUrn(), source.getType(), internationalStringToDto(source.getTitle()), source.getManagementAppUrl());
+        ExternalItemDto target = new ExternalItemDto(source.getCode(), source.getUri(), source.getUrn(), source.getType(), internationalStringToDto(source.getTitle()), source.getManagementAppUrl()); 
 
         return target;
     }

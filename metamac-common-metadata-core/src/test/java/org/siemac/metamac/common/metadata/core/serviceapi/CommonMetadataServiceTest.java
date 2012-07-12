@@ -331,7 +331,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         configuration.setConfDataTreatment(confidentialityDataTreatment);
         
         // Contact
-        configuration.setContact(new ExternalItem("CONTACT-URI", "CONTACT-URN", TypeExternalArtefactsEnum.AGENCY, null, "CONTACT-MANAGEMENT_APP_URL"));
+        configuration.setContact(new ExternalItem("CONTACT-CODE", "CONTACT-URI", "CONTACT-URN", TypeExternalArtefactsEnum.AGENCY, null, "CONTACT-MANAGEMENT_APP_URL"));
 
         // Status
         configuration.setStatus(CommonMetadataStatusEnum.ENABLED);
