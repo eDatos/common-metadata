@@ -37,14 +37,33 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
     @Override
     public Configuration findConfigurationById(ServiceContext ctx, Long id) throws MetamacException {
         InvocationValidator.checkFindConfigurationById(id, null);
-        
+
         // Service operation
         try {
             return configurationRepository.findById(id);
         } catch (Exception e) {
             throw new MetamacException(ServiceExceptionType.CONFIGURATION_NOT_FOUND, id);
         }
+    }
 
+    @Override
+    public Configuration findConfigurationByUrn(ServiceContext ctx, String urn) throws MetamacException {
+        InvocationValidator.checkFindConfigurationByUrn(urn, null);
+
+        // Prepare criteria
+        List<ConditionalCriteria> conditions = criteriaFor(Configuration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties.urn()).eq(urn).distinctRoot().build();
+
+        // Find
+        List<Configuration> result = findConfigurationByCondition(ctx, conditions);
+
+        if (result.size() == 0) {
+            throw new MetamacException(ServiceExceptionType.CONFIGURATION_NOT_FOUND, urn);
+        } else if (result.size() > 1) {
+            throw new MetamacException(ServiceExceptionType.UNKNOWN, "More than one configuration with urn " + urn);
+        }
+
+        // Return unique result
+        return result.get(0);
     }
 
     @Override
@@ -57,7 +76,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
     public List<Configuration> findConfigurationByCondition(ServiceContext ctx, List<ConditionalCriteria> conditions) throws MetamacException {
         // Validations
         InvocationValidator.checkFindConfigurationByCondition(conditions, null);
-        
+
         // Initializations
         initCriteriaConditions(conditions, Configuration.class);
 
@@ -69,7 +88,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
     public Configuration createConfiguration(ServiceContext ctx, Configuration configuration) throws MetamacException {
         // Fill metadata
         configuration.setUrn(GeneratorUrnUtils.generateSiemacCommonMetadataUrn(configuration.getCode()));
-        
+
         // Validations
         InvocationValidator.checkCreateConfiguration(configuration, null);
         validateConfigurationCodeUnique(ctx, configuration.getCode(), null);
@@ -90,27 +109,27 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
     @Override
     public void deleteConfiguration(ServiceContext ctx, Long configurationId) throws MetamacException {
         InvocationValidator.checkDeleteConfiguration(configurationId, null);
-        
+
         // Repository operation
         Configuration configuration = findConfigurationById(ctx, configurationId);
         configurationRepository.delete(configuration);
     }
-    
+
     @Override
     public List<Configuration> updateConfigurationsStatus(ServiceContext ctx, List<Long> configurationIds, CommonMetadataStatusEnum status) throws MetamacException {
         // Validations
         InvocationValidator.checkUpdateConfigurationsStatus(configurationIds, status, null);
-        
+
         // Update status
         List<Configuration> updatedCondifurations = new ArrayList<Configuration>();
-        
+
         for (Long id : configurationIds) {
             Configuration configuration = findConfigurationById(ctx, id);
             configuration.setStatus(status);
             configuration = updateConfiguration(ctx, configuration);
             updatedCondifurations.add(configuration);
         }
-        
+
         // Return
         return updatedCondifurations;
     }
@@ -153,6 +172,5 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
         }
         return conditionsEntity;
     }
-
 
 }

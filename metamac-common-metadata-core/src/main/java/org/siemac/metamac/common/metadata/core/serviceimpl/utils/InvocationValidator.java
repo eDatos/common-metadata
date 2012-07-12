@@ -28,6 +28,17 @@ public class InvocationValidator {
 
         ExceptionUtils.throwIfException(exceptions);
     }
+    
+    public static void checkFindConfigurationByUrn(String urn, List<MetamacExceptionItem> exceptions) throws MetamacException {
+        if (exceptions == null) {
+            exceptions = new ArrayList<MetamacExceptionItem>();
+        }
+
+        ValidationUtils.checkParameterRequired(urn, ServiceExceptionParameters.URN, exceptions);
+
+        ExceptionUtils.throwIfException(exceptions);
+        
+    }
 
     public static void checkFindAllConfigurations(List<MetamacExceptionItem> exceptions) throws MetamacException {
         if (exceptions == null) {
@@ -110,5 +121,6 @@ public class InvocationValidator {
         }
 
     }
+
 
 }

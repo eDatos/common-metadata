@@ -44,7 +44,23 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
         commonMetadataServiceFacade.findConfigurationById(getServiceContextTecnicoApoyoProduccion(), configurationId);
         commonMetadataServiceFacade.findConfigurationById(getServiceContextTecnicoDifusion(), configurationId);
         commonMetadataServiceFacade.findConfigurationById(getServiceContextTecnicoApoyoDifusion(), configurationId);
+    }
+    
+    @Test
+    public void testFindConfigurationByUrn() throws Exception {
+        String configurationUrn = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto()).getUrn();
 
+        commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextAdministrador(), configurationUrn);
+        commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextJefeNormalizacion(), configurationUrn);
+        commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextTecnicoNormalizacion(), configurationUrn);
+        commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextTecnicoApoyoNormalizacion(), configurationUrn);
+        commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextTecnicoPlanificacion(), configurationUrn);
+        commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextTecnicoApoyoPlanificacion(), configurationUrn);
+        commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextTecnicoProduccion(), configurationUrn);
+        commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextTecnicoApoyoProduccion(), configurationUrn);
+        commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextTecnicoDifusion(), configurationUrn);
+        commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextTecnicoApoyoDifusion(), configurationUrn);
+        
     }
 
     @Test

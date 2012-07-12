@@ -3,6 +3,7 @@ package org.siemac.metamac.common.metadata.core.error;
 public class ServiceExceptionParameters {
 
     public static final String ID                                = "id";
+    public static final String URN                                = "urn";
     public static final String STATUS                            = "status";
     public static final String CONFIGURATION_IDS                 = "configurationIds";
 

@@ -44,6 +44,15 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         assertNotNull(configurationRetrieved);
         CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, configurationRetrieved);
     }
+    
+    @Test
+    public void testFindConfigurationByUrn() throws Exception {
+        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
+        ConfigurationDto configurationRetrieved = commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextAdministrador(), configurationDto.getUrn());
+        assertNotNull(configurationRetrieved);
+        CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, configurationRetrieved);
+        
+    }
 
     @Test
     public void testFindConfigurationByIdNotFound() throws MetamacException {
@@ -161,4 +170,5 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         assertNotNull(configurationDto);
         CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, updatedConfigurationDto);
     }
+
 }

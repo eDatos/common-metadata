@@ -16,6 +16,7 @@ Application CommonMetadata {
 			>@CommonMetadataService
 			
 			@ConfigurationDto findConfigurationById(Long id) throws MetamacException;
+			@ConfigurationDto findConfigurationByUrn(String urn) throws MetamacException;
 			List<@ConfigurationDto> findAllConfigurations throws MetamacException;
 			@ConfigurationDto createConfiguration(@ConfigurationDto configuration) throws MetamacException;
 			@ConfigurationDto updateConfiguration(@ConfigurationDto configuration) throws MetamacException;
@@ -33,6 +34,7 @@ Application CommonMetadata {
 			> @ConfigurationRepository
 			
 			@Configuration findConfigurationById(Long id) throws MetamacException;
+			@Configuration findConfigurationByUrn(String urn) throws MetamacException;
 			List<@Configuration> findAllConfigurations throws MetamacException;
 			List<@Configuration> findConfigurationByCondition(List<ConditionalCriteria> condition) throws MetamacException;
 			@Configuration createConfiguration(@Configuration configuration) throws MetamacException;

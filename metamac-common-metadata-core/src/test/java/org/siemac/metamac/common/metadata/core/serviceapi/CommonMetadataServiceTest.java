@@ -57,6 +57,28 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         assertNotNull(configurationRetrieved);
         CommonMetadataAsserts.assertEqualsConfiguration(configuration, configurationRetrieved);
     }
+    
+    @Test
+    @Transactional
+    public void testFindConfigurationByUrn() throws Exception {
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
+        assertNotNull(configuration);
+        Configuration configurationRetrieved = commonMetadataService.findConfigurationByUrn(getServiceContextAdministrador(), configuration.getUrn());
+        assertNotNull(configurationRetrieved);
+        CommonMetadataAsserts.assertEqualsConfiguration(configuration, configurationRetrieved);
+    }
+    
+    @Test
+    @Transactional
+    public void testFindConfigurationByUrnNotExists() throws Exception {
+        String urn = "not_exists";
+
+        try {
+            commonMetadataService.findConfigurationByUrn(getServiceContextAdministrador(), urn);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.CONFIGURATION_NOT_FOUND.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+    }
 
     @Test
     @Transactional

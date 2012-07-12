@@ -43,6 +43,19 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         return configurationDto;
     }
 
+    public ConfigurationDto findConfigurationByUrn(ServiceContext ctx, String urn) throws MetamacException {
+        // Security
+        SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.ANY_ROLE_ALLOWED);
+
+        // Service call
+        Configuration configuration = getCommonMetadataService().findConfigurationByUrn(ctx, urn);
+
+        // Transform to Dto
+        ConfigurationDto configurationDto = do2DtoMapper.configurationDoToDto(configuration);
+
+        return configurationDto;
+    }
+
     public List<ConfigurationDto> findAllConfigurations(ServiceContext ctx) throws MetamacException {
 
         // Security
@@ -125,4 +138,5 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         return configurationDtos;
 
     }
+
 }
