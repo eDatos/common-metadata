@@ -32,6 +32,7 @@ public class Do2DtoMapperImpl implements Do2DtoMapper {
         target.setLastUpdatedBy(source.getLastUpdatedBy());
 
         target.setCode(source.getCode());
+        target.setUrn(source.getUrn());
 
         target.setLegalActs(internationalStringToDto(source.getLegalActs()));
         target.setDataSharing(internationalStringToDto(source.getDataSharing()));

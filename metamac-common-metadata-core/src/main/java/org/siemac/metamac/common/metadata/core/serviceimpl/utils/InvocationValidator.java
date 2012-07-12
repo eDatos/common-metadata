@@ -102,6 +102,7 @@ public class InvocationValidator {
     private static void checkConfiguration(Configuration configuration, List<MetamacExceptionItem> exceptions) {
         ValidationUtils.checkParameterRequired(configuration, ServiceExceptionParameters.CONFIGURATION, exceptions);
         ValidationUtils.checkMetadataRequired(configuration.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
+        ValidationUtils.checkMetadataRequired(configuration.getUrn(), ServiceExceptionParameters.CONFIGURATION_URN, exceptions);
         ValidationUtils.checkMetadataRequired(configuration.getStatus(), ServiceExceptionParameters.CONFIGURATION_STATUS, exceptions);
         
         if (configuration.getCode() != null && !CoreCommonUtil.isSemanticIdentifier(configuration.getCode())) {

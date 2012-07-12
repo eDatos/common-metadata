@@ -71,6 +71,7 @@ public class CommonMetadataAsserts {
             fail();
         }
         
+        assertEquals(expected.getCode(), actual.getCode());
         assertEquals(expected.getUri(), actual.getUri());
         assertEquals(expected.getUrn(), actual.getUrn());
         assertEquals(expected.getType(), actual.getType());

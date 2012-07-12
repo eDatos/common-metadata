@@ -8,6 +8,7 @@ Application CommonMetadataDto {
          
         DataTransferObject ConfigurationDto extends @AuditableDto   {
         	String code;
+        	String urn nullable;
         	-@InternationalStringDto legalActs nullable;
         	-@InternationalStringDto dataSharing nullable;
         	-@InternationalStringDto confPolicy nullable;

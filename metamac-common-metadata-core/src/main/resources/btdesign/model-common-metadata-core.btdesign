@@ -54,6 +54,7 @@ Application CommonMetadata {
 			gap
 			
 			String code;
+       		String urn length="4000";
 			-@InternationalString legalActs cascade="all" nullable databaseColumn="LEGAL_ACTS_FK";
 			-@InternationalString dataSharing cascade="all" nullable databaseColumn="DATA_SHARING_FK";
 			-@InternationalString confPolicy cascade="all" nullable databaseColumn="CONF_POLICY_FK";

@@ -74,17 +74,20 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
     }
 
     @Test
-    public void testUpdateConfiguration() throws Exception {
+    public void testUpdateConfigurationCodeUnmodifiable() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         configurationDto.setCode("Conf-modified");
-        
-        ConfigurationDto updatedConfigurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
-        assertNotNull(configurationDto);
-        CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, updatedConfigurationDto);
+
+        try {
+            commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
+        } catch (MetamacException e) {
+            assertEquals(1, e.getExceptionItems().size());
+            assertEquals(ServiceExceptionType.METADATA_UNMODIFIABLE.getCode(), e.getExceptionItems().get(0).getCode());
+        }
     }
     
     @Test
-    public void testUpdateConfigurationContact() throws Exception {
+    public void testUpdateConfiguration() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         
         ExternalItemDto contact = new ExternalItemDto();
@@ -109,12 +112,12 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         // Retrieve configuration - session 1
         ConfigurationDto configurationDtoSession1 = commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), id);
         assertEquals(Long.valueOf(0), configurationDtoSession1.getOptimisticLockingVersion());
-        configurationDtoSession1.setCode("newCode1");
+        configurationDtoSession1.setConfDataTreatment(MetamacMocks.mockInternationalString("es", "newConf1"));
 
         // Retrieve configuration - session 2
         ConfigurationDto configurationDtoSession2 = commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), id);
         assertEquals(Long.valueOf(0), configurationDtoSession2.getOptimisticLockingVersion());
-        configurationDtoSession2.setCode("newCode2");
+        configurationDtoSession2.setConfDataTreatment(MetamacMocks.mockInternationalString("es", "newConf2"));
 
         // Update configuration - session 1
         ConfigurationDto configurationDtoSession1AfterUpdate = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDtoSession1);
@@ -131,7 +134,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         }
 
         // Update configuration - session 1
-        configurationDtoSession1AfterUpdate.setCode("newCode1_secondUpdate");
+        configurationDtoSession1AfterUpdate.setConfDataTreatment(MetamacMocks.mockInternationalString("es", "newConf1_secondUpdate"));
         ConfigurationDto configurationDtoSession1AfterUpdate2 = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDtoSession1AfterUpdate);
         assertEquals(Long.valueOf(2), configurationDtoSession1AfterUpdate2.getOptimisticLockingVersion());
 
@@ -151,7 +154,6 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         assertNotNull(configurationDto);
 
-        configurationDto.setCode("Conf-modified");
         configurationDto.setStatus(CommonMetadataStatusEnum.DISABLED);
 
         ConfigurationDto updatedConfigurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
