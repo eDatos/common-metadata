@@ -45,7 +45,7 @@
         <property name="marshallerProperties" ref="propertiesMap" />
     </bean>
 
-    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
+    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider">
         <property name="mapper" ref="jacksonJsonMapper" />
     </bean>
     

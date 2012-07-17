@@ -7,16 +7,16 @@ import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBui
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
 import org.siemac.metamac.rest.common.test.mockito.ConditionalCriteriasMatcher;
 
-public class FindConfigurationsByCodeMatcher extends ConditionalCriteriasMatcher {
+public class FindConfigurationsByIdMatcher extends ConditionalCriteriasMatcher {
 
-    private String configurationCode;
+    private String configurationId;
 
-    public FindConfigurationsByCodeMatcher(String configurationCode) {
-        this.configurationCode = configurationCode;
+    public FindConfigurationsByIdMatcher(String configurationId) {
+        this.configurationId = configurationId;
     }
     public boolean matches(Object actual) {
-        List<ConditionalCriteria> expected = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class)
-                .withProperty(ConfigurationProperties.code()).eq(configurationCode).distinctRoot().build();
+        List<ConditionalCriteria> expected = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class).withProperty(ConfigurationProperties.code())
+                .eq(configurationId).distinctRoot().build();
         return super.matches(expected, actual);
     }
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<resourcesNoPagedResult xmlns="http://www.siemac.org/metamac/rest/common/v1.0/domain">
+    <kind>commonMetadata#configurations</kind>
+    <total>3</total>
+    <items>
+        <id>configuration1</id>
+        <urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration1</urn>
+        <kind>commonMetadata#configuration</kind>
+        <selfLink>http://localhost:9001/internal/v1.0/configurations/configuration1</selfLink>
+    </items>
+    <items>
+        <id>configuration2</id>
+        <urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration2</urn>
+        <kind>commonMetadata#configuration</kind>
+        <selfLink>http://localhost:9001/internal/v1.0/configurations/configuration2</selfLink>
+    </items>
+    <items>
+        <id>configuration15</id>
+        <urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration15</urn>
+        <kind>commonMetadata#configuration</kind>
+        <selfLink>http://localhost:9001/internal/v1.0/configurations/configuration15</selfLink>
+    </items>
+</resourcesNoPagedResult>

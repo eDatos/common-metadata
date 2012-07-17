@@ -9,6 +9,7 @@ public class CommonMetadataRestAsserts {
 
     public static void assertEqualsConfiguration(Configuration expected, Configuration actual) {
         assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getUrn(), actual.getUrn());
         assertEquals(expected.getKind(), actual.getKind());
         assertEquals(expected.getSelfLink(), actual.getSelfLink());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getLegalActs(), actual.getLegalActs());
@@ -17,7 +18,7 @@ public class CommonMetadataRestAsserts {
         MetamacRestAsserts.assertEqualsInternationalString(expected.getConfDataTreatment(), actual.getConfDataTreatment());
         MetamacRestAsserts.assertEqualsResource(expected.getContact(), actual.getContact());
         assertEquals(expected.getStatus(), actual.getStatus());
-        MetamacRestAsserts.assertEqualsResource(expected.getParent(), actual.getParent());
-        MetamacRestAsserts.assertEqualsResources(expected.getchildren(), actual.getchildren());
+        MetamacRestAsserts.assertEqualsResourceLink(expected.getParent(), actual.getParent());
+        MetamacRestAsserts.assertEqualsResourcesLinks(expected.getChildren(), actual.getChildren());
     }
 }

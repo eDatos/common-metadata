@@ -16,4 +16,9 @@
 		               parseMethod="org.apache.cxf.tools.common.DataTypeAdapter.parseDateTime" 
 					   printMethod="org.apache.cxf.tools.common.DataTypeAdapter.printDateTime" />
 	</jaxb:globalBindings> 
+	
+	<!-- Avoid incorrect plurals -->
+ 	<jaxb:bindings node="//xs:complexType[@name='Configuration']//xs:element[@name='children']">
+            <jaxb:property name="children"/>
+	</jaxb:bindings>	
 </jaxb:bindings>

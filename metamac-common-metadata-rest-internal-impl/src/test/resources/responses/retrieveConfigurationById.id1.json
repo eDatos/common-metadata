@@ -1,0 +1,77 @@
+{
+  "id": "configuration1",
+  "urn": "urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration1",
+  "kind": "commonMetadata#configuration",
+  "selfLink": "http://localhost:9001/internal/v1.0/configurations/configuration1",
+  "dataSharing": {
+    "texts": [
+      {
+        "locale": "en",
+        "label": "dataSharing1 in English"
+      },
+      {
+        "locale": "es",
+        "label": "dataSharing1 en Español"
+      }
+    ]
+  },
+  "legalActs": {
+    "texts": [
+      {
+        "locale": "es",
+        "label": "legalActs1 en Español"
+      },
+      {
+        "locale": "en",
+        "label": "legalActs1 in English"
+      }
+    ]
+  },
+  "confPolicy": {
+    "texts": [
+      {
+        "locale": "en",
+        "label": "confPolicy1 in English"
+      },
+      {
+        "locale": "es",
+        "label": "confPolicy1 en Español"
+      }
+    ]
+  },
+  "confDataTreatment": {
+    "texts": [
+      {
+        "locale": "en",
+        "label": "confDataTreatment1 in English"
+      },
+      {
+        "locale": "es",
+        "label": "confDataTreatment1 en Español"
+      }
+    ]
+  },
+  "contact": {
+    "id": "contact1",
+    "urn": "urn:contact1",
+    "kind": "AGENCY",
+    "selfLink": "http://contact1",
+    "title": {
+      "texts": [
+        {
+          "locale": "en",
+          "label": "contact1 in English"
+        },
+        {
+          "locale": "es",
+          "label": "contact1 en Español"
+        }
+      ]
+    }
+  },
+  "status": "ENABLED",
+  "parent": {
+    "kind": "commonMetadata#configurations",
+    "selfLink": "http://localhost:9001/internal/v1.0/configurations"
+  }
+}

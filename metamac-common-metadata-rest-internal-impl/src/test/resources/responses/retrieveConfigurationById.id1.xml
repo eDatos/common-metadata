@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.siemac.org/metamac/common/metadata/rest/internal/v1.0/domain" xmlns:ns2="http://www.siemac.org/metamac/rest/common/v1.0/domain">
+    <id>configuration1</id>
+    <urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration1</urn>
+    <kind>commonMetadata#configuration</kind>
+    <selfLink>http://localhost:9001/internal/v1.0/configurations/configuration1</selfLink>
+    <dataSharing>
+        <ns2:text>
+            <ns2:locale>en</ns2:locale>
+            <ns2:label>dataSharing1 in English</ns2:label>
+        </ns2:text>
+        <ns2:text>
+            <ns2:locale>es</ns2:locale>
+            <ns2:label>dataSharing1 en Español</ns2:label>
+        </ns2:text>
+    </dataSharing>
+    <legalActs>
+        <ns2:text>
+            <ns2:locale>es</ns2:locale>
+            <ns2:label>legalActs1 en Español</ns2:label>
+        </ns2:text>
+        <ns2:text>
+            <ns2:locale>en</ns2:locale>
+            <ns2:label>legalActs1 in English</ns2:label>
+        </ns2:text>
+    </legalActs>
+    <confPolicy>
+        <ns2:text>
+            <ns2:locale>en</ns2:locale>
+            <ns2:label>confPolicy1 in English</ns2:label>
+        </ns2:text>
+        <ns2:text>
+            <ns2:locale>es</ns2:locale>
+            <ns2:label>confPolicy1 en Español</ns2:label>
+        </ns2:text>
+    </confPolicy>
+    <confDataTreatment>
+        <ns2:text>
+            <ns2:locale>es</ns2:locale>
+            <ns2:label>confDataTreatment1 en Español</ns2:label>
+        </ns2:text>
+        <ns2:text>
+            <ns2:locale>en</ns2:locale>
+            <ns2:label>confDataTreatment1 in English</ns2:label>
+        </ns2:text>
+    </confDataTreatment>
+    <contact>
+        <ns2:id>contact1</ns2:id>
+        <ns2:urn>urn:contact1</ns2:urn>
+        <ns2:kind>AGENCY</ns2:kind>
+        <ns2:selfLink>http://contact1</ns2:selfLink>
+        <ns2:title>
+            <ns2:text>
+                <ns2:locale>es</ns2:locale>
+                <ns2:label>contact1 en Español</ns2:label>
+            </ns2:text>
+            <ns2:text>
+                <ns2:locale>en</ns2:locale>
+                <ns2:label>contact1 in English</ns2:label>
+            </ns2:text>
+        </ns2:title>
+    </contact>
+    <status>ENABLED</status>
+    <parent>
+        <ns2:kind>commonMetadata#configurations</ns2:kind>
+        <ns2:selfLink>http://localhost:9001/internal/v1.0/configurations</ns2:selfLink>
+    </parent>
+</configuration>

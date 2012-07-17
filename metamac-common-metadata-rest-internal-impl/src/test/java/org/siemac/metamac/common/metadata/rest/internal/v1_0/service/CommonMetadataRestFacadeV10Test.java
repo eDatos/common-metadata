@@ -14,40 +14,53 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.ServerWebApplicationException;
 import org.apache.cxf.jaxrs.client.WebClient;
+import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
+import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
+import org.siemac.metamac.common.metadata.rest.internal.exception.RestServiceExceptionType;
+import org.siemac.metamac.common.metadata.rest.internal.v1_0.domain.CommonMetadataStatus;
 import org.siemac.metamac.common.metadata.rest.internal.v1_0.domain.Configuration;
-import org.siemac.metamac.common.metadata.rest.internal.v1_0.mockito.FindConfigurationsByCodeMatcher;
+import org.siemac.metamac.common.metadata.rest.internal.v1_0.domain.ConfigurationCriteriaPropertyRestriction;
+import org.siemac.metamac.common.metadata.rest.internal.v1_0.mockito.FindConfigurationsByIdMatcher;
+import org.siemac.metamac.common.metadata.rest.internal.v1_0.mockito.FindConfigurationsMatcher;
 import org.siemac.metamac.common.metadata.rest.internal.v1_0.utils.CommonMetadataCoreMocks;
 import org.siemac.metamac.common.metadata.rest.internal.v1_0.utils.CommonMetadataRestAsserts;
 import org.siemac.metamac.common.metadata.rest.internal.v1_0.utils.CommonMetadataRestMocks;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.util.ApplicationContextProvider;
+import org.siemac.metamac.rest.RestConstants;
 import org.siemac.metamac.rest.common.test.MetamacRestBaseTest;
 import org.siemac.metamac.rest.common.test.ServerResource;
 import org.siemac.metamac.rest.common.test.utils.MetamacRestAsserts;
+import org.siemac.metamac.rest.common.v1_0.domain.ComparisonOperator;
+import org.siemac.metamac.rest.common.v1_0.domain.ResourcesNoPagedResult;
+import org.siemac.metamac.rest.utils.RestUtils;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.util.UriUtils;
 
 public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
 
-    private static final String                PORT                = ServerResource.PORT;
-    private static String                      baseApi             = "http://localhost:" + PORT + "/internal/v1.0";
+    private static final String                PORT                          = ServerResource.PORT;
+    private static String                      baseApi                       = "http://localhost:" + PORT + "/internal/v1.0";
 
     private static CommonMetadataRestFacadeV10 commonMetadataRestFacadeClientXml;
     private static CommonMetadataRestFacadeV10 commonMetadataRestFacadeClientJson;
 
-    private static ApplicationContext          applicationContext  = null;
+    private static ApplicationContext          applicationContext            = null;
 
-    private static String                      NOT_EXISTS          = "NOT_EXISTS";
+    private static String                      NOT_EXISTS                    = "NOT_EXISTS";
 
-    // Configurations
-    public static String                       CONFIGURATION_CODE1 = "configuration1";
-    public static String                       CONFIGURATION_CODE2 = "configuration2";
+    public static String                       CONFIGURATION_1               = "configuration1";
+    public static String                       CONFIGURATION_2               = "configuration2";
+    public static String                       CONFIGURATION_3               = "configuration3";
+    public static String                       CONFIGURATION_15               = "configuration15";
+    public static String                       QUERY_CONFIGURATION_ID_LIKE_1 = ConfigurationCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
 
@@ -59,16 +72,18 @@ public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
 
         // Rest clients
         // xml
-        commonMetadataRestFacadeClientXml = JAXRSClientFactory.create(baseApi, CommonMetadataRestFacadeV10.class);
-        WebClient.client(commonMetadataRestFacadeClientXml).accept(APPLICATION_XML);
+        {
+            List providers = new ArrayList();
+            providers.add(new org.apache.cxf.jaxrs.provider.JAXBElementProvider());
+            commonMetadataRestFacadeClientXml = JAXRSClientFactory.create(baseApi, CommonMetadataRestFacadeV10.class, providers, Boolean.TRUE);
+        }
         // json
-        commonMetadataRestFacadeClientJson = JAXRSClientFactory.create(baseApi, CommonMetadataRestFacadeV10.class);
-        WebClient.client(commonMetadataRestFacadeClientJson).accept(APPLICATION_JSON);
-
-    }
-
-    @Before
-    public void setUp() throws Exception {
+        {
+            List providers = new ArrayList();
+            providers.add(new org.codehaus.jackson.jaxrs.JacksonJsonProvider());
+            commonMetadataRestFacadeClientJson = JAXRSClientFactory.create(baseApi, CommonMetadataRestFacadeV10.class, providers, Boolean.TRUE);
+        }
+        // Mockito
         setUpMockito();
     }
 
@@ -82,105 +97,239 @@ public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
     }
 
     @Test
-    public void testRetrieveConfigurationByCodeXml() throws Exception {
+    public void testRetrieveConfigurationByIdXml() throws Exception {
 
         // Retrieve
-        Configuration configuration = commonMetadataRestFacadeClientXml.retrieveConfigurationByCode(CONFIGURATION_CODE1);
+        Configuration configuration = getCommonMetadataRestFacadeClientXml().retrieveConfigurationById(CONFIGURATION_1);
+
+        // Validation
+        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration1(baseApi), configuration);
+    }
+    
+    @Test
+    public void testRetrieveConfigurationDisabledByIdXml() throws Exception {
+
+        // Retrieve
+        Configuration configuration = getCommonMetadataRestFacadeClientXml().retrieveConfigurationById(CONFIGURATION_3);
+
+        // Validation
+        assertEquals(CommonMetadataStatus.DISABLED, configuration.getStatus());
+        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration3(baseApi), configuration);
+    }
+
+    @Test
+    public void testRetrieveConfigurationByIdXmlWithoutJaxbTransformation() throws Exception {
+
+        String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1);
+        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
+
+        // Request and validate
+        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
+    }
+
+    @Test
+    public void testRetrieveConfigurationByIdJson() throws Exception {
+
+        // Retrieve
+        Configuration configuration = getCommonMetadataRestFacadeClientJson().retrieveConfigurationById(CONFIGURATION_1);
 
         // Validation
         CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration1(baseApi), configuration);
     }
 
-    @Ignore
     @Test
-    public void testRetrieveConfigurationByCodeJson() throws Exception {
-        // NOTE: Throws exception. We dont support calls with jaxb transformation when media type is Json. @see METAMAC-675
-        // Configuration configuration = commonMetadataRestFacadeClientJson.retrieveConfigurationByCode(CONFIGURATION_CODE1);
-        // CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration1(baseApi), configuration);
+    public void testRetrieveConfigurationByIdJsonWithoutJaxbTransformation() throws Exception {
+
+        String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1);
+        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.json");
+
+        // Request and validate
+        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.OK, responseExpected);
     }
 
-    // TODO pendientes tests!
-//    @Test
-//    public void testRetrieveConfigurationByCodeXmlWithoutJaxbTransformation() throws Exception {
-//
-//        String requestUri = getRequestUriRetrieveConfigurationByCode(CONFIGURATION_CODE1);
-//        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationByCode.code1.xml");
-//
-//        // Request and validate
-//        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
-//    }
-//
-//    @Test
-//    public void testRetrieveConfigurationByCodeJsonWithoutJaxbTransformation() throws Exception {
-//
-//        String requestUri = getRequestUriRetrieveConfigurationByCode(CONFIGURATION_CODE1);
-//        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationByCode.code1.json");
-//
-//        // Request and validate
-//        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.OK, responseExpected);
-//    }
-//
-//    @Test
-//    public void testRetrieveConfigurationByCodeErrorNotExistsXml() throws Exception {
-//        try {
-//            commonMetadataRestFacadeClientXml.retrieveConfigurationByCode(NOT_EXISTS);
-//        } catch (Exception e) {
-//            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationByCode.notFound.xml");
-//            InputStream responseActual = (InputStream) ((ServerWebApplicationException) e).getResponse().getEntity();
-//            MetamacRestAsserts.assertEqualsResponse(responseExpected, responseActual);
-//        }
-//    }
-//
-//    @Test
-//    public void testRetrieveConfigurationByCodeErrorNotExistsJson() throws Exception {
-//
-//        try {
-//            commonMetadataRestFacadeClientJson.retrieveConfigurationByCode(NOT_EXISTS);
-//        } catch (Exception e) {
-//            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationByCode.notFound.json");
-//            InputStream responseActual = (InputStream) ((ServerWebApplicationException) e).getResponse().getEntity();
-//            MetamacRestAsserts.assertEqualsResponse(responseExpected, responseActual);
-//        }
-//    }
-//
-//    @Test
-//    public void testRetrieveConfigurationByCodeErrorNotExistsXmlWithoutJaxbTransformation() throws Exception {
-//        String requestUri = getRequestUriRetrieveConfigurationByCode(NOT_EXISTS);
-//        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationByCode.notFound.xml");
-//
-//        // Request and validate
-//        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.NOT_FOUND, responseExpected);
-//    }
-//
-//    @Test
-//    public void testRetrieveConfigurationByCodeErrorNotExistsJsonWithoutJaxbTransformation() throws Exception {
-//        String requestUri = getRequestUriRetrieveConfigurationByCode(NOT_EXISTS);
-//        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationByCode.notFound.json");
-//
-//        // Request and validate
-//        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.NOT_FOUND, responseExpected);
-//    }
+    @Test
+    public void testRetrieveConfigurationByIdErrorNotExistsXml() throws Exception {
+        try {
+            getCommonMetadataRestFacadeClientXml().retrieveConfigurationById(NOT_EXISTS);
+        } catch (ServerWebApplicationException e) {
+            org.siemac.metamac.rest.common.v1_0.domain.Error error = extractErrorFromException(commonMetadataRestFacadeClientXml, e);
 
-    private String getRequestUriRetrieveConfigurationByCode(String code) {
-        return baseApi + "/configurations/" + code;
-    }
-
-    private void setUpMockito() throws MetamacException {
-        // MOCKS
-        CommonMetadataService commonMetadata = applicationContext.getBean(CommonMetadataService.class);
-        // Retrieve configurations
-        mockitoFindConfigurationByCode(commonMetadata, CONFIGURATION_CODE1);
-        mockitoFindConfigurationByCode(commonMetadata, CONFIGURATION_CODE2);
-    }
-
-    private void mockitoFindConfigurationByCode(CommonMetadataService commonMetadata, String code) throws MetamacException {
-        List<org.siemac.metamac.common.metadata.core.domain.Configuration> configurationEntities = new ArrayList<org.siemac.metamac.common.metadata.core.domain.Configuration>();
-        if (CONFIGURATION_CODE1.equals(code)) {
-            configurationEntities.add(CommonMetadataCoreMocks.mockConfiguration1());
-        } else if (CONFIGURATION_CODE2.equals(code)) {
-            configurationEntities.add(CommonMetadataCoreMocks.mockConfiguration2());
+            assertEquals(1, error.getErrorItems().size());
+            assertEquals(RestServiceExceptionType.CONFIGURATION_NOT_FOUND.getCode(), error.getErrorItems().get(0).getCode());
+            assertEquals("Configuration not found with id {0}", error.getErrorItems().get(0).getMessage());
+            assertEquals(1, error.getErrorItems().get(0).getParameters().size());
+            assertEquals(NOT_EXISTS, error.getErrorItems().get(0).getParameters().get(0));
+        } catch (Exception e) {
+            fail("Incorrect exception");
         }
+    }
+
+    @Test
+    public void testRetrieveConfigurationByIdErrorNotExistsXmlWithoutJaxbTransformation() throws Exception {
+        String requestUri = getRequestUriRetrieveConfigurationById(NOT_EXISTS);
+        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.notFound.xml");
+
+        // Request and validate
+        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.NOT_FOUND, responseExpected);
+    }
+
+    @Test
+    public void testRetrieveConfigurationByIdErrorNotExistsJson() throws Exception {
+
+        try {
+            getCommonMetadataRestFacadeClientJson().retrieveConfigurationById(NOT_EXISTS);
+        } catch (Exception e) {
+            // note: do not work 'extractErrorFromException'
+            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.notFound.json");
+            InputStream responseActual = (InputStream) ((ServerWebApplicationException) e).getResponse().getEntity();
+            MetamacRestAsserts.assertEqualsResponse(responseExpected, responseActual);
+        }
+    }
+
+    @Test
+    public void testRetrieveConfigurationByIdErrorNotExistsJsonWithoutJaxbTransformation() throws Exception {
+        String requestUri = getRequestUriRetrieveConfigurationById(NOT_EXISTS);
+        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.notFound.json");
+
+        // Request and validate
+        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.NOT_FOUND, responseExpected);
+    }
+
+    @Test
+    public void testFindConfigurationsXml() throws Exception {
+
+        {
+            // without query
+            String query = null;
+            String orderBy = null;
+            ResourcesNoPagedResult noPagedResult = getCommonMetadataRestFacadeClientXml().findConfigurations(query, orderBy);
+            MetamacRestAsserts.assertEqualsResourcesNoPagedResult(CommonMetadataRestMocks.mockConfigurationsNoPagedResult(baseApi, null), noPagedResult);
+        }
+        {
+            // query by id
+            String query = QUERY_CONFIGURATION_ID_LIKE_1; // configuration1 and configuration15
+            String orderBy = null;
+            ResourcesNoPagedResult noPagedResult = getCommonMetadataRestFacadeClientXml().findConfigurations(query, orderBy);
+            MetamacRestAsserts.assertEqualsResourcesNoPagedResult(CommonMetadataRestMocks.mockConfigurationsNoPagedResult(baseApi, query), noPagedResult);
+        }
+    }
+
+    @Test
+    public void testFindConfigurationsXmlWithoutJaxbTransformation() throws Exception {
+        {
+            // without query
+            String requestUri = getRequestUriFindConfigurations(null);
+            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.noquery.xml");
+
+            // Request and validate
+            testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
+        }
+        {
+            // query by id
+            String query = QUERY_CONFIGURATION_ID_LIKE_1;
+            String requestUri = getRequestUriFindConfigurations(query);
+            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.query1.xml");
+
+            // Request and validate
+            testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
+        }
+    }
+
+    @Test
+    public void testFindConfigurationsJsonWithoutJaxbTransformation() throws Exception {
+        {
+            // without query
+            String requestUri = getRequestUriFindConfigurations(null);
+            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.noquery.json");
+
+            // Request and validate
+            testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.OK, responseExpected);
+        }
+        {
+            // query by id
+            String query = QUERY_CONFIGURATION_ID_LIKE_1;
+            String requestUri = getRequestUriFindConfigurations(query);
+            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.query1.json");
+
+            // Request and validate
+            testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.OK, responseExpected);
+        }
+    }
+
+    private String encodeParameter(String parameter) throws Exception {
+        if (parameter == null) {
+            return null;
+        }
+        parameter = UriUtils.encodePath(parameter, "UTF-8");
+        return parameter;
+    }
+
+    private String getRequestUriRetrieveConfigurationById(String configurationId) {
+        return baseApi + "/configurations/" + configurationId;
+    }
+
+    private String getRequestUriFindConfigurations(String query) throws Exception {
+        String url = baseApi + "/configurations";
+        url = RestUtils.createLinkWithQueryParam(url, RestConstants.PARAMETER_QUERY, encodeParameter(query));
+        return url;
+    }
+
+    private static void setUpMockito() throws MetamacException {
+        // MOCKS
+        CommonMetadataService commonMetadataService = applicationContext.getBean(CommonMetadataService.class);
+
+        // Retrieve configuration
+        mockitoFindConfigurationById(commonMetadataService, CONFIGURATION_1);
+        mockitoFindConfigurationById(commonMetadataService, CONFIGURATION_2);
+        mockitoFindConfigurationById(commonMetadataService, CONFIGURATION_3);
+        mockitoFindConfigurationById(commonMetadataService, CONFIGURATION_15);
+
+        // Find configurations
+        mockitoFindConfigurationByCondition(commonMetadataService, null);
+        mockitoFindConfigurationByCondition(commonMetadataService, QUERY_CONFIGURATION_ID_LIKE_1);
+    }
+
+    private static void mockitoFindConfigurationById(CommonMetadataService commonMetadataService, String id) throws MetamacException {
+        List<org.siemac.metamac.common.metadata.core.domain.Configuration> configurationEntities = new ArrayList<org.siemac.metamac.common.metadata.core.domain.Configuration>();
+        if (CONFIGURATION_1.equals(id)) {
+            configurationEntities.add(CommonMetadataCoreMocks.mockConfiguration1());
+        } else if (CONFIGURATION_2.equals(id)) {
+            configurationEntities.add(CommonMetadataCoreMocks.mockConfiguration2());
+        } else if (CONFIGURATION_3.equals(id)) {
+            configurationEntities.add(CommonMetadataCoreMocks.mockConfiguration3());
+        } else if (CONFIGURATION_15.equals(id)) {
+            configurationEntities.add(CommonMetadataCoreMocks.mockConfiguration15());
+        } else if (NOT_EXISTS.equals(id)) {
+            // no exits
+        }
+
         // Mock
-        when(commonMetadata.findConfigurationByCondition(any(ServiceContext.class), argThat(new FindConfigurationsByCodeMatcher(code)))).thenReturn(configurationEntities);
+        when(commonMetadataService.findConfigurationByCondition(any(ServiceContext.class), argThat(new FindConfigurationsByIdMatcher(id)))).thenReturn(configurationEntities);
+    }
+
+    private static void mockitoFindConfigurationByCondition(CommonMetadataService commonMetadataService, String query) throws MetamacException {
+        List<ConditionalCriteria> conditionalCriterias = null;
+        String querySupported1 = QUERY_CONFIGURATION_ID_LIKE_1;
+
+        if (querySupported1.equals(query)) {
+            conditionalCriterias = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class).withProperty(ConfigurationProperties.code()).like("%1%")
+                    .build();
+        } else {
+            conditionalCriterias = new ArrayList<ConditionalCriteria>();
+        }
+        when(commonMetadataService.findConfigurationByCondition(any(ServiceContext.class), argThat(new FindConfigurationsMatcher(conditionalCriterias, null)))).thenReturn(
+                CommonMetadataCoreMocks.mockConfigurationsNoPagedResult(query));
+    }
+
+    private CommonMetadataRestFacadeV10 getCommonMetadataRestFacadeClientXml() {
+        WebClient.client(commonMetadataRestFacadeClientXml).reset();
+        WebClient.client(commonMetadataRestFacadeClientXml).accept(APPLICATION_XML);
+        return commonMetadataRestFacadeClientXml;
+    }
+
+    private CommonMetadataRestFacadeV10 getCommonMetadataRestFacadeClientJson() {
+        WebClient.client(commonMetadataRestFacadeClientJson).reset();
+        WebClient.client(commonMetadataRestFacadeClientJson).accept(APPLICATION_JSON);
+        return commonMetadataRestFacadeClientJson;
     }
 }

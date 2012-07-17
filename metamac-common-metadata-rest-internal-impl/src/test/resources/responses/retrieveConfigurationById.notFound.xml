@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<error xmlns="http://www.siemac.org/metamac/rest/common/v1.0/domain">
+    <errorItems code="exception.common_metadata.configuration.not_found">
+        <message>Configuration not found with id {0}</message>
+        <parameters>NOT_EXISTS</parameters>
+    </errorItems>
+</error>

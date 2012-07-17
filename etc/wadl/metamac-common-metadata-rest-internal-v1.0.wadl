@@ -14,8 +14,8 @@
 			<wadl:resource path="configurations">
 				<wadl:method name="GET" id="findConfigurations">
 					<wadl:request>
-						<wadl:param name="limit" style="query" required="false"/>
-						<wadl:param name="offset" style="query" required="false"/>
+						<wadl:param name="query" style="query" required="false"/>
+						<wadl:param name="orderBy" style="query" required="false"/>
 					</wadl:request>
 	                <wadl:response status="200">
 						<wadl:representation mediaType="application/xml" element="common:resourcesNoPagedResult"/> 
@@ -27,10 +27,10 @@
 	                </wadl:response>
 				</wadl:method>
 			</wadl:resource>				
-			<wadl:resource path="configurations/{code}">
-				<wadl:method name="GET" id="retrieveConfigurationByCode">
+			<wadl:resource path="configurations/{id}">
+				<wadl:method name="GET" id="retrieveConfigurationById">
 					<wadl:request>
-						<wadl:param name="code" style="template"/>
+						<wadl:param name="id" style="template"/>
 					</wadl:request>
 	                <wadl:response status="200">
 						<wadl:representation mediaType="application/xml" element="domain:configuration"/> 
