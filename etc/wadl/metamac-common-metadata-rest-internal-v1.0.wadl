@@ -10,7 +10,7 @@
  	</wadl:grammars>
  	
 	<wadl:resources base="URL_RESOURCES_BASE">
-		<wadl:resource id="commonMetadataRestFacadeV10">
+		<wadl:resource id="commonMetadataRestInternalFacadeV10">
 			<wadl:resource path="configurations">
 				<wadl:method name="GET" id="findConfigurations">
 					<wadl:request>

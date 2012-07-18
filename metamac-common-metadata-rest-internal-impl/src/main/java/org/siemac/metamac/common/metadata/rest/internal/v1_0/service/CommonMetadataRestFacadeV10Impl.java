@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("commonMetadataRestFacadeV10")
-public class CommonMetadataRestFacadeV10Impl implements CommonMetadataRestFacadeV10 {
+public class CommonMetadataRestFacadeV10Impl implements CommonMetadataRestInternalFacadeV10 {
 
     @Autowired
     private CommonMetadataService               commonMetadataService;
