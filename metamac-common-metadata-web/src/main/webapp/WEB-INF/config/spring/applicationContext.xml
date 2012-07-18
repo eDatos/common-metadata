@@ -58,7 +58,9 @@
         <property name="logConfigurationFile" value="${environment.metamac.data}/common-metadata/conf/dynamic/logback-common-metadata-web.xml" />
     </bean>
 
+    <!-- Core -->
     <import resource="classpath:/spring/common-metadata/applicationContext.xml" />
-
+    <!-- Rest -->
+    <import resource="classpath:/spring/common-metadata-rest-internal/applicationContext.xml" />
 </beans>
 
