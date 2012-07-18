@@ -13,14 +13,14 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-    <jaxrs:server id="restFacadeV1_0" address="/internal/v1.0" docLocation="classpath:META-INF/wadl/metamac-common-metadata-rest-internal-v1.0.wadl">
+    <jaxrs:server id="restInternalFacadeV1_0" address="/internal/v1.0" docLocation="classpath:META-INF/wadl/metamac-common-metadata-rest-internal-v1.0.wadl">
 
         <jaxrs:features>
             <cxf:logging />
         </jaxrs:features>
 
         <jaxrs:serviceBeans>
-            <ref bean="commonMetadataRestFacadeV10" />
+            <ref bean="commonMetadataRestInternalFacadeV10" />
         </jaxrs:serviceBeans>
 
         <jaxrs:providers>

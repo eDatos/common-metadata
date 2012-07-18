@@ -42,7 +42,7 @@ import org.siemac.metamac.rest.utils.RestUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.util.UriUtils;
 
-public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
+public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest {
 
     private static final String                PORT                          = ServerResource.PORT;
     private static String                      baseApi                       = "http://localhost:" + PORT + "/internal/v1.0";
@@ -121,7 +121,7 @@ public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
     public void testRetrieveConfigurationByIdXmlWithoutJaxbTransformation() throws Exception {
 
         String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1);
-        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
+        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
 
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
@@ -141,7 +141,7 @@ public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
     public void testRetrieveConfigurationByIdJsonWithoutJaxbTransformation() throws Exception {
 
         String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1);
-        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.json");
+        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.json");
 
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.OK, responseExpected);
@@ -167,7 +167,7 @@ public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
     @Test
     public void testRetrieveConfigurationByIdErrorNotExistsXmlWithoutJaxbTransformation() throws Exception {
         String requestUri = getRequestUriRetrieveConfigurationById(NOT_EXISTS);
-        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.notFound.xml");
+        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.notFound.xml");
 
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.NOT_FOUND, responseExpected);
@@ -180,7 +180,7 @@ public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
             getCommonMetadataRestInternalFacadeClientJson().retrieveConfigurationById(NOT_EXISTS);
         } catch (Exception e) {
             // note: do not work 'extractErrorFromException'
-            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.notFound.json");
+            InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.notFound.json");
             InputStream responseActual = (InputStream) ((ServerWebApplicationException) e).getResponse().getEntity();
             MetamacRestAsserts.assertEqualsResponse(responseExpected, responseActual);
         }
@@ -189,7 +189,7 @@ public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
     @Test
     public void testRetrieveConfigurationByIdErrorNotExistsJsonWithoutJaxbTransformation() throws Exception {
         String requestUri = getRequestUriRetrieveConfigurationById(NOT_EXISTS);
-        InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.notFound.json");
+        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.notFound.json");
 
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.NOT_FOUND, responseExpected);
@@ -219,7 +219,7 @@ public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
         {
             // without query
             String requestUri = getRequestUriFindConfigurations(null);
-            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.noquery.xml");
+            InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.noquery.xml");
 
             // Request and validate
             testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
@@ -228,7 +228,7 @@ public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
             // query by id
             String query = QUERY_CONFIGURATION_ID_LIKE_1;
             String requestUri = getRequestUriFindConfigurations(query);
-            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.query1.xml");
+            InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.query1.xml");
 
             // Request and validate
             testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
@@ -240,7 +240,7 @@ public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
         {
             // without query
             String requestUri = getRequestUriFindConfigurations(null);
-            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.noquery.json");
+            InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.noquery.json");
 
             // Request and validate
             testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.OK, responseExpected);
@@ -249,7 +249,7 @@ public class CommonMetadataRestFacadeV10Test extends MetamacRestBaseTest {
             // query by id
             String query = QUERY_CONFIGURATION_ID_LIKE_1;
             String requestUri = getRequestUriFindConfigurations(query);
-            InputStream responseExpected = CommonMetadataRestFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.query1.json");
+            InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.query1.json");
 
             // Request and validate
             testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.OK, responseExpected);

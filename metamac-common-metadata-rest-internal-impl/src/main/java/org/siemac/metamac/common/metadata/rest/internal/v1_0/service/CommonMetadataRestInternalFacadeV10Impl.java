@@ -30,8 +30,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("commonMetadataRestFacadeV10")
-public class CommonMetadataRestFacadeV10Impl implements CommonMetadataRestInternalFacadeV10 {
+@Service("commonMetadataRestInternalFacadeV10")
+public class CommonMetadataRestInternalFacadeV10Impl implements CommonMetadataRestInternalFacadeV10 {
 
     @Autowired
     private CommonMetadataService               commonMetadataService;

@@ -6,7 +6,7 @@ import java.math.BigInteger;
 import org.siemac.metamac.common.metadata.rest.internal.RestInternalConstants;
 import org.siemac.metamac.common.metadata.rest.internal.v1_0.domain.CommonMetadataStatus;
 import org.siemac.metamac.common.metadata.rest.internal.v1_0.domain.Configuration;
-import org.siemac.metamac.common.metadata.rest.internal.v1_0.service.CommonMetadataRestFacadeV10Test;
+import org.siemac.metamac.common.metadata.rest.internal.v1_0.service.CommonMetadataRestInternalFacadeV10Test;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.rest.common.test.utils.MetamacRestMocks;
 import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
@@ -42,7 +42,7 @@ public class CommonMetadataRestMocks {
             configurationsResult.getItems().add(mockConfiguration2Resource(baseApi));
             configurationsResult.getItems().add(mockConfiguration15Resource(baseApi));
         } else {
-            String querySupported1 = CommonMetadataRestFacadeV10Test.QUERY_CONFIGURATION_ID_LIKE_1;
+            String querySupported1 = CommonMetadataRestInternalFacadeV10Test.QUERY_CONFIGURATION_ID_LIKE_1;
             if (querySupported1.equals(querySupported1)) {
                 configurationsResult.setTotal(BigInteger.valueOf(2));
                 configurationsResult.getItems().add(mockConfiguration1Resource(baseApi));
