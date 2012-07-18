@@ -32,12 +32,12 @@ import org.siemac.metamac.common.metadata.rest.internal.v1_0.utils.CommonMetadat
 import org.siemac.metamac.common.metadata.rest.internal.v1_0.utils.CommonMetadataRestMocks;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.util.ApplicationContextProvider;
-import org.siemac.metamac.rest.RestConstants;
 import org.siemac.metamac.rest.common.test.MetamacRestBaseTest;
 import org.siemac.metamac.rest.common.test.ServerResource;
 import org.siemac.metamac.rest.common.test.utils.MetamacRestAsserts;
 import org.siemac.metamac.rest.common.v1_0.domain.ComparisonOperator;
 import org.siemac.metamac.rest.common.v1_0.domain.ResourcesNoPagedResult;
+import org.siemac.metamac.rest.constants.RestConstants;
 import org.siemac.metamac.rest.utils.RestUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.util.UriUtils;
