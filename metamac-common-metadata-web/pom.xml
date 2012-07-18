@@ -32,6 +32,7 @@
             <groupId>org.siemac.metamac.metamac-common-metadata</groupId>
             <artifactId>metamac-common-metadata-core</artifactId>
             <version>${project.version}</version>
+            <classifier>client</classifier>
         </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
@@ -248,7 +249,7 @@
                     <runTarget>http://localhost:8080/metamac-common-metadata-web/CommonMetadataWeb.html</runTarget>
                     <debugPort>9997</debugPort>
                     <compileSourcesArtifacts>
-                        <artifact>org.siemac.metamac.metamac-common-metadata:metamac-common-metadata-core:jar</artifact>
+                        <artifact>org.siemac.metamac.metamac-common-metadata:metamac-common-metadata-core:jar:client</artifact>
                         <artifact>org.siemac.metamac:metamac-core-common:jar:client</artifact>
                         <artifact>org.siemac.metamac.metamac-sso:metamac-sso-client:jar</artifact>
                     </compileSourcesArtifacts>
