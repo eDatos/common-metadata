@@ -23,11 +23,11 @@ public class CommonMetadataCoreMocks {
     public static Configuration mockConfiguration2() {
         return mockConfiguration("2", CommonMetadataStatusEnum.ENABLED);
     }
-    
+
     public static Configuration mockConfiguration3() {
         return mockConfiguration("3", CommonMetadataStatusEnum.DISABLED);
     }
-    
+
     public static Configuration mockConfiguration15() {
         return mockConfiguration("15", CommonMetadataStatusEnum.ENABLED);
     }
@@ -50,7 +50,7 @@ public class CommonMetadataCoreMocks {
         }
         return configurations;
     }
-    
+
     private static Configuration mockConfiguration(String subCode, CommonMetadataStatusEnum status) {
 
         Configuration configuration = new Configuration();
@@ -61,12 +61,12 @@ public class CommonMetadataCoreMocks {
         configuration.setConfPolicy(mockInternationalString("confPolicy", subCode));
         configuration.setConfDataTreatment(mockInternationalString("confDataTreatment", subCode));
         configuration.setStatus(status);
-        configuration.setContact(mockExternalItem("contact1", TypeExternalArtefactsEnum.AGENCY));
+        configuration.setContact(mockExternalItem("contact1", "contacts", TypeExternalArtefactsEnum.AGENCY));
         return configuration;
     }
 
-    private static ExternalItem mockExternalItem(String code, TypeExternalArtefactsEnum type) {
-        String uri = "http://" + code;
+    private static ExternalItem mockExternalItem(String code, String subpathUrl, TypeExternalArtefactsEnum type) {
+        String uri = subpathUrl + "/" + code;
         String urn = "urn:" + code;
         return new ExternalItem(code, uri, urn, type, mockInternationalString(code, null), null);
     }
@@ -75,7 +75,7 @@ public class CommonMetadataCoreMocks {
         String subTitle = subCode != null ? metadata + subCode : metadata;
         return mockInternationalString("es", subTitle + " en Español", "en", subTitle + " in English");
     }
-    
+
     private static InternationalString mockInternationalString(String locale1, String label1, String locale2, String label2) {
 
         InternationalString internationalString = new InternationalString();

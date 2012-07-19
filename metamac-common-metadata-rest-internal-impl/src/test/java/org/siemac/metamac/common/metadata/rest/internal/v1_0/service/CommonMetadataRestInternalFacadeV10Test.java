@@ -118,16 +118,6 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
     }
 
     @Test
-    public void testRetrieveConfigurationByIdXmlWithoutJaxbTransformation() throws Exception {
-
-        String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1);
-        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
-
-        // Request and validate
-        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
-    }
-
-    @Test
     public void testRetrieveConfigurationByIdJson() throws Exception {
 
         // Retrieve
@@ -135,6 +125,16 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
 
         // Validation
         CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration1(baseApi), configuration);
+    }
+
+    @Test
+    public void testRetrieveConfigurationByIdXmlWithoutJaxbTransformation() throws Exception {
+
+        String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1);
+        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
+
+        // Request and validate
+        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
     }
 
     @Test

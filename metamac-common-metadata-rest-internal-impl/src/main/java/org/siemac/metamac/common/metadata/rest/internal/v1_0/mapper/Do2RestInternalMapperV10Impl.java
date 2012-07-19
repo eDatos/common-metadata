@@ -8,11 +8,13 @@ import java.util.List;
 
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.StringUtils;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.rest.internal.RestInternalConstants;
 import org.siemac.metamac.common.metadata.rest.internal.exception.RestServiceExceptionType;
 import org.siemac.metamac.common.metadata.rest.internal.v1_0.domain.CommonMetadataStatus;
 import org.siemac.metamac.common.metadata.rest.internal.v1_0.domain.Configuration;
+import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
@@ -23,10 +25,12 @@ import org.siemac.metamac.rest.common.v1_0.domain.LocalisedString;
 import org.siemac.metamac.rest.common.v1_0.domain.Resource;
 import org.siemac.metamac.rest.common.v1_0.domain.ResourceLink;
 import org.siemac.metamac.rest.common.v1_0.domain.ResourcesNoPagedResult;
+import org.siemac.metamac.rest.constants.RestEndpointsConstants;
 import org.siemac.metamac.rest.exception.RestCommonServiceExceptionType;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.utils.RestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -34,6 +38,9 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 
     // @Context
     // private MessageContext context; // Always null in this bean (not in Service)...
+
+    @Autowired
+    private ConfigurationService configurationService;
 
     @Override
     public Configuration toConfiguration(org.siemac.metamac.common.metadata.core.domain.Configuration source, String apiUrl) {
@@ -49,7 +56,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setDataSharing(toInternationalString(source.getDataSharing()));
         target.setConfPolicy(toInternationalString(source.getConfPolicy()));
         target.setConfDataTreatment(toInternationalString(source.getConfDataTreatment()));
-        target.setContact(toResource(source.getContact()));
+        target.setContact(toResourceExternalItemSrm(source.getContact()));
         target.setStatus(toCommonMetadataStatusEnum(source.getStatus()));
         target.setParent(toConfigurationParent(apiUrl));
         target.getChildren().addAll(toConfigurationChildren(source, apiUrl));
@@ -128,7 +135,12 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         return target;
     }
 
-    private Resource toResource(ExternalItem source) {
+    private Resource toResourceExternalItemSrm(ExternalItem source) {
+        String apiExternalItem = getSrmEndpointInternalApi();
+        return toResourceExternalItem(source, apiExternalItem);
+    }
+
+    private Resource toResourceExternalItem(ExternalItem source, String apiExternalItem) {
         if (source == null) {
             return null;
         }
@@ -136,7 +148,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
         target.setKind(source.getType().name());
-        target.setSelfLink(source.getUri()); // TODO añadir endpoint METAMAC-785
+        target.setSelfLink(RestUtils.createLink(apiExternalItem, source.getUri()));
         target.setTitle(toInternationalString(source.getTitle()));
         return target;
     }
@@ -193,5 +205,14 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
                 Error error = RestExceptionUtils.getError(RestServiceExceptionType.UNKNOWN);
                 throw new RestException(error, Status.INTERNAL_SERVER_ERROR);
         }
+    }
+    
+    private String getSrmEndpointInternalApi() {
+        String property = configurationService.getProperty(RestEndpointsConstants.SRM_INTERNAL_API);
+        if (StringUtils.isBlank(property)) {
+            Error error = RestExceptionUtils.getError(RestServiceExceptionType.UNKNOWN);
+            throw new RestException(error, Status.INTERNAL_SERVER_ERROR);
+        }
+        return property;
     }
 }
