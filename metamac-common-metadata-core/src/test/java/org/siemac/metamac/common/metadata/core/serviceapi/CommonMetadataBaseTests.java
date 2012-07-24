@@ -2,6 +2,7 @@ package org.siemac.metamac.common.metadata.core.serviceapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConstants;
@@ -114,5 +115,10 @@ public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
         sequences.add("SEQ_I18NSTRS");
         sequences.add("SEQ_CONFIGURATION");
         return sequences;
+    }
+    
+    @Override
+    protected Map<String, String> getTablePrimaryKeys() {
+        return null;
     }
 }
