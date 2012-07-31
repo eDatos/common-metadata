@@ -136,6 +136,26 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
     }
+    
+    @Test
+    public void testRetrieveConfigurationByIdXmlWithoutJaxbTransformationWithSufix() throws Exception {
+
+        String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1) + ".xml";
+        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
+
+        // Request and validate
+        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
+    }
+
+    @Test
+    public void testRetrieveConfigurationByIdXmlWithoutJaxbTransformationWithTypeParameter() throws Exception {
+
+        String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1) + "?_type=xml";
+        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
+
+        // Request and validate
+        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
+    }
 
     @Test
     public void testRetrieveConfigurationByIdJsonWithoutJaxbTransformation() throws Exception {
