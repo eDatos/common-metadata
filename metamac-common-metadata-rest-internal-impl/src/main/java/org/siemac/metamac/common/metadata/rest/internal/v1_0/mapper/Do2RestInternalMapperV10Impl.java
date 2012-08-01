@@ -210,7 +210,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     private String getSrmEndpointInternalApi() {
         String property = configurationService.getProperty(RestEndpointsConstants.SRM_INTERNAL_API);
         if (StringUtils.isBlank(property)) {
-            Error error = RestExceptionUtils.getError(RestServiceExceptionType.UNKNOWN);
+            Error error = RestExceptionUtils.getError(RestServiceExceptionType.UNKNOWN, "Property not found: " + RestEndpointsConstants.SRM_INTERNAL_API);
             throw new RestException(error, Status.INTERNAL_SERVER_ERROR);
         }
         return property;
