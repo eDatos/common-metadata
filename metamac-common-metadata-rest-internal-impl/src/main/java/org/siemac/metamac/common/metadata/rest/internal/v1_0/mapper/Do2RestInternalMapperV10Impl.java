@@ -136,6 +136,9 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     }
 
     private Resource toResourceExternalItemSrm(ExternalItem source) {
+        if (source == null) {
+            return null;
+        }
         String apiExternalItem = getSrmEndpointInternalApi();
         return toResourceExternalItem(source, apiExternalItem);
     }
