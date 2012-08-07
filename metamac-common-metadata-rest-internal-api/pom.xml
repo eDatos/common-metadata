@@ -187,6 +187,7 @@
                             </schemaIncludes>
                             <args>
                                 <arg>-Xbg</arg>
+                                <arg>-npa</arg>
                             </args>
                             <episodes>
                                <episode>

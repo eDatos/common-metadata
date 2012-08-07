@@ -23,7 +23,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
-import org.siemac.metamac.common.metadata.rest.internal.v1_0.service.CommonMetadataRestInternalFacadeV10;
 import org.siemac.metamac.common_metadata.rest.internal.exception.RestServiceExceptionType;
 import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.CommonMetadataStatus;
 import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configuration;

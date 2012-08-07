@@ -1,4 +1,4 @@
-package org.siemac.metamac.common.metadata.rest.internal.v1_0.service;
+package org.siemac.metamac.common_metadata.rest.internal.v1_0.service;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

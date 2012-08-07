@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<common:exception xmlns:common="http://www.siemac.org/metamac/rest/common/v1.0/domain" xmlns:cmetadata="http://www.siemac.org/metamac/common-metadata/rest/internal/v1.0/domain">
+<common:exception xmlns:cmetadata="http://www.siemac.org/metamac/common-metadata/rest/internal/v1.0/domain" xmlns:common="http://www.siemac.org/metamac/rest/common/v1.0/domain">
     <common:code>exception.common_metadata.configuration.not_found</common:code>
     <common:message>Configuration not found with id NOT_EXISTS</common:message>
     <common:parameters total="1">

@@ -41,8 +41,5 @@
         <entry key="jaxb.formatted.output">
             <value type="java.lang.Boolean">true</value>
         </entry>
-        <entry key="com.sun.xml.bind.namespacePrefixMapper" value-ref="commonMetadataNamespacePrefixMapper" />
     </util:map>
-    
-     <bean id="commonMetadataNamespacePrefixMapper" class="org.siemac.metamac.common_metadata.rest.internal.CommonMetadataNamespacePrefixMapper" />
 </beans>
