@@ -38,7 +38,7 @@
             <groupId>org.siemac.metamac.metamac-common-metadata</groupId>
             <artifactId>metamac-common-metadata-rest-internal-impl</artifactId>
             <version>${project.version}</version>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-servlet</artifactId>
@@ -257,6 +257,7 @@
                         <artifact>org.siemac.metamac.metamac-common-metadata:metamac-common-metadata-core:jar:client</artifact>
                         <artifact>org.siemac.metamac:metamac-core-common:jar:client</artifact>
                         <artifact>org.siemac.metamac.metamac-sso:metamac-sso-client:jar</artifact>
+                        <artifact>org.siemac.metamac:metamac-web-common:jar</artifact>
                     </compileSourcesArtifacts>
                     <!-- In inplace mode, the warSourceDirectory is used to match the same use case of the war:inplace http://maven.apache.org/plugins/maven-war-plugin/inplace-mojo.html goal. -->
                     <inplace>true</inplace>
