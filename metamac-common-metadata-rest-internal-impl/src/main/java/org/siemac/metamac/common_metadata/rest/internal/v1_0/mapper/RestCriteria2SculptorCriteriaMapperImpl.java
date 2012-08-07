@@ -6,13 +6,12 @@ import org.fornax.cartridges.sculptor.framework.domain.Property;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
-import org.siemac.metamac.common.metadata.rest.internal.v1_0.domain.ConfigurationCriteriaPropertyOrder;
-import org.siemac.metamac.common.metadata.rest.internal.v1_0.domain.ConfigurationCriteriaPropertyRestriction;
+import org.siemac.metamac.common_metadata.rest.internal.exception.RestServiceExceptionType;
+import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.ConfigurationCriteriaPropertyOrder;
+import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.ConfigurationCriteriaPropertyRestriction;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestOrder;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestQueryPropertyRestriction;
 import org.siemac.metamac.rest.common.query.domain.SculptorPropertyCriteria;
-import org.siemac.metamac.rest.common.v1_0.domain.Error;
-import org.siemac.metamac.rest.exception.RestCommonServiceExceptionType;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.search.criteria.mapper.RestCriteria2SculptorCriteria;
@@ -70,11 +69,9 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
         }
     }
 
-    // TODO
     private RestException toRestExceptionParameterIncorrect(String parameter) {
-//        Error error = RestExceptionUtils.getError(RestCommonServiceExceptionType.PARAMETER_INCORRECT, parameter);
-//        return new RestException(error, Status.INTERNAL_SERVER_ERROR);
-        return null;
+        org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.PARAMETER_INCORRECT, parameter);
+        throw new RestException(exception, Status.INTERNAL_SERVER_ERROR);
     }
 
     private CommonMetadataStatusEnum propertyRestrictionValueToStatusEnum(String value) {

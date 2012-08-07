@@ -13,7 +13,7 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-    <jaxrs:server id="restInternalFacadeV1_0" address="/internal/v1.0" docLocation="classpath:META-INF/wadl/metamac-common-metadata-rest-internal-v1.0.wadl">
+    <jaxrs:server id="restInternalFacadeV1_0" address="/internal/v1.0">
 
         <jaxrs:features>
             <cxf:logging />
@@ -24,30 +24,25 @@
         </jaxrs:serviceBeans>
         
         <jaxrs:extensionMappings>
-            <entry key="json" value="application/json" />
             <entry key="xml" value="application/xml" />
-        </jaxrs:extensionMappings>        
-
+        </jaxrs:extensionMappings>
+        
         <jaxrs:providers>
-            <ref bean="jsonProvider" />
             <ref bean="jaxbProvider" />
         </jaxrs:providers>
 
     </jaxrs:server>
 
     <bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
-        <property name="marshallerProperties" ref="propertiesMap" />
+        <property name="marshallerProperties" ref="marshallerProperties" />
     </bean>
 
-    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider">
-        <property name="mapper" ref="jacksonJsonMapper" />
-    </bean>
-    
-    <bean id="jacksonJsonMapper" class="org.siemac.metamac.rest.jackson.JacksonJsonMapper" />
-    
-    <util:map id="propertiesMap">
+    <util:map id="marshallerProperties">
         <entry key="jaxb.formatted.output">
             <value type="java.lang.Boolean">true</value>
         </entry>
+        <entry key="com.sun.xml.bind.namespacePrefixMapper" value-ref="commonMetadataNamespacePrefixMapper" />
     </util:map>
+    
+     <bean id="commonMetadataNamespacePrefixMapper" class="org.siemac.metamac.common_metadata.rest.internal.CommonMetadataNamespacePrefixMapper" />
 </beans>

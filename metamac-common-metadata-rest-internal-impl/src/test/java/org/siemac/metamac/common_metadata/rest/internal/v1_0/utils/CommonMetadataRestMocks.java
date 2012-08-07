@@ -1,8 +1,14 @@
 package org.siemac.metamac.common_metadata.rest.internal.v1_0.utils;
 
-import org.siemac.metamac.common.metadata.rest.internal.v1_0.domain.CommonMetadataStatus;
-import org.siemac.metamac.common.metadata.rest.internal.v1_0.domain.Configuration;
+import static org.junit.Assert.fail;
+
+import java.math.BigInteger;
+
 import org.siemac.metamac.common_metadata.rest.internal.RestInternalConstants;
+import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.CommonMetadataStatus;
+import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configuration;
+import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configurations;
+import org.siemac.metamac.common_metadata.rest.internal.v1_0.service.CommonMetadataRestInternalFacadeV10Test;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.rest.common.test.utils.MetamacRestMocks;
 import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
@@ -26,29 +32,28 @@ public class CommonMetadataRestMocks {
         return mockConfiguration(baseApi, "15", CommonMetadataStatus.ENABLED);
     }
 
-    // TODO
-//    public static ResourcesNoPagedResult mockConfigurationsNoPagedResult(String baseApi, String query) {
-//        ResourcesNoPagedResult configurationsResult = new ResourcesNoPagedResult();
-//        configurationsResult.setKind(RestInternalConstants.KIND_CONFIGURATIONS);
-//
-//        if (query == null) {
-//            // all enabled
-//            configurationsResult.setTotal(BigInteger.valueOf(3));
-//            configurationsResult.getItems().add(mockConfiguration1Resource(baseApi));
-//            configurationsResult.getItems().add(mockConfiguration2Resource(baseApi));
-//            configurationsResult.getItems().add(mockConfiguration15Resource(baseApi));
-//        } else {
-//            String querySupported1 = CommonMetadataRestInternalFacadeV10Test.QUERY_CONFIGURATION_ID_LIKE_1;
-//            if (querySupported1.equals(querySupported1)) {
-//                configurationsResult.setTotal(BigInteger.valueOf(2));
-//                configurationsResult.getItems().add(mockConfiguration1Resource(baseApi));
-//                configurationsResult.getItems().add(mockConfiguration15Resource(baseApi));
-//            } else {
-//                fail("Query not supported = " + query);
-//            }
-//        }
-//        return configurationsResult;
-//    }
+    public static Configurations mockConfigurations(String baseApi, String query) {
+        Configurations configurationsResult = new Configurations();
+        configurationsResult.setKind(RestInternalConstants.KIND_CONFIGURATIONS);
+
+        if (query == null) {
+            // all enabled
+            configurationsResult.setTotal(BigInteger.valueOf(3));
+            configurationsResult.getConfigurations().add(mockConfiguration1Resource(baseApi));
+            configurationsResult.getConfigurations().add(mockConfiguration2Resource(baseApi));
+            configurationsResult.getConfigurations().add(mockConfiguration15Resource(baseApi));
+        } else {
+            String querySupported1 = CommonMetadataRestInternalFacadeV10Test.QUERY_CONFIGURATION_ID_LIKE_1;
+            if (querySupported1.equals(querySupported1)) {
+                configurationsResult.setTotal(BigInteger.valueOf(2));
+                configurationsResult.getConfigurations().add(mockConfiguration1Resource(baseApi));
+                configurationsResult.getConfigurations().add(mockConfiguration15Resource(baseApi));
+            } else {
+                fail("Query not supported = " + query);
+            }
+        }
+        return configurationsResult;
+    }
 
     private static Configuration mockConfiguration(String baseApi, String subCode, CommonMetadataStatus status) {
 

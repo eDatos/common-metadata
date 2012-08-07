@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<resourcesNoPagedResult xmlns="http://www.siemac.org/metamac/rest/common/v1.0/domain">
-    <kind>commonMetadata#configurations</kind>
-    <total>2</total>
-    <items>
-        <id>configuration1</id>
-        <urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration1</urn>
-        <kind>commonMetadata#configuration</kind>
-        <selfLink>http://localhost:9001/internal/v1.0/configurations/configuration1</selfLink>
-    </items>
-    <items>
-        <id>configuration15</id>
-        <urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration15</urn>
-        <kind>commonMetadata#configuration</kind>
-        <selfLink>http://localhost:9001/internal/v1.0/configurations/configuration15</selfLink>
-    </items>
-</resourcesNoPagedResult>
+<cmetadata:configurations xmlns:cmetadata="http://www.siemac.org/metamac/common-metadata/rest/internal/v1.0/domain" xmlns:common="http://www.siemac.org/metamac/rest/common/v1.0/domain" kind="commonMetadata#configurations" total="2">
+    <cmetadata:configuration kind="commonMetadata#configuration">
+        <common:id>configuration1</common:id>
+        <common:urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration1</common:urn>
+        <common:selfLink>http://localhost:9001/internal/v1.0/configurations/configuration1</common:selfLink>
+    </cmetadata:configuration>
+    <cmetadata:configuration kind="commonMetadata#configuration">
+        <common:id>configuration15</common:id>
+        <common:urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration15</common:urn>
+        <common:selfLink>http://localhost:9001/internal/v1.0/configurations/configuration15</common:selfLink>
+    </cmetadata:configuration>
+</cmetadata:configurations>

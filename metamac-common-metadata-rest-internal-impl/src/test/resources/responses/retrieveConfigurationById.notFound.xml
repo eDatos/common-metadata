@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<error xmlns="http://www.siemac.org/metamac/rest/common/v1.0/domain">
-    <errorItems code="exception.common_metadata.configuration.not_found">
-        <message>Configuration not found with id {0}</message>
-        <parameters>NOT_EXISTS</parameters>
-    </errorItems>
-</error>
+<common:exception xmlns:common="http://www.siemac.org/metamac/rest/common/v1.0/domain" xmlns:cmetadata="http://www.siemac.org/metamac/common-metadata/rest/internal/v1.0/domain">
+    <common:code>exception.common_metadata.configuration.not_found</common:code>
+    <common:message>Configuration not found with id NOT_EXISTS</common:message>
+    <common:parameters total="1">
+        <common:parameter>NOT_EXISTS</common:parameter>
+    </common:parameters>
+</common:exception>
