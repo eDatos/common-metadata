@@ -1,4 +1,4 @@
-package org.siemac.metamac.common.metadata.rest.internal;
+package org.siemac.metamac.common_metadata.rest.internal;
 
 import org.siemac.metamac.rest.constants.RestConstants;
 

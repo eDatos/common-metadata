@@ -1,4 +1,4 @@
-package org.siemac.metamac.common.metadata.rest.internal.v1_0.mapper;
+package org.siemac.metamac.common_metadata.rest.internal.v1_0.mapper;
 
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.rest.search.criteria.mapper.RestCriteria2SculptorCriteria;

@@ -1,4 +1,4 @@
-package org.siemac.metamac.common.metadata.rest.internal.v1_0.mapper;
+package org.siemac.metamac.common_metadata.rest.internal.v1_0.mapper;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -70,9 +70,11 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
         }
     }
 
+    // TODO
     private RestException toRestExceptionParameterIncorrect(String parameter) {
-        Error error = RestExceptionUtils.getError(RestCommonServiceExceptionType.PARAMETER_INCORRECT, parameter);
-        return new RestException(error, Status.INTERNAL_SERVER_ERROR);
+//        Error error = RestExceptionUtils.getError(RestCommonServiceExceptionType.PARAMETER_INCORRECT, parameter);
+//        return new RestException(error, Status.INTERNAL_SERVER_ERROR);
+        return null;
     }
 
     private CommonMetadataStatusEnum propertyRestrictionValueToStatusEnum(String value) {

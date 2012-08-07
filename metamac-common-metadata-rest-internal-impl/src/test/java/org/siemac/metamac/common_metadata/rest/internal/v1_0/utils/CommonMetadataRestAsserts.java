@@ -1,4 +1,4 @@
-package org.siemac.metamac.common.metadata.rest.internal.v1_0.utils;
+package org.siemac.metamac.common_metadata.rest.internal.v1_0.utils;
 
 import static org.junit.Assert.assertEquals;
 

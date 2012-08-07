@@ -29,23 +29,12 @@
         </jaxrs:extensionMappings>        
 
         <jaxrs:providers>
-            <ref bean="wadlGenerator" />
             <ref bean="jsonProvider" />
             <ref bean="jaxbProvider" />
         </jaxrs:providers>
 
     </jaxrs:server>
 
-    <bean id="wadlGenerator" class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
-        <!-- externalLinks let access to xsd urls before access to wadl url  -->
-        <property name="externalLinks" ref="externalLinks" />
-    </bean>
-
-    <util:list id="externalLinks">
-        <value>classpath:META-INF/wadl/metamac-common-metadata-rest-internal-domain-v1.0.xsd</value>
-        <value>classpath:META-INF/wadl/metamac-rest-common-domain-v1.0.xsd</value>
-    </util:list>
-    
     <bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
         <property name="marshallerProperties" ref="propertiesMap" />
     </bean>

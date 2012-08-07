@@ -14,7 +14,7 @@
 	<artifactId>metamac-common-metadata-rest-internal-api</artifactId>
 	<packaging>jar</packaging>
 	<name>METAMAC :: COMMON :: METADATA :: REST :: INTERNAL API</name>
-
+    
     <dependencies>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -52,6 +52,11 @@
             <!-- Does not include in classpath -->
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.siemac.metamac</groupId>
+            <artifactId>metamac-rest-common</artifactId>
+            <version>${metamac-rest-common.version}</version>
+        </dependency>        
     </dependencies>
 
     <build>
@@ -102,12 +107,12 @@
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/classes/META-INF</outputDirectory>
+                            <outputDirectory>${project.build.directory}/classes/META-INF/rest</outputDirectory>
                             <includeGroupIds>org.siemac.metamac</includeGroupIds>
                             <includeArtifacIds>metamac-rest-api</includeArtifacIds>
                             <includeClassifiers>resources</includeClassifiers>
                             <excludeTransitive>true</excludeTransitive>
-                            <includes>**/*.xsd</includes>
+                            <includes>**/*.xsd,**/*.dtd</includes>
                             <includeTypes>zip</includeTypes>
                         </configuration>
                     </execution>
@@ -129,8 +134,8 @@
                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/../etc/wadl</directory>
-                                    <targetPath>META-INF/wadl</targetPath>
+                                    <directory>${basedir}/../etc/rest</directory>
+                                    <targetPath>META-INF/rest</targetPath>
                                     <includes>
                                         <include>**/*</include>
                                     </includes>
@@ -154,8 +159,7 @@
                 </executions>
                 <configuration>
                     <includes>
-                        <include>target/classes/META-INF/wadl/**/*.xsd</include>
-                        <include>target/classes/META-INF/wadl/**/*.wadl</include>
+                        <include>target/classes/META-INF/rest/**/*.xsd</include>
                     </includes>
                     <replacements>
                         <replacement>
@@ -166,32 +170,35 @@
                 </configuration>
             </plugin>            
             <plugin>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-wadl2java-plugin</artifactId>
-                <version>2.6.0</version>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb22-plugin</artifactId>
+                <version>0.8.1</version>
                 <executions>
                     <execution>
-                        <id>generate-sources</id>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>wadl2java</goal>
+                            <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <sourceRoot>${basedir}/src/generated/java</sourceRoot>
-                            <wadlOptions>
-                                <wadlOption>
-                                    <wadl>${project.build.directory}/classes/META-INF/wadl/metamac-common-metadata-rest-internal-v1.0.wadl</wadl>
-                                    <!-- NOTE: classes generated from metamac-rest-common-domain*.xsd are removed with maven-antrun-plugin  -->
-                                    <bindingFiles>
-                                        <bindingFile>${basedir}/../etc/wadl/binding.xjb</bindingFile>
-                                    </bindingFiles>
-                                    <extraargs>
-                                        <extraarg>-verbose</extraarg>
-                                    </extraargs>
-                                    <interface>true</interface>
-                                    <packagename>org.siemac.metamac.common.metadata.rest.internal.v1_0.service</packagename>
-                                </wadlOption>
-                            </wadlOptions>
+                            <extension>true</extension>
+                            <schemaDirectory>${project.build.directory}/classes/META-INF/rest</schemaDirectory>
+                            <schemaIncludes>
+                                <schemaInclude>*.xsd</schemaInclude>
+                            </schemaIncludes>
+                            <args>
+                                <arg>-Xbg</arg>
+                            </args>
+                            <episodes>
+                               <episode>
+                                    <groupId>org.siemac.metamac</groupId>
+                                    <artifactId>metamac-rest-api</artifactId>
+                                </episode>
+                            </episodes>
+                            <bindingFiles>
+                                <bindingFile>${basedir}/../etc/rest/binding.xjb</bindingFile>
+                            </bindingFiles>
+                            <generateDirectory>${basedir}/src/generated/java</generateDirectory>
+                            <forceRegenerate>true</forceRegenerate>
                         </configuration>
                     </execution>
                 </executions>
@@ -202,32 +209,12 @@
                         <version>${jaxb.version}</version>
                     </dependency>
                     <dependency>
-                        <groupId>com.sun.xml.bind</groupId>
-                        <artifactId>jaxb-xjc</artifactId>
-                        <version>${jaxb.version}</version>
+                        <groupId>org.apache.cxf.xjcplugins</groupId>
+                        <artifactId>cxf-xjc-boolean</artifactId>
+                        <version>${cxf-xjc-boolean.version}</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                Delete JAXB binding because is generated in other jar
-                                wadsl2java don't support JAXB episode
-                                <delete dir="${basedir}/src/generated/java/org/siemac/metamac/rest" includeemptydirs="true" />
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            </plugin>            
         </plugins>
     </build>
 </project>
