@@ -62,7 +62,7 @@ public class CommonMetadataRestInternalFacadeV10Impl implements CommonMetadataRe
             Configuration configuration = do2RestInternalMapper.toConfiguration(configurationEntity, getApiUrl());
             return configuration;
 
-        } catch (MetamacException e) {
+        } catch (Exception e) {
             throw manageException(e);
         }
     }
@@ -88,7 +88,7 @@ public class CommonMetadataRestInternalFacadeV10Impl implements CommonMetadataRe
             Configurations configurations = do2RestInternalMapper.toConfigurations(configurationsEntitiesResult, getApiUrl());
             return configurations;
 
-        } catch (MetamacException e) {
+        } catch (Exception e) {
             throw manageException(e);
         }
     }
@@ -119,9 +119,13 @@ public class CommonMetadataRestInternalFacadeV10Impl implements CommonMetadataRe
     /**
      * Throws response error, logging exception
      */
-    private RestException manageException(MetamacException e) {
+    private RestException manageException(Exception e) {
         logger.error("Error", e);
-        org.siemac.metamac.rest.common.v1_0.domain.Exception exception = do2RestInternalMapper.toException(e);
-        return new RestException(exception, Status.INTERNAL_SERVER_ERROR);
+        if (e instanceof RestException) {
+            return (RestException) e;
+        } else {
+            org.siemac.metamac.rest.common.v1_0.domain.Exception exception = do2RestInternalMapper.toException(e);
+            return new RestException(exception, Status.INTERNAL_SERVER_ERROR);
+        }
     }
 }
