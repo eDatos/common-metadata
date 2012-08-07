@@ -75,7 +75,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
         // xml
         {
             List providers = new ArrayList();
-            providers.add(applicationContext.getBean(JAXBElementProvider.class));
+            providers.add(applicationContext.getBean("jaxbProvider", JAXBElementProvider.class));
             commonMetadataRestInternalFacadeClientXml = JAXRSClientFactory.create(baseApi, CommonMetadataRestInternalFacadeV10.class, providers, Boolean.TRUE);
         }
         
