@@ -1,8 +1,6 @@
 package org.siemac.metamac.common_metadata.rest.internal.v1_0.mapper;
 
-import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -16,18 +14,12 @@ import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configuratio
 import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configurations;
 import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.ent.domain.ExternalItem;
-import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
 import org.siemac.metamac.rest.common.v1_0.domain.Children;
-import org.siemac.metamac.rest.common.v1_0.domain.Error;
-import org.siemac.metamac.rest.common.v1_0.domain.ErrorParameters;
-import org.siemac.metamac.rest.common.v1_0.domain.Errors;
 import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
 import org.siemac.metamac.rest.common.v1_0.domain.LocalisedString;
 import org.siemac.metamac.rest.common.v1_0.domain.Resource;
 import org.siemac.metamac.rest.common.v1_0.domain.ResourceLink;
 import org.siemac.metamac.rest.constants.RestEndpointsConstants;
-import org.siemac.metamac.rest.exception.RestCommonServiceExceptionType;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.utils.RestUtils;
@@ -94,55 +86,6 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         }
 
         return targets;
-    }
-
-    @Override
-    public org.siemac.metamac.rest.common.v1_0.domain.Exception toException(Exception source) {
-        org.siemac.metamac.rest.common.v1_0.domain.Exception target = null;
-        if (source instanceof MetamacException) {
-            MetamacException metamacException = (MetamacException) source;
-            if (metamacException.getPrincipalException() != null) {
-                target = new org.siemac.metamac.rest.common.v1_0.domain.Exception();
-                Error principalError = toError(metamacException.getPrincipalException());
-                target.setCode(principalError.getCode());
-                target.setMessage(principalError.getMessage());
-                target.setParameters(principalError.getParameters());
-            } else {
-                target = RestExceptionUtils.getException(RestCommonServiceExceptionType.UNKNOWN);
-            }
-            if (metamacException.getExceptionItems() != null && metamacException.getExceptionItems().size() != 0) {
-                target.setErrors(new Errors());
-                for (MetamacExceptionItem metamacExceptionItem : metamacException.getExceptionItems()) {
-                    Error error = toError(metamacExceptionItem);
-                    target.getErrors().getErrors().add(error);
-                }
-            }
-        } else {
-            target = RestExceptionUtils.getException(RestCommonServiceExceptionType.UNKNOWN);
-        }
-        return target;
-    }
-
-    private Error toError(MetamacExceptionItem metamacExceptionItem) {
-        Error error = new Error();
-        error.setCode(metamacExceptionItem.getCode());
-        error.setMessage(metamacExceptionItem.getMessage());
-        error.setParameters(new ErrorParameters());
-        if (metamacExceptionItem.getMessageParameters() != null) {
-            for (int i = 0; i < metamacExceptionItem.getMessageParameters().length; i++) {
-                Serializable messageParameter = metamacExceptionItem.getMessageParameters()[i];
-                String parameter = null;
-                if (messageParameter instanceof String) {
-                    parameter = messageParameter.toString();
-                } else if (messageParameter instanceof String[]) {
-                    parameter = Arrays.deepToString((String[]) messageParameter);
-                } else {
-                    parameter = messageParameter.toString();
-                }
-                error.getParameters().getParameters().add(parameter);
-            }
-        }
-        return error;
     }
 
     private Resource toResource(org.siemac.metamac.common.metadata.core.domain.Configuration source, String apiUrl) {

@@ -10,7 +10,4 @@ public interface Do2RestInternalMapperV10 {
     // Configurations
     public Configuration toConfiguration(org.siemac.metamac.common.metadata.core.domain.Configuration source, String apiUrl);
     public Configurations toConfigurations(List<org.siemac.metamac.common.metadata.core.domain.Configuration> sources, String apiUrl);
-
-    // Other
-    public org.siemac.metamac.rest.common.v1_0.domain.Exception toException(Exception exception);
 }
