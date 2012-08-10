@@ -8,6 +8,6 @@ import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configuratio
 public interface Do2RestInternalMapperV10 {
 
     // Configurations
-    public Configuration toConfiguration(org.siemac.metamac.common.metadata.core.domain.Configuration source, String apiUrl);
-    public Configurations toConfigurations(List<org.siemac.metamac.common.metadata.core.domain.Configuration> sources, String apiUrl);
+    public Configuration toConfiguration(org.siemac.metamac.common.metadata.core.domain.Configuration source);
+    public Configurations toConfigurations(List<org.siemac.metamac.common.metadata.core.domain.Configuration> sources);
 }

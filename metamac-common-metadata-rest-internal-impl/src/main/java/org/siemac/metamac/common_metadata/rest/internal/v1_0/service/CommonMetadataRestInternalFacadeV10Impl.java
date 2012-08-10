@@ -49,7 +49,7 @@ public class CommonMetadataRestInternalFacadeV10Impl implements CommonMetadataRe
             org.siemac.metamac.common.metadata.core.domain.Configuration configurationEntity = retrieveConfigurationEntityAnyStatus(id);
 
             // Transform
-            Configuration configuration = do2RestInternalMapper.toConfiguration(configurationEntity, getApiUrl());
+            Configuration configuration = do2RestInternalMapper.toConfiguration(configurationEntity);
             return configuration;
 
         } catch (Exception e) {
@@ -75,7 +75,7 @@ public class CommonMetadataRestInternalFacadeV10Impl implements CommonMetadataRe
                     conditionalCriteria);
 
             // Transform
-            Configurations configurations = do2RestInternalMapper.toConfigurations(configurationsEntitiesResult, getApiUrl());
+            Configurations configurations = do2RestInternalMapper.toConfigurations(configurationsEntitiesResult);
             return configurations;
 
         } catch (Exception e) {
@@ -97,14 +97,6 @@ public class CommonMetadataRestInternalFacadeV10Impl implements CommonMetadataRe
             throw new RestException(exception, Status.NOT_FOUND);
         }
         return configurationEntities.get(0);
-    }
-
-    /**
-     * Get Base API url TODO
-     */
-    private String getApiUrl() {
-//        return RestUtils.getApiUrl(context);
-        return "http://localhost:9001/internal/v1.0";
     }
 
     /**

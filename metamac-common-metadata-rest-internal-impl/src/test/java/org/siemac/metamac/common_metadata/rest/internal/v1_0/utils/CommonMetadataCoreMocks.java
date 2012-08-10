@@ -61,12 +61,12 @@ public class CommonMetadataCoreMocks {
         configuration.setConfPolicy(mockInternationalString("confPolicy", subCode));
         configuration.setConfDataTreatment(mockInternationalString("confDataTreatment", subCode));
         configuration.setStatus(status);
-        configuration.setContact(mockExternalItem("contact1", "contacts", TypeExternalArtefactsEnum.AGENCY));
+        configuration.setContact(mockExternalItemSrm("contact1", "contacts", TypeExternalArtefactsEnum.AGENCY));
         return configuration;
     }
 
-    private static ExternalItem mockExternalItem(String code, String subpathUrl, TypeExternalArtefactsEnum type) {
-        String uri = subpathUrl + "/" + code;
+    private static ExternalItem mockExternalItemSrm(String code, String subpathUrl, TypeExternalArtefactsEnum type) {
+        String uri = "v1.0/" + subpathUrl + "/" + code;
         String urn = "urn:" + code;
         return new ExternalItem(code, uri, urn, type, mockInternationalString(code, null), null);
     }

@@ -36,12 +36,20 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     @Autowired
     private ConfigurationService configurationService;
 
+    private String               commonMetadataApiInternalEndpointV10;
     private String               srmApiExternalEndpoint;
 
     @PostConstruct
     public void init() throws Exception {
 
-        // Srm Api
+        // Statistical operations Internal Api
+        String commonMetadataApiInternalEndpoint = configurationService.getProperty(RestEndpointsConstants.COMMON_METADATA_INTERNAL_API);
+        if (commonMetadataApiInternalEndpoint == null) {
+            throw new BeanCreationException("Property not found: " + RestEndpointsConstants.COMMON_METADATA_INTERNAL_API);
+        }
+        commonMetadataApiInternalEndpointV10 = RestUtils.createLink(commonMetadataApiInternalEndpoint, RestInternalConstants.API_VERSION_1_0);
+
+        // Srm External Api
         srmApiExternalEndpoint = configurationService.getProperty(RestEndpointsConstants.SRM_EXTERNAL_API);
         if (srmApiExternalEndpoint == null) {
             throw new BeanCreationException("Property not found: " + RestEndpointsConstants.SRM_EXTERNAL_API);
@@ -49,7 +57,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     }
 
     @Override
-    public Configuration toConfiguration(org.siemac.metamac.common.metadata.core.domain.Configuration source, String apiUrl) {
+    public Configuration toConfiguration(org.siemac.metamac.common.metadata.core.domain.Configuration source) {
         if (source == null) {
             return null;
         }
@@ -57,20 +65,20 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
         target.setKind(RestInternalConstants.KIND_CONFIGURATION);
-        target.setSelfLink(toConfigurationLink(apiUrl, source));
+        target.setSelfLink(toConfigurationLink(source));
         target.setLegalActs(toInternationalString(source.getLegalActs()));
         target.setDataSharing(toInternationalString(source.getDataSharing()));
         target.setConfPolicy(toInternationalString(source.getConfPolicy()));
         target.setConfDataTreatment(toInternationalString(source.getConfDataTreatment()));
         target.setContact(toResourceExternalItemSrm(source.getContact()));
         target.setStatus(toCommonMetadataStatusEnum(source.getStatus()));
-        target.setParent(toConfigurationParent(apiUrl));
-        target.setChildren(toConfigurationChildren(source, apiUrl));
+        target.setParent(toConfigurationParent());
+        target.setChildren(toConfigurationChildren(source));
         return target;
     }
 
     @Override
-    public Configurations toConfigurations(List<org.siemac.metamac.common.metadata.core.domain.Configuration> sources, String apiUrl) {
+    public Configurations toConfigurations(List<org.siemac.metamac.common.metadata.core.domain.Configuration> sources) {
 
         Configurations targets = new Configurations();
         targets.setKind(RestInternalConstants.KIND_CONFIGURATIONS);
@@ -79,7 +87,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
             targets.setTotal(BigInteger.ZERO);
         } else {
             for (org.siemac.metamac.common.metadata.core.domain.Configuration source : sources) {
-                Resource target = toResource(source, apiUrl);
+                Resource target = toResource(source);
                 targets.getConfigurations().add(target);
             }
             targets.setTotal(BigInteger.valueOf(sources.size()));
@@ -88,7 +96,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         return targets;
     }
 
-    private Resource toResource(org.siemac.metamac.common.metadata.core.domain.Configuration source, String apiUrl) {
+    private Resource toResource(org.siemac.metamac.common.metadata.core.domain.Configuration source) {
         if (source == null) {
             return null;
         }
@@ -96,7 +104,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
         target.setKind(RestInternalConstants.KIND_CONFIGURATION);
-        target.setSelfLink(toConfigurationLink(apiUrl, source));
+        target.setSelfLink(toConfigurationLink(source));
         // configuration has not title
         return target;
     }
@@ -121,14 +129,14 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         return target;
     }
 
-    private ResourceLink toConfigurationParent(String apiUrl) {
+    private ResourceLink toConfigurationParent() {
         ResourceLink target = new ResourceLink();
         target.setKind(RestInternalConstants.KIND_CONFIGURATIONS);
-        target.setSelfLink(toConfigurationsLink(apiUrl));
+        target.setSelfLink(toConfigurationsLink());
         return target;
     }
 
-    private Children toConfigurationChildren(org.siemac.metamac.common.metadata.core.domain.Configuration configuration, String apiUrl) {
+    private Children toConfigurationChildren(org.siemac.metamac.common.metadata.core.domain.Configuration configuration) {
         return null;
     }
 
@@ -147,13 +155,13 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     }
 
     // API/configurations
-    private String toConfigurationsLink(String apiUrl) {
-        return RestUtils.createLink(apiUrl, RestInternalConstants.LINK_SUBPATH_CONFIGURATIONS);
+    private String toConfigurationsLink() {
+        return RestUtils.createLink(commonMetadataApiInternalEndpointV10, RestInternalConstants.LINK_SUBPATH_CONFIGURATIONS);
     }
 
     // API/configurations/configuration
-    private String toConfigurationLink(String apiUrl, org.siemac.metamac.common.metadata.core.domain.Configuration configuration) {
-        String linkConfigurations = toConfigurationsLink(apiUrl);
+    private String toConfigurationLink(org.siemac.metamac.common.metadata.core.domain.Configuration configuration) {
+        String linkConfigurations = toConfigurationsLink();
         return RestUtils.createLink(linkConfigurations, configuration.getCode());
     }
 

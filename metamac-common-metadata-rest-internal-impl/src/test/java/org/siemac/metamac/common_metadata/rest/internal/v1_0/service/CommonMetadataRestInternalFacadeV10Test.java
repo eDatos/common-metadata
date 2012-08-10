@@ -45,21 +45,24 @@ import org.springframework.web.util.UriUtils;
 
 public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest {
 
-    private static final String                        PORT                          = ServerResource.PORT;
-    private static String                              jaxrsServerAddress            = "http://localhost:" + PORT + "/internal";
-    private static String                              baseApi                       = jaxrsServerAddress + "/v1.0";
+    private static final String                        PORT                                 = ServerResource.PORT;
+    private static String                              jaxrsServerAddress                   = "http://localhost:" + PORT + "/apis/cmetadata-internal";
+    private static String                              baseApi                              = jaxrsServerAddress + "/v1.0";
+
+    // not read property from properties file to check explicity
+    private static String                              commonMetadataApiInternalEndpointV10 = "http://data.istac.es/apis/cmetadata-internal/v1.0";
 
     private static CommonMetadataRestInternalFacadeV10 commonMetadataRestInternalFacadeClientXml;
 
-    private static ApplicationContext                  applicationContext            = null;
+    private static ApplicationContext                  applicationContext                   = null;
 
-    private static String                              NOT_EXISTS                    = "NOT_EXISTS";
+    private static String                              NOT_EXISTS                           = "NOT_EXISTS";
 
-    public static String                               CONFIGURATION_1               = "configuration1";
-    public static String                               CONFIGURATION_2               = "configuration2";
-    public static String                               CONFIGURATION_3               = "configuration3";
-    public static String                               CONFIGURATION_15              = "configuration15";
-    public static String                               QUERY_CONFIGURATION_ID_LIKE_1 = ConfigurationCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
+    public static String                               CONFIGURATION_1                      = "configuration1";
+    public static String                               CONFIGURATION_2                      = "configuration2";
+    public static String                               CONFIGURATION_3                      = "configuration3";
+    public static String                               CONFIGURATION_15                     = "configuration15";
+    public static String                               QUERY_CONFIGURATION_ID_LIKE_1        = ConfigurationCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @BeforeClass
@@ -99,7 +102,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
         Configuration configuration = getCommonMetadataRestInternalFacadeClientXml().retrieveConfigurationById(CONFIGURATION_1);
 
         // Validation
-        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration1(baseApi), configuration);
+        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration1(commonMetadataApiInternalEndpointV10), configuration);
     }
 
     @Test
@@ -110,7 +113,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
 
         // Validation
         assertEquals(CommonMetadataStatus.DISABLED, configuration.getStatus());
-        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration3(baseApi), configuration);
+        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration3(commonMetadataApiInternalEndpointV10), configuration);
     }
 
     @Test
@@ -189,14 +192,14 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
             String query = null;
             String orderBy = null;
             Configurations configurations = getCommonMetadataRestInternalFacadeClientXml().findConfigurations(query, orderBy);
-            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(baseApi, null), configurations);
+            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiInternalEndpointV10, null), configurations);
         }
         {
             // query by id
             String query = QUERY_CONFIGURATION_ID_LIKE_1; // configuration1 and configuration15
             String orderBy = null;
             Configurations configurations = getCommonMetadataRestInternalFacadeClientXml().findConfigurations(query, orderBy);
-            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(baseApi, query), configurations);
+            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiInternalEndpointV10, query), configurations);
         }
     }
 
