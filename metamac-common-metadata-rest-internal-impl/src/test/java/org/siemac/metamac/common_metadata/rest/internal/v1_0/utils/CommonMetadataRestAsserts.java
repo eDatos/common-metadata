@@ -2,9 +2,9 @@ package org.siemac.metamac.common_metadata.rest.internal.v1_0.utils;
 
 import static org.junit.Assert.assertEquals;
 
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configuration;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configurations;
 import org.siemac.metamac.rest.common.test.utils.MetamacRestAsserts;
+import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configuration;
+import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configurations;
 
 public class CommonMetadataRestAsserts {
 

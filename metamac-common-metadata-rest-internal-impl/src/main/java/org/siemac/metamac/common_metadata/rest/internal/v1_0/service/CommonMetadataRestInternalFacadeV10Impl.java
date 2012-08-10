@@ -1,5 +1,5 @@
 package org.siemac.metamac.common_metadata.rest.internal.v1_0.service;
-
+ 
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +12,12 @@ import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
 import org.siemac.metamac.common_metadata.rest.internal.exception.RestServiceExceptionType;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configuration;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configurations;
 import org.siemac.metamac.common_metadata.rest.internal.v1_0.mapper.Do2RestInternalMapperV10;
 import org.siemac.metamac.common_metadata.rest.internal.v1_0.mapper.RestCriteria2SculptorCriteriaMapper;
 import org.siemac.metamac.core.common.aop.LoggingInterceptor;
 import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configuration;
+import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configurations;
 import org.siemac.metamac.rest.exception.RestCommonServiceExceptionType;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;

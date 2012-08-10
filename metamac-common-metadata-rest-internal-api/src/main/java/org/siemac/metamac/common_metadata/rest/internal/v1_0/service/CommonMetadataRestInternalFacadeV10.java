@@ -6,8 +6,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configuration;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configurations;
+import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configuration;
+import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configurations;
 
 @Path("v1.0")
 public interface CommonMetadataRestInternalFacadeV10 {

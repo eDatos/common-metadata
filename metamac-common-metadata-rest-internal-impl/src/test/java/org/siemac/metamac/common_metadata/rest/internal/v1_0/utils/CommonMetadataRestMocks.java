@@ -5,14 +5,14 @@ import static org.junit.Assert.fail;
 import java.math.BigInteger;
 
 import org.siemac.metamac.common_metadata.rest.internal.RestInternalConstants;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.CommonMetadataStatus;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configuration;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.domain.Configurations;
 import org.siemac.metamac.common_metadata.rest.internal.v1_0.service.CommonMetadataRestInternalFacadeV10Test;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.rest.common.test.utils.MetamacRestMocks;
 import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
 import org.siemac.metamac.rest.common.v1_0.domain.Resource;
+import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.CommonMetadataStatus;
+import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configuration;
+import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configurations;
 
 public class CommonMetadataRestMocks {
 
