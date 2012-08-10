@@ -36,18 +36,18 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     @Autowired
     private ConfigurationService configurationService;
 
-    private String               srmApiEndpoint;
+    private String               srmApiExternalEndpoint;
 
     @PostConstruct
     public void init() throws Exception {
 
         // Srm Api
-        srmApiEndpoint = configurationService.getProperty(RestEndpointsConstants.SRM_INTERNAL_API);
-        if (srmApiEndpoint == null) {
-            throw new BeanCreationException("Property not found: " + RestEndpointsConstants.SRM_INTERNAL_API);
+        srmApiExternalEndpoint = configurationService.getProperty(RestEndpointsConstants.SRM_EXTERNAL_API);
+        if (srmApiExternalEndpoint == null) {
+            throw new BeanCreationException("Property not found: " + RestEndpointsConstants.SRM_EXTERNAL_API);
         }
     }
-    
+
     @Override
     public Configuration toConfiguration(org.siemac.metamac.common.metadata.core.domain.Configuration source, String apiUrl) {
         if (source == null) {
@@ -105,7 +105,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         if (source == null) {
             return null;
         }
-        return toResourceExternalItem(source, srmApiEndpoint);
+        return toResourceExternalItem(source, srmApiExternalEndpoint);
     }
 
     private Resource toResourceExternalItem(ExternalItem source, String apiExternalItem) {
