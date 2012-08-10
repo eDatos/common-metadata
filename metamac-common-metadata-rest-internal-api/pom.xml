@@ -17,20 +17,10 @@
     
     <dependencies>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http</artifactId>
+            <groupId>org.apache.cxf.xjc-utils</groupId>
+            <artifactId>cxf-xjc-runtime</artifactId>
             <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-tools-common</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
+        </dependency>        
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>
@@ -56,7 +46,7 @@
             <groupId>org.siemac.metamac</groupId>
             <artifactId>metamac-rest-common</artifactId>
             <version>${metamac-rest-common.version}</version>
-        </dependency>        
+        </dependency>
     </dependencies>
 
     <build>
@@ -107,7 +97,7 @@
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/classes/META-INF/rest</outputDirectory>
+                            <outputDirectory>${project.build.directory}/classes/META-INF/rest/internal</outputDirectory>
                             <includeGroupIds>org.siemac.metamac</includeGroupIds>
                             <includeArtifacIds>metamac-rest-api</includeArtifacIds>
                             <includeClassifiers>resources</includeClassifiers>
@@ -134,8 +124,8 @@
                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/../etc/rest</directory>
-                                    <targetPath>META-INF/rest</targetPath>
+                                    <directory>${basedir}/../etc/rest/internal</directory>
+                                    <targetPath>META-INF/rest/internal</targetPath>
                                     <includes>
                                         <include>**/*</include>
                                     </includes>
@@ -159,7 +149,7 @@
                 </executions>
                 <configuration>
                     <includes>
-                        <include>target/classes/META-INF/rest/**/*.xsd</include>
+                        <include>target/classes/META-INF/rest/internal/*.xsd</include>
                     </includes>
                     <replacements>
                         <replacement>
@@ -181,7 +171,7 @@
                         </goals>
                         <configuration>
                             <extension>true</extension>
-                            <schemaDirectory>${project.build.directory}/classes/META-INF/rest</schemaDirectory>
+                            <schemaDirectory>${project.build.directory}/classes/META-INF/rest/internal</schemaDirectory>
                             <schemaIncludes>
                                 <schemaInclude>*.xsd</schemaInclude>
                             </schemaIncludes>
@@ -196,7 +186,7 @@
                                 </episode>
                             </episodes>
                             <bindingFiles>
-                                <bindingFile>${basedir}/../etc/rest/binding.xjb</bindingFile>
+                                <bindingFile>${basedir}/../etc/rest/internal/binding.xjb</bindingFile>
                             </bindingFiles>
                             <generateDirectory>${basedir}/src/generated/java</generateDirectory>
                             <forceRegenerate>true</forceRegenerate>

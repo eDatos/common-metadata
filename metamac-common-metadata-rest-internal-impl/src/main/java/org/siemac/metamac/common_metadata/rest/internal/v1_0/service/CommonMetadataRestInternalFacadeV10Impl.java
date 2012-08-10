@@ -3,10 +3,8 @@ package org.siemac.metamac.common_metadata.rest.internal.v1_0.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
@@ -24,7 +22,6 @@ import org.siemac.metamac.rest.exception.RestCommonServiceExceptionType;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.search.criteria.SculptorCriteria;
-import org.siemac.metamac.rest.utils.RestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,16 +39,8 @@ public class CommonMetadataRestInternalFacadeV10Impl implements CommonMetadataRe
     @Autowired
     private RestCriteria2SculptorCriteriaMapper restCriteria2SculptorCriteriaMapper;
 
-    // @Context // must inject with setter, because with @Context is not injected in web server
-    private MessageContext                      context;
-
     private ServiceContext                      serviceContextRestInternal = new ServiceContext("restInternal", "restInternal", "restInternal");
     private Logger                              logger                     = LoggerFactory.getLogger(LoggingInterceptor.class);
-
-    @Context
-    public void setMessageContext(MessageContext context) {
-        this.context = context;
-    }
 
     @Override
     public Configuration retrieveConfigurationById(String id) {

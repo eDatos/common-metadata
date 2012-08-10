@@ -13,7 +13,7 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-    <jaxrs:server id="restInternalFacadeV1_0" address="/internal/v1.0">
+    <jaxrs:server id="restInternal" address="/internal">
 
         <jaxrs:features>
             <cxf:logging />

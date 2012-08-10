@@ -45,20 +45,21 @@ import org.springframework.web.util.UriUtils;
 
 public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest {
 
-    private static final String                PORT                          = ServerResource.PORT;
-    private static String                      baseApi                       = "http://localhost:" + PORT + "/internal/v1.0";
+    private static final String                        PORT                          = ServerResource.PORT;
+    private static String                              jaxrsServerAddress            = "http://localhost:" + PORT + "/internal";
+    private static String                              baseApi                       = jaxrsServerAddress + "/v1.0";
 
     private static CommonMetadataRestInternalFacadeV10 commonMetadataRestInternalFacadeClientXml;
 
-    private static ApplicationContext          applicationContext            = null;
+    private static ApplicationContext                  applicationContext            = null;
 
-    private static String                      NOT_EXISTS                    = "NOT_EXISTS";
+    private static String                              NOT_EXISTS                    = "NOT_EXISTS";
 
-    public static String                       CONFIGURATION_1               = "configuration1";
-    public static String                       CONFIGURATION_2               = "configuration2";
-    public static String                       CONFIGURATION_3               = "configuration3";
-    public static String                       CONFIGURATION_15               = "configuration15";
-    public static String                       QUERY_CONFIGURATION_ID_LIKE_1 = ConfigurationCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
+    public static String                               CONFIGURATION_1               = "configuration1";
+    public static String                               CONFIGURATION_2               = "configuration2";
+    public static String                               CONFIGURATION_3               = "configuration3";
+    public static String                               CONFIGURATION_15              = "configuration15";
+    public static String                               QUERY_CONFIGURATION_ID_LIKE_1 = ConfigurationCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @BeforeClass
@@ -75,9 +76,9 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
         {
             List providers = new ArrayList();
             providers.add(applicationContext.getBean("jaxbProvider", JAXBElementProvider.class));
-            commonMetadataRestInternalFacadeClientXml = JAXRSClientFactory.create(baseApi, CommonMetadataRestInternalFacadeV10.class, providers, Boolean.TRUE);
+            commonMetadataRestInternalFacadeClientXml = JAXRSClientFactory.create(jaxrsServerAddress, CommonMetadataRestInternalFacadeV10.class, providers, Boolean.TRUE);
         }
-        
+
         // Mockito
         setUpMockito();
     }
@@ -100,7 +101,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
         // Validation
         CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration1(baseApi), configuration);
     }
-    
+
     @Test
     public void testRetrieveConfigurationDisabledByIdXml() throws Exception {
 
@@ -121,7 +122,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
     }
-    
+
     @Test
     public void testRetrieveConfigurationByIdXmlWithoutJaxbTransformationWithSufix() throws Exception {
 
@@ -167,7 +168,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.NOT_FOUND, responseExpected);
     }
-    
+
     @Test
     public void testRetrieveConfigurationByIdJsonNonAcceptable() throws Exception {
 
@@ -219,7 +220,6 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
             testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
         }
     }
-
 
     private String encodeParameter(String parameter) throws Exception {
         if (parameter == null) {
