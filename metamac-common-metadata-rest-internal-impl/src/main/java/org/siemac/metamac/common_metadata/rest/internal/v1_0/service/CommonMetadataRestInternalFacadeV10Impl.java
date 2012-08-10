@@ -111,10 +111,11 @@ public class CommonMetadataRestInternalFacadeV10Impl implements CommonMetadataRe
     }
 
     /**
-     * Get Base API url
+     * Get Base API url TODO
      */
     private String getApiUrl() {
-        return RestUtils.getApiUrl(context);
+//        return RestUtils.getApiUrl(context);
+        return "http://localhost:9001/internal/v1.0";
     }
 
     /**
