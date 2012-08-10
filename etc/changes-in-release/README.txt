@@ -6,7 +6,7 @@ Cuando se cree la RELEASE, añadir estos pasos al manual de instalación:
 	- Ejecutar script de updates-in-release
 
 3. [DATA]
-	- Añadir al fichero [DATA]/common/static/rest.xml (crearlo si no existe), las siguientes entradas:
+	- Si no existen, añadir al fichero [DATA]/common/static/endpoints.xml (crearlo si no existe), las siguientes entradas:
     <entry key="metamac.endpoints.common.metadata.rest.internal">http://localhost:8080/metamac-common-metadata-web/apis/cmetadata-internal</entry>
     <entry key="metamac.endpoints.srm.rest.external">http://localhost:8080/metamac-srm-external-web/apis/srm</entry>
 
