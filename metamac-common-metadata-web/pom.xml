@@ -36,7 +36,7 @@
         </dependency>
         <dependency>
             <groupId>org.siemac.metamac.metamac-common-metadata</groupId>
-            <artifactId>metamac-common-metadata-rest-internal-impl</artifactId>
+            <artifactId>metamac-common-metadata-rest-external-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
