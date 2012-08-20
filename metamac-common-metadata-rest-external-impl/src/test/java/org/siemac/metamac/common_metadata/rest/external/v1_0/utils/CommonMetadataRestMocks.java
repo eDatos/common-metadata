@@ -1,18 +1,18 @@
-package org.siemac.metamac.common_metadata.rest.internal.v1_0.utils;
+package org.siemac.metamac.common_metadata.rest.external.v1_0.utils;
 
 import static org.junit.Assert.fail;
 
 import java.math.BigInteger;
 
-import org.siemac.metamac.common_metadata.rest.internal.RestInternalConstants;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.service.CommonMetadataRestInternalFacadeV10Test;
+import org.siemac.metamac.common_metadata.rest.external.RestExternalConstants;
+import org.siemac.metamac.common_metadata.rest.external.v1_0.service.CommonMetadataRestExternalFacadeV10Test;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.rest.common.test.utils.MetamacRestMocks;
 import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
 import org.siemac.metamac.rest.common.v1_0.domain.Resource;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.CommonMetadataStatus;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configuration;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configurations;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.CommonMetadataStatus;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
 
 public class CommonMetadataRestMocks {
 
@@ -34,7 +34,7 @@ public class CommonMetadataRestMocks {
 
     public static Configurations mockConfigurations(String baseApi, String query) {
         Configurations configurationsResult = new Configurations();
-        configurationsResult.setKind(RestInternalConstants.KIND_CONFIGURATIONS);
+        configurationsResult.setKind(RestExternalConstants.KIND_CONFIGURATIONS);
 
         if (query == null) {
             // all enabled
@@ -43,7 +43,7 @@ public class CommonMetadataRestMocks {
             configurationsResult.getConfigurations().add(mockConfiguration2Resource(baseApi));
             configurationsResult.getConfigurations().add(mockConfiguration15Resource(baseApi));
         } else {
-            String querySupported1 = CommonMetadataRestInternalFacadeV10Test.QUERY_CONFIGURATION_ID_LIKE_1;
+            String querySupported1 = CommonMetadataRestExternalFacadeV10Test.QUERY_CONFIGURATION_ID_LIKE_1;
             if (querySupported1.equals(querySupported1)) {
                 configurationsResult.setTotal(BigInteger.valueOf(2));
                 configurationsResult.getConfigurations().add(mockConfiguration1Resource(baseApi));
@@ -60,7 +60,7 @@ public class CommonMetadataRestMocks {
         Configuration configuration = new Configuration();
         configuration.setId("configuration" + subCode);
         configuration.setUrn("urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=" + configuration.getId());
-        configuration.setKind(RestInternalConstants.KIND_CONFIGURATION);
+        configuration.setKind(RestExternalConstants.KIND_CONFIGURATION);
         configuration.setSelfLink(baseApi + "/configurations/configuration" + subCode);
         configuration.setLegalActs(mockInternationalString("legalActs", subCode));
         configuration.setDataSharing(mockInternationalString("dataSharing", subCode));
@@ -68,7 +68,7 @@ public class CommonMetadataRestMocks {
         configuration.setConfDataTreatment(mockInternationalString("confDataTreatment", subCode));
         configuration.setContact(mockResourceFromExternalItemSrm("contact1", "contacts", TypeExternalArtefactsEnum.AGENCY));
         configuration.setStatus(status);
-        configuration.setParent(MetamacRestMocks.mockResourceLink(RestInternalConstants.KIND_CONFIGURATIONS, baseApi + "/configurations"));
+        configuration.setParent(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATIONS, baseApi + "/configurations"));
         // no children
         return configuration;
     }
@@ -88,7 +88,7 @@ public class CommonMetadataRestMocks {
     private static Resource mockConfigurationResource(String subId, String baseApi) {
         String configurationId = "configuration" + subId;
         Resource resource = MetamacRestMocks.mockResource(configurationId, "urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=" + configurationId,
-                RestInternalConstants.KIND_CONFIGURATION, baseApi + "/configurations/" + configurationId);
+                RestExternalConstants.KIND_CONFIGURATION, baseApi + "/configurations/" + configurationId);
         resource.setTitle(null); // no title
         return resource;
     }

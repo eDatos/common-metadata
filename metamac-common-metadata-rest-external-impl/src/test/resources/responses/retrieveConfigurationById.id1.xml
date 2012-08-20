@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<cmetadata:configuration xmlns:cmetadata="http://www.siemac.org/metamac/common-metadata/rest/internal/v1.0/domain" xmlns:common="http://www.siemac.org/metamac/rest/common/v1.0/domain" kind="commonMetadata#configuration">
+<cmetadata:configuration xmlns:cmetadata="http://www.siemac.org/metamac/rest/common-metadata/v1.0/domain" xmlns:common="http://www.siemac.org/metamac/rest/common/v1.0/domain" kind="commonMetadata#configuration">
     <cmetadata:id>configuration1</cmetadata:id>
     <cmetadata:urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration1</cmetadata:urn>
-    <cmetadata:selfLink>http://data.istac.es/apis/cmetadata-internal/v1.0/configurations/configuration1</cmetadata:selfLink>
+    <cmetadata:selfLink>http://data.istac.es/apis/cmetadata/v1.0/configurations/configuration1</cmetadata:selfLink>
     <cmetadata:parent kind="commonMetadata#configurations">
-        <common:selfLink>http://data.istac.es/apis/cmetadata-internal/v1.0/configurations</common:selfLink>
+        <common:selfLink>http://data.istac.es/apis/cmetadata/v1.0/configurations</common:selfLink>
     </cmetadata:parent>
     <cmetadata:dataSharing>
         <common:text xml:lang="en">dataSharing1 in English</common:text>

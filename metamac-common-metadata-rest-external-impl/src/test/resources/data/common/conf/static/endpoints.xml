@@ -2,6 +2,6 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
     <comment>Rest endpoints</comment>
-    <entry key="metamac.endpoints.common.metadata.rest.internal">http://data.istac.es/apis/cmetadata-internal</entry>
+    <entry key="metamac.endpoints.common.metadata.rest.external">http://data.istac.es/apis/cmetadata</entry>
     <entry key="metamac.endpoints.srm.rest.external">http://data.istac.es/apis/srm</entry>
 </properties>

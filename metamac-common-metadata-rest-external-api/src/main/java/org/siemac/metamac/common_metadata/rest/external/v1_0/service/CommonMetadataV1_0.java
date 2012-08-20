@@ -1,16 +1,16 @@
-package org.siemac.metamac.common_metadata.rest.internal.v1_0.service;
+package org.siemac.metamac.common_metadata.rest.external.v1_0.service;
 
-import javax.ws.rs.GET;
+import javax.ws.rs.GET; 
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configuration;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configurations;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
 
 @Path("v1.0")
-public interface CommonMetadataRestInternalFacadeV10 {
+public interface CommonMetadataV1_0 {
 
     /**
      * Find configurations

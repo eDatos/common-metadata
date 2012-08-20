@@ -1,8 +1,8 @@
-package org.siemac.metamac.common_metadata.rest.internal;
+package org.siemac.metamac.common_metadata.rest.external;
 
 import org.siemac.metamac.rest.constants.RestConstants;
 
-public class RestInternalConstants {
+public class RestExternalConstants {
 
     public static String LINK_SUBPATH_CONFIGURATIONS = "configurations";
 

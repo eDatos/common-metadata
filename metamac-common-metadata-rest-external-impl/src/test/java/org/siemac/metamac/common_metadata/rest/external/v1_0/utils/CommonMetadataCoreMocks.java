@@ -1,4 +1,4 @@
-package org.siemac.metamac.common_metadata.rest.internal.v1_0.utils;
+package org.siemac.metamac.common_metadata.rest.external.v1_0.utils;
 
 import static org.junit.Assert.fail;
 
@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.service.CommonMetadataRestInternalFacadeV10Test;
+import org.siemac.metamac.common_metadata.rest.external.v1_0.service.CommonMetadataRestExternalFacadeV10Test;
 import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
@@ -40,7 +40,7 @@ public class CommonMetadataCoreMocks {
             configurations.add(mockConfiguration2());
             configurations.add(mockConfiguration15());
         } else {
-            String querySupported1 = CommonMetadataRestInternalFacadeV10Test.QUERY_CONFIGURATION_ID_LIKE_1;
+            String querySupported1 = CommonMetadataRestExternalFacadeV10Test.QUERY_CONFIGURATION_ID_LIKE_1;
             if (querySupported1.equals(querySupported1)) {
                 configurations.add(mockConfiguration1());
                 configurations.add(mockConfiguration15());

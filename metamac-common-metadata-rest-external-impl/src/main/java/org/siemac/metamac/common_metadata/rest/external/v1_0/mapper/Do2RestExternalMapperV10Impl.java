@@ -1,4 +1,4 @@
-package org.siemac.metamac.common_metadata.rest.internal.v1_0.mapper;
+package org.siemac.metamac.common_metadata.rest.external.v1_0.mapper;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -7,8 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response.Status;
 
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
-import org.siemac.metamac.common_metadata.rest.internal.RestInternalConstants;
-import org.siemac.metamac.common_metadata.rest.internal.exception.RestServiceExceptionType;
+import org.siemac.metamac.common_metadata.rest.external.RestExternalConstants;
+import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
 import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 import org.siemac.metamac.rest.common.v1_0.domain.Children;
@@ -16,9 +16,9 @@ import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
 import org.siemac.metamac.rest.common.v1_0.domain.LocalisedString;
 import org.siemac.metamac.rest.common.v1_0.domain.Resource;
 import org.siemac.metamac.rest.common.v1_0.domain.ResourceLink;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.CommonMetadataStatus;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configuration;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configurations;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.CommonMetadataStatus;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
 import org.siemac.metamac.rest.constants.RestEndpointsConstants;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
@@ -28,26 +28,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
-
-    // @Context
-    // private MessageContext context; // Always null in this bean (not in Service)...
+public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 
     @Autowired
     private ConfigurationService configurationService;
 
-    private String               commonMetadataApiInternalEndpointV10;
+    private String               commonMetadataApiExternalEndpointV10;
     private String               srmApiExternalEndpoint;
 
     @PostConstruct
     public void init() throws Exception {
 
-        // Statistical operations Internal Api
-        String commonMetadataApiInternalEndpoint = configurationService.getProperty(RestEndpointsConstants.COMMON_METADATA_INTERNAL_API);
-        if (commonMetadataApiInternalEndpoint == null) {
-            throw new BeanCreationException("Property not found: " + RestEndpointsConstants.COMMON_METADATA_INTERNAL_API);
+        // Common metadata External Api
+        String commonMetadataApiExternalEndpoint = configurationService.getProperty(RestEndpointsConstants.COMMON_METADATA_EXTERNAL_API);
+        if (commonMetadataApiExternalEndpoint == null) {
+            throw new BeanCreationException("Property not found: " + RestEndpointsConstants.COMMON_METADATA_EXTERNAL_API);
         }
-        commonMetadataApiInternalEndpointV10 = RestUtils.createLink(commonMetadataApiInternalEndpoint, RestInternalConstants.API_VERSION_1_0);
+        commonMetadataApiExternalEndpointV10 = RestUtils.createLink(commonMetadataApiExternalEndpoint, RestExternalConstants.API_VERSION_1_0);
 
         // Srm External Api
         srmApiExternalEndpoint = configurationService.getProperty(RestEndpointsConstants.SRM_EXTERNAL_API);
@@ -64,7 +61,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         Configuration target = new Configuration();
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
-        target.setKind(RestInternalConstants.KIND_CONFIGURATION);
+        target.setKind(RestExternalConstants.KIND_CONFIGURATION);
         target.setSelfLink(toConfigurationLink(source));
         target.setLegalActs(toInternationalString(source.getLegalActs()));
         target.setDataSharing(toInternationalString(source.getDataSharing()));
@@ -81,7 +78,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
     public Configurations toConfigurations(List<org.siemac.metamac.common.metadata.core.domain.Configuration> sources) {
 
         Configurations targets = new Configurations();
-        targets.setKind(RestInternalConstants.KIND_CONFIGURATIONS);
+        targets.setKind(RestExternalConstants.KIND_CONFIGURATIONS);
 
         if (sources == null) {
             targets.setTotal(BigInteger.ZERO);
@@ -103,7 +100,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
         Resource target = new Resource();
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
-        target.setKind(RestInternalConstants.KIND_CONFIGURATION);
+        target.setKind(RestExternalConstants.KIND_CONFIGURATION);
         target.setSelfLink(toConfigurationLink(source));
         // configuration has not title
         return target;
@@ -131,7 +128,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 
     private ResourceLink toConfigurationParent() {
         ResourceLink target = new ResourceLink();
-        target.setKind(RestInternalConstants.KIND_CONFIGURATIONS);
+        target.setKind(RestExternalConstants.KIND_CONFIGURATIONS);
         target.setSelfLink(toConfigurationsLink());
         return target;
     }
@@ -156,7 +153,7 @@ public class Do2RestInternalMapperV10Impl implements Do2RestInternalMapperV10 {
 
     // API/configurations
     private String toConfigurationsLink() {
-        return RestUtils.createLink(commonMetadataApiInternalEndpointV10, RestInternalConstants.LINK_SUBPATH_CONFIGURATIONS);
+        return RestUtils.createLink(commonMetadataApiExternalEndpointV10, RestExternalConstants.LINK_SUBPATH_CONFIGURATIONS);
     }
 
     // API/configurations/configuration

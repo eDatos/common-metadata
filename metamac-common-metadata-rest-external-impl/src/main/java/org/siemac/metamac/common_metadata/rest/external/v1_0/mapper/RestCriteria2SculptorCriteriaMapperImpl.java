@@ -1,4 +1,4 @@
-package org.siemac.metamac.common_metadata.rest.internal.v1_0.mapper;
+package org.siemac.metamac.common_metadata.rest.external.v1_0.mapper;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -6,12 +6,12 @@ import org.fornax.cartridges.sculptor.framework.domain.Property;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
-import org.siemac.metamac.common_metadata.rest.internal.exception.RestServiceExceptionType;
+import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestOrder;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestQueryPropertyRestriction;
 import org.siemac.metamac.rest.common.query.domain.SculptorPropertyCriteria;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.ConfigurationCriteriaPropertyOrder;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.ConfigurationCriteriaPropertyRestriction;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.ConfigurationCriteriaPropertyOrder;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.ConfigurationCriteriaPropertyRestriction;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.search.criteria.mapper.RestCriteria2SculptorCriteria;

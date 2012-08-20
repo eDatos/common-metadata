@@ -13,14 +13,14 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-    <jaxrs:server id="restInternal" address="/cmetadata-internal">
+    <jaxrs:server id="restExternal" address="/cmetadata">
 
         <jaxrs:features>
             <cxf:logging />
         </jaxrs:features>
 
         <jaxrs:serviceBeans>
-            <ref bean="commonMetadataRestInternalFacadeV10" />
+            <ref bean="commonMetadataRestExternalFacadeV10" />
         </jaxrs:serviceBeans>
         
         <jaxrs:extensionMappings>

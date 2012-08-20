@@ -11,9 +11,9 @@
 	</parent>
 
 	<groupId>org.siemac.metamac.metamac-common-metadata</groupId>
-	<artifactId>metamac-common-metadata-rest-internal-api</artifactId>
+	<artifactId>metamac-common-metadata-rest-external-api</artifactId>
 	<packaging>jar</packaging>
-	<name>METAMAC :: COMMON :: METADATA :: REST :: INTERNAL API</name>
+	<name>METAMAC :: COMMON :: METADATA :: REST :: EXTERNAL API</name>
     
     <dependencies>
         <dependency>
@@ -97,7 +97,7 @@
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/classes/META-INF/rest/internal</outputDirectory>
+                            <outputDirectory>${project.build.directory}/classes/META-INF/rest/external</outputDirectory>
                             <includeGroupIds>org.siemac.metamac</includeGroupIds>
                             <includeArtifacIds>metamac-rest-api</includeArtifacIds>
                             <includeClassifiers>resources</includeClassifiers>
@@ -124,8 +124,8 @@
                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/../etc/rest/internal</directory>
-                                    <targetPath>META-INF/rest/internal</targetPath>
+                                    <directory>${basedir}/../etc/rest/external</directory>
+                                    <targetPath>META-INF/rest/external</targetPath>
                                     <includes>
                                         <include>**/*</include>
                                     </includes>
@@ -149,7 +149,7 @@
                 </executions>
                 <configuration>
                     <includes>
-                        <include>target/classes/META-INF/rest/internal/*.xsd</include>
+                        <include>target/classes/META-INF/rest/external/*.xsd</include>
                     </includes>
                     <replacements>
                         <replacement>
@@ -171,7 +171,7 @@
                         </goals>
                         <configuration>
                             <extension>true</extension>
-                            <schemaDirectory>${project.build.directory}/classes/META-INF/rest/internal</schemaDirectory>
+                            <schemaDirectory>${project.build.directory}/classes/META-INF/rest/external</schemaDirectory>
                             <schemaIncludes>
                                 <schemaInclude>*.xsd</schemaInclude>
                             </schemaIncludes>
@@ -180,13 +180,13 @@
                                 <arg>-npa</arg> <!-- no generate package-info -->
                             </args>
                             <episodes>
-                               <episode>
+	                           <episode>
                                     <groupId>org.siemac.metamac</groupId>
                                     <artifactId>metamac-rest-api</artifactId>
                                 </episode>
                             </episodes>
                             <bindingFiles>
-                                <bindingFile>${basedir}/../etc/rest/internal/binding.xjb</bindingFile>
+                                <bindingFile>${basedir}/../etc/rest/external/binding.xjb</bindingFile>
                             </bindingFiles>
                             <generateDirectory>${basedir}/src/generated/java</generateDirectory>
                             <forceRegenerate>true</forceRegenerate>

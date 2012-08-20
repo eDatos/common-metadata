@@ -1,4 +1,4 @@
-package org.siemac.metamac.common_metadata.rest.internal.v1_0.service;
+package org.siemac.metamac.common_metadata.rest.external.v1_0.service;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
@@ -23,46 +23,46 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
-import org.siemac.metamac.common_metadata.rest.internal.exception.RestServiceExceptionType;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.mockito.FindConfigurationsByIdMatcher;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.mockito.FindConfigurationsMatcher;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.utils.CommonMetadataCoreMocks;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.utils.CommonMetadataRestAsserts;
-import org.siemac.metamac.common_metadata.rest.internal.v1_0.utils.CommonMetadataRestMocks;
+import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
+import org.siemac.metamac.common_metadata.rest.external.v1_0.mockito.FindConfigurationsByIdMatcher;
+import org.siemac.metamac.common_metadata.rest.external.v1_0.mockito.FindConfigurationsMatcher;
+import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataCoreMocks;
+import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataRestAsserts;
+import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataRestMocks;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.util.ApplicationContextProvider;
 import org.siemac.metamac.rest.common.test.MetamacRestBaseTest;
 import org.siemac.metamac.rest.common.test.ServerResource;
 import org.siemac.metamac.rest.common.v1_0.domain.ComparisonOperator;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.CommonMetadataStatus;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configuration;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.ConfigurationCriteriaPropertyRestriction;
-import org.siemac.metamac.rest.common_metadata_internal.v1_0.domain.Configurations;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.CommonMetadataStatus;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.ConfigurationCriteriaPropertyRestriction;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
 import org.siemac.metamac.rest.constants.RestConstants;
 import org.siemac.metamac.rest.utils.RestUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.util.UriUtils;
 
-public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest {
+public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest {
 
-    private static final String                        PORT                                 = ServerResource.PORT;
-    private static String                              jaxrsServerAddress                   = "http://localhost:" + PORT + "/apis/cmetadata-internal";
-    private static String                              baseApi                              = jaxrsServerAddress + "/v1.0";
+    private static final String       PORT                                 = ServerResource.PORT;
+    private static String             jaxrsServerAddress                   = "http://localhost:" + PORT + "/apis/cmetadata";
+    private static String             baseApi                              = jaxrsServerAddress + "/v1.0";
 
     // not read property from properties file to check explicity
-    private static String                              commonMetadataApiInternalEndpointV10 = "http://data.istac.es/apis/cmetadata-internal/v1.0";
+    private static String             commonMetadataApiExternalEndpointV10 = "http://data.istac.es/apis/cmetadata/v1.0";
 
-    private static CommonMetadataRestInternalFacadeV10 commonMetadataRestInternalFacadeClientXml;
+    private static CommonMetadataV1_0 commonMetadataRestExternalFacadeClientXml;
 
-    private static ApplicationContext                  applicationContext                   = null;
+    private static ApplicationContext applicationContext                   = null;
 
-    private static String                              NOT_EXISTS                           = "NOT_EXISTS";
+    private static String             NOT_EXISTS                           = "NOT_EXISTS";
 
-    public static String                               CONFIGURATION_1                      = "configuration1";
-    public static String                               CONFIGURATION_2                      = "configuration2";
-    public static String                               CONFIGURATION_3                      = "configuration3";
-    public static String                               CONFIGURATION_15                     = "configuration15";
-    public static String                               QUERY_CONFIGURATION_ID_LIKE_1        = ConfigurationCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
+    public static String              CONFIGURATION_1                      = "configuration1";
+    public static String              CONFIGURATION_2                      = "configuration2";
+    public static String              CONFIGURATION_3                      = "configuration3";
+    public static String              CONFIGURATION_15                     = "configuration15";
+    public static String              QUERY_CONFIGURATION_ID_LIKE_1        = ConfigurationCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @BeforeClass
@@ -79,7 +79,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
         {
             List providers = new ArrayList();
             providers.add(applicationContext.getBean("jaxbProvider", JAXBElementProvider.class));
-            commonMetadataRestInternalFacadeClientXml = JAXRSClientFactory.create(jaxrsServerAddress, CommonMetadataRestInternalFacadeV10.class, providers, Boolean.TRUE);
+            commonMetadataRestExternalFacadeClientXml = JAXRSClientFactory.create(jaxrsServerAddress, CommonMetadataV1_0.class, providers, Boolean.TRUE);
         }
 
         // Mockito
@@ -99,28 +99,28 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
     public void testRetrieveConfigurationByIdXml() throws Exception {
 
         // Retrieve
-        Configuration configuration = getCommonMetadataRestInternalFacadeClientXml().retrieveConfigurationById(CONFIGURATION_1);
+        Configuration configuration = getCommonMetadataRestExternalFacadeClientXml().retrieveConfigurationById(CONFIGURATION_1);
 
         // Validation
-        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration1(commonMetadataApiInternalEndpointV10), configuration);
+        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration1(commonMetadataApiExternalEndpointV10), configuration);
     }
 
     @Test
     public void testRetrieveConfigurationDisabledByIdXml() throws Exception {
 
         // Retrieve
-        Configuration configuration = getCommonMetadataRestInternalFacadeClientXml().retrieveConfigurationById(CONFIGURATION_3);
+        Configuration configuration = getCommonMetadataRestExternalFacadeClientXml().retrieveConfigurationById(CONFIGURATION_3);
 
         // Validation
         assertEquals(CommonMetadataStatus.DISABLED, configuration.getStatus());
-        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration3(commonMetadataApiInternalEndpointV10), configuration);
+        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration3(commonMetadataApiExternalEndpointV10), configuration);
     }
 
     @Test
     public void testRetrieveConfigurationByIdXmlWithoutJaxbTransformation() throws Exception {
 
         String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1);
-        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
+        InputStream responseExpected = CommonMetadataRestExternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
 
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
@@ -130,7 +130,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
     public void testRetrieveConfigurationByIdXmlWithoutJaxbTransformationWithSufix() throws Exception {
 
         String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1) + ".xml";
-        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
+        InputStream responseExpected = CommonMetadataRestExternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
 
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
@@ -140,7 +140,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
     public void testRetrieveConfigurationByIdXmlWithoutJaxbTransformationWithTypeParameter() throws Exception {
 
         String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1) + "?_type=xml";
-        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
+        InputStream responseExpected = CommonMetadataRestExternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.xml");
 
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
@@ -149,9 +149,9 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
     @Test
     public void testRetrieveConfigurationByIdErrorNotExistsXml() throws Exception {
         try {
-            getCommonMetadataRestInternalFacadeClientXml().retrieveConfigurationById(NOT_EXISTS);
+            getCommonMetadataRestExternalFacadeClientXml().retrieveConfigurationById(NOT_EXISTS);
         } catch (ServerWebApplicationException e) {
-            org.siemac.metamac.rest.common.v1_0.domain.Exception exception = extractErrorFromException(commonMetadataRestInternalFacadeClientXml, e);
+            org.siemac.metamac.rest.common.v1_0.domain.Exception exception = extractErrorFromException(commonMetadataRestExternalFacadeClientXml, e);
 
             assertEquals(RestServiceExceptionType.CONFIGURATION_NOT_FOUND.getCode(), exception.getCode());
             assertEquals("Configuration not found with id " + NOT_EXISTS, exception.getMessage());
@@ -166,7 +166,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
     @Test
     public void testRetrieveConfigurationByIdErrorNotExistsXmlWithoutJaxbTransformation() throws Exception {
         String requestUri = getRequestUriRetrieveConfigurationById(NOT_EXISTS);
-        InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.notFound.xml");
+        InputStream responseExpected = CommonMetadataRestExternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.notFound.xml");
 
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.NOT_FOUND, responseExpected);
@@ -191,15 +191,15 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
             // without query
             String query = null;
             String orderBy = null;
-            Configurations configurations = getCommonMetadataRestInternalFacadeClientXml().findConfigurations(query, orderBy);
-            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiInternalEndpointV10, null), configurations);
+            Configurations configurations = getCommonMetadataRestExternalFacadeClientXml().findConfigurations(query, orderBy);
+            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiExternalEndpointV10, null), configurations);
         }
         {
             // query by id
             String query = QUERY_CONFIGURATION_ID_LIKE_1; // configuration1 and configuration15
             String orderBy = null;
-            Configurations configurations = getCommonMetadataRestInternalFacadeClientXml().findConfigurations(query, orderBy);
-            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiInternalEndpointV10, query), configurations);
+            Configurations configurations = getCommonMetadataRestExternalFacadeClientXml().findConfigurations(query, orderBy);
+            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiExternalEndpointV10, query), configurations);
         }
     }
 
@@ -208,7 +208,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
         {
             // without query
             String requestUri = getRequestUriFindConfigurations(null);
-            InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.noquery.xml");
+            InputStream responseExpected = CommonMetadataRestExternalFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.noquery.xml");
 
             // Request and validate
             testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
@@ -217,7 +217,7 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
             // query by id
             String query = QUERY_CONFIGURATION_ID_LIKE_1;
             String requestUri = getRequestUriFindConfigurations(query);
-            InputStream responseExpected = CommonMetadataRestInternalFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.query1.xml");
+            InputStream responseExpected = CommonMetadataRestExternalFacadeV10Test.class.getResourceAsStream("/responses/findConfigurations.query1.xml");
 
             // Request and validate
             testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.OK, responseExpected);
@@ -289,9 +289,9 @@ public class CommonMetadataRestInternalFacadeV10Test extends MetamacRestBaseTest
                 CommonMetadataCoreMocks.mockConfigurationsNoPagedResult(query));
     }
 
-    private CommonMetadataRestInternalFacadeV10 getCommonMetadataRestInternalFacadeClientXml() {
-        WebClient.client(commonMetadataRestInternalFacadeClientXml).reset();
-        WebClient.client(commonMetadataRestInternalFacadeClientXml).accept(APPLICATION_XML);
-        return commonMetadataRestInternalFacadeClientXml;
+    private CommonMetadataV1_0 getCommonMetadataRestExternalFacadeClientXml() {
+        WebClient.client(commonMetadataRestExternalFacadeClientXml).reset();
+        WebClient.client(commonMetadataRestExternalFacadeClientXml).accept(APPLICATION_XML);
+        return commonMetadataRestExternalFacadeClientXml;
     }
 }

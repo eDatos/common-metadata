@@ -1,4 +1,4 @@
-package org.siemac.metamac.common_metadata.rest.internal.exception;
+package org.siemac.metamac.common_metadata.rest.external.exception;
 
 import org.siemac.metamac.rest.exception.RestCommonServiceExceptionType;
 

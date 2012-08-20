@@ -11,15 +11,15 @@
 	</parent>
 
     <groupId>org.siemac.metamac.metamac-common-metadata</groupId>
-    <artifactId>metamac-common-metadata-rest-internal-impl</artifactId>
+    <artifactId>metamac-common-metadata-rest-external-impl</artifactId>
     <packaging>jar</packaging>
-    <name>METAMAC :: COMMON :: METADATA :: REST :: INTERNAL IMPL</name>    
+    <name>METAMAC :: COMMON :: METADATA :: REST :: EXTERNAL IMPL</name>    
 
 	<dependencies>
         <!-- Metamac -->
 		<dependency>
 			<groupId>org.siemac.metamac.metamac-common-metadata</groupId>
-			<artifactId>metamac-common-metadata-rest-internal-api</artifactId>
+			<artifactId>metamac-common-metadata-rest-external-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
         <dependency>
