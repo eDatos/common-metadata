@@ -15,12 +15,19 @@ public interface CommonMetadataV1_0 {
     /**
      * Find configurations
      * 
-     * @param query Clause to filter results by metadata. Accepts AND/OR clauses (see @LogicalOperator) and operators as eq, like... (see @ComparisonOperator)
-     * @param orderBy Clause to order the results by metadata
+     * @param query Clause to filter results by metadata <br/>
+     *            - Logical operators: AND, OR <br/>
+     *            - Comparison operators: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL, IN <br/>
+     *            - Metadata to filter: ID, URN, CONTACT_URN, STATUS <br/>
+     *            - Example: (ID LIKE "ISTAC" AND CONTACT_URN EQ "urn:contact:1") OR (CONTACT_URN EQ "urn:contact:2")
+     * @param orderBy Clause to order the results by metadata <br/>
+     *            - Order operators: ASC, DESC<br/>
+     *            - Metadata to order: ID<br/>
+     *            - Example: ID ASC<br/>
      * @param limit Maximum number of results per page
      * @param offset Position of first result
      * @return List of configurations
-     */
+     */    
     @GET
     @Produces("application/xml")
     @Path("configurations")
