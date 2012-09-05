@@ -60,7 +60,4 @@
 
     <!-- Core -->
     <import resource="classpath:/spring/common-metadata/applicationContext.xml" />
-    <!-- Rest -->
-    <import resource="classpath:/spring/common-metadata-rest-external/applicationContext.xml" />
 </beans>
-
