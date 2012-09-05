@@ -12,8 +12,8 @@
     <artifactId>metamac-common-metadata-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>METAMAC :: COMMON :: METADATA :: PARENT</name>
-    <description>METAMAC :: COMMON :: METADATA :: PARENT</description>
+    <name>METAMAC :: COMMON METADATA :: PARENT</name>
+    <description>METAMAC :: COMMON METADATA :: PARENT</description>
 
     <issueManagement>
         <system>Jira</system>

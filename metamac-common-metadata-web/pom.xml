@@ -14,8 +14,8 @@
     <groupId>org.siemac.metamac.metamac-common-metadata</groupId>
     <artifactId>metamac-common-metadata-web</artifactId>
     <packaging>war</packaging>
-    <name>METAMAC :: COMMON :: METADATA :: WEB</name>
-    <description>METAMAC :: COMMON :: METADATA :: WEB</description>
+    <name>METAMAC :: COMMON METADATA :: WEB</name>
+    <description>METAMAC :: COMMON METADATA :: WEB</description>
 
     <properties>
         <!-- Convenience property to set the GWT version -->

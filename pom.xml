@@ -12,8 +12,8 @@
     <groupId>org.siemac.metamac.metamac-common-metadata</groupId>
     <artifactId>metamac-common-metadata</artifactId>
     <packaging>pom</packaging>
-    <name>METAMAC :: COMMON :: METADATA</name>
-    <description>METAMAC :: COMMON :: METADATA</description>
+    <name>METAMAC :: COMMON METADATA</name>
+    <description>METAMAC :: COMMON METADATA</description>
 
     <scm>
         <connection>scm:svn:http://svn.arte-consultores.com/svn/arte/istac/metamac/metamac-common-metadata/trunk/</connection>

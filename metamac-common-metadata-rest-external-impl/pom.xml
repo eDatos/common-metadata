@@ -13,7 +13,7 @@
     <groupId>org.siemac.metamac.metamac-common-metadata</groupId>
     <artifactId>metamac-common-metadata-rest-external-impl</artifactId>
     <packaging>jar</packaging>
-    <name>METAMAC :: COMMON :: METADATA :: REST :: EXTERNAL IMPL</name>    
+    <name>METAMAC :: COMMON METADATA :: REST :: EXTERNAL IMPL</name>    
 
 	<dependencies>
         <!-- Metamac -->
