@@ -1,9 +1,13 @@
 Cuando se cree la RELEASE, añadir estos pasos al manual de instalación:
 
+0. Se ha creado una nueva aplicación web a instalar en Cibercentro, que publica la API externa de Common Metadata.
+
 1. Parar Tomcat
 
 2. Cambios en Base de datos
 	- Ejecutar script de updates-in-release
+	- La configuración del datasource de la aplicación interna se realiza en el Tomcat.
+	- La configuración del datasource de la aplicación externa se realiza en el WAR. Ojo! después de copia automáticamente a [TOMCAT]/conf/Catalina y se deberá modificar ahí.
 
 3. [DATA]
 	- Añadir al fichero [DATA]/common/static/endpoints.xml la siguiente entrada:
