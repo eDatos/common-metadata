@@ -126,7 +126,7 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
             throw new MetamacException(ServiceExceptionType.METADATA_REQUIRED, metadataName);
         }
 
-        Set<LocalisedString> localisedStringEntities = localisedStringDtoToDo(source.getTexts(), target.getTexts());
+        Set<LocalisedString> localisedStringEntities = localisedStringDtoToDo(source.getTexts(), target.getTexts(), target);
         target.getTexts().clear();
         target.getTexts().addAll(localisedStringEntities);
 
@@ -136,7 +136,7 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
     /**
      * Transform LocalisedString, reusing existing locales
      */
-    private Set<LocalisedString> localisedStringDtoToDo(Set<LocalisedStringDto> sources, Set<LocalisedString> targets) {
+    private Set<LocalisedString> localisedStringDtoToDo(Set<LocalisedStringDto> sources, Set<LocalisedString> targets, InternationalString internationalStringTarget) {
 
         Set<LocalisedString> targetsBefore = targets;
         targets = new HashSet<LocalisedString>();
@@ -145,28 +145,28 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
             boolean existsBefore = false;
             for (LocalisedString target : targetsBefore) {
                 if (source.getLocale().equals(target.getLocale())) {
-                    targets.add(localisedStringDtoToDo(source, target));
+                    targets.add(localisedStringDtoToDo(source, target, internationalStringTarget));
                     existsBefore = true;
                     break;
                 }
             }
             if (!existsBefore) {
-                targets.add(localisedStringDtoToDo(source));
+                targets.add(localisedStringDtoToDo(source, internationalStringTarget));
             }
         }
         return targets;
     }
 
-    private LocalisedString localisedStringDtoToDo(LocalisedStringDto source) {
+    private LocalisedString localisedStringDtoToDo(LocalisedStringDto source, InternationalString internationalStringTarget) {
         LocalisedString target = new LocalisedString();
-        target.setLabel(source.getLabel());
-        target.setLocale(source.getLocale());
+        localisedStringDtoToDo(source, target, internationalStringTarget);
         return target;
     }
 
-    private LocalisedString localisedStringDtoToDo(LocalisedStringDto source, LocalisedString target) {
+    private LocalisedString localisedStringDtoToDo(LocalisedStringDto source, LocalisedString target, InternationalString internationalStringTarget) {
         target.setLabel(source.getLabel());
         target.setLocale(source.getLocale());
+        target.setInternationalString(internationalStringTarget);
         return target;
     }
 

@@ -17,6 +17,7 @@ import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataAs
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDtoMocks;
 import org.siemac.metamac.common.test.utils.MetamacMocks;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import org.siemac.metamac.core.common.dto.LocalisedStringDto;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +108,11 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         contact.setManagementAppUrl("new-management-app-url");
         contact.setTitle(MetamacMocks.mockInternationalString("es", "new-contact-title-es"));
         configurationDto.setContact(contact);
+        
+        LocalisedStringDto legalActs_ca = new LocalisedStringDto();
+        legalActs_ca.setLabel("CATALAN Legal Acts");
+        legalActs_ca.setLocale("ca");
+        configurationDto.getLegalActs().addText(legalActs_ca);
         
         ConfigurationDto updatedConfigurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
         assertNotNull(configurationDto);
