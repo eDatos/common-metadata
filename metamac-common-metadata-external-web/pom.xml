@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.siemac.metamac.metamac-common-metadata</groupId>
         <artifactId>metamac-common-metadata-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../metamac-common-metadata-parent/pom.xml</relativePath>
     </parent> 
 
@@ -60,7 +60,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <delete dir="${basedir}/src/main/webapp/docs/api" includeemptydirs="true"/>
+                                <delete dir="${basedir}/src/main/webapp/docs/api" includeemptydirs="true" />
                             </target>
                         </configuration>
                     </execution>
@@ -72,8 +72,8 @@
                         </goals>
                         <configuration>
                             <target>
-                                <delete dir="${basedir}/target/enunciate-scratch" includeemptydirs="true"/>
-                                <delete dir="${basedir}/target/enunciate" includeemptydirs="true"/>
+                                <delete dir="${basedir}/target/enunciate-scratch" includeemptydirs="true" />
+                                <delete dir="${basedir}/target/enunciate" includeemptydirs="true" />
                             </target>
                         </configuration>
                     </execution>                    
