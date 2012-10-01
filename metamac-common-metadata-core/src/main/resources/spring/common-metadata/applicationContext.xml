@@ -17,7 +17,8 @@
 	<import resource="classpath:/spring/general-beans-advice.xml" />
 
 	<!-- import additional spring configuration files -->
-	<import resource="classpath:/spring/common-metadata/include/datasource.xml" />
+    <import resource="classpath:/spring/common-metadata/include/datasource.xml" />
+	<import resource="classpath:/spring/common-metadata/include/entity-manager-factory.xml" />
 	<import resource="classpath:/spring/common-metadata/include/interceptor.xml" />
 	<import resource="classpath:/spring/common-metadata/include/more.xml" />
 </beans>
