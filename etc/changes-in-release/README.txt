@@ -6,8 +6,7 @@ Cuando se cree la RELEASE, añadir estos pasos al manual de instalación:
 
 2. Cambios en Base de datos
 	- Ejecutar script de updates-in-release
-	- La configuración del datasource de la aplicación interna se realiza en el Tomcat.
-	- La configuración del datasource de la aplicación externa se realiza en el WAR. Ojo! después de copia automáticamente a [TOMCAT]/conf/Catalina y se deberá modificar ahí.
+	- La configuración del datasource de las aplicaciones web se realiza en el DATA.
 
 3. [DATA]
 	- Añadir al fichero [DATA]/common/static/endpoints.xml la siguiente entrada:
