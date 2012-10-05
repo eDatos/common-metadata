@@ -17,70 +17,68 @@ public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
     // --------------------------------------------------------------------------------------------------------------
     // SERVICE CONTEXT
     // --------------------------------------------------------------------------------------------------------------
-    
+
     @Override
     protected ServiceContext getServiceContextAdministrador() {
         ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.ADMINISTRADOR);
         return serviceContext;
     }
-    
+
     protected ServiceContext getServiceContextJefeNormalizacion() {
         ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.JEFE_NORMALIZACION);
         return serviceContext;
     }
-    
+
     protected ServiceContext getServiceContextTecnicoNormalizacion() {
         ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_NORMALIZACION);
         return serviceContext;
     }
-    
+
     protected ServiceContext getServiceContextTecnicoApoyoNormalizacion() {
         ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_NORMALIZACION);
         return serviceContext;
     }
-    
+
     protected ServiceContext getServiceContextTecnicoPlanificacion() {
         ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_PLANIFICACION);
         return serviceContext;
     }
-    
+
     protected ServiceContext getServiceContextTecnicoApoyoPlanificacion() {
         ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_PLANIFICACION);
         return serviceContext;
     }
-    
+
     protected ServiceContext getServiceContextTecnicoProduccion() {
         ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_PRODUCCION);
         return serviceContext;
     }
-    
+
     protected ServiceContext getServiceContextTecnicoApoyoProduccion() {
         ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_PRODUCCION);
         return serviceContext;
     }
-    
+
     protected ServiceContext getServiceContextTecnicoDifusion() {
         ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_DIFUSION);
         return serviceContext;
     }
-    
+
     protected ServiceContext getServiceContextTecnicoApoyoDifusion() {
         ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_DIFUSION);
         return serviceContext;
     }
-    
-    
-    
+
     private void putMetamacPrincipalInServiceContext(ServiceContext serviceContext, CommonMetadataRoleEnum role) {
         MetamacPrincipal metamacPrincipal = new MetamacPrincipal();
         metamacPrincipal.setUserId(serviceContext.getUserId());
@@ -98,12 +96,12 @@ public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
     }
 
     @Override
-    public List<String> getTablesToRemoveContent() {
+    public List<String> getTableNamesOrderedByFKDependency() {
         List<String> tables = new ArrayList<String>();
-        tables.add("TB_CONFIGURATIONS");
-        tables.add("TB_EXTERNAL_ITEMS");
-        tables.add("TB_LOCALISED_STRINGS");
         tables.add("TB_INTERNATIONAL_STRINGS");
+        tables.add("TB_LOCALISED_STRINGS");
+        tables.add("TB_EXTERNAL_ITEMS");
+        tables.add("TB_CONFIGURATIONS");
         return tables;
     }
 
@@ -116,7 +114,7 @@ public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
         sequences.add("SEQ_CONFIGURATION");
         return sequences;
     }
-    
+
     @Override
     protected Map<String, String> getTablePrimaryKeys() {
         return null;
