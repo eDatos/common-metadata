@@ -32,6 +32,7 @@
 
 	<!-- metamac-common-metadata-core > src/test/resources -->
 	<import resource="classpath:/spring/common-metadata/include/datasource-test.xml" />
+    <import resource="classpath:/spring/common-metadata/include/interceptor-test.xml" />
 	<import resource="classpath:/spring/common-metadata/include/more-test.xml" />
 
 </beans>
