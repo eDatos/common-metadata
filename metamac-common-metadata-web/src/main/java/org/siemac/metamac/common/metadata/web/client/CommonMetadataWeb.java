@@ -8,14 +8,15 @@ import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.web.common.client.MetamacEntryPoint;
 import org.siemac.metamac.web.common.client.events.LoginAuthenticatedEvent;
 import org.siemac.metamac.web.common.client.utils.ApplicationEditionLanguages;
+import org.siemac.metamac.web.common.client.utils.ApplicationOrganisation;
 import org.siemac.metamac.web.common.client.widgets.MetamacNavBar;
 import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
-import org.siemac.metamac.web.common.shared.GetEditionLanguagesAction;
-import org.siemac.metamac.web.common.shared.GetEditionLanguagesResult;
 import org.siemac.metamac.web.common.shared.GetLoginPageUrlAction;
 import org.siemac.metamac.web.common.shared.GetLoginPageUrlResult;
 import org.siemac.metamac.web.common.shared.GetNavigationBarUrlAction;
 import org.siemac.metamac.web.common.shared.GetNavigationBarUrlResult;
+import org.siemac.metamac.web.common.shared.LoadConfigurationPropertiesAction;
+import org.siemac.metamac.web.common.shared.LoadConfigurationPropertiesResult;
 import org.siemac.metamac.web.common.shared.ValidateTicketAction;
 import org.siemac.metamac.web.common.shared.ValidateTicketResult;
 
@@ -70,7 +71,7 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
     // CommonMetadataWeb.principal = result.getMetamacPrincipal();
     //
     // // Load edition languages
-    // ginjector.getDispatcher().execute(new GetEditionLanguagesAction(), new WaitingAsyncCallback<GetEditionLanguagesResult>() {
+    // ginjector.getDispatcher().execute(new LoadConfigurationPropertiesAction(), new WaitingAsyncCallback<LoadConfigurationPropertiesResult>() {
     //
     // @Override
     // public void onWaitFailure(Throwable caught) {
@@ -80,8 +81,9 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
     // loadApplication();
     // }
     // @Override
-    // public void onWaitSuccess(GetEditionLanguagesResult result) {
+    // public void onWaitSuccess(LoadConfigurationPropertiesResult result) {
     // ApplicationEditionLanguages.setEditionLanguages(result.getLanguages());
+    // ApplicationOrganisation.setCurrentOrganisation(result.getOrganisation());
     // loadApplication();
     // }
     // });
@@ -125,7 +127,7 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
                     Window.Location.assign(url);
 
                     // Load edition languages
-                    ginjector.getDispatcher().execute(new GetEditionLanguagesAction(), new WaitingAsyncCallback<GetEditionLanguagesResult>() {
+                    ginjector.getDispatcher().execute(new LoadConfigurationPropertiesAction(), new WaitingAsyncCallback<LoadConfigurationPropertiesResult>() {
 
                         @Override
                         public void onWaitFailure(Throwable caught) {
@@ -136,8 +138,9 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
                             loadApplication();
                         }
                         @Override
-                        public void onWaitSuccess(GetEditionLanguagesResult result) {
+                        public void onWaitSuccess(LoadConfigurationPropertiesResult result) {
                             ApplicationEditionLanguages.setEditionLanguages(result.getLanguages());
+                            ApplicationOrganisation.setCurrentOrganisation(result.getOrganisation());
                             loadApplication();
                         }
                     });
