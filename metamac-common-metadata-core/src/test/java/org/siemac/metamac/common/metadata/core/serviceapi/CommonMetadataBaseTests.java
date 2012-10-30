@@ -11,9 +11,13 @@ import org.siemac.metamac.common.test.MetamacBaseTests;
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.sso.client.MetamacPrincipalAccess;
 import org.siemac.metamac.sso.client.SsoClientConstants;
+import org.springframework.beans.factory.annotation.Value;
 
 public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
 
+    @Value("${metamac.common_metadata.db.provider}")
+    private String databaseProvider;
+    
     // --------------------------------------------------------------------------------------------------------------
     // SERVICE CONTEXT
     // --------------------------------------------------------------------------------------------------------------
@@ -118,5 +122,10 @@ public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
     @Override
     protected Map<String, String> getTablePrimaryKeys() {
         return null;
+    }
+
+    @Override
+    protected DataBaseProvider getDatabaseProvider() {
+        return DataBaseProvider.valueOf(databaseProvider);
     }
 }

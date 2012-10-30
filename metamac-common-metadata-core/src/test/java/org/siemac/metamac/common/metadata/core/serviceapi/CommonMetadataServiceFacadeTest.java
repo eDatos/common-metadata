@@ -175,5 +175,4 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         assertNotNull(configurationDto);
         CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, updatedConfigurationDto);
     }
-
 }
