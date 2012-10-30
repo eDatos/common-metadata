@@ -12,7 +12,7 @@ import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 /**
  * Mocks
  */
-public class CommonMetadataDtoMocks {
+public class CommonMetadataDtoMocks extends MetamacMocks {
 
     public static ConfigurationDto mockEnableConfigurationDto() {
         ConfigurationDto configurationDto = new ConfigurationDto();
@@ -73,7 +73,7 @@ public class CommonMetadataDtoMocks {
         contact.setUrn("CONTACT-URN");
         contact.setType(TypeExternalArtefactsEnum.AGENCY);
         contact.setManagementAppUrl("CONTACT-MANAGEMENT_APP_URL");
-        contact.setTitle(MetamacMocks.mockInternationalString("es", "contact-title-es", "en", "contact-title-en"));
+        contact.setTitle(mockInternationalStringDto("es", "contact-title-es", "en", "contact-title-en"));
         configurationDto.setContact(contact);
         
         // Status

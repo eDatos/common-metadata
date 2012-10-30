@@ -15,7 +15,6 @@ import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatus
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataAsserts;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDtoMocks;
-import org.siemac.metamac.common.test.utils.MetamacMocks;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
@@ -106,7 +105,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         contact.setUrn("new-contact-urn");
         contact.setType(TypeExternalArtefactsEnum.AGENCY);
         contact.setManagementAppUrl("new-management-app-url");
-        contact.setTitle(MetamacMocks.mockInternationalString("es", "new-contact-title-es"));
+        contact.setTitle(CommonMetadataDtoMocks.mockInternationalStringDto("es", "new-contact-title-es"));
         configurationDto.setContact(contact);
         
         LocalisedStringDto legalActs_ca = new LocalisedStringDto();
@@ -127,12 +126,12 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         // Retrieve configuration - session 1
         ConfigurationDto configurationDtoSession1 = commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), id);
         assertEquals(Long.valueOf(0), configurationDtoSession1.getOptimisticLockingVersion());
-        configurationDtoSession1.setConfDataTreatment(MetamacMocks.mockInternationalString("es", "newConf1"));
+        configurationDtoSession1.setConfDataTreatment(CommonMetadataDtoMocks.mockInternationalStringDto("es", "newConf1"));
 
         // Retrieve configuration - session 2
         ConfigurationDto configurationDtoSession2 = commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), id);
         assertEquals(Long.valueOf(0), configurationDtoSession2.getOptimisticLockingVersion());
-        configurationDtoSession2.setConfDataTreatment(MetamacMocks.mockInternationalString("es", "newConf2"));
+        configurationDtoSession2.setConfDataTreatment(CommonMetadataDtoMocks.mockInternationalStringDto("es", "newConf2"));
 
         // Update configuration - session 1
         ConfigurationDto configurationDtoSession1AfterUpdate = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDtoSession1);
@@ -149,7 +148,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         }
 
         // Update configuration - session 1
-        configurationDtoSession1AfterUpdate.setConfDataTreatment(MetamacMocks.mockInternationalString("es", "newConf1_secondUpdate"));
+        configurationDtoSession1AfterUpdate.setConfDataTreatment(CommonMetadataDtoMocks.mockInternationalStringDto("es", "newConf1_secondUpdate"));
         ConfigurationDto configurationDtoSession1AfterUpdate2 = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDtoSession1AfterUpdate);
         assertEquals(Long.valueOf(2), configurationDtoSession1AfterUpdate2.getOptimisticLockingVersion());
 

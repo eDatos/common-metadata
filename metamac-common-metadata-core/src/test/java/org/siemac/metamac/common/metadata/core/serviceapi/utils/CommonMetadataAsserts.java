@@ -10,7 +10,7 @@ import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 
-public class CommonMetadataAsserts {
+public class CommonMetadataAsserts extends MetamacAsserts {
 
     public static void assertEqualsConfiguration(Configuration expected, Configuration actual) {
         assertEquals(expected.getCode(), actual.getCode());
@@ -23,11 +23,11 @@ public class CommonMetadataAsserts {
     
     public static void assertEqualsConfigurationDto(ConfigurationDto expected, ConfigurationDto actual) {
         assertEquals(expected.getCode(), actual.getCode());
-        MetamacAsserts.assertEqualsInternationalStringDto(expected.getConfDataTreatment(), actual.getConfDataTreatment());
-        MetamacAsserts.assertEqualsInternationalStringDto(expected.getConfPolicy(), actual.getConfPolicy());
-        MetamacAsserts.assertEqualsInternationalStringDto(expected.getDataSharing(), actual.getDataSharing());
-        MetamacAsserts.assertEqualsInternationalStringDto(expected.getLegalActs(), actual.getLegalActs());
-        MetamacAsserts.assertEqualsExternalItemDto(expected.getContact(), actual.getContact());
+        assertEqualsInternationalStringDto(expected.getConfDataTreatment(), actual.getConfDataTreatment());
+        assertEqualsInternationalStringDto(expected.getConfPolicy(), actual.getConfPolicy());
+        assertEqualsInternationalStringDto(expected.getDataSharing(), actual.getDataSharing());
+        assertEqualsInternationalStringDto(expected.getLegalActs(), actual.getLegalActs());
+        assertEqualsExternalItemDto(expected.getContact(), actual.getContact());
     }
 
     // -----------------------------------------------------------------
