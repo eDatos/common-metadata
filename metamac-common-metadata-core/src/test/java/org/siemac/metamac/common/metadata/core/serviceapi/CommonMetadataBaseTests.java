@@ -120,7 +120,7 @@ public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
     }
 
     @Override
-    protected Map<String, String> getTablePrimaryKeys() {
+    protected Map<String, List<String>> getTablePrimaryKeys() {
         return null;
     }
 
