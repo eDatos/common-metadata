@@ -4,6 +4,7 @@ import org.siemac.metamac.common.metadata.web.server.handlers.DeleteConfiguratio
 import org.siemac.metamac.common.metadata.web.server.handlers.FindAllConfigurationsActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.FindAllOrganisationSchemesActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetOrganisationsFromSchemeActionHandler;
+import org.siemac.metamac.common.metadata.web.server.handlers.GetUserGuideUrlActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.SaveConfigurationActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.UpdateConfigurationsStatusActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.ValidateTicketActionHandler;
@@ -11,6 +12,7 @@ import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListActi
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesAction;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeAction;
+import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusAction;
 import org.siemac.metamac.web.common.server.handlers.CloseSessionActionHandler;
@@ -51,6 +53,7 @@ public class ServerModule extends HandlerModule {
         bindHandler(GetNavigationBarUrlAction.class, GetNavigationBarUrlActionHandler.class);
 
         bindHandler(LoadConfigurationPropertiesAction.class, LoadConfigurationPropertiesActionHandler.class);
+        bindHandler(GetUserGuideUrlAction.class, GetUserGuideUrlActionHandler.class);
 
         // This action should be removed to use CAS authentication
         bindHandler(MockCASUserAction.class, MockCASUserActionHandler.class);

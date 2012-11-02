@@ -35,6 +35,11 @@
             <classifier>client</classifier>
         </dependency>
         <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-servlet</artifactId>
             <version>${gwt.version}</version>
@@ -256,7 +261,7 @@
                     <!-- In inplace mode, the warSourceDirectory is used to match the same use case of the war:inplace http://maven.apache.org/plugins/maven-war-plugin/inplace-mojo.html goal. -->
                     <inplace>true</inplace>
                 </configuration>
-            </plugin>       
+            </plugin>
         </plugins>
     </build>
 
