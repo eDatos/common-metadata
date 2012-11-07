@@ -14,7 +14,7 @@
     <!-- <entry key="metamac.common.metadata.db.url">jdbc:sqlserver://FILL_HOST:FILL_PORT;databaseName=FILL_DATABASE_NAME</entry> -->
     <!-- <entry key="metamac.common.metadata.db.driverName">com.microsoft.sqlserver.jdbc.SQLServerDriver</entry> -->
     <!-- <entry key="metamac.common.metadata.db.username">FILL_USERNAME</entry> -->
-    <!-- <entry key="metamac.common.metadata.db.password">FILL_USERNAME</entry> -->
+    <!-- <entry key="metamac.common.metadata.db.password">FILL_PASSWORD</entry> -->
     <!-- <entry key="metamac.common.metadata.db.dialect">org.hibernate.dialect.SQLServerDialect</entry> -->
 
 </properties>
