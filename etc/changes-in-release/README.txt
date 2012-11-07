@@ -15,8 +15,8 @@ Cuando se cree la RELEASE, añadir estos pasos al manual de instalación:
 
 4. Añadido soporte para SQL Server:
 	- Se ha creado una nueva tabla que almacena las secuencias (TB_SEQUENCES). Es necesario crear esa tabla con el script
-	  /etc/db/03-updates-in-release/01-create-sequences-table.sql. 
+	  /etc/db/oracle/03-updates-in-release/01-create-sequences-table.sql. 
 	- Si al realizar la instalación ya existen datos en la base de datos, es necesario rellenar esa tabla con las secuencias correspondientes 
-	  (/etc/db/03-updates-in-release/02-fill-sequences-table.sql).	  
+	  (/etc/db/oracle/03-updates-in-release/02-fill-sequences-table.sql).
 
 99. Reiniciar Tomcat
