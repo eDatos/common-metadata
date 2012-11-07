@@ -1,4 +1,4 @@
--- Creación de la tabla se secuencias
+-- Create sequences table
 
 create table TB_SEQUENCES (
 	SEQUENCE_NAME VARCHAR2(255) NOT NULL,
