@@ -13,4 +13,10 @@ Cuando se cree la RELEASE, añadir estos pasos al manual de instalación:
 	- Añadido fichero [DATA]/common-metadata/docs/Gestor_metadatos_comunes-Manual_usuario.pdf
 	- Añadido fichero [DATA]/common-metadata/conf/static/resources.xml con la propiedad "metamac.common.metadata.user.guide.file.name"
 
+4. Añadido soporte para SQL Server:
+	- Se ha creado una nueva tabla que almacena las secuencias (TB_SEQUENCES). Es necesario crear esa tabla con el script
+	  /etc/db/03-updates-in-release/01-create-sequences-table.sql. 
+	- Si al realizar la instalación ya existen datos en la base de datos, es necesario rellenar esa tabla con las secuencias correspondientes 
+	  (/etc/db/03-updates-in-release/02-fill-sequences-table.sql).	  
+
 99. Reiniciar Tomcat
