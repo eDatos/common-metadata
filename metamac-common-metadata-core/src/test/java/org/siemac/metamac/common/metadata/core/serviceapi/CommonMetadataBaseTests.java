@@ -1,6 +1,8 @@
 package org.siemac.metamac.common.metadata.core.serviceapi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +19,7 @@ public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
 
     @Value("${metamac.common.metadata.db.provider}")
     private String databaseProvider;
-    
+
     // --------------------------------------------------------------------------------------------------------------
     // SERVICE CONTEXT
     // --------------------------------------------------------------------------------------------------------------
@@ -102,6 +104,7 @@ public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
     @Override
     public List<String> getTableNamesOrderedByFKDependency() {
         List<String> tables = new ArrayList<String>();
+        tables.add("TB_SEQUENCES");
         tables.add("TB_INTERNATIONAL_STRINGS");
         tables.add("TB_LOCALISED_STRINGS");
         tables.add("TB_EXTERNAL_ITEMS");
@@ -110,22 +113,15 @@ public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
     }
 
     @Override
-    public List<String> getSequencesToRestart() {
-        List<String> sequences = new ArrayList<String>();
-        sequences.add("SEQ_EXTERNAL_ITEMS");
-        sequences.add("SEQ_L10NSTRS");
-        sequences.add("SEQ_I18NSTRS");
-        sequences.add("SEQ_CONFIGURATION");
-        return sequences;
-    }
-
-    @Override
     protected Map<String, List<String>> getTablePrimaryKeys() {
-        return null;
+        Map<String, List<String>> primaryKeys = new HashMap<String, List<String>>();
+        primaryKeys.put("TB_SEQUENCES", Arrays.asList("SEQUENCE_NAME"));
+        return primaryKeys;
     }
 
     @Override
     protected DataBaseProvider getDatabaseProvider() {
         return DataBaseProvider.valueOf(databaseProvider);
     }
+
 }
