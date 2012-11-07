@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
 
-    @Value("${metamac.common_metadata.db.provider}")
+    @Value("${metamac.common.metadata.db.provider}")
     private String databaseProvider;
     
     // --------------------------------------------------------------------------------------------------------------
