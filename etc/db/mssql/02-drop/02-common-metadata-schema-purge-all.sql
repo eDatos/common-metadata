@@ -5,7 +5,7 @@ declare @msg varchar(500)
 declare @WorkTest varchar(500)
 declare @SchemaName varchar(500)
 set @WorkTest = 'w'
-set @SchemaName = 'metamac_common_metadata'
+set @SchemaName = 'FILL_WITH_SCHEMA_NAME'
  
 IF OBJECT_ID('tempdb..#dropcode') IS NOT NULL DROP TABLE #dropcode
 CREATE TABLE #dropcode
