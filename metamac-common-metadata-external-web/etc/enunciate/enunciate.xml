@@ -2,7 +2,7 @@
 
     <namespaces>
         <namespace uri="http://www.siemac.org/metamac/rest/common-metadata/v1.0/domain" id="cmetadata"/>
-        <namespace uri="http://www.siemac.org/metamac/rest/common/v1.0/domain" id="common"/>
+        <namespace uri="http://www.siemac.org/metamac/rest/common/v1.0/domain" id="cdomain"/>
     </namespaces>
     
     <api-import class="org.siemac.metamac.common_metadata.rest.external.v1_0.service.CommonMetadataV1_0" />
