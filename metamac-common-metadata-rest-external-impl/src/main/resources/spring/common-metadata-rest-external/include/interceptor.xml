@@ -15,8 +15,8 @@
             http://www.springframework.org/schema/tx   http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
 
     <aop:config>
-        <aop:pointcut id="restService" expression="execution(public * org.siemac.metamac.common_metadata.rest.external..service.*.*(..))" />  
-        <aop:advisor pointcut-ref="restService" advice-ref="txAdvice" order="1" />
+        <aop:pointcut id="restServiceCommonMetadataExternal" expression="execution(public * org.siemac.metamac.common_metadata.rest.external..service.*.*(..))" />  
+        <aop:advisor pointcut-ref="restServiceCommonMetadataExternal" advice-ref="txAdvice" order="1" />
     </aop:config> 
 
 </beans>
