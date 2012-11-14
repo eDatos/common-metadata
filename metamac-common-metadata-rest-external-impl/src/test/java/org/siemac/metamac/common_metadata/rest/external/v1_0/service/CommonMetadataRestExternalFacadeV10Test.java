@@ -41,7 +41,6 @@ import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
 import org.siemac.metamac.rest.constants.RestConstants;
 import org.siemac.metamac.rest.utils.RestUtils;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.util.UriUtils;
 
 public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest {
 
@@ -224,21 +223,13 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
         }
     }
 
-    private String encodeParameter(String parameter) throws Exception {
-        if (parameter == null) {
-            return null;
-        }
-        parameter = UriUtils.encodePath(parameter, "UTF-8");
-        return parameter;
-    }
-
     private String getRequestUriRetrieveConfigurationById(String configurationId) {
         return baseApi + "/configurations/" + configurationId;
     }
 
     private String getRequestUriFindConfigurations(String query) throws Exception {
         String url = baseApi + "/configurations";
-        url = RestUtils.createLinkWithQueryParam(url, RestConstants.PARAMETER_QUERY, encodeParameter(query));
+        url = RestUtils.createLinkWithQueryParam(url, RestConstants.PARAMETER_QUERY, RestUtils.encodeParameter(query));
         return url;
     }
 
