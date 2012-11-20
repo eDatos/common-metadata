@@ -70,7 +70,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setContact(toResourceExternalItemSrm(source.getContact()));
         target.setStatus(toCommonMetadataStatusEnum(source.getStatus()));
         target.setParentLink(toConfigurationParent());
-        target.setChildLinks(toConfigurationChildLinks(source));
+        target.setChildLink(toConfigurationChildLinks(source));
         return target;
     }
 
