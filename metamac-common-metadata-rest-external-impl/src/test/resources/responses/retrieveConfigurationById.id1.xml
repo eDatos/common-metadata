@@ -9,12 +9,12 @@
         <cdomain:text xml:lang="en">dataSharing1 in English</cdomain:text>
     </cmetadata:dataSharing>
     <cmetadata:legalActs>
-        <cdomain:text xml:lang="es">legalActs1 en Español</cdomain:text>
         <cdomain:text xml:lang="en">legalActs1 in English</cdomain:text>
+        <cdomain:text xml:lang="es">legalActs1 en Español</cdomain:text>
     </cmetadata:legalActs>
     <cmetadata:confPolicy>
-        <cdomain:text xml:lang="en">confPolicy1 in English</cdomain:text>
         <cdomain:text xml:lang="es">confPolicy1 en Español</cdomain:text>
+        <cdomain:text xml:lang="en">confPolicy1 in English</cdomain:text>
     </cmetadata:confPolicy>
     <cmetadata:confDataTreatment>
         <cdomain:text xml:lang="es">confDataTreatment1 en Español</cdomain:text>
@@ -23,7 +23,7 @@
     <cmetadata:contact kind="AGENCY">
         <cdomain:id>contact1</cdomain:id>
         <cdomain:urn>urn:contact1</cdomain:urn>
-        <cdomain:selfLink>http://data.istac.es/apis/srm/v1.0/contacts/contact1</cdomain:selfLink>
+        <cdomain:selfLink kind="AGENCY" href="http://data.istac.es/apis/srm/v1.0/contacts/contact1"/>
         <cdomain:title>
             <cdomain:text xml:lang="es">contact1 en Español</cdomain:text>
             <cdomain:text xml:lang="en">contact1 in English</cdomain:text>

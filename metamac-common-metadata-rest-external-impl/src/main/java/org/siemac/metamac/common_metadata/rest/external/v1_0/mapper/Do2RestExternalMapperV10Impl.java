@@ -101,7 +101,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
         target.setKind(RestExternalConstants.KIND_CONFIGURATION);
-        target.setSelfLink(toConfigurationLink(source));
+        target.setSelfLink(toConfigurationSelfLink(source));
         // configuration has not title
         return target;
     }
@@ -118,21 +118,19 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
             return null;
         }
         Resource target = new Resource();
+        String kind = source.getType().name();
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
-        target.setKind(source.getType().name());
-        target.setSelfLink(RestUtils.createLink(apiExternalItem, source.getUri()));
+        target.setKind(kind);
+        target.setSelfLink(toResourceLink(kind, RestUtils.createLink(apiExternalItem, source.getUri())));
         target.setTitle(toInternationalString(source.getTitle()));
         return target;
     }
 
     private ResourceLink toConfigurationSelfLink(org.siemac.metamac.common.metadata.core.domain.Configuration configuration) {
-        ResourceLink target = new ResourceLink();
-        target.setKind(RestExternalConstants.KIND_CONFIGURATION);
-        target.setHref(toConfigurationLink(configuration));
-        return target;
+        return toResourceLink(RestExternalConstants.KIND_CONFIGURATION, toConfigurationLink(configuration));
     }
-    
+
     private ResourceLink toConfigurationParent() {
         ResourceLink target = new ResourceLink();
         target.setKind(RestExternalConstants.KIND_CONFIGURATIONS);
@@ -182,5 +180,12 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
                 org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.UNKNOWN);
                 throw new RestException(exception, Status.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private ResourceLink toResourceLink(String kind, String href) {
+        ResourceLink target = new ResourceLink();
+        target.setKind(kind);
+        target.setHref(href);
+        return target;
     }
 }

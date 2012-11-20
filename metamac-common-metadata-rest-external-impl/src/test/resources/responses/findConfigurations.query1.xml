@@ -3,11 +3,11 @@
     <cmetadata:configuration kind="commonMetadata#configuration">
         <cdomain:id>configuration1</cdomain:id>
         <cdomain:urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration1</cdomain:urn>
-        <cdomain:selfLink>http://data.istac.es/apis/cmetadata/v1.0/configurations/configuration1</cdomain:selfLink>
+        <cdomain:selfLink kind="commonMetadata#configuration" href="http://data.istac.es/apis/cmetadata/v1.0/configurations/configuration1"/>
     </cmetadata:configuration>
     <cmetadata:configuration kind="commonMetadata#configuration">
         <cdomain:id>configuration15</cdomain:id>
         <cdomain:urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration15</cdomain:urn>
-        <cdomain:selfLink>http://data.istac.es/apis/cmetadata/v1.0/configurations/configuration15</cdomain:selfLink>
+        <cdomain:selfLink kind="commonMetadata#configuration" href="http://data.istac.es/apis/cmetadata/v1.0/configurations/configuration15"/>
     </cmetadata:configuration>
 </cmetadata:configurations>
