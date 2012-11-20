@@ -20,7 +20,7 @@ public class CommonMetadataRestAsserts {
         MetamacRestAsserts.assertEqualsResource(expected.getContact(), actual.getContact());
         assertEquals(expected.getStatus(), actual.getStatus());
         MetamacRestAsserts.assertEqualsResourceLink(expected.getParentLink(), actual.getParentLink());
-        MetamacRestAsserts.assertEqualsChildLinks(expected.getChildLink(), actual.getChildLink());
+        MetamacRestAsserts.assertEqualsChildLinks(expected.getChildLinks(), actual.getChildLinks());
     }
     
     public static void assertEqualsConfigurations(Configurations expected, Configurations actual) {
