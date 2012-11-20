@@ -11,7 +11,7 @@ import org.siemac.metamac.common_metadata.rest.external.RestExternalConstants;
 import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
 import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.ent.domain.ExternalItem;
-import org.siemac.metamac.rest.common.v1_0.domain.Children;
+import org.siemac.metamac.rest.common.v1_0.domain.ChildLinks;
 import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
 import org.siemac.metamac.rest.common.v1_0.domain.LocalisedString;
 import org.siemac.metamac.rest.common.v1_0.domain.Resource;
@@ -62,15 +62,15 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
         target.setKind(RestExternalConstants.KIND_CONFIGURATION);
-        target.setSelfLink(toConfigurationLink(source));
+        target.setSelfLink(toConfigurationSelfLink(source));
         target.setLegalActs(toInternationalString(source.getLegalActs()));
         target.setDataSharing(toInternationalString(source.getDataSharing()));
         target.setConfPolicy(toInternationalString(source.getConfPolicy()));
         target.setConfDataTreatment(toInternationalString(source.getConfDataTreatment()));
         target.setContact(toResourceExternalItemSrm(source.getContact()));
         target.setStatus(toCommonMetadataStatusEnum(source.getStatus()));
-        target.setParent(toConfigurationParent());
-        target.setChildren(toConfigurationChildren(source));
+        target.setParentLink(toConfigurationParent());
+        target.setChildLinks(toConfigurationChildLinks(source));
         return target;
     }
 
@@ -126,14 +126,21 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         return target;
     }
 
+    private ResourceLink toConfigurationSelfLink(org.siemac.metamac.common.metadata.core.domain.Configuration configuration) {
+        ResourceLink target = new ResourceLink();
+        target.setKind(RestExternalConstants.KIND_CONFIGURATION);
+        target.setHref(toConfigurationLink(configuration));
+        return target;
+    }
+    
     private ResourceLink toConfigurationParent() {
         ResourceLink target = new ResourceLink();
         target.setKind(RestExternalConstants.KIND_CONFIGURATIONS);
-        target.setSelfLink(toConfigurationsLink());
+        target.setHref(toConfigurationsLink());
         return target;
     }
 
-    private Children toConfigurationChildren(org.siemac.metamac.common.metadata.core.domain.Configuration configuration) {
+    private ChildLinks toConfigurationChildLinks(org.siemac.metamac.common.metadata.core.domain.Configuration configuration) {
         return null;
     }
 

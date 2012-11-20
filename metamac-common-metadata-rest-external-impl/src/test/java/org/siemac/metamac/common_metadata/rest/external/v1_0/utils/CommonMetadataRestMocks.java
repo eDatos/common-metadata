@@ -61,14 +61,14 @@ public class CommonMetadataRestMocks {
         configuration.setId("configuration" + subCode);
         configuration.setUrn("urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=" + configuration.getId());
         configuration.setKind(RestExternalConstants.KIND_CONFIGURATION);
-        configuration.setSelfLink(baseApi + "/configurations/configuration" + subCode);
+        configuration.setSelfLink(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATION, baseApi + "/configurations/configuration" + subCode));
         configuration.setLegalActs(mockInternationalString("legalActs", subCode));
         configuration.setDataSharing(mockInternationalString("dataSharing", subCode));
         configuration.setConfPolicy(mockInternationalString("confPolicy", subCode));
         configuration.setConfDataTreatment(mockInternationalString("confDataTreatment", subCode));
         configuration.setContact(mockResourceFromExternalItemSrm("contact1", "contacts", TypeExternalArtefactsEnum.AGENCY));
         configuration.setStatus(status);
-        configuration.setParent(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATIONS, baseApi + "/configurations"));
+        configuration.setParentLink(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATIONS, baseApi + "/configurations"));
         // no children
         return configuration;
     }

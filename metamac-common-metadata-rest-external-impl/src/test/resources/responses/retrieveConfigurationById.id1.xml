@@ -2,25 +2,23 @@
 <cmetadata:configuration xmlns:cmetadata="http://www.siemac.org/metamac/rest/common-metadata/v1.0/domain" xmlns:cdomain="http://www.siemac.org/metamac/rest/common/v1.0/domain" kind="commonMetadata#configuration">
     <cmetadata:id>configuration1</cmetadata:id>
     <cmetadata:urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration1</cmetadata:urn>
-    <cmetadata:selfLink>http://data.istac.es/apis/cmetadata/v1.0/configurations/configuration1</cmetadata:selfLink>
-    <cmetadata:parent kind="commonMetadata#configurations">
-        <cdomain:selfLink>http://data.istac.es/apis/cmetadata/v1.0/configurations</cdomain:selfLink>
-    </cmetadata:parent>
+    <cmetadata:selfLink kind="commonMetadata#configuration" href="http://data.istac.es/apis/cmetadata/v1.0/configurations/configuration1"/>
+    <cmetadata:parentLink kind="commonMetadata#configurations" href="http://data.istac.es/apis/cmetadata/v1.0/configurations"/>
     <cmetadata:dataSharing>
-        <cdomain:text xml:lang="en">dataSharing1 in English</cdomain:text>
         <cdomain:text xml:lang="es">dataSharing1 en Español</cdomain:text>
+        <cdomain:text xml:lang="en">dataSharing1 in English</cdomain:text>
     </cmetadata:dataSharing>
     <cmetadata:legalActs>
         <cdomain:text xml:lang="es">legalActs1 en Español</cdomain:text>
         <cdomain:text xml:lang="en">legalActs1 in English</cdomain:text>
     </cmetadata:legalActs>
     <cmetadata:confPolicy>
-        <cdomain:text xml:lang="es">confPolicy1 en Español</cdomain:text>
         <cdomain:text xml:lang="en">confPolicy1 in English</cdomain:text>
+        <cdomain:text xml:lang="es">confPolicy1 en Español</cdomain:text>
     </cmetadata:confPolicy>
     <cmetadata:confDataTreatment>
-        <cdomain:text xml:lang="en">confDataTreatment1 in English</cdomain:text>
         <cdomain:text xml:lang="es">confDataTreatment1 en Español</cdomain:text>
+        <cdomain:text xml:lang="en">confDataTreatment1 in English</cdomain:text>
     </cmetadata:confDataTreatment>
     <cmetadata:contact kind="AGENCY">
         <cdomain:id>contact1</cdomain:id>

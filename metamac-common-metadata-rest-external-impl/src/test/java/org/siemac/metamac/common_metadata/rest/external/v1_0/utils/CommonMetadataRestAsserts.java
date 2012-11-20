@@ -12,15 +12,15 @@ public class CommonMetadataRestAsserts {
         assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getUrn(), actual.getUrn());
         assertEquals(expected.getKind(), actual.getKind());
-        assertEquals(expected.getSelfLink(), actual.getSelfLink());
+        MetamacRestAsserts.assertEqualsResourceLink(expected.getSelfLink(), actual.getSelfLink());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getLegalActs(), actual.getLegalActs());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getDataSharing(), actual.getDataSharing());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getConfPolicy(), actual.getConfPolicy());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getConfDataTreatment(), actual.getConfDataTreatment());
         MetamacRestAsserts.assertEqualsResource(expected.getContact(), actual.getContact());
         assertEquals(expected.getStatus(), actual.getStatus());
-        MetamacRestAsserts.assertEqualsResourceLink(expected.getParent(), actual.getParent());
-        MetamacRestAsserts.assertEqualsChildren(expected.getChildren(), actual.getChildren());
+        MetamacRestAsserts.assertEqualsResourceLink(expected.getParentLink(), actual.getParentLink());
+        MetamacRestAsserts.assertEqualsChildLinks(expected.getChildLinks(), actual.getChildLinks());
     }
     
     public static void assertEqualsConfigurations(Configurations expected, Configurations actual) {

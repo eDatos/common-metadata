@@ -10,15 +10,15 @@
         <xs:sequence>
             <xs:element name="id" type="xs:string" />
             <xs:element name="urn" type="xs:string" />
-            <xs:element name="selfLink" type="xs:string" />
-            <xs:element name="parent" type="common:ResourceLink" />
+            <xs:element name="selfLink" type="common:ResourceLink" />
+            <xs:element name="parentLink" type="common:ResourceLink" />
             <xs:element name="dataSharing" type="common:InternationalString" minOccurs="0" />
             <xs:element name="legalActs" type="common:InternationalString" minOccurs="0" />
             <xs:element name="confPolicy" type="common:InternationalString" minOccurs="0" />
             <xs:element name="confDataTreatment" type="common:InternationalString" minOccurs="0" />
             <xs:element name="contact" type="common:Resource" minOccurs="0" />
             <xs:element name="status" type="tns:CommonMetadataStatus" />
-            <xs:element name="children" type="common:Children" minOccurs="1" />
+            <xs:element name="childLinks" type="common:ChildLinks" minOccurs="1" />
         </xs:sequence>
         <xs:attribute name="kind" type="xs:string" use="required" />
     </xs:complexType> 
