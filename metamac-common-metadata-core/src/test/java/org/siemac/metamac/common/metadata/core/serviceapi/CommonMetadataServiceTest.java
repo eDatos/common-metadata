@@ -24,6 +24,8 @@ import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -40,6 +42,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/common-metadata/applicationContext-test.xml"})
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class CommonMetadataServiceTest extends CommonMetadataBaseTests implements CommonMetadataServiceTestBase {
 
     @Autowired
@@ -57,7 +60,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         assertNotNull(configurationRetrieved);
         CommonMetadataAsserts.assertEqualsConfiguration(configuration, configurationRetrieved);
     }
-    
+
     @Test
     @Transactional
     public void testFindConfigurationByUrn() throws Exception {
@@ -67,7 +70,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         assertNotNull(configurationRetrieved);
         CommonMetadataAsserts.assertEqualsConfiguration(configuration, configurationRetrieved);
     }
-    
+
     @Test
     @Transactional
     public void testFindConfigurationByUrnNotExists() throws Exception {
@@ -94,7 +97,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     @Transactional
     public void testCreateConfiguration() throws Exception {
         Configuration configurationExpected = createEnableConfiguration();
-        
+
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), configurationExpected);
         assertNotNull(configuration);
         assertEquals("urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=" + configuration.getCode(), configuration.getUrn());
@@ -131,7 +134,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     @Transactional
     public void testCreateConfigurationBase() throws Exception {
         Configuration configurationExpected = createConfigurationBase();
-        
+
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), configurationExpected);
         assertNotNull(configuration);
         CommonMetadataAsserts.assertEqualsConfiguration(configurationExpected, configuration);
@@ -167,10 +170,10 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     public void testDeleteConfiguration() throws Exception {
         Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
         assertNotNull(configuration);
-        
+
         List<Configuration> configurations = commonMetadataService.findAllConfigurations(getServiceContextAdministrador());
         commonMetadataService.deleteConfiguration(getServiceContextAdministrador(), configuration.getId());
-        
+
         assertTrue(commonMetadataService.findAllConfigurations(getServiceContextAdministrador()).size() < configurations.size());
     }
 
@@ -204,13 +207,13 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         legalActs_es.setLocale("es");
         legalActs.addText(legalActs_es);
         configuration.setLegalActs(legalActs);
-        
+
         Configuration updatedConfiguration = commonMetadataService.updateConfiguration(getServiceContextAdministrador(), configuration);
         assertNotNull(configuration);
         CommonMetadataAsserts.assertEqualsConfiguration(configuration, updatedConfiguration);
 
     }
-    
+
     @Test
     @Transactional
     public void testUpdateConfigurationCodeUnmodifiable() throws Exception {
@@ -218,7 +221,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         assertNotNull(configuration);
 
         configuration.setCode("Conf-modified");
-        
+
         try {
             commonMetadataService.updateConfiguration(getServiceContextAdministrador(), configuration);
         } catch (MetamacException e) {
@@ -325,10 +328,10 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
     private Configuration createEnableConfiguration() {
         Configuration configuration = new Configuration();
-        
+
         // Code
         configuration.setCode("configuration-" + RandomStringUtils.randomAlphabetic(5));
-        
+
         // Legal Acts
         InternationalString legalActs = new InternationalString();
         LocalisedString legalActs_es = new LocalisedString();
@@ -340,7 +343,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         legalActs.addText(legalActs_es);
         legalActs.addText(legalActs_en);
         configuration.setLegalActs(legalActs);
-        
+
         // Data Sharing
         InternationalString dataSharing = new InternationalString();
         LocalisedString dataSharing_es = new LocalisedString();
@@ -352,7 +355,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         dataSharing.addText(dataSharing_es);
         dataSharing.addText(dataSharing_en);
         configuration.setDataSharing(dataSharing);
-        
+
         // Confidentiality Policy
         InternationalString confidentialityPolicy = new InternationalString();
         LocalisedString confidentialityPolicy_es = new LocalisedString();
@@ -364,7 +367,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         confidentialityPolicy.addText(confidentialityPolicy_es);
         confidentialityPolicy.addText(confidentialityPolicy_en);
         configuration.setConfPolicy(confidentialityPolicy);
-        
+
         // Confidentiality Data Treatment
         InternationalString confidentialityDataTreatment = new InternationalString();
         LocalisedString confidentialityDataTreatment_es = new LocalisedString();
@@ -376,7 +379,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         confidentialityDataTreatment.addText(confidentialityDataTreatment_es);
         confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
         configuration.setConfDataTreatment(confidentialityDataTreatment);
-        
+
         // Contact
         configuration.setContact(new ExternalItem("CONTACT-CODE", "CONTACT-URI", "CONTACT-URN", TypeExternalArtefactsEnum.AGENCY, null, "CONTACT-MANAGEMENT_APP_URL"));
 
@@ -388,7 +391,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
     private Configuration createConfigurationBase() {
         Configuration configuration = new Configuration();
-        
+
         // Code
         configuration.setCode("configuration-0123456789");
 

@@ -20,6 +20,8 @@ import org.siemac.metamac.core.common.dto.LocalisedStringDto;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -30,8 +32,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/common-metadata/applicationContext-test.xml"})
-@TransactionConfiguration(transactionManager="txManager", defaultRollback=true)
+@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @Transactional
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests implements CommonMetadataServiceFacadeTestBase {
 
     @Autowired
@@ -44,14 +47,14 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         assertNotNull(configurationRetrieved);
         CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, configurationRetrieved);
     }
-    
+
     @Test
     public void testFindConfigurationByUrn() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         ConfigurationDto configurationRetrieved = commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextAdministrador(), configurationDto.getUrn());
         assertNotNull(configurationRetrieved);
         CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, configurationRetrieved);
-        
+
     }
 
     @Test
@@ -76,7 +79,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
     @Test
     public void testCreateConfiguration() throws MetamacException {
         ConfigurationDto expectedConfigurationDto = CommonMetadataDtoMocks.mockEnableConfigurationDto();
-        
+
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), expectedConfigurationDto);
         assertNotNull(configurationDto);
         CommonMetadataAsserts.assertEqualsConfigurationDto(expectedConfigurationDto, configurationDto);
@@ -94,11 +97,11 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
             assertEquals(ServiceExceptionType.METADATA_UNMODIFIABLE.getCode(), e.getExceptionItems().get(0).getCode());
         }
     }
-    
+
     @Test
     public void testUpdateConfiguration() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
-        
+
         ExternalItemDto contact = new ExternalItemDto();
         contact.setCode("new-contact-code");
         contact.setUri("new-contact-uri");
@@ -107,12 +110,12 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         contact.setManagementAppUrl("new-management-app-url");
         contact.setTitle(CommonMetadataDtoMocks.mockInternationalStringDto("es", "new-contact-title-es"));
         configurationDto.setContact(contact);
-        
+
         LocalisedStringDto legalActs_ca = new LocalisedStringDto();
         legalActs_ca.setLabel("CATALAN Legal Acts");
         legalActs_ca.setLocale("ca");
         configurationDto.getLegalActs().addText(legalActs_ca);
-        
+
         ConfigurationDto updatedConfigurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
         assertNotNull(configurationDto);
         CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, updatedConfigurationDto);

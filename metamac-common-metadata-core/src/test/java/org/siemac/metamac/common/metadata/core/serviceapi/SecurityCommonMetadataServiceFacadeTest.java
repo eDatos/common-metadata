@@ -13,6 +13,8 @@ import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDtoMocks;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -23,8 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/common-metadata/applicationContext-test.xml"})
-@TransactionConfiguration(transactionManager="txManager", defaultRollback=true)
+@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @Transactional
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseTests implements CommonMetadataServiceFacadeTestBase {
 
     @Autowired
@@ -45,7 +48,7 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
         commonMetadataServiceFacade.findConfigurationById(getServiceContextTecnicoDifusion(), configurationId);
         commonMetadataServiceFacade.findConfigurationById(getServiceContextTecnicoApoyoDifusion(), configurationId);
     }
-    
+
     @Test
     public void testFindConfigurationByUrn() throws Exception {
         String configurationUrn = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto()).getUrn();
@@ -60,7 +63,7 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
         commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextTecnicoApoyoProduccion(), configurationUrn);
         commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextTecnicoDifusion(), configurationUrn);
         commonMetadataServiceFacade.findConfigurationByUrn(getServiceContextTecnicoApoyoDifusion(), configurationUrn);
-        
+
     }
 
     @Test
@@ -248,7 +251,7 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
 
         commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextAdministrador(), configurationIds, CommonMetadataStatusEnum.DISABLED);
         commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextJefeNormalizacion(), configurationIds, CommonMetadataStatusEnum.DISABLED);
-        
+
         try {
             commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextTecnicoNormalizacion(), configurationIds, CommonMetadataStatusEnum.DISABLED);
         } catch (MetamacException e) {
