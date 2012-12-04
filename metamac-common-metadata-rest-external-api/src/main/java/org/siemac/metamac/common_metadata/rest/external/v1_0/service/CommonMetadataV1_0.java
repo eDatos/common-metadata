@@ -24,8 +24,6 @@ public interface CommonMetadataV1_0 {
      *            - Order operators: ASC, DESC<br/>
      *            - Metadata to order: ID<br/>
      *            - Example: ID ASC<br/>
-     * @param limit Maximum number of results per page
-     * @param offset Position of first result
      * @return List of configurations
      */    
     @GET
