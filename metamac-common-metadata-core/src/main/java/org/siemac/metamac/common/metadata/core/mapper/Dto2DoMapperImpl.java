@@ -166,6 +166,7 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
     private LocalisedString localisedStringDtoToDo(LocalisedStringDto source, LocalisedString target, InternationalString internationalStringTarget) {
         target.setLabel(source.getLabel());
         target.setLocale(source.getLocale());
+        target.setIsUnmodifiable(source.getIsUnmodifiable());
         target.setInternationalString(internationalStringTarget);
         return target;
     }

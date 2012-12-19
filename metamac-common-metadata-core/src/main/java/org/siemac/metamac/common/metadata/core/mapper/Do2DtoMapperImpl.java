@@ -65,6 +65,7 @@ public class Do2DtoMapperImpl implements Do2DtoMapper {
             LocalisedStringDto target = new LocalisedStringDto();
             target.setLabel(source.getLabel());
             target.setLocale(source.getLocale());
+            target.setIsUnmodifiable(source.getIsUnmodifiable());
             targets.add(target);
         }
         return targets;
