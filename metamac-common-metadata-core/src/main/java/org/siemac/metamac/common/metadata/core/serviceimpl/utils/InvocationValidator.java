@@ -7,12 +7,10 @@ import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
-import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
 import org.siemac.metamac.core.common.exception.utils.ExceptionUtils;
 import org.siemac.metamac.core.common.serviceimpl.utils.ValidationUtils;
-import org.siemac.metamac.core.common.util.CoreCommonUtil;
 
 public class InvocationValidator {
 
@@ -115,11 +113,7 @@ public class InvocationValidator {
         ValidationUtils.checkMetadataRequired(configuration.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
         ValidationUtils.checkMetadataRequired(configuration.getUrn(), ServiceExceptionParameters.CONFIGURATION_URN, exceptions);
         ValidationUtils.checkMetadataRequired(configuration.getStatus(), ServiceExceptionParameters.CONFIGURATION_STATUS, exceptions);
-        
-        if (configuration.getCode() != null && !CoreCommonUtil.isSemanticIdentifier(configuration.getCode())) {
-            exceptions.add(new MetamacExceptionItem(ServiceExceptionType.METADATA_INCORRECT, ServiceExceptionParameters.CONFIGURATION_CODE));
-        }
-
+        ValidationUtils.checkSemanticIdentifierAsMetamacID(configuration.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
     }
 
 

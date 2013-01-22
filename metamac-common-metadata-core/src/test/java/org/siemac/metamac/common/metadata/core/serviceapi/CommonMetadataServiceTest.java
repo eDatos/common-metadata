@@ -108,7 +108,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     @Transactional
     public void testCreateConfigurationWithIncorrectCode() throws Exception {
         Configuration configuration = createEnableConfiguration();
-        configuration.setCode("1ISTAC");
+        configuration.setCode("ISTAC@1");
 
         try {
             commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
