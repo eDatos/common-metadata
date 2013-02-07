@@ -9,13 +9,13 @@ import java.util.Map;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConstants;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataRoleEnum;
-import org.siemac.metamac.common.test.MetamacBaseTests;
+import org.siemac.metamac.common.test.dbunit.MetamacDBUnitBaseTests;
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.sso.client.MetamacPrincipalAccess;
 import org.siemac.metamac.sso.client.SsoClientConstants;
 import org.springframework.beans.factory.annotation.Value;
 
-public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
+public abstract class CommonMetadataBaseTests extends MetamacDBUnitBaseTests {
 
     @Value("${metamac.common.metadata.db.provider}")
     private String databaseProvider;
@@ -24,63 +24,62 @@ public abstract class CommonMetadataBaseTests extends MetamacBaseTests {
     // SERVICE CONTEXT
     // --------------------------------------------------------------------------------------------------------------
 
-    @Override
     protected ServiceContext getServiceContextAdministrador() {
-        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        ServiceContext serviceContext = super.mockServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.ADMINISTRADOR);
         return serviceContext;
     }
 
     protected ServiceContext getServiceContextJefeNormalizacion() {
-        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        ServiceContext serviceContext = super.mockServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.JEFE_NORMALIZACION);
         return serviceContext;
     }
 
     protected ServiceContext getServiceContextTecnicoNormalizacion() {
-        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        ServiceContext serviceContext = super.mockServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_NORMALIZACION);
         return serviceContext;
     }
 
     protected ServiceContext getServiceContextTecnicoApoyoNormalizacion() {
-        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        ServiceContext serviceContext = super.mockServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_NORMALIZACION);
         return serviceContext;
     }
 
     protected ServiceContext getServiceContextTecnicoPlanificacion() {
-        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        ServiceContext serviceContext = super.mockServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_PLANIFICACION);
         return serviceContext;
     }
 
     protected ServiceContext getServiceContextTecnicoApoyoPlanificacion() {
-        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        ServiceContext serviceContext = super.mockServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_PLANIFICACION);
         return serviceContext;
     }
 
     protected ServiceContext getServiceContextTecnicoProduccion() {
-        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        ServiceContext serviceContext = super.mockServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_PRODUCCION);
         return serviceContext;
     }
 
     protected ServiceContext getServiceContextTecnicoApoyoProduccion() {
-        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        ServiceContext serviceContext = super.mockServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_PRODUCCION);
         return serviceContext;
     }
 
     protected ServiceContext getServiceContextTecnicoDifusion() {
-        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        ServiceContext serviceContext = super.mockServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_DIFUSION);
         return serviceContext;
     }
 
     protected ServiceContext getServiceContextTecnicoApoyoDifusion() {
-        ServiceContext serviceContext = super.getServiceContextWithoutPrincipal();
+        ServiceContext serviceContext = super.mockServiceContextWithoutPrincipal();
         putMetamacPrincipalInServiceContext(serviceContext, CommonMetadataRoleEnum.TECNICO_APOYO_DIFUSION);
         return serviceContext;
     }
