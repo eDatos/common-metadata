@@ -38,6 +38,7 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
 
     public static final CommonMetadataWebGinjector ginjector = GWT.create(CommonMetadataWebGinjector.class);
 
+    @Override
     public void onModuleLoad() {
         ginjector.getDispatcher().execute(new GetNavigationBarUrlAction(), new WaitingAsyncCallback<GetNavigationBarUrlResult>() {
 
@@ -47,6 +48,7 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
                 loadNonSecuredApplication();
             }
 
+            @Override
             public void onWaitSuccess(GetNavigationBarUrlResult result) {
                 // Load scripts for navigation bar
                 MetamacNavBar.loadScripts(result.getNavigationBarUrl());
@@ -149,6 +151,7 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
     // }
 
     private void loadApplication() {
+        setUncaughtExceptionHandler();
         LoginAuthenticatedEvent.fire(ginjector.getEventBus(), CommonMetadataWeb.principal);
         // This is required for GWT-Platform proxy's generator.
         DelayedBindRegistry.bind(ginjector);
@@ -198,5 +201,4 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
     public static CommonMetadataWebGinjector getCommonMetadataWebGinjector() {
         return ginjector;
     }
-
 }
