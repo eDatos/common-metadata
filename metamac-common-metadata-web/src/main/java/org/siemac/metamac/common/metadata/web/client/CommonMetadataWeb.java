@@ -40,6 +40,7 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
 
     @Override
     public void onModuleLoad() {
+        setUncaughtExceptionHandler();
         ginjector.getDispatcher().execute(new GetNavigationBarUrlAction(), new WaitingAsyncCallback<GetNavigationBarUrlResult>() {
 
             @Override
@@ -51,11 +52,14 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
             @Override
             public void onWaitSuccess(GetNavigationBarUrlResult result) {
                 // Load scripts for navigation bar
-                MetamacNavBar.loadScripts(result.getNavigationBarUrl());
+                if (result.getNavigationBarUrl() != null) {
+                    MetamacNavBar.loadScripts(result.getNavigationBarUrl());
+                } else {
+                    logger.log(Level.SEVERE, "Error loading toolbar");
+                }
                 loadNonSecuredApplication();
             };
         });
-
     }
 
     // TODO This method should be removed to use CAS authentication
@@ -151,7 +155,6 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
     // }
 
     private void loadApplication() {
-        setUncaughtExceptionHandler();
         LoginAuthenticatedEvent.fire(ginjector.getEventBus(), CommonMetadataWeb.principal);
         // This is required for GWT-Platform proxy's generator.
         DelayedBindRegistry.bind(ginjector);
