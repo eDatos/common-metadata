@@ -29,13 +29,15 @@
 	</tx:advice>
 
 	<aop:config>
-		<aop:pointcut id="updateServicePointCut" expression="execution(public * org.siemac.metamac.common.metadata..serviceapi.*Service.*update*(..))" />
+        <aop:pointcut id="updateServicePointCut" expression="(execution(public * org.siemac.metamac.common.metadata..serviceapi.*Service.*(..)) and not 
+                                                                (execution(public * org.siemac.metamac.common.metadata..serviceapi.*Service.retrieve*(..)) or 
+                                                                 execution(public * org.siemac.metamac.common.metadata..serviceapi.*Service.find*(..))))" />
 		<aop:pointcut id="serviceFacadePointCut" expression="execution(public * org.siemac.metamac.common.metadata..serviceapi.*ServiceFacade.*(..))" />
 		<aop:pointcut id="doMapperPointCut" expression="execution(public * org.siemac.metamac.common.metadata.core.mapper.*2DoMapper.*(..))" />
 
 		<!-- Repeating the expression, since I can't find a way to refer to the other pointcuts. -->
 		<aop:pointcut id="updatingServiceFacade"
-			expression="execution(public * org.siemac.metamac.common.metadata..serviceapi.*ServiceFacade.*(..)) and not (execution(public * org.siemac.metamac.common.metadata..serviceapi.*.get*(..)) or execution(public * org.siemac.metamac..serviceapi.*.find*(..)))" />
+			expression="execution(public * org.siemac.metamac.common.metadata..serviceapi.*ServiceFacade.*(..)) and not (execution(public * org.siemac.metamac.common.metadata..serviceapi.*.retrieve*(..)) or execution(public * org.siemac.metamac..serviceapi.*.find*(..)))" />
 
 		<aop:advisor pointcut-ref="serviceFacadePointCut" advice-ref="txAdvice" order="1" />
 		<aop:advisor pointcut-ref="serviceFacadePointCut" advice-ref="serviceContextStoreAdvice" order="2" />
