@@ -20,6 +20,10 @@
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
+    <listener>
+        <listener-class>org.siemac.metamac.common.metadata.web.external.ApplicationStartup</listener-class>
+    </listener>
+    
     <servlet>
         <servlet-name>dispatch</servlet-name>
         <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
