@@ -118,7 +118,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
             return null;
         }
         Resource target = new Resource();
-        String kind = source.getType().name();
+        String kind = source.getType().getValue();
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
         target.setKind(kind);

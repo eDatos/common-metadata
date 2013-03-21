@@ -20,10 +20,10 @@
         <cdomain:text xml:lang="es">confDataTreatment1 en Español</cdomain:text>
         <cdomain:text xml:lang="en">confDataTreatment1 in English</cdomain:text>
     </cmetadata:confDataTreatment>
-    <cmetadata:contact kind="AGENCY">
+    <cmetadata:contact kind="structuralResources#agency">
         <cdomain:id>contact1</cdomain:id>
         <cdomain:urn>urn:contact1</cdomain:urn>
-        <cdomain:selfLink kind="AGENCY" href="http://data.istac.es/apis/srm/v1.0/contacts/contact1"/>
+        <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/srm/v1.0/contacts/contact1"/>
         <cdomain:title>
             <cdomain:text xml:lang="es">contact1 en Español</cdomain:text>
             <cdomain:text xml:lang="en">contact1 in English</cdomain:text>

@@ -6,7 +6,6 @@ import java.math.BigInteger;
 
 import org.siemac.metamac.common_metadata.rest.external.RestExternalConstants;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.service.CommonMetadataRestExternalFacadeV10Test;
-import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.rest.common.test.utils.MetamacRestMocks;
 import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
 import org.siemac.metamac.rest.common.v1_0.domain.Resource;
@@ -66,7 +65,7 @@ public class CommonMetadataRestMocks {
         configuration.setDataSharing(mockInternationalString("dataSharing", subCode));
         configuration.setConfPolicy(mockInternationalString("confPolicy", subCode));
         configuration.setConfDataTreatment(mockInternationalString("confDataTreatment", subCode));
-        configuration.setContact(mockResourceFromExternalItemSrm("contact1", "contacts", TypeExternalArtefactsEnum.AGENCY));
+        configuration.setContact(mockResourceFromExternalItemSrm("contact1", "contacts", "structuralResources#agency"));
         configuration.setStatus(status);
         configuration.setParentLink(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATIONS, baseApi + "/configurations"));
         // no children
@@ -98,14 +97,14 @@ public class CommonMetadataRestMocks {
         return MetamacRestMocks.mockInternationalString("es", subTitle + " en Español", "en", subTitle + " in English");
     }
 
-    private static Resource mockResourceFromExternalItemSrm(String id, String apiSubpath, TypeExternalArtefactsEnum kind) {
+    private static Resource mockResourceFromExternalItemSrm(String id, String apiSubpath, String kind) {
         String endpointApi = "http://data.istac.es/apis/srm/v1.0";
         return mockResourceFromExternalItem(id, endpointApi, apiSubpath, kind);
     }
 
-    private static Resource mockResourceFromExternalItem(String id, String endpointApi, String apiSubpath, TypeExternalArtefactsEnum kind) {
+    private static Resource mockResourceFromExternalItem(String id, String endpointApi, String apiSubpath, String kind) {
         String urn = "urn:" + id;
         String selfLink = endpointApi + "/" + apiSubpath + "/" + id;
-        return MetamacRestMocks.mockResource(id, urn, kind.name(), selfLink);
+        return MetamacRestMocks.mockResource(id, urn, kind, selfLink);
     }
 }
