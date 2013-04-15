@@ -1,7 +1,6 @@
 package org.siemac.metamac.common.metadata.web.server.listener;
 
 import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConfigurationConstants;
-import org.siemac.metamac.core.common.constants.shared.ConfigurationConstants;
 import org.siemac.metamac.web.common.server.listener.ApplicationStartupListener;
 
 public class CommonMetadataApplicationStartupListener extends ApplicationStartupListener {
@@ -31,9 +30,9 @@ public class CommonMetadataApplicationStartupListener extends ApplicationStartup
 
         // API
 
-        checkRequiredProperty(ConfigurationConstants.ENDPOINT_SRM_INTERNAL_API);
+        // TODO cuando se integre con la API de metamac-srm, añadir comprobación
 
-        // SRM properties
+        // COMMON METADATA properties
 
         checkRequiredProperty(CommonMetadataConfigurationConstants.USER_GUIDE_FILE_NAME);
     }
