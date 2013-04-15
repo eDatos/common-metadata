@@ -3,6 +3,7 @@ package org.siemac.metamac.common.metadata.web.client;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConstants;
 import org.siemac.metamac.common.metadata.web.client.gin.CommonMetadataWebGinjector;
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.web.common.client.MetamacEntryPoint;
@@ -65,7 +66,7 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
     // TODO This method should be removed to use CAS authentication
     // Application id should be the same than the one defined in org.siemac.metamac.common.metadata.core.constants.SECURITY_APPLICATION_ID
     private void loadNonSecuredApplication() {
-        ginjector.getDispatcher().execute(new MockCASUserAction("GESTOR_METADATOS_COMUNES"), new WaitingAsyncCallback<MockCASUserResult>() {
+        ginjector.getDispatcher().execute(new MockCASUserAction(CommonMetadataConstants.SECURITY_APPLICATION_ID), new WaitingAsyncCallback<MockCASUserResult>() {
 
             @Override
             public void onWaitFailure(Throwable caught) {
