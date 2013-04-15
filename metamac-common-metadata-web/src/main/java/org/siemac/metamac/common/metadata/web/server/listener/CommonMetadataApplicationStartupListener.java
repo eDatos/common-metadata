@@ -11,10 +11,7 @@ public class CommonMetadataApplicationStartupListener extends ApplicationStartup
 
         // SECURITY
 
-        checkRequiredProperty(ConfigurationConstants.SECURITY_CAS_SERVER_URL_PREFIX);
-        checkRequiredProperty(ConfigurationConstants.SECURITY_CAS_SERVICE_LOGIN_URL);
-        checkRequiredProperty(ConfigurationConstants.SECURITY_CAS_SERVICE_LOGOUT_URL);
-        checkRequiredProperty(ConfigurationConstants.SECURITY_TOLERANCE);
+        checkSecurityProperties();
 
         // DATASOURCE
 
@@ -28,9 +25,9 @@ public class CommonMetadataApplicationStartupListener extends ApplicationStartup
 
         // Common properties
 
-        checkRequiredProperty(ConfigurationConstants.METAMAC_EDITION_LANGUAGES);
-        checkRequiredProperty(ConfigurationConstants.METAMAC_NAVBAR_URL);
-        checkRequiredProperty(ConfigurationConstants.METAMAC_ORGANISATION);
+        checkEditionLanguagesProperty();
+        checkNavBarUrlProperty();
+        checkOrganisationProperty();
 
         // API
 
