@@ -30,6 +30,7 @@ public class CommonMetadataApplicationStartupListener extends ApplicationStartup
 
         checkRequiredProperty(ConfigurationConstants.METAMAC_EDITION_LANGUAGES);
         checkRequiredProperty(ConfigurationConstants.METAMAC_NAVBAR_URL);
+        checkRequiredProperty(ConfigurationConstants.METAMAC_ORGANISATION);
 
         // API
 
