@@ -1,6 +1,8 @@
 package org.siemac.metamac.common.metadata.core.constants;
 
-public class CommonMetadataConfigurationConstants {
+import org.siemac.metamac.core.common.constants.shared.ConfigurationConstants;
+
+public class CommonMetadataConfigurationConstants extends ConfigurationConstants {
 
     // PROPERTIES SPECIFIED IN THE DATA DIRECTORY
 
