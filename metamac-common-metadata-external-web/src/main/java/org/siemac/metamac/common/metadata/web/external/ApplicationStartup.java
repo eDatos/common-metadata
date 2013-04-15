@@ -6,7 +6,7 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConstants;
+import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConfigurationConstants;
 import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.constants.shared.ConfigurationConstants;
 import org.siemac.metamac.core.common.util.ApplicationContextProvider;
@@ -35,11 +35,11 @@ public class ApplicationStartup implements ServletContextListener {
         LOG.info("**********************************************************");
 
         // Datasource
-        checkProperty(CommonMetadataConstants.DB_DRIVER_NAME);
-        checkProperty(CommonMetadataConstants.DB_URL);
-        checkProperty(CommonMetadataConstants.DB_USERNAME);
-        checkProperty(CommonMetadataConstants.DB_PASSWORD);
-        checkProperty(CommonMetadataConstants.DB_DIALECT);
+        checkProperty(CommonMetadataConfigurationConstants.DB_DRIVER_NAME);
+        checkProperty(CommonMetadataConfigurationConstants.DB_URL);
+        checkProperty(CommonMetadataConfigurationConstants.DB_USERNAME);
+        checkProperty(CommonMetadataConfigurationConstants.DB_PASSWORD);
+        checkProperty(CommonMetadataConfigurationConstants.DB_DIALECT);
 
         // Api
         checkProperty(RestEndpointsConstants.COMMON_METADATA_EXTERNAL_API);

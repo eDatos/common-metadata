@@ -21,6 +21,11 @@
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
+    <!-- Application startup listener to validate the configuration properties -->
+    <listener>
+        <listener-class>org.siemac.metamac.common.metadata.web.server.listener.CommonMetadataApplicationStartupListener</listener-class>
+    </listener>
+
     <!-- SSO -->
     <listener>
         <listener-class>org.siemac.metamac.web.common.server.session.SingleSignOutHttpSessionListener</listener-class>
