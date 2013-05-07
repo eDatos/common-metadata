@@ -41,6 +41,8 @@ public class ApplicationStartup implements ServletContextListener {
         // Api
         configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.ENDPOINT_COMMON_METADATA_EXTERNAL_API);
         configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.ENDPOINT_SRM_EXTERNAL_API);
+        configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
+        configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
 
         LOG.info("**********************************************************");
         LOG.info("Application configuration checked");

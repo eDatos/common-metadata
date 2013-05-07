@@ -6,20 +6,22 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.StringUtils;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common_metadata.rest.external.RestExternalConstants;
 import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
+import org.siemac.metamac.common_metadata.rest.external.v1_0.service.utils.WebApplicationNavigation;
 import org.siemac.metamac.core.common.conf.ConfigurationService;
+import org.siemac.metamac.core.common.constants.shared.ConfigurationConstants;
 import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 import org.siemac.metamac.rest.common.v1_0.domain.ChildLinks;
 import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
 import org.siemac.metamac.rest.common.v1_0.domain.LocalisedString;
-import org.siemac.metamac.rest.common.v1_0.domain.Resource;
 import org.siemac.metamac.rest.common.v1_0.domain.ResourceLink;
+import org.siemac.metamac.rest.common_internal.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.CommonMetadataStatus;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
-import org.siemac.metamac.rest.constants.RestEndpointsConstants;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.utils.RestUtils;
@@ -31,26 +33,22 @@ import org.springframework.stereotype.Component;
 public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 
     @Autowired
-    private ConfigurationService configurationService;
+    private ConfigurationService     configurationService;
 
-    private String               commonMetadataApiExternalEndpointV10;
-    private String               srmApiExternalEndpoint;
+    private String                   commonMetadataApiExternalEndpointV10;
+    private String                   srmApiExternalEndpoint;
+
+    // Internal webs because links are in these webs
+    private String                   commonMetadataInternalWebApplication;
+    private String                   srmInternalWebApplication;
+
+    private WebApplicationNavigation webApplicationNavigation;
 
     @PostConstruct
     public void init() throws Exception {
+        initEndpoints();
 
-        // Common metadata External Api
-        String commonMetadataApiExternalEndpoint = configurationService.getProperty(RestEndpointsConstants.COMMON_METADATA_EXTERNAL_API);
-        if (commonMetadataApiExternalEndpoint == null) {
-            throw new BeanCreationException("Property not found: " + RestEndpointsConstants.COMMON_METADATA_EXTERNAL_API);
-        }
-        commonMetadataApiExternalEndpointV10 = RestUtils.createLink(commonMetadataApiExternalEndpoint, RestExternalConstants.API_VERSION_1_0);
-
-        // Srm External Api
-        srmApiExternalEndpoint = configurationService.getProperty(RestEndpointsConstants.SRM_EXTERNAL_API);
-        if (srmApiExternalEndpoint == null) {
-            throw new BeanCreationException("Property not found: " + RestEndpointsConstants.SRM_EXTERNAL_API);
-        }
+        webApplicationNavigation = new WebApplicationNavigation(commonMetadataInternalWebApplication);
     }
 
     @Override
@@ -71,6 +69,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setStatus(toCommonMetadataStatusEnum(source.getStatus()));
         target.setParentLink(toConfigurationParent());
         target.setChildLinks(toConfigurationChildLinks(source));
+        target.setManagementAppLink(toConfigurationManagementApplicationLink(source));
         return target;
     }
 
@@ -84,7 +83,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
             targets.setTotal(BigInteger.ZERO);
         } else {
             for (org.siemac.metamac.common.metadata.core.domain.Configuration source : sources) {
-                Resource target = toResource(source);
+                ResourceInternal target = toResource(source);
                 targets.getConfigurations().add(target);
             }
             targets.setTotal(BigInteger.valueOf(sources.size()));
@@ -93,36 +92,39 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         return targets;
     }
 
-    private Resource toResource(org.siemac.metamac.common.metadata.core.domain.Configuration source) {
+    private ResourceInternal toResource(org.siemac.metamac.common.metadata.core.domain.Configuration source) {
         if (source == null) {
             return null;
         }
-        Resource target = new Resource();
+        ResourceInternal target = new ResourceInternal();
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
         target.setKind(RestExternalConstants.KIND_CONFIGURATION);
         target.setSelfLink(toConfigurationSelfLink(source));
-        // configuration has not title
+        target.setManagementAppLink(toConfigurationManagementApplicationLink(source));
+        target.setTitle(null); // configuration has not title
         return target;
     }
 
-    private Resource toResourceExternalItemSrm(ExternalItem source) {
+    private ResourceInternal toResourceExternalItemSrm(ExternalItem source) {
         if (source == null) {
             return null;
         }
-        return toResourceExternalItem(source, srmApiExternalEndpoint);
+        return toResourceExternalItem(source, srmApiExternalEndpoint, srmInternalWebApplication);
     }
 
-    private Resource toResourceExternalItem(ExternalItem source, String apiExternalItem) {
+    private ResourceInternal toResourceExternalItem(ExternalItem source, String apiExternalItemBase, String managementAppBaseUrl) {
         if (source == null) {
             return null;
         }
-        Resource target = new Resource();
-        String kind = source.getType().getValue();
+        ResourceInternal target = new ResourceInternal();
         target.setId(source.getCode());
         target.setUrn(source.getUrn());
-        target.setKind(kind);
-        target.setSelfLink(toResourceLink(kind, RestUtils.createLink(apiExternalItem, source.getUri())));
+        target.setKind(source.getType().getValue());
+        target.setSelfLink(toResourceLink(target.getKind(), RestUtils.createLink(apiExternalItemBase, source.getUri())));
+        if (source.getManagementAppUrl() != null) {
+            target.setManagementAppLink(RestUtils.createLink(managementAppBaseUrl, source.getManagementAppUrl()));
+        }
         target.setTitle(toInternationalString(source.getTitle()));
         return target;
     }
@@ -140,6 +142,10 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 
     private ChildLinks toConfigurationChildLinks(org.siemac.metamac.common.metadata.core.domain.Configuration configuration) {
         return null;
+    }
+
+    private String toConfigurationManagementApplicationLink(org.siemac.metamac.common.metadata.core.domain.Configuration source) {
+        return webApplicationNavigation.buildConfigurationUrl(source);
     }
 
     private InternationalString toInternationalString(org.siemac.metamac.core.common.ent.domain.InternationalString sources) {
@@ -187,5 +193,32 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setKind(kind);
         target.setHref(href);
         return target;
+    }
+
+    private void initEndpoints() {
+
+        // Common metadata External Api
+        String commonMetadataApiExternalEndpoint = readProperty(ConfigurationConstants.ENDPOINT_COMMON_METADATA_EXTERNAL_API);
+        commonMetadataApiExternalEndpointV10 = RestUtils.createLink(commonMetadataApiExternalEndpoint, RestExternalConstants.API_VERSION_1_0);
+
+        // Common metadata internal web application
+        commonMetadataInternalWebApplication = readProperty(ConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
+        commonMetadataInternalWebApplication = StringUtils.removeEnd(commonMetadataInternalWebApplication, "/");
+
+        // Srm External Api
+        srmApiExternalEndpoint = readProperty(ConfigurationConstants.ENDPOINT_SRM_EXTERNAL_API);
+        srmApiExternalEndpoint = StringUtils.removeEnd(srmApiExternalEndpoint, "/");
+
+        // Srm internal web application
+        srmInternalWebApplication = readProperty(ConfigurationConstants.WEB_APPLICATION_SRM_INTERNAL_WEB);
+        srmInternalWebApplication = StringUtils.removeEnd(srmInternalWebApplication, "/");
+    }
+
+    private String readProperty(String property) {
+        String propertyValue = configurationService.getProperty(property);
+        if (propertyValue == null) {
+            throw new BeanCreationException("Property not found: " + property);
+        }
+        return propertyValue;
     }
 }

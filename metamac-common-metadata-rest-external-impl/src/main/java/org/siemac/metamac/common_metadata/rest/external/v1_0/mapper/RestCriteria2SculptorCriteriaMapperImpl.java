@@ -21,10 +21,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2SculptorCriteriaMapper {
 
-    private RestCriteria2SculptorCriteria<Configuration>    configurationCriteriaMapper    = null;
+    private RestCriteria2SculptorCriteria<Configuration> configurationCriteriaMapper = null;
 
     public RestCriteria2SculptorCriteriaMapperImpl() {
-        configurationCriteriaMapper = new RestCriteria2SculptorCriteria<Configuration>(Configuration.class, ConfigurationCriteriaPropertyOrder.class, ConfigurationCriteriaPropertyRestriction.class, new ConfigurationCriteriaCallback());
+        configurationCriteriaMapper = new RestCriteria2SculptorCriteria<Configuration>(Configuration.class, ConfigurationCriteriaPropertyOrder.class, ConfigurationCriteriaPropertyRestriction.class,
+                new ConfigurationCriteriaCallback());
     }
 
     @Override
@@ -39,13 +40,13 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
             ConfigurationCriteriaPropertyRestriction propertyNameCriteria = ConfigurationCriteriaPropertyRestriction.fromValue(propertyRestriction.getPropertyName());
             switch (propertyNameCriteria) {
                 case ID:
-                    return new SculptorPropertyCriteria(ConfigurationProperties.code(), propertyRestriction.getValue());
+                    return new SculptorPropertyCriteria(ConfigurationProperties.code(), propertyRestriction.getValue(), propertyRestriction.getOperationType());
                 case URN:
-                    return new SculptorPropertyCriteria(ConfigurationProperties.urn(), propertyRestriction.getValue());
+                    return new SculptorPropertyCriteria(ConfigurationProperties.urn(), propertyRestriction.getValue(), propertyRestriction.getOperationType());
                 case CONTACT_URN:
-                    return new SculptorPropertyCriteria(ConfigurationProperties.contact().urn(), propertyRestriction.getValue());
+                    return new SculptorPropertyCriteria(ConfigurationProperties.contact().urn(), propertyRestriction.getValue(), propertyRestriction.getOperationType());
                 case STATUS:
-                    return new SculptorPropertyCriteria(ConfigurationProperties.status(), propertyRestrictionValueToStatusEnum(propertyRestriction.getValue()));
+                    return new SculptorPropertyCriteria(ConfigurationProperties.status(), propertyRestrictionValueToStatusEnum(propertyRestriction.getValue()), propertyRestriction.getOperationType());
                 default:
                     throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
             }

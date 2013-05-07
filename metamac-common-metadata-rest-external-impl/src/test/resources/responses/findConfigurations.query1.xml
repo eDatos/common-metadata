@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<cmetadata:configurations xmlns:cmetadata="http://www.siemac.org/metamac/rest/common-metadata/v1.0/domain" xmlns:cdomain="http://www.siemac.org/metamac/rest/common/v1.0/domain" kind="commonMetadata#configurations" total="2">
+<cmetadata:configurations xmlns:cmetadata="http://www.siemac.org/metamac/rest/common-metadata/v1.0/domain" xmlns:cdomaininternal="http://www.siemac.org/metamac/rest/common-internal/v1.0/domain" xmlns:cdomain="http://www.siemac.org/metamac/rest/common/v1.0/domain" kind="commonMetadata#configurations" total="2">
     <cmetadata:configuration kind="commonMetadata#configuration">
         <cdomain:id>configuration1</cdomain:id>
         <cdomain:urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration1</cdomain:urn>
         <cdomain:selfLink kind="commonMetadata#configuration" href="http://data.istac.es/apis/cmetadata/v1.0/configurations/configuration1"/>
+        <cdomaininternal:managementAppLink>http://localhost:8080/metamac-common-metadata-web/#configurations/configuration;id=configuration1</cdomaininternal:managementAppLink>
     </cmetadata:configuration>
     <cmetadata:configuration kind="commonMetadata#configuration">
         <cdomain:id>configuration15</cdomain:id>
         <cdomain:urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration15</cdomain:urn>
         <cdomain:selfLink kind="commonMetadata#configuration" href="http://data.istac.es/apis/cmetadata/v1.0/configurations/configuration15"/>
+        <cdomaininternal:managementAppLink>http://localhost:8080/metamac-common-metadata-web/#configurations/configuration;id=configuration15</cdomaininternal:managementAppLink>
     </cmetadata:configuration>
 </cmetadata:configurations>

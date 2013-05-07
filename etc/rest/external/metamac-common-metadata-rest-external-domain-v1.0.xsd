@@ -2,9 +2,11 @@
 <xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
     targetNamespace="http://www.siemac.org/metamac/rest/common-metadata/v1.0/domain" 
     xmlns:tns="http://www.siemac.org/metamac/rest/common-metadata/v1.0/domain"
-    xmlns:common="http://www.siemac.org/metamac/rest/common/v1.0/domain">
+    xmlns:common="http://www.siemac.org/metamac/rest/common/v1.0/domain"
+    xmlns:commonInternal="http://www.siemac.org/metamac/rest/common-internal/v1.0/domain">
 
     <xs:import namespace="http://www.siemac.org/metamac/rest/common/v1.0/domain" schemaLocation="metamac-rest-api:metamac-rest-common-domain-v1.0.xsd" />
+    <xs:import namespace="http://www.siemac.org/metamac/rest/common-internal/v1.0/domain" schemaLocation="metamac-rest-api:metamac-rest-common-internal-domain-v1.0.xsd" />
                           
     <xs:complexType name="Configuration">
         <xs:sequence>
@@ -12,11 +14,12 @@
             <xs:element name="urn" type="xs:string" />
             <xs:element name="selfLink" type="common:ResourceLink" />
             <xs:element name="parentLink" type="common:ResourceLink" />
+            <xs:element name="managementAppLink" type="xs:string" />
             <xs:element name="dataSharing" type="common:InternationalString" minOccurs="0" />
             <xs:element name="legalActs" type="common:InternationalString" minOccurs="0" />
             <xs:element name="confPolicy" type="common:InternationalString" minOccurs="0" />
             <xs:element name="confDataTreatment" type="common:InternationalString" minOccurs="0" />
-            <xs:element name="contact" type="common:Resource" minOccurs="0" />
+            <xs:element name="contact" type="commonInternal:ResourceInternal" minOccurs="0" />
             <xs:element name="status" type="tns:CommonMetadataStatus" />
             <xs:element name="childLinks" type="common:ChildLinks" minOccurs="1" />
         </xs:sequence>
@@ -28,7 +31,7 @@
         <xs:complexContent>
             <xs:extension base="common:ListBase">
                 <xs:sequence>
-                    <xs:element name="configuration" type="common:Resource" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="configuration" type="commonInternal:ResourceInternal" minOccurs="0" maxOccurs="unbounded" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>

@@ -8,5 +8,6 @@
     <source path='common/metadata/core/constants' />
     <source path='common/metadata/core/dto' />
     <source path='common/metadata/core/enume/domain' />
+    <source path='common/metadata/navigation/shared' />
 
 </module>

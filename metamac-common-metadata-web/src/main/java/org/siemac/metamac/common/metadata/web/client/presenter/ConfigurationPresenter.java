@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
+import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
-import org.siemac.metamac.common.metadata.web.client.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
@@ -49,7 +49,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     private final DispatchAsync dispatcher;
 
     @ProxyCodeSplit
-    @NameToken(NameTokens.configurationPage)
+    @NameToken(NameTokens.configurationListPage)
     @UseGatekeeper(LoggedInGatekeeper.class)
     public interface ConfigurationProxy extends Proxy<ConfigurationPresenter>, Place {
 

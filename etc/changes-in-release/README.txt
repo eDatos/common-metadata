@@ -9,6 +9,7 @@ Cuando se cree la RELEASE, añadir estos pasos al manual de instalación:
 3. Aplicación externa:
 	- Se ha eliminado el DATA, de forma que la configuración de la aplicación se realice en el WAR.
 	  a) Explicar el fichero a configurar (metamac-common-metadata-external-web-configuration.xml).
-	  b) Explicar cómo configurar la ubicación de logs en el logback
+	  b) En este fichero aparecen además dos nuevas propiedades: 'metamac.web.common.metadata.internal' y 'metamac.web.srm.internal'
+	  c) Explicar cómo configurar la ubicación de logs en el logback
 	  	
 99. Reiniciar Tomcat

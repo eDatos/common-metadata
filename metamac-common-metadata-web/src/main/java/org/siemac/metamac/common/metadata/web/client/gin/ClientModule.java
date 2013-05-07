@@ -1,10 +1,10 @@
 package org.siemac.metamac.common.metadata.web.client.gin;
 
+import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataPlaceManager;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebConstants;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebMessages;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
-import org.siemac.metamac.common.metadata.web.client.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.ErrorPagePresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.MainPagePresenter;
@@ -34,7 +34,7 @@ public class ClientModule extends AbstractPresenterModule {
         bind(LoggedInGatekeeper.class).in(Singleton.class);
 
         // Constants
-        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.configurationPage);
+        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.configurationListPage);
 
         // Presenters
         bindPresenter(MainPagePresenter.class, MainPagePresenter.MainPageView.class, MainPageViewImpl.class, MainPagePresenter.MainPageProxy.class);

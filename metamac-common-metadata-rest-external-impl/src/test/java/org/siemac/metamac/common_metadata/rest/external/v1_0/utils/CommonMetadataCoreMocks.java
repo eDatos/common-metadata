@@ -61,14 +61,15 @@ public class CommonMetadataCoreMocks {
         configuration.setConfPolicy(mockInternationalString("confPolicy", subCode));
         configuration.setConfDataTreatment(mockInternationalString("confDataTreatment", subCode));
         configuration.setStatus(status);
-        configuration.setContact(mockExternalItemSrm("contact1", "contacts", TypeExternalArtefactsEnum.AGENCY));
+        configuration.setContact(mockExternalItemOrganisationSrm("contact1", "contacts", TypeExternalArtefactsEnum.AGENCY));
         return configuration;
     }
 
-    private static ExternalItem mockExternalItemSrm(String code, String subpathUrl, TypeExternalArtefactsEnum type) {
+    private static ExternalItem mockExternalItemOrganisationSrm(String code, String subpathUrl, TypeExternalArtefactsEnum type) {
         String uri = "v1.0/" + subpathUrl + "/" + code;
-        String urn = "urn:" + code;
-        return new ExternalItem(code, uri, urn, type, mockInternationalString(code, null), null);
+        String urn = "urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0)." + code;
+        String managementUrlPart = "#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id=" + code;
+        return new ExternalItem(code, uri, urn, type, mockInternationalString(code, null), managementUrlPart);
     }
 
     private static InternationalString mockInternationalString(String metadata, String subCode) {

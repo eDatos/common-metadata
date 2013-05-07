@@ -17,18 +17,18 @@ public class CommonMetadataRestAsserts {
         MetamacRestAsserts.assertEqualsInternationalString(expected.getDataSharing(), actual.getDataSharing());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getConfPolicy(), actual.getConfPolicy());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getConfDataTreatment(), actual.getConfDataTreatment());
-        MetamacRestAsserts.assertEqualsResource(expected.getContact(), actual.getContact());
+        MetamacRestAsserts.assertEqualsResourceInternal(expected.getContact(), actual.getContact());
         assertEquals(expected.getStatus(), actual.getStatus());
         MetamacRestAsserts.assertEqualsResourceLink(expected.getParentLink(), actual.getParentLink());
         MetamacRestAsserts.assertEqualsChildLinks(expected.getChildLinks(), actual.getChildLinks());
     }
-    
+
     public static void assertEqualsConfigurations(Configurations expected, Configurations actual) {
         MetamacRestAsserts.assertEqualsNullability(expected, actual);
         if (expected == null) {
             return;
         }
         MetamacRestAsserts.assertEqualsListBase(expected, actual);
-        MetamacRestAsserts.assertEqualsResources(expected.getConfigurations(), actual.getConfigurations());
+        MetamacRestAsserts.assertEqualsResourcesInternal(expected.getConfigurations(), actual.getConfigurations());
     }
 }

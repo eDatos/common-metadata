@@ -29,6 +29,8 @@ import org.siemac.metamac.common_metadata.rest.external.v1_0.mockito.FindConfigu
 import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataCoreMocks;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataRestAsserts;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataRestMocks;
+import org.siemac.metamac.core.common.conf.ConfigurationService;
+import org.siemac.metamac.core.common.constants.shared.ConfigurationConstants;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.util.ApplicationContextProvider;
 import org.siemac.metamac.rest.common.test.MetamacRestBaseTest;
@@ -48,6 +50,7 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
     private static String             jaxrsServerAddress                   = "http://localhost:" + PORT + "/apis/cmetadata";
     private static String             baseApi                              = jaxrsServerAddress + "/v1.0";
 
+    private static String             commonMetadataInternalWebApplication;
     // not read property from properties file to check explicity
     private static String             commonMetadataApiExternalEndpointV10 = "http://data.istac.es/apis/cmetadata/v1.0";
 
@@ -80,6 +83,10 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
             providers.add(applicationContext.getBean("jaxbProvider", JAXBElementProvider.class));
             commonMetadataRestExternalFacadeClientXml = JAXRSClientFactory.create(jaxrsServerAddress, CommonMetadataV1_0.class, providers, Boolean.TRUE);
         }
+
+        // Configuration
+        ConfigurationService configurationService = applicationContext.getBean(ConfigurationService.class);
+        commonMetadataInternalWebApplication = configurationService.getProperty(ConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
 
         // Mockito
         setUpMockito();
@@ -191,14 +198,16 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
             String query = null;
             String orderBy = null;
             Configurations configurations = getCommonMetadataRestExternalFacadeClientXml().findConfigurations(query, orderBy);
-            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiExternalEndpointV10, null), configurations);
+            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiExternalEndpointV10, commonMetadataInternalWebApplication, null),
+                    configurations);
         }
         {
             // query by id
             String query = QUERY_CONFIGURATION_ID_LIKE_1; // configuration1 and configuration15
             String orderBy = null;
             Configurations configurations = getCommonMetadataRestExternalFacadeClientXml().findConfigurations(query, orderBy);
-            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiExternalEndpointV10, query), configurations);
+            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiExternalEndpointV10, commonMetadataInternalWebApplication, query),
+                    configurations);
         }
     }
 

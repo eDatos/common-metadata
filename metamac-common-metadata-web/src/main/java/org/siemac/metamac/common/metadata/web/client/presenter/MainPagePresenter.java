@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.siemac.metamac.common.metadata.web.client.NameTokens;
+import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHandlers;
 import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlAction;

@@ -29,4 +29,7 @@
     <entry key="metamac.endpoints.common.metadata.rest.external">http://FILL_ME_WITH_HOST_AND_PORT/FILL_ME_WITH_COMMON_METADATA_EXTERNAL_APP/apis/cmetadata</entry>
     <entry key="metamac.endpoints.srm.rest.external">http://FILL_ME_WITH_HOST_AND_PORT/FILL_ME_WITH_SRM_EXTERNAL_APP/apis/structural-resources</entry>
     
+    <entry key="metamac.web.common.metadata.internal">http://FILL_ME_WITH_HOST_AND_PORT/FILL_ME_WITH_COMMON_METADATA_INTERNAL_APP</entry>
+    <entry key="metamac.web.srm.internal">http://FILL_ME_WITH_HOST_AND_PORT/FILL_ME_WITH_SRM_INTERNAL_APP</entry>
+    
 </properties>

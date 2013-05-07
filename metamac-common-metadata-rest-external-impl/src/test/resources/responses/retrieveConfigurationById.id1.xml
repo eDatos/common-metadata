@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<cmetadata:configuration xmlns:cmetadata="http://www.siemac.org/metamac/rest/common-metadata/v1.0/domain" xmlns:cdomain="http://www.siemac.org/metamac/rest/common/v1.0/domain" kind="commonMetadata#configuration">
+<cmetadata:configuration xmlns:cmetadata="http://www.siemac.org/metamac/rest/common-metadata/v1.0/domain" xmlns:cdomaininternal="http://www.siemac.org/metamac/rest/common-internal/v1.0/domain" xmlns:cdomain="http://www.siemac.org/metamac/rest/common/v1.0/domain" kind="commonMetadata#configuration">
     <cmetadata:id>configuration1</cmetadata:id>
     <cmetadata:urn>urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration1</cmetadata:urn>
     <cmetadata:selfLink kind="commonMetadata#configuration" href="http://data.istac.es/apis/cmetadata/v1.0/configurations/configuration1"/>
     <cmetadata:parentLink kind="commonMetadata#configurations" href="http://data.istac.es/apis/cmetadata/v1.0/configurations"/>
+    <cmetadata:managementAppLink>http://localhost:8080/metamac-common-metadata-web/#configurations/configuration;id=configuration1</cmetadata:managementAppLink>
     <cmetadata:dataSharing>
         <cdomain:text xml:lang="es">dataSharing1 en Español</cdomain:text>
         <cdomain:text xml:lang="en">dataSharing1 in English</cdomain:text>
     </cmetadata:dataSharing>
     <cmetadata:legalActs>
-        <cdomain:text xml:lang="en">legalActs1 in English</cdomain:text>
         <cdomain:text xml:lang="es">legalActs1 en Español</cdomain:text>
+        <cdomain:text xml:lang="en">legalActs1 in English</cdomain:text>
     </cmetadata:legalActs>
     <cmetadata:confPolicy>
-        <cdomain:text xml:lang="es">confPolicy1 en Español</cdomain:text>
         <cdomain:text xml:lang="en">confPolicy1 in English</cdomain:text>
+        <cdomain:text xml:lang="es">confPolicy1 en Español</cdomain:text>
     </cmetadata:confPolicy>
     <cmetadata:confDataTreatment>
         <cdomain:text xml:lang="es">confDataTreatment1 en Español</cdomain:text>
@@ -22,12 +23,13 @@
     </cmetadata:confDataTreatment>
     <cmetadata:contact kind="structuralResources#agency">
         <cdomain:id>contact1</cdomain:id>
-        <cdomain:urn>urn:contact1</cdomain:urn>
+        <cdomain:urn>urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0).contact1</cdomain:urn>
         <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/srm/v1.0/contacts/contact1"/>
         <cdomain:title>
-            <cdomain:text xml:lang="es">contact1 en Español</cdomain:text>
             <cdomain:text xml:lang="en">contact1 in English</cdomain:text>
+            <cdomain:text xml:lang="es">contact1 en Español</cdomain:text>
         </cdomain:title>
+        <cdomaininternal:managementAppLink>http://localhost:8080/metamac-srm-web/#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id=contact1</cdomaininternal:managementAppLink>
     </cmetadata:contact>
     <cmetadata:status>ENABLED</cmetadata:status>
 </cmetadata:configuration>
