@@ -16,23 +16,26 @@ import org.siemac.metamac.core.common.util.GeneratorUrnUtils;
 
 public class CommonMetadataCoreMocks {
 
-    public static Configuration mockConfiguration1() {
+    public CommonMetadataCoreMocks() {
+    }
+
+    public Configuration mockConfiguration1() {
         return mockConfiguration("1", CommonMetadataStatusEnum.ENABLED);
     }
 
-    public static Configuration mockConfiguration2() {
+    public Configuration mockConfiguration2() {
         return mockConfiguration("2", CommonMetadataStatusEnum.ENABLED);
     }
 
-    public static Configuration mockConfiguration3() {
+    public Configuration mockConfiguration3() {
         return mockConfiguration("3", CommonMetadataStatusEnum.DISABLED);
     }
 
-    public static Configuration mockConfiguration15() {
+    public Configuration mockConfiguration15() {
         return mockConfiguration("15", CommonMetadataStatusEnum.ENABLED);
     }
 
-    public static List<Configuration> mockConfigurationsNoPagedResult(String query) {
+    public List<Configuration> mockConfigurationsNoPagedResult(String query) {
 
         List<Configuration> configurations = new ArrayList<Configuration>();
         if (query == null) {
@@ -51,7 +54,7 @@ public class CommonMetadataCoreMocks {
         return configurations;
     }
 
-    private static Configuration mockConfiguration(String subCode, CommonMetadataStatusEnum status) {
+    private Configuration mockConfiguration(String subCode, CommonMetadataStatusEnum status) {
 
         Configuration configuration = new Configuration();
         configuration.setCode("configuration" + subCode);
@@ -61,23 +64,23 @@ public class CommonMetadataCoreMocks {
         configuration.setConfPolicy(mockInternationalString("confPolicy", subCode));
         configuration.setConfDataTreatment(mockInternationalString("confDataTreatment", subCode));
         configuration.setStatus(status);
-        configuration.setContact(mockExternalItemOrganisationSrm("contact1", "contacts", TypeExternalArtefactsEnum.AGENCY));
+        configuration.setContact(mockExternalItemOrganisationSrm("contact1"));
         return configuration;
     }
 
-    private static ExternalItem mockExternalItemOrganisationSrm(String code, String subpathUrl, TypeExternalArtefactsEnum type) {
-        String uri = "v1.0/" + subpathUrl + "/" + code;
+    private ExternalItem mockExternalItemOrganisationSrm(String code) {
+        String uri = "v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/" + code;
         String urn = "urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0)." + code;
         String managementUrlPart = "#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id=" + code;
-        return new ExternalItem(code, uri, urn, type, mockInternationalString(code, null), managementUrlPart);
+        return new ExternalItem(code, uri, urn, TypeExternalArtefactsEnum.AGENCY, mockInternationalString(code, null), managementUrlPart);
     }
 
-    private static InternationalString mockInternationalString(String metadata, String subCode) {
+    private InternationalString mockInternationalString(String metadata, String subCode) {
         String subTitle = subCode != null ? metadata + subCode : metadata;
         return mockInternationalString("es", subTitle + " en Español", "en", subTitle + " in English");
     }
 
-    private static InternationalString mockInternationalString(String locale1, String label1, String locale2, String label2) {
+    private InternationalString mockInternationalString(String locale1, String label1, String locale2, String label2) {
 
         InternationalString internationalString = new InternationalString();
 

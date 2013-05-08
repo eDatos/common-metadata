@@ -1,5 +1,6 @@
 package org.siemac.metamac.common_metadata.rest.external.v1_0.utils;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.math.BigInteger;
@@ -8,45 +9,62 @@ import org.siemac.metamac.common_metadata.rest.external.RestExternalConstants;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.service.CommonMetadataRestExternalFacadeV10Test;
 import org.siemac.metamac.rest.common.test.utils.MetamacRestMocks;
 import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
-import org.siemac.metamac.rest.common_internal.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.CommonMetadataStatus;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.ResourceInternal;
 
 public class CommonMetadataRestMocks {
 
-    public static Configuration mockConfiguration1(String baseApi) {
-        return mockConfiguration(baseApi, "1", CommonMetadataStatus.ENABLED);
+    private final String commonMetadataExternalApiBaseV10;
+    private final String commonMetadataInternalWebApplicationBase;
+    private final String srmApiExternalEndpoint;
+    private final String srmInternalWebApplicationBase;
+
+    public CommonMetadataRestMocks(String commonMetadataExternalApiBaseV10, String commonMetadataInternalWebApplicationBase, String srmApiExternalEndpoint, String srmInternalWebApplicationBase) {
+        assertNotNull(commonMetadataExternalApiBaseV10);
+        assertNotNull(commonMetadataInternalWebApplicationBase);
+        assertNotNull(srmApiExternalEndpoint);
+        assertNotNull(srmInternalWebApplicationBase);
+
+        this.commonMetadataExternalApiBaseV10 = commonMetadataExternalApiBaseV10;
+        this.commonMetadataInternalWebApplicationBase = commonMetadataInternalWebApplicationBase;
+        this.srmApiExternalEndpoint = srmApiExternalEndpoint;
+        this.srmInternalWebApplicationBase = srmInternalWebApplicationBase;
     }
 
-    public static Configuration mockConfiguration2(String baseApi) {
-        return mockConfiguration(baseApi, "2", CommonMetadataStatus.ENABLED);
+    public Configuration mockConfiguration1() {
+        return mockConfiguration("1", CommonMetadataStatus.ENABLED);
     }
 
-    public static Configuration mockConfiguration3(String baseApi) {
-        return mockConfiguration(baseApi, "3", CommonMetadataStatus.DISABLED);
+    public Configuration mockConfiguration2() {
+        return mockConfiguration("2", CommonMetadataStatus.ENABLED);
     }
 
-    public static Configuration mockConfiguration15(String baseApi) {
-        return mockConfiguration(baseApi, "15", CommonMetadataStatus.ENABLED);
+    public Configuration mockConfiguration3() {
+        return mockConfiguration("3", CommonMetadataStatus.DISABLED);
     }
 
-    public static Configurations mockConfigurations(String baseApi, String baseWebApplication, String query) {
+    public Configuration mockConfiguration15() {
+        return mockConfiguration("15", CommonMetadataStatus.ENABLED);
+    }
+
+    public Configurations mockConfigurations(String query) {
         Configurations configurationsResult = new Configurations();
         configurationsResult.setKind(RestExternalConstants.KIND_CONFIGURATIONS);
 
         if (query == null) {
             // all enabled
             configurationsResult.setTotal(BigInteger.valueOf(3));
-            configurationsResult.getConfigurations().add(mockConfiguration1Resource(baseApi, baseWebApplication));
-            configurationsResult.getConfigurations().add(mockConfiguration2Resource(baseApi, baseWebApplication));
-            configurationsResult.getConfigurations().add(mockConfiguration15Resource(baseApi, baseWebApplication));
+            configurationsResult.getConfigurations().add(mockConfiguration1Resource());
+            configurationsResult.getConfigurations().add(mockConfiguration2Resource());
+            configurationsResult.getConfigurations().add(mockConfiguration15Resource());
         } else {
             String querySupported1 = CommonMetadataRestExternalFacadeV10Test.QUERY_CONFIGURATION_ID_LIKE_1;
             if (querySupported1.equals(querySupported1)) {
                 configurationsResult.setTotal(BigInteger.valueOf(2));
-                configurationsResult.getConfigurations().add(mockConfiguration1Resource(baseApi, baseWebApplication));
-                configurationsResult.getConfigurations().add(mockConfiguration15Resource(baseApi, baseWebApplication));
+                configurationsResult.getConfigurations().add(mockConfiguration1Resource());
+                configurationsResult.getConfigurations().add(mockConfiguration15Resource());
             } else {
                 fail("Query not supported = " + query);
             }
@@ -54,61 +72,60 @@ public class CommonMetadataRestMocks {
         return configurationsResult;
     }
 
-    private static Configuration mockConfiguration(String baseApi, String subCode, CommonMetadataStatus status) {
-
+    private Configuration mockConfiguration(String subCode, CommonMetadataStatus status) {
         Configuration configuration = new Configuration();
         configuration.setId("configuration" + subCode);
         configuration.setUrn("urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=" + configuration.getId());
         configuration.setKind(RestExternalConstants.KIND_CONFIGURATION);
-        configuration.setSelfLink(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATION, baseApi + "/configurations/configuration" + subCode));
+        configuration.setSelfLink(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATION, commonMetadataExternalApiBaseV10 + "/configurations/configuration" + subCode));
         configuration.setLegalActs(mockInternationalString("legalActs", subCode));
         configuration.setDataSharing(mockInternationalString("dataSharing", subCode));
         configuration.setConfPolicy(mockInternationalString("confPolicy", subCode));
         configuration.setConfDataTreatment(mockInternationalString("confDataTreatment", subCode));
-        configuration.setContact(mockOrganisationResourceFromExternalItemSrm("contact1", "contacts", "structuralResources#agency"));
+        configuration.setContact(mockOrganisationResourceFromExternalItemSrm("contact1"));
         configuration.setStatus(status);
-        configuration.setParentLink(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATIONS, baseApi + "/configurations"));
+        configuration.setParentLink(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATIONS, commonMetadataExternalApiBaseV10 + "/configurations"));
+        configuration.setManagementAppLink(commonMetadataInternalWebApplicationBase + "/#configurations/configuration;id=" + configuration.getId());
         // no children
         return configuration;
     }
 
-    private static ResourceInternal mockConfiguration1Resource(String baseApi, String baseWebApplication) {
-        return mockConfigurationResource("1", baseApi, baseWebApplication);
+    private ResourceInternal mockConfiguration1Resource() {
+        return mockConfigurationResource("1");
     }
 
-    private static ResourceInternal mockConfiguration2Resource(String baseApi, String baseWebApplication) {
-        return mockConfigurationResource("2", baseApi, baseWebApplication);
+    private ResourceInternal mockConfiguration2Resource() {
+        return mockConfigurationResource("2");
     }
 
-    private static ResourceInternal mockConfiguration15Resource(String baseApi, String baseWebApplication) {
-        return mockConfigurationResource("15", baseApi, baseWebApplication);
+    private ResourceInternal mockConfiguration15Resource() {
+        return mockConfigurationResource("15");
     }
 
-    private static ResourceInternal mockConfigurationResource(String subId, String baseApi, String baseWebApplication) {
+    private ResourceInternal mockConfigurationResource(String subId) {
         String configurationId = "configuration" + subId;
         ResourceInternal resource = new ResourceInternal();
         resource.setId(configurationId);
         resource.setUrn("urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=" + configurationId);
         resource.setKind(RestExternalConstants.KIND_CONFIGURATION);
-        resource.setSelfLink(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATION, baseApi + "/configurations/" + configurationId));
-        resource.setManagementAppLink(baseWebApplication + "/#configurations/configuration;id=" + configurationId);
+        resource.setSelfLink(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATION, commonMetadataExternalApiBaseV10 + "/configurations/" + configurationId));
+        resource.setManagementAppLink(commonMetadataInternalWebApplicationBase + "/#configurations/configuration;id=" + configurationId);
         resource.setTitle(null); // no title
         return resource;
     }
 
-    private static InternationalString mockInternationalString(String metadata, String subsubTitle) {
+    private InternationalString mockInternationalString(String metadata, String subsubTitle) {
         String subTitle = subsubTitle != null ? metadata + subsubTitle : metadata;
         return MetamacRestMocks.mockInternationalString("es", subTitle + " en Español", "en", subTitle + " in English");
     }
 
-    private static ResourceInternal mockOrganisationResourceFromExternalItemSrm(String id, String apiSubpath, String kind) {
+    private ResourceInternal mockOrganisationResourceFromExternalItemSrm(String id) {
         ResourceInternal resource = new ResourceInternal();
         resource.setId(id);
         resource.setUrn("urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0)." + id);
-        resource.setKind(kind);
-        resource.setSelfLink(MetamacRestMocks.mockResourceLink(kind, "http://data.istac.es/apis/srm/v1.0" + "/" + apiSubpath + "/" + id));
-        resource.setManagementAppLink("http://localhost:8080/metamac-srm-web/#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id="
-                + id);
+        resource.setKind("structuralResources#agency");
+        resource.setSelfLink(MetamacRestMocks.mockResourceLink(resource.getKind(), srmApiExternalEndpoint + "/v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/" + id));
+        resource.setManagementAppLink(srmInternalWebApplicationBase + "/#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id=" + id);
         resource.setTitle(MetamacRestMocks.mockInternationalString("es", id + " en Español", "en", id + " in English"));
         return resource;
     }

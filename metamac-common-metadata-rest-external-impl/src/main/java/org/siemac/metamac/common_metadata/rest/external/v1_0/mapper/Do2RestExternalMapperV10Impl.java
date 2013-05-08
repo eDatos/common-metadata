@@ -18,10 +18,10 @@ import org.siemac.metamac.rest.common.v1_0.domain.ChildLinks;
 import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
 import org.siemac.metamac.rest.common.v1_0.domain.LocalisedString;
 import org.siemac.metamac.rest.common.v1_0.domain.ResourceLink;
-import org.siemac.metamac.rest.common_internal.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.CommonMetadataStatus;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.utils.RestUtils;
@@ -197,7 +197,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 
     private void initEndpoints() {
 
-        // Common metadata External Api
+        // Common metadata External Api v1.0
         String commonMetadataApiExternalEndpoint = readProperty(ConfigurationConstants.ENDPOINT_COMMON_METADATA_EXTERNAL_API);
         commonMetadataApiExternalEndpointV10 = RestUtils.createLink(commonMetadataApiExternalEndpoint, RestExternalConstants.API_VERSION_1_0);
 
@@ -205,7 +205,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         commonMetadataInternalWebApplication = readProperty(ConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
         commonMetadataInternalWebApplication = StringUtils.removeEnd(commonMetadataInternalWebApplication, "/");
 
-        // Srm External Api
+        // Srm External Api (do not add api version! it is already stored in database)
         srmApiExternalEndpoint = readProperty(ConfigurationConstants.ENDPOINT_SRM_EXTERNAL_API);
         srmApiExternalEndpoint = StringUtils.removeEnd(srmApiExternalEndpoint, "/");
 

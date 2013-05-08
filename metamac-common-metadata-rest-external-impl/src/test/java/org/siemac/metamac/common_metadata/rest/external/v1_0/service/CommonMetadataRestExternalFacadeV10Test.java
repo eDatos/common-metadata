@@ -46,25 +46,31 @@ import org.springframework.context.ApplicationContext;
 
 public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest {
 
-    private static final String       PORT                                 = ServerResource.PORT;
-    private static String             jaxrsServerAddress                   = "http://localhost:" + PORT + "/apis/cmetadata";
-    private static String             baseApi                              = jaxrsServerAddress + "/v1.0";
+    private static final String            PORT                                 = ServerResource.PORT;
+    private static String                  jaxrsServerAddress                   = "http://localhost:" + PORT + "/apis/cmetadata";
+    private static String                  baseApi                              = jaxrsServerAddress + "/v1.0";
 
-    private static String             commonMetadataInternalWebApplication;
+    private static String                  commonMetadataInternalWebApplication;
+    private static String                  srmInternalWebApplication;
+    private static String                  srmApiExternalEndpoint;
+
     // not read property from properties file to check explicity
-    private static String             commonMetadataApiExternalEndpointV10 = "http://data.istac.es/apis/cmetadata/v1.0";
+    private static String                  commonMetadataApiExternalEndpointV10 = "http://data.istac.es/apis/cmetadata/v1.0";
 
-    private static CommonMetadataV1_0 commonMetadataRestExternalFacadeClientXml;
+    private static CommonMetadataV1_0      commonMetadataRestExternalFacadeClientXml;
 
-    private static ApplicationContext applicationContext                   = null;
+    private static ApplicationContext      applicationContext                   = null;
 
-    private static String             NOT_EXISTS                           = "NOT_EXISTS";
+    private static String                  NOT_EXISTS                           = "NOT_EXISTS";
 
-    public static String              CONFIGURATION_1                      = "configuration1";
-    public static String              CONFIGURATION_2                      = "configuration2";
-    public static String              CONFIGURATION_3                      = "configuration3";
-    public static String              CONFIGURATION_15                     = "configuration15";
-    public static String              QUERY_CONFIGURATION_ID_LIKE_1        = ConfigurationCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
+    public static String                   CONFIGURATION_1                      = "configuration1";
+    public static String                   CONFIGURATION_2                      = "configuration2";
+    public static String                   CONFIGURATION_3                      = "configuration3";
+    public static String                   CONFIGURATION_15                     = "configuration15";
+    public static String                   QUERY_CONFIGURATION_ID_LIKE_1        = ConfigurationCriteriaPropertyRestriction.ID + " " + ComparisonOperator.LIKE + " \"1\"";
+
+    private static CommonMetadataRestMocks commonMetadataRestMocks;
+    private static CommonMetadataCoreMocks commonMetadataCoreMocks;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @BeforeClass
@@ -87,8 +93,12 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
         // Configuration
         ConfigurationService configurationService = applicationContext.getBean(ConfigurationService.class);
         commonMetadataInternalWebApplication = configurationService.getProperty(ConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
+        srmInternalWebApplication = configurationService.getProperty(ConfigurationConstants.WEB_APPLICATION_SRM_INTERNAL_WEB);
+        srmApiExternalEndpoint = configurationService.getProperty(ConfigurationConstants.ENDPOINT_SRM_EXTERNAL_API);
 
         // Mockito
+        commonMetadataRestMocks = new CommonMetadataRestMocks(commonMetadataApiExternalEndpointV10, commonMetadataInternalWebApplication, srmApiExternalEndpoint, srmInternalWebApplication);
+        commonMetadataCoreMocks = new CommonMetadataCoreMocks();
         setUpMockito();
     }
 
@@ -108,7 +118,7 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
         Configuration configuration = getCommonMetadataRestExternalFacadeClientXml().retrieveConfigurationById(CONFIGURATION_1);
 
         // Validation
-        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration1(commonMetadataApiExternalEndpointV10), configuration);
+        CommonMetadataRestAsserts.assertEqualsConfiguration(commonMetadataRestMocks.mockConfiguration1(), configuration);
     }
 
     @Test
@@ -119,7 +129,7 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
 
         // Validation
         assertEquals(CommonMetadataStatus.DISABLED, configuration.getStatus());
-        CommonMetadataRestAsserts.assertEqualsConfiguration(CommonMetadataRestMocks.mockConfiguration3(commonMetadataApiExternalEndpointV10), configuration);
+        CommonMetadataRestAsserts.assertEqualsConfiguration(commonMetadataRestMocks.mockConfiguration3(), configuration);
     }
 
     @Test
@@ -198,16 +208,14 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
             String query = null;
             String orderBy = null;
             Configurations configurations = getCommonMetadataRestExternalFacadeClientXml().findConfigurations(query, orderBy);
-            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiExternalEndpointV10, commonMetadataInternalWebApplication, null),
-                    configurations);
+            CommonMetadataRestAsserts.assertEqualsConfigurations(commonMetadataRestMocks.mockConfigurations(null), configurations);
         }
         {
             // query by id
             String query = QUERY_CONFIGURATION_ID_LIKE_1; // configuration1 and configuration15
             String orderBy = null;
             Configurations configurations = getCommonMetadataRestExternalFacadeClientXml().findConfigurations(query, orderBy);
-            CommonMetadataRestAsserts.assertEqualsConfigurations(CommonMetadataRestMocks.mockConfigurations(commonMetadataApiExternalEndpointV10, commonMetadataInternalWebApplication, query),
-                    configurations);
+            CommonMetadataRestAsserts.assertEqualsConfigurations(commonMetadataRestMocks.mockConfigurations(query), configurations);
         }
     }
 
@@ -260,13 +268,13 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
     private static void mockitoFindConfigurationById(CommonMetadataService commonMetadataService, String id) throws MetamacException {
         List<org.siemac.metamac.common.metadata.core.domain.Configuration> configurationEntities = new ArrayList<org.siemac.metamac.common.metadata.core.domain.Configuration>();
         if (CONFIGURATION_1.equals(id)) {
-            configurationEntities.add(CommonMetadataCoreMocks.mockConfiguration1());
+            configurationEntities.add(commonMetadataCoreMocks.mockConfiguration1());
         } else if (CONFIGURATION_2.equals(id)) {
-            configurationEntities.add(CommonMetadataCoreMocks.mockConfiguration2());
+            configurationEntities.add(commonMetadataCoreMocks.mockConfiguration2());
         } else if (CONFIGURATION_3.equals(id)) {
-            configurationEntities.add(CommonMetadataCoreMocks.mockConfiguration3());
+            configurationEntities.add(commonMetadataCoreMocks.mockConfiguration3());
         } else if (CONFIGURATION_15.equals(id)) {
-            configurationEntities.add(CommonMetadataCoreMocks.mockConfiguration15());
+            configurationEntities.add(commonMetadataCoreMocks.mockConfiguration15());
         } else if (NOT_EXISTS.equals(id)) {
             // no exits
         }
@@ -286,7 +294,7 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
             conditionalCriterias = new ArrayList<ConditionalCriteria>();
         }
         when(commonMetadataService.findConfigurationByCondition(any(ServiceContext.class), argThat(new FindConfigurationsMatcher(conditionalCriterias, null)))).thenReturn(
-                CommonMetadataCoreMocks.mockConfigurationsNoPagedResult(query));
+                commonMetadataCoreMocks.mockConfigurationsNoPagedResult(query));
     }
 
     private CommonMetadataV1_0 getCommonMetadataRestExternalFacadeClientXml() {
