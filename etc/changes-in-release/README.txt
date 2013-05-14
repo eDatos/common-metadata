@@ -12,4 +12,6 @@ Cuando se cree la RELEASE, añadir estos pasos al manual de instalación:
 	  b) En este fichero aparecen además dos nuevas propiedades: 'metamac.web.common.metadata.internal' y 'metamac.web.srm.internal'
 	  c) Explicar cómo configurar la ubicación de logs en el logback
 	  	
+4. DATA
+	- [DATA]/common: Refactor fichero de configuración internal-endpoints.xml por api-endpoints.xml	  	
 99. Reiniciar Tomcat
