@@ -6,10 +6,8 @@ import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatus
 
 import com.gwtplatform.mvp.client.UiHandlers;
 
-public interface ConfigurationUiHandlers extends UiHandlers {
+public interface ConfigurationsUiHandlers extends UiHandlers {
 
     void populateOrganisations(String organisationSchemeUri);
-
     void updateConfigurationsStatus(List<Long> configurationIds, CommonMetadataStatusEnum statusEnum);
-
 }

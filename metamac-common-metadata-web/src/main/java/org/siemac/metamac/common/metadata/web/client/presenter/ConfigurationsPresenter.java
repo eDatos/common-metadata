@@ -8,7 +8,7 @@ import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
-import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListResult;
 import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
@@ -44,14 +44,14 @@ import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.HasClickHandlers;
 
-public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.ConfigurationView, ConfigurationPresenter.ConfigurationProxy> implements ConfigurationUiHandlers {
+public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.ConfigurationView, ConfigurationsPresenter.ConfigurationProxy> implements ConfigurationsUiHandlers {
 
     private final DispatchAsync dispatcher;
 
     @ProxyCodeSplit
     @NameToken(NameTokens.configurationListPage)
     @UseGatekeeper(LoggedInGatekeeper.class)
-    public interface ConfigurationProxy extends Proxy<ConfigurationPresenter>, Place {
+    public interface ConfigurationProxy extends Proxy<ConfigurationsPresenter>, Place {
 
     }
 
@@ -60,7 +60,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
         return CommonMetadataWeb.getConstants().home();
     }
 
-    public interface ConfigurationView extends View, HasUiHandlers<ConfigurationUiHandlers> {
+    public interface ConfigurationView extends View, HasUiHandlers<ConfigurationsUiHandlers> {
 
         void setConfigurations(List<ConfigurationDto> configurations);
         void setConfiguration(ConfigurationDto configurationDto);
@@ -75,7 +75,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     }
 
     @Inject
-    public ConfigurationPresenter(EventBus eventBus, ConfigurationView configurationView, ConfigurationProxy configurationProxy, DispatchAsync dispatcher) {
+    public ConfigurationsPresenter(EventBus eventBus, ConfigurationView configurationView, ConfigurationProxy configurationProxy, DispatchAsync dispatcher) {
         super(eventBus, configurationView, configurationProxy);
         this.dispatcher = dispatcher;
         getView().setUiHandlers(this);
@@ -125,7 +125,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingConfigurations()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingConfigurations()), MessageTypeEnum.ERROR);
             }
             @Override
             public void onWaitSuccess(FindAllConfigurationsResult result) {
@@ -139,12 +139,12 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorSavingConfiguration()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorSavingConfiguration()), MessageTypeEnum.ERROR);
             }
             @Override
             public void onWaitSuccess(SaveConfigurationResult result) {
                 getView().onConfigurationSaved(result.getConfigurationSaved());
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationSaved()), MessageTypeEnum.SUCCESS);
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationSaved()), MessageTypeEnum.SUCCESS);
             }
         });
     }
@@ -154,12 +154,12 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorDeletingConfigurations()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorDeletingConfigurations()), MessageTypeEnum.ERROR);
             }
             @Override
             public void onWaitSuccess(DeleteConfigurationListResult result) {
                 populateConfigurations();
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationDeleted()), MessageTypeEnum.SUCCESS);
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationDeleted()), MessageTypeEnum.SUCCESS);
             }
         });
     }
@@ -169,7 +169,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
             }
             @Override
             public void onWaitSuccess(FindAllOrganisationSchemesResult result) {
@@ -184,7 +184,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
             }
             @Override
             public void onWaitSuccess(GetOrganisationsFromSchemeResult result) {
@@ -199,13 +199,13 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorUpdatingConfigurationStatus()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorUpdatingConfigurationStatus()), MessageTypeEnum.ERROR);
                 populateConfigurations();
             }
 
             @Override
             public void onWaitSuccess(UpdateConfigurationsStatusResult result) {
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationStatusUpdated()), MessageTypeEnum.SUCCESS);
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationStatusUpdated()), MessageTypeEnum.SUCCESS);
                 populateConfigurations();
             }
         });

@@ -8,11 +8,11 @@ import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatus
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.model.ConfigurationRecord;
 import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
-import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
+import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationsPresenter;
 import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
-import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
@@ -52,7 +52,7 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.toolbar.ToolStrip;
 import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
-public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHandlers> implements ConfigurationPresenter.ConfigurationView {
+public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiHandlers> implements ConfigurationsPresenter.ConfigurationView {
 
     private List<ExternalItemDto>           organisations;
 
@@ -90,7 +90,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     private DeleteConfirmationWindow        deleteConfirmationWindow;
 
     @Inject
-    public ConfigurationViewImpl() {
+    public ConfigurationsViewImpl() {
         super();
 
         panel = new VLayout();
