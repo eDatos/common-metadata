@@ -1,6 +1,5 @@
 package org.siemac.metamac.common.metadata.web.server;
 
-import org.siemac.metamac.common.metadata.web.server.handlers.DeleteConfigurationListActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetConfigurationActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetConfigurationsActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetOrganisationSchemesActionHandler;
@@ -9,7 +8,6 @@ import org.siemac.metamac.common.metadata.web.server.handlers.GetUserGuideUrlAct
 import org.siemac.metamac.common.metadata.web.server.handlers.SaveConfigurationActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.UpdateConfigurationsStatusActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.ValidateTicketActionHandler;
-import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationSchemesAction;
@@ -46,7 +44,6 @@ public class ServerModule extends HandlerModule {
         bindHandler(GetConfigurationAction.class, GetConfigurationActionHandler.class);
         bindHandler(GetConfigurationsAction.class, GetConfigurationsActionHandler.class);
         bindHandler(SaveConfigurationAction.class, SaveConfigurationActionHandler.class);
-        bindHandler(DeleteConfigurationListAction.class, DeleteConfigurationListActionHandler.class);
         bindHandler(GetOrganisationSchemesAction.class, GetOrganisationSchemesActionHandler.class);
         bindHandler(GetOrganisationsFromSchemeAction.class, GetOrganisationsFromSchemeActionHandler.class);
         bindHandler(UpdateConfigurationsStatusAction.class, UpdateConfigurationsStatusActionHandler.class);

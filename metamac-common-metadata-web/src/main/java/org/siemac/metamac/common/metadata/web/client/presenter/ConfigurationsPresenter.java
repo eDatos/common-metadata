@@ -12,8 +12,6 @@ import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
-import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
-import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListResult;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
@@ -124,22 +122,6 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationSaved()), MessageTypeEnum.SUCCESS);
                 retrieveConfigurations();
                 goToConfiguration(result.getConfigurationSaved().getUrn());
-            }
-        });
-    }
-
-    @Override
-    public void deleteConfigurations(List<Long> configurationIds) {
-        dispatcher.execute(new DeleteConfigurationListAction(configurationIds), new WaitingAsyncCallback<DeleteConfigurationListResult>() {
-
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorDeletingConfigurations()), MessageTypeEnum.ERROR);
-            }
-            @Override
-            public void onWaitSuccess(DeleteConfigurationListResult result) {
-                retrieveConfigurations();
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationDeleted()), MessageTypeEnum.SUCCESS);
             }
         });
     }

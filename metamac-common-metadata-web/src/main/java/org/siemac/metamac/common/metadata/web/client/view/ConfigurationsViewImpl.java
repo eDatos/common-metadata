@@ -16,7 +16,6 @@ import org.siemac.metamac.common.metadata.web.client.view.handlers.Configuration
 import org.siemac.metamac.common.metadata.web.client.widgets.NewConfigurationWindow;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.client.widgets.CustomListGrid;
-import org.siemac.metamac.web.common.client.widgets.DeleteConfirmationWindow;
 import org.siemac.metamac.web.common.client.widgets.form.InternationalMainFormLayout;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -45,11 +44,8 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
     private CustomListGrid              configurationsListGrid;
 
     private ToolStripButton             newToolStripButton;
-    private ToolStripButton             deleteToolStripButton;
     private ToolStripButton             enableToolStripButton;
     private ToolStripButton             disableToolStripButton;
-
-    private DeleteConfirmationWindow    deleteConfirmationWindow;
 
     @Inject
     public ConfigurationsViewImpl(ConfigurationView configurationView) {
@@ -82,26 +78,6 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         });
         newToolStripButton.setVisibility(ClientSecurityUtils.canCreateConfiguration() ? Visibility.VISIBLE : Visibility.HIDDEN);
 
-        deleteConfirmationWindow = new DeleteConfirmationWindow(CommonMetadataWeb.getConstants().confDeleteConfirmationTitle(), CommonMetadataWeb.getConstants().confDeleteConfirmation());
-        deleteConfirmationWindow.setVisibility(Visibility.HIDDEN);
-        deleteConfirmationWindow.getYesButton().addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                getUiHandlers().deleteConfigurations(getSelectedConfigurations());
-            }
-        });
-
-        deleteToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().actionDelete(), GlobalResources.RESOURCE.deleteListGrid().getURL());
-        deleteToolStripButton.setVisibility(Visibility.HIDDEN);
-        deleteToolStripButton.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                deleteConfirmationWindow.show();
-            }
-        });
-
         enableToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().confEnable(), GlobalResources.RESOURCE.success().getURL());
         enableToolStripButton.setVisibility(Visibility.HIDDEN);
         enableToolStripButton.addClickHandler(new ClickHandler() {
@@ -125,7 +101,6 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         ToolStrip toolStrip = new ToolStrip();
         toolStrip.setWidth100();
         toolStrip.addButton(newToolStripButton);
-        toolStrip.addButton(deleteToolStripButton);
         toolStrip.addSeparator();
         toolStrip.addButton(enableToolStripButton);
         toolStrip.addButton(disableToolStripButton);
@@ -146,8 +121,6 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
             @Override
             public void onSelectionChanged(SelectionEvent event) {
                 if (configurationsListGrid.getSelectedRecords().length > 0) {
-                    // Delete more than one configuration with one click
-                    showDeleteConfigurationButton();
                     // If all selected configurations are ENABLED, show disableConfigurationButton
                     if (areSelectedConfigurationsEnabled()) {
                         showDisableConfigurationButton();
@@ -213,15 +186,8 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
     @Override
     public void deselectConfiguration() {
         configurationMainFormLayout.hide();
-        deleteToolStripButton.hide();
         hideListGridConfigurationButtons();
         getUiHandlers().goToConfigurations();
-    }
-
-    private void showDeleteConfigurationButton() {
-        if (ClientSecurityUtils.canDeleteConfiguration()) {
-            deleteToolStripButton.show();
-        }
     }
 
     private void showEnableConfigurationButton() {
@@ -239,7 +205,6 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
     }
 
     private void hideListGridConfigurationButtons() {
-        deleteToolStripButton.hide();
         enableToolStripButton.hide();
         disableToolStripButton.hide();
     }

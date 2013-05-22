@@ -2,7 +2,6 @@ package org.siemac.metamac.common.metadata.web.client.presenter;
 
 import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
@@ -12,8 +11,6 @@ import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
-import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
-import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListResult;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationResult;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationSchemesAction;
@@ -130,22 +127,6 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     }
 
     @Override
-    public void deleteConfiguration(Long configurationId) {
-        dispatcher.execute(new DeleteConfigurationListAction(Arrays.asList(configurationId)), new WaitingAsyncCallback<DeleteConfigurationListResult>() {
-
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorDeletingConfigurations()), MessageTypeEnum.ERROR);
-            }
-            @Override
-            public void onWaitSuccess(DeleteConfigurationListResult result) {
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationDeleted()), MessageTypeEnum.SUCCESS);
-                goToConfigurations();
-            }
-        });
-    }
-
-    @Override
     public void populateOrganisations(String organisationSchemeUri) {
         dispatcher.execute(new GetOrganisationsFromSchemeAction(organisationSchemeUri), new WaitingAsyncCallback<GetOrganisationsFromSchemeResult>() {
 
@@ -172,13 +153,5 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
                 getView().setOrganisationSchemes(result.getOrganisationSchemes());
             }
         });
-    }
-
-    //
-    // NAVIGATION
-    //
-
-    private void goToConfigurations() {
-        placeManager.revealPlaceHierarchy(PlaceRequestUtils.buildAbsoluteConfigurationsPlaceRequest());
     }
 }
