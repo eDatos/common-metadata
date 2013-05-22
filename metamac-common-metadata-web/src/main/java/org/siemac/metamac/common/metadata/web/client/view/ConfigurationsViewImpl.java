@@ -55,11 +55,12 @@ import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
 public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiHandlers> implements ConfigurationsPresenter.ConfigurationsView {
 
+    private VLayout                     panel;
+
     private List<ExternalItemDto>       organisations;
 
     private ConfigurationDto            configurationDto;
 
-    private VLayout                     panel;
     private CustomListGrid              configurationsListGrid;
     private InternationalMainFormLayout mainFormLayout;
 
@@ -96,6 +97,13 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
         deleteConfirmationWindow = new DeleteConfirmationWindow(CommonMetadataWeb.getConstants().confDeleteConfirmationTitle(), CommonMetadataWeb.getConstants().confDeleteConfirmation());
         deleteConfirmationWindow.setVisibility(Visibility.HIDDEN);
+        deleteConfirmationWindow.getYesButton().addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                getUiHandlers().deleteConfigurations(getSelectedConfigurations());
+            }
+        });
 
         deleteToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().actionDelete(), GlobalResources.RESOURCE.deleteListGrid().getURL());
         deleteToolStripButton.setVisibility(Visibility.HIDDEN);
@@ -203,6 +211,15 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
                 setTranslationsShowed(mainFormLayout.getTranslateToolStripButton().isSelected());
             }
         });
+        mainFormLayout.getSave().addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                if (validate()) {
+                    getUiHandlers().saveConfiguration(getConfiguration());
+                }
+            }
+        });
         mainFormLayout.getCancelToolStripButton().addClickHandler(new ClickHandler() {
 
             @Override
@@ -224,6 +241,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         panel.addMember(gridLayout);
         panel.addMember(selectedConfLayout);
     }
+
     @Override
     public Widget asWidget() {
         return panel;
@@ -398,11 +416,6 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
     @Override
     public boolean validate() {
         return editionForm.validate(false);
-    }
-
-    @Override
-    public HasClickHandlers getSave() {
-        return mainFormLayout.getSave();
     }
 
     @Override

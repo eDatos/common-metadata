@@ -1,5 +1,7 @@
 package org.siemac.metamac.common.metadata.web.client.presenter;
 
+import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
+
 import java.util.List;
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
@@ -40,27 +42,25 @@ import com.gwtplatform.mvp.client.proxy.Place;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
-import com.smartgwt.client.widgets.events.ClickEvent;
-import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.HasClickHandlers;
 
-public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.ConfigurationView, ConfigurationsPresenter.ConfigurationProxy> implements ConfigurationsUiHandlers {
+public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.ConfigurationsView, ConfigurationsPresenter.ConfigurationsProxy> implements ConfigurationsUiHandlers {
 
     private final DispatchAsync dispatcher;
 
     @ProxyCodeSplit
     @NameToken(NameTokens.configurationListPage)
     @UseGatekeeper(LoggedInGatekeeper.class)
-    public interface ConfigurationProxy extends Proxy<ConfigurationsPresenter>, Place {
+    public interface ConfigurationsProxy extends Proxy<ConfigurationsPresenter>, Place {
 
     }
 
     @TitleFunction
     public static String getTranslatedTitle() {
-        return CommonMetadataWeb.getConstants().home();
+        return getConstants().configurations();
     }
 
-    public interface ConfigurationView extends View, HasUiHandlers<ConfigurationsUiHandlers> {
+    public interface ConfigurationsView extends View, HasUiHandlers<ConfigurationsUiHandlers> {
 
         void setConfigurations(List<ConfigurationDto> configurations);
         void setConfiguration(ConfigurationDto configurationDto);
@@ -69,13 +69,12 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
         ConfigurationDto getConfiguration();
         List<Long> getSelectedConfigurations();
         boolean validate();
-        HasClickHandlers getSave();
         HasClickHandlers getDelete();
         void onConfigurationSaved(ConfigurationDto configurationDto);
     }
 
     @Inject
-    public ConfigurationsPresenter(EventBus eventBus, ConfigurationView configurationView, ConfigurationProxy configurationProxy, DispatchAsync dispatcher) {
+    public ConfigurationsPresenter(EventBus eventBus, ConfigurationsView configurationView, ConfigurationsProxy configurationProxy, DispatchAsync dispatcher) {
         super(eventBus, configurationView, configurationProxy);
         this.dispatcher = dispatcher;
         getView().setUiHandlers(this);
@@ -99,27 +98,6 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
         populateConfigurations();
     }
 
-    @Override
-    protected void onBind() {
-        registerHandler(getView().getSave().addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                if (getView().validate()) {
-                    saveConfiguration(getView().getConfiguration());
-                }
-            }
-        }));
-
-        registerHandler(getView().getDelete().addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                deleteConfigurations(getView().getSelectedConfigurations());
-            }
-        }));
-    }
-
     private void populateConfigurations() {
         dispatcher.execute(new FindAllConfigurationsAction(), new WaitingAsyncCallback<FindAllConfigurationsResult>() {
 
@@ -134,7 +112,8 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
         });
     }
 
-    private void saveConfiguration(ConfigurationDto configurationDto) {
+    @Override
+    public void saveConfiguration(ConfigurationDto configurationDto) {
         dispatcher.execute(new SaveConfigurationAction(configurationDto), new WaitingAsyncCallback<SaveConfigurationResult>() {
 
             @Override
@@ -149,7 +128,8 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
         });
     }
 
-    private void deleteConfigurations(List<Long> configurationIds) {
+    @Override
+    public void deleteConfigurations(List<Long> configurationIds) {
         dispatcher.execute(new DeleteConfigurationListAction(configurationIds), new WaitingAsyncCallback<DeleteConfigurationListResult>() {
 
             @Override
@@ -210,5 +190,4 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
             }
         });
     }
-
 }
