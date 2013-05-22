@@ -1,16 +1,16 @@
 package org.siemac.metamac.common.metadata.web.server;
 
 import org.siemac.metamac.common.metadata.web.server.handlers.DeleteConfigurationListActionHandler;
-import org.siemac.metamac.common.metadata.web.server.handlers.FindAllConfigurationsActionHandler;
-import org.siemac.metamac.common.metadata.web.server.handlers.FindAllOrganisationSchemesActionHandler;
+import org.siemac.metamac.common.metadata.web.server.handlers.GetConfigurationsActionHandler;
+import org.siemac.metamac.common.metadata.web.server.handlers.GetOrganisationSchemesActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetOrganisationsFromSchemeActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetUserGuideUrlActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.SaveConfigurationActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.UpdateConfigurationsStatusActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.ValidateTicketActionHandler;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
-import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
-import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesAction;
+import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsAction;
+import org.siemac.metamac.common.metadata.web.shared.GetOrganisationSchemesAction;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeAction;
 import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
@@ -40,10 +40,10 @@ public class ServerModule extends HandlerModule {
     }
 
     protected void configureHandlers() {
-        bindHandler(FindAllConfigurationsAction.class, FindAllConfigurationsActionHandler.class);
+        bindHandler(GetConfigurationsAction.class, GetConfigurationsActionHandler.class);
         bindHandler(SaveConfigurationAction.class, SaveConfigurationActionHandler.class);
         bindHandler(DeleteConfigurationListAction.class, DeleteConfigurationListActionHandler.class);
-        bindHandler(FindAllOrganisationSchemesAction.class, FindAllOrganisationSchemesActionHandler.class);
+        bindHandler(GetOrganisationSchemesAction.class, GetOrganisationSchemesActionHandler.class);
         bindHandler(GetOrganisationsFromSchemeAction.class, GetOrganisationsFromSchemeActionHandler.class);
         bindHandler(UpdateConfigurationsStatusAction.class, UpdateConfigurationsStatusActionHandler.class);
 
