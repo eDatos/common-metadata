@@ -37,7 +37,6 @@ import com.gwtplatform.mvp.client.annotations.TitleFunction;
 import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.Place;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
-import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
@@ -84,11 +83,6 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     protected void onReveal() {
         super.onReveal();
         MainPagePresenter.getMasterHead().setTitleLabel(CommonMetadataWeb.getConstants().configurationMetamac());
-    }
-
-    @Override
-    public void prepareFromRequest(PlaceRequest request) {
-        super.prepareFromRequest(request);
         retrieveConfigurations();
     }
 
