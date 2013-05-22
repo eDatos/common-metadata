@@ -33,12 +33,9 @@ import com.smartgwt.client.widgets.form.FormItemIfFunction;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.events.ChangedEvent;
 import com.smartgwt.client.widgets.form.fields.events.ChangedHandler;
-import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.toolbar.ToolStrip;
 
 public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHandlers> implements ConfigurationPresenter.ConfigurationView {
-
-    private VLayout                     panel;
 
     private InternationalMainFormLayout mainFormLayout;
 
@@ -84,13 +81,11 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         createViewForm();
         createEditionForm();
 
-        panel = new VLayout();
-        panel.addMember(mainFormLayout);
     }
 
     @Override
     public Widget asWidget() {
-        return panel;
+        return mainFormLayout;
     }
 
     private void setTranslationsShowed(boolean translationsShowed) {
@@ -194,6 +189,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         mainFormLayout.setTitleLabelContents(configurationDto.getCode());
         setConfigurationViewMode(configurationDto);
         setConfigurationEditionMode(configurationDto);
+        mainFormLayout.show();
     }
 
     private void setConfigurationViewMode(ConfigurationDto configurationDto) {

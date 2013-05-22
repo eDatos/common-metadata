@@ -8,6 +8,7 @@ import com.gwtplatform.mvp.client.UiHandlers;
 
 public interface ConfigurationsUiHandlers extends UiHandlers {
 
+    void goToConfigurations();
     void goToConfiguration(String urn);
     void deleteConfigurations(List<Long> configurationIds);
     void updateConfigurationsStatus(List<Long> configurationIds, CommonMetadataStatusEnum statusEnum);

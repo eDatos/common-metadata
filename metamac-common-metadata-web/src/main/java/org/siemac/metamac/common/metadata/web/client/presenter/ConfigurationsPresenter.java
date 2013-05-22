@@ -140,10 +140,19 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
         });
     }
 
+    //
+    // NAVIGATION
+    //
+
+    @Override
+    public void goToConfigurations() {
+        placeManager.revealPlaceHierarchy(PlaceRequestUtils.buildAbsoluteConfigurationsPlaceRequest());
+    }
+
     @Override
     public void goToConfiguration(String urn) {
         if (!StringUtils.isBlank(urn)) {
-            placeManager.revealPlace(PlaceRequestUtils.buildRelativeConfigurationPlaceRequest(urn));
+            placeManager.revealPlaceHierarchy(PlaceRequestUtils.buildAbsoluteConfigurationPlaceRequest(urn));
         }
     }
 }

@@ -16,6 +16,7 @@ import org.siemac.metamac.common.metadata.web.client.view.handlers.Configuration
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.client.widgets.CustomListGrid;
 import org.siemac.metamac.web.common.client.widgets.DeleteConfirmationWindow;
+import org.siemac.metamac.web.common.client.widgets.form.InternationalMainFormLayout;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -37,22 +38,23 @@ import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
 public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiHandlers> implements ConfigurationsPresenter.ConfigurationsView {
 
-    private VLayout                  panel;
+    private VLayout                     panel;
+    private InternationalMainFormLayout configurationMainFormLayout;
 
-    private CustomListGrid           configurationsListGrid;
+    private CustomListGrid              configurationsListGrid;
 
-    private ToolStripButton          newToolStripButton;
-    private ToolStripButton          deleteToolStripButton;
-    private ToolStripButton          enableToolStripButton;
-    private ToolStripButton          disableToolStripButton;
+    private ToolStripButton             newToolStripButton;
+    private ToolStripButton             deleteToolStripButton;
+    private ToolStripButton             enableToolStripButton;
+    private ToolStripButton             disableToolStripButton;
 
-    private VLayout                  configurationLayout;
-
-    private DeleteConfirmationWindow deleteConfirmationWindow;
+    private DeleteConfirmationWindow    deleteConfirmationWindow;
 
     @Inject
     public ConfigurationsViewImpl(ConfigurationView configurationView) {
         super();
+        this.configurationMainFormLayout = (InternationalMainFormLayout) configurationView.asWidget();
+        this.configurationMainFormLayout.setVisibility(Visibility.HIDDEN);
 
         panel = new VLayout();
         panel.setOverflow(Overflow.SCROLL);
@@ -132,25 +134,19 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
             @Override
             public void onSelectionChanged(SelectionEvent event) {
-                if (configurationsListGrid.getSelectedRecords() != null && configurationsListGrid.getSelectedRecords().length == 1) {
-                    ConfigurationRecord record = (ConfigurationRecord) configurationsListGrid.getSelectedRecord();
-                    ConfigurationDto configurationDtoDto = record.getConfigurationDto();
-                    selectConfiguration(configurationDtoDto);
-                } else {
-                    // No record selected
-                    deselectConfiguration();
-                    if (configurationsListGrid.getSelectedRecords().length > 1) {
-                        // Delete more than one configuration with one click
-                        showDeleteConfigurationButton();
-                        // If all selected configurations are ENABLED, show disableConfigurationButton
-                        if (areSelectedConfigurationsEnabled()) {
-                            showDisableConfigurationButton();
-                        }
-                        // If all selected configurations are DISABLED, show enableConfigurationButton
-                        if (areSelectedConfigurationsDisabled()) {
-                            showEnableConfigurationButton();
-                        }
+                if (configurationsListGrid.getSelectedRecords().length > 0) {
+                    // Delete more than one configuration with one click
+                    showDeleteConfigurationButton();
+                    // If all selected configurations are ENABLED, show disableConfigurationButton
+                    if (areSelectedConfigurationsEnabled()) {
+                        showDisableConfigurationButton();
                     }
+                    // If all selected configurations are DISABLED, show enableConfigurationButton
+                    if (areSelectedConfigurationsDisabled()) {
+                        showEnableConfigurationButton();
+                    }
+                } else {
+                    deselectConfiguration();
                 }
             }
         });
@@ -171,12 +167,8 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         configurationsLayout.addMember(toolStrip);
         configurationsLayout.addMember(configurationsListGrid);
 
-        configurationLayout = new VLayout(10);
-        configurationLayout.addMember(configurationView.asWidget());
-        configurationLayout.setVisibility(Visibility.HIDDEN);
-
         panel.addMember(configurationsLayout);
-        panel.addMember(configurationLayout);
+        panel.addMember(configurationMainFormLayout);
     }
 
     @Override
@@ -187,7 +179,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
     @Override
     public void setConfigurations(List<ConfigurationDto> configurations) {
         configurationsListGrid.removeAllData();
-        hideStatusConfigurationButtons();
+        hideListGridConfigurationButtons();
         for (ConfigurationDto configurationDto : configurations) {
             ConfigurationRecord record = RecordUtils.getConfigurationRecord(configurationDto);
             configurationsListGrid.addData(record);
@@ -208,14 +200,14 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
     }
 
     private void selectConfiguration(ConfigurationDto configurationSelected) {
-        configurationLayout.show();
-        configurationLayout.redraw();
+        configurationMainFormLayout.show();
     }
 
     private void deselectConfiguration() {
-        configurationLayout.hide();
+        configurationMainFormLayout.hide();
         deleteToolStripButton.hide();
-        hideStatusConfigurationButtons();
+        hideListGridConfigurationButtons();
+        getUiHandlers().goToConfigurations();
     }
 
     private void showDeleteConfigurationButton() {
@@ -238,7 +230,8 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         }
     }
 
-    private void hideStatusConfigurationButtons() {
+    private void hideListGridConfigurationButtons() {
+        deleteToolStripButton.hide();
         enableToolStripButton.hide();
         disableToolStripButton.hide();
     }
