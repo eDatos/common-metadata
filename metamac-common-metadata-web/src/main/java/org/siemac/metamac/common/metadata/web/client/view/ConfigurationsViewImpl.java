@@ -14,6 +14,7 @@ import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.ExternalItemUtils;
@@ -52,42 +53,27 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.toolbar.ToolStrip;
 import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
-public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiHandlers> implements ConfigurationsPresenter.ConfigurationView {
+public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiHandlers> implements ConfigurationsPresenter.ConfigurationsView {
 
-    private List<ExternalItemDto>           organisations;
+    private List<ExternalItemDto>       organisations;
 
-    private ConfigurationDto                configurationDto;
+    private ConfigurationDto            configurationDto;
 
-    private VLayout                         panel;
-    private CustomListGrid                  configurationsGrid;
-    private InternationalMainFormLayout     mainFormLayout;
+    private VLayout                     panel;
+    private CustomListGrid              configurationsListGrid;
+    private InternationalMainFormLayout mainFormLayout;
 
-    private ToolStripButton                 newToolStripButton;
-    private ToolStripButton                 deleteToolStripButton;
-    private ToolStripButton                 enableToolStripButton;
-    private ToolStripButton                 disableToolStripButton;
+    private ToolStripButton             newToolStripButton;
+    private ToolStripButton             deleteToolStripButton;
+    private ToolStripButton             enableToolStripButton;
+    private ToolStripButton             disableToolStripButton;
 
-    private GroupDynamicForm                staticForm;
-    private GroupDynamicForm                form;
+    private GroupDynamicForm            form;
+    private GroupDynamicForm            editionForm;
 
-    // Static View Fields
-    private ViewTextItem                    staticCode;
-    private ViewMultiLanguageTextItem       staticLegalActs;
-    private ViewMultiLanguageTextItem       staticDataSharing;
-    private ViewMultiLanguageTextItem       staticConfPolicy;
-    private ViewMultiLanguageTextItem       staticConfDataTreatment;
+    private VLayout                     selectedConfLayout;
 
-    // Edition Fields
-    private RequiredTextItem                code;
-    private MultilanguageRichTextEditorItem legalActs;
-    private MultilanguageRichTextEditorItem dataSharing;
-    private MultilanguageRichTextEditorItem confPolicy;
-    private MultilanguageRichTextEditorItem confDataTreatment;
-    private ExternalSelectItem              organisationItem;
-
-    private VLayout                         selectedConfLayout;
-
-    private DeleteConfirmationWindow        deleteConfirmationWindow;
+    private DeleteConfirmationWindow    deleteConfirmationWindow;
 
     @Inject
     public ConfigurationsViewImpl() {
@@ -151,27 +137,27 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
         // ListGrid
 
-        configurationsGrid = new CustomListGrid();
-        configurationsGrid.setWidth100();
-        configurationsGrid.setHeight(150);
+        configurationsListGrid = new CustomListGrid();
+        configurationsListGrid.setWidth100();
+        configurationsListGrid.setHeight(150);
         ListGridField codeField = new ListGridField(ConfigurationDS.CODE, CommonMetadataWeb.getConstants().configurationIdentifier());
         ListGridField status = new ListGridField(ConfigurationDS.STATUS, CommonMetadataWeb.getCoreMessages().commonMetadataStatusEnumENABLED());
         status.setType(ListGridFieldType.IMAGE);
         status.setWidth("20%");
-        configurationsGrid.setFields(codeField, status);
+        configurationsListGrid.setFields(codeField, status);
         // Show configuration details when record clicked
-        configurationsGrid.addSelectionChangedHandler(new SelectionChangedHandler() {
+        configurationsListGrid.addSelectionChangedHandler(new SelectionChangedHandler() {
 
             @Override
             public void onSelectionChanged(SelectionEvent event) {
-                if (configurationsGrid.getSelectedRecords() != null && configurationsGrid.getSelectedRecords().length == 1) {
-                    ConfigurationRecord record = (ConfigurationRecord) configurationsGrid.getSelectedRecord();
+                if (configurationsListGrid.getSelectedRecords() != null && configurationsListGrid.getSelectedRecords().length == 1) {
+                    ConfigurationRecord record = (ConfigurationRecord) configurationsListGrid.getSelectedRecord();
                     ConfigurationDto configurationDtoDto = record.getConfigurationDto();
                     selectConfiguration(configurationDtoDto);
                 } else {
                     // No record selected
                     deselectAttribute();
-                    if (configurationsGrid.getSelectedRecords().length > 1) {
+                    if (configurationsListGrid.getSelectedRecords().length > 1) {
                         // Delete more than one configuration with one click
                         showDeleteConfigurationButton();
                         // If all selected configurations are ENABLED, show disableConfigurationButton
@@ -186,13 +172,13 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
                 }
             }
         });
-        configurationsGrid.addRecordClickHandler(new RecordClickHandler() {
+        configurationsListGrid.addRecordClickHandler(new RecordClickHandler() {
 
             @Override
             public void onRecordClick(RecordClickEvent event) {
                 if (event.getFieldNum() != 0) { // CheckBox is not clicked
-                    configurationsGrid.deselectAllRecords();
-                    configurationsGrid.selectRecord(event.getRecord());
+                    configurationsListGrid.deselectAllRecords();
+                    configurationsListGrid.selectRecord(event.getRecord());
                 }
             }
         });
@@ -201,7 +187,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         gridLayout.setAutoHeight();
         gridLayout.setMargin(10);
         gridLayout.addMember(toolStrip);
-        gridLayout.addMember(configurationsGrid);
+        gridLayout.addMember(configurationsListGrid);
 
         // ··················
         // Configuration Form
@@ -228,8 +214,8 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
             }
         });
 
-        createViewLayout();
-        createEditionLayout();
+        createViewForm();
+        createEditionForm();
 
         selectedConfLayout = new VLayout(10);
         selectedConfLayout.addMember(mainFormLayout);
@@ -245,23 +231,23 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
     @Override
     public void setConfigurations(List<ConfigurationDto> configurations) {
-        configurationsGrid.removeAllData();
+        configurationsListGrid.removeAllData();
         hideStatusConfigurationButtons();
         for (ConfigurationDto configurationDto : configurations) {
             ConfigurationRecord record = RecordUtils.getConfigurationRecord(configurationDto);
-            configurationsGrid.addData(record);
+            configurationsListGrid.addData(record);
         }
     }
 
     @Override
     public void setOrganisationSchemes(List<ExternalItemDto> schemes) {
-        organisationItem.setSchemesValueMap(ExternalItemUtils.getExternalItemsHashMap(schemes));
+        ((ExternalSelectItem) editionForm.getItem(ConfigurationDS.ORGANISATION)).setSchemesValueMap(ExternalItemUtils.getExternalItemsHashMap(schemes));
     }
 
     @Override
     public void setOrganisations(List<ExternalItemDto> organisations) {
         this.organisations = organisations;
-        organisationItem.setItemsValueMap(ExternalItemUtils.getExternalItemsHashMap(organisations));
+        ((ExternalSelectItem) editionForm.getItem(ConfigurationDS.ORGANISATION)).setItemsValueMap(ExternalItemUtils.getExternalItemsHashMap(organisations));
     }
 
     /**
@@ -269,19 +255,19 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
      * 
      * @return
      */
-    private void createViewLayout() {
-        staticCode = new ViewTextItem(ConfigurationDS.CODE, CommonMetadataWeb.getConstants().confCode());
+    private void createViewForm() {
+        ViewTextItem staticCode = new ViewTextItem(ConfigurationDS.CODE, CommonMetadataWeb.getConstants().confCode());
         ViewTextItem staticOrganisation = new ViewTextItem(ConfigurationDS.ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
         ViewTextItem status = new ViewTextItem(ConfigurationDS.STATUS, CommonMetadataWeb.getConstants().confStatus());
-        staticLegalActs = new ViewMultiLanguageTextItem(ConfigurationDS.LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
-        staticDataSharing = new ViewMultiLanguageTextItem(ConfigurationDS.DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
-        staticConfPolicy = new ViewMultiLanguageTextItem(ConfigurationDS.CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
-        staticConfDataTreatment = new ViewMultiLanguageTextItem(ConfigurationDS.CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment());
+        ViewMultiLanguageTextItem staticLegalActs = new ViewMultiLanguageTextItem(ConfigurationDS.LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
+        ViewMultiLanguageTextItem staticDataSharing = new ViewMultiLanguageTextItem(ConfigurationDS.DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
+        ViewMultiLanguageTextItem staticConfPolicy = new ViewMultiLanguageTextItem(ConfigurationDS.CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
+        ViewMultiLanguageTextItem staticConfDataTreatment = new ViewMultiLanguageTextItem(ConfigurationDS.CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment());
 
-        staticForm = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
-        staticForm.setFields(staticCode, staticOrganisation, status, staticLegalActs, staticDataSharing, staticConfPolicy, staticConfDataTreatment);
+        form = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
+        form.setFields(staticCode, staticOrganisation, status, staticLegalActs, staticDataSharing, staticConfPolicy, staticConfDataTreatment);
 
-        mainFormLayout.addViewCanvas(staticForm);
+        mainFormLayout.addViewCanvas(form);
     }
 
     /**
@@ -289,7 +275,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
      * 
      * @return
      */
-    private void createEditionLayout() {
+    private void createEditionForm() {
 
         // ·········
         // ToolStrip
@@ -302,9 +288,9 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         // Form
         // ····
 
-        form = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
+        editionForm = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
 
-        code = new RequiredTextItem(ConfigurationDS.CODE, CommonMetadataWeb.getConstants().confCode());
+        RequiredTextItem code = new RequiredTextItem(ConfigurationDS.CODE, CommonMetadataWeb.getConstants().confCode());
         code.setValidators(CommonWebUtils.getSemanticIdentifierCustomValidator());
         code.setShowIfCondition(new FormItemIfFunction() {
 
@@ -325,7 +311,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
             }
         });
 
-        organisationItem = new ExternalSelectItem(ConfigurationDS.ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
+        ExternalSelectItem organisationItem = new ExternalSelectItem(ConfigurationDS.ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
         organisationItem.getSchemeItem().addChangedHandler(new ChangedHandler() {
 
             @Override
@@ -340,33 +326,33 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         status.setRequired(true);
         status.setValueMap(CommonUtils.getCommonMetadataStatusEnumHashMap());
 
-        legalActs = new MultilanguageRichTextEditorItem(ConfigurationDS.LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
-        dataSharing = new MultilanguageRichTextEditorItem(ConfigurationDS.DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
-        confPolicy = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
-        confDataTreatment = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment());
+        MultilanguageRichTextEditorItem legalActs = new MultilanguageRichTextEditorItem(ConfigurationDS.LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
+        MultilanguageRichTextEditorItem dataSharing = new MultilanguageRichTextEditorItem(ConfigurationDS.DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
+        MultilanguageRichTextEditorItem confPolicy = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
+        MultilanguageRichTextEditorItem confDataTreatment = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment());
 
-        form.setFields(staticCode, code, organisationItem, status, legalActs, dataSharing, confPolicy, confDataTreatment);
+        editionForm.setFields(staticCode, code, organisationItem, status, legalActs, dataSharing, confPolicy, confDataTreatment);
 
-        mainFormLayout.addEditionCanvas(form);
+        mainFormLayout.addEditionCanvas(editionForm);
     }
 
     @Override
     public ConfigurationDto getConfiguration() {
-        configurationDto.setCode(code.getValueAsString());
-        configurationDto.setContact(organisationItem.getSelectedExternalItem(organisations));
-        configurationDto.setStatus(form.getValueAsString(ConfigurationDS.STATUS) != null ? CommonMetadataStatusEnum.valueOf(form.getValueAsString(ConfigurationDS.STATUS)) : null);
-        configurationDto.setLegalActs(legalActs.getValue());
-        configurationDto.setDataSharing(dataSharing.getValue());
-        configurationDto.setConfPolicy(confPolicy.getValue());
-        configurationDto.setConfDataTreatment(confDataTreatment.getValue());
+        configurationDto.setCode(editionForm.getValueAsString(ConfigurationDS.CODE));
+        configurationDto.setContact(((ExternalSelectItem) editionForm.getItem(ConfigurationDS.ORGANISATION)).getSelectedExternalItem(organisations));
+        configurationDto.setStatus(editionForm.getValueAsString(ConfigurationDS.STATUS) != null ? CommonMetadataStatusEnum.valueOf(editionForm.getValueAsString(ConfigurationDS.STATUS)) : null);
+        configurationDto.setLegalActs((InternationalStringDto) editionForm.getValue(ConfigurationDS.LEGAL_ACTS));
+        configurationDto.setDataSharing((InternationalStringDto) editionForm.getValue(ConfigurationDS.DATA_SHARING));
+        configurationDto.setConfPolicy((InternationalStringDto) editionForm.getValue(ConfigurationDS.CONF_POLYCY));
+        configurationDto.setConfDataTreatment((InternationalStringDto) editionForm.getValue(ConfigurationDS.CONF_DATA_TREATMENT));
         return configurationDto;
     }
 
     @Override
     public List<Long> getSelectedConfigurations() {
-        if (configurationsGrid.getSelectedRecords() != null) {
+        if (configurationsListGrid.getSelectedRecords() != null) {
             List<Long> selectedConfigurations = new ArrayList<Long>();
-            ListGridRecord[] records = configurationsGrid.getSelectedRecords();
+            ListGridRecord[] records = configurationsListGrid.getSelectedRecords();
             for (int i = 0; i < records.length; i++) {
                 ConfigurationRecord record = (ConfigurationRecord) records[i];
                 selectedConfigurations.add(record.getConfigurationDto().getId());
@@ -384,34 +370,34 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
     private void setConfigurationViewMode(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
-        staticCode.setValue(configurationDto.getCode());
-        staticForm.setValue(ConfigurationDS.ORGANISATION, configurationDto.getContact() == null ? new String() : configurationDto.getContact().getUrn());
-        staticForm.setValue(
+        form.setValue(ConfigurationDS.CODE, configurationDto.getCode());
+        form.setValue(ConfigurationDS.ORGANISATION, configurationDto.getContact() == null ? new String() : configurationDto.getContact().getUrn());
+        form.setValue(
                 ConfigurationDS.STATUS,
                 configurationDto.getStatus() == null ? new String() : CommonMetadataWeb.getCoreMessages().getString(
                         CommonMetadataWeb.getCoreMessages().commonMetadataStatusEnum() + configurationDto.getStatus().toString()));
-        staticLegalActs.setValue(configurationDto.getLegalActs());
-        staticDataSharing.setValue(configurationDto.getDataSharing());
-        staticConfPolicy.setValue(configurationDto.getConfPolicy());
-        staticConfDataTreatment.setValue(configurationDto.getConfDataTreatment());
-        staticForm.redraw();
-    }
-
-    private void setConfigurationEditionMode(ConfigurationDto configurationDto) {
-        this.configurationDto = configurationDto;
-        form.setValue(ConfigurationDS.STATIC_CODE, configurationDto.getCode());
-        code.setValue(configurationDto.getCode());
-        organisationItem.setValue(configurationDto.getContact() == null ? null : configurationDto.getContact().getUrn());
-        form.setValue(ConfigurationDS.STATUS, configurationDto.getStatus() != null ? configurationDto.getStatus().toString() : new String());
         form.setValue(ConfigurationDS.LEGAL_ACTS, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getLegalActs()));
         form.setValue(ConfigurationDS.DATA_SHARING, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getDataSharing()));
         form.setValue(ConfigurationDS.CONF_POLYCY, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getConfPolicy()));
         form.setValue(ConfigurationDS.CONF_DATA_TREATMENT, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getConfDataTreatment()));
+        form.redraw();
+    }
+
+    private void setConfigurationEditionMode(ConfigurationDto configurationDto) {
+        this.configurationDto = configurationDto;
+        editionForm.setValue(ConfigurationDS.STATIC_CODE, configurationDto.getCode());
+        editionForm.setValue(ConfigurationDS.CODE, configurationDto.getCode());
+        editionForm.setValue(ConfigurationDS.ORGANISATION, configurationDto.getContact() == null ? null : configurationDto.getContact().getUrn());
+        editionForm.setValue(ConfigurationDS.STATUS, configurationDto.getStatus() != null ? configurationDto.getStatus().toString() : new String());
+        editionForm.setValue(ConfigurationDS.LEGAL_ACTS, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getLegalActs()));
+        editionForm.setValue(ConfigurationDS.DATA_SHARING, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getDataSharing()));
+        editionForm.setValue(ConfigurationDS.CONF_POLYCY, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getConfPolicy()));
+        editionForm.setValue(ConfigurationDS.CONF_DATA_TREATMENT, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getConfDataTreatment()));
     }
 
     @Override
     public boolean validate() {
-        return form.validate(false);
+        return editionForm.validate(false);
     }
 
     @Override
@@ -427,10 +413,10 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
     @Override
     public void onConfigurationSaved(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
-        configurationsGrid.removeSelectedData();
+        configurationsListGrid.removeSelectedData();
         ConfigurationRecord record = RecordUtils.getConfigurationRecord(configurationDto);
-        configurationsGrid.addData(record);
-        configurationsGrid.selectRecord(record);
+        configurationsListGrid.addData(record);
+        configurationsListGrid.selectRecord(record);
         mainFormLayout.setViewMode();
     }
 
@@ -440,7 +426,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
             mainFormLayout.setTitleLabelContents(new String());
             deleteToolStripButton.hide();
             hideStatusConfigurationButtons();
-            configurationsGrid.deselectAllRecords();
+            configurationsListGrid.deselectAllRecords();
             setConfigurationEditionMode(configurationSelected);
             mainFormLayout.setEditionMode();
         } else {
@@ -456,7 +442,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         }
 
         // Clear errors
-        form.clearErrors(true);
+        editionForm.clearErrors(true);
 
         selectedConfLayout.show();
         selectedConfLayout.redraw();
@@ -469,8 +455,8 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
     }
 
     private void setTranslationsShowed(boolean translationsShowed) {
-        staticForm.setTranslationsShowed(translationsShowed);
         form.setTranslationsShowed(translationsShowed);
+        editionForm.setTranslationsShowed(translationsShowed);
     }
 
     private void showDeleteConfigurationButton() {
@@ -500,7 +486,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
     private boolean areSelectedConfigurationsEnabled() {
         boolean allConfigurationsEnabled = true;
-        for (ListGridRecord record : configurationsGrid.getSelectedRecords()) {
+        for (ListGridRecord record : configurationsListGrid.getSelectedRecords()) {
             ConfigurationRecord configurationRecord = (ConfigurationRecord) record;
             if (CommonMetadataStatusEnum.DISABLED.equals(configurationRecord.getConfigurationDto().getStatus())) {
                 allConfigurationsEnabled = false;
@@ -511,7 +497,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
     private boolean areSelectedConfigurationsDisabled() {
         boolean allConfigurationsDisabled = true;
-        for (ListGridRecord record : configurationsGrid.getSelectedRecords()) {
+        for (ListGridRecord record : configurationsListGrid.getSelectedRecords()) {
             ConfigurationRecord configurationRecord = (ConfigurationRecord) record;
             if (CommonMetadataStatusEnum.ENABLED.equals(configurationRecord.getConfigurationDto().getStatus())) {
                 allConfigurationsDisabled = false;
@@ -519,5 +505,4 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         }
         return allConfigurationsDisabled;
     }
-
 }
