@@ -12,9 +12,10 @@ public class ConfigurationRecord extends ListGridRecord {
     public ConfigurationRecord() {
     }
 
-    public ConfigurationRecord(String name, CommonMetadataStatusEnum status, ConfigurationDto configurationDto) {
+    public ConfigurationRecord(String name, CommonMetadataStatusEnum status, String urn, ConfigurationDto configurationDto) {
         setCode(name);
         setStatus(status);
+        setUrn(urn);
         setConfigurationDto(configurationDto);
     }
 
@@ -38,4 +39,11 @@ public class ConfigurationRecord extends ListGridRecord {
         return (ConfigurationDto) getAttributeAsObject(ConfigurationDS.CONFIGURATION_DTO);
     }
 
+    public void setUrn(String value) {
+        setAttribute(ConfigurationDS.URN, value);
+    }
+
+    public String getUrn() {
+        return getAttribute(ConfigurationDS.URN);
+    }
 }

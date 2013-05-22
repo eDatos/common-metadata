@@ -207,4 +207,8 @@ public class CommonMetadataWeb extends MetamacEntryPoint {
     public static CommonMetadataWebGinjector getCommonMetadataWebGinjector() {
         return ginjector;
     }
+
+    public static void showErrorPage() {
+        ginjector.getPlaceManager().revealErrorPlace(null);
+    }
 }

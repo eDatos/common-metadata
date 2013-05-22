@@ -10,43 +10,42 @@ import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
+import org.siemac.metamac.common.metadata.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListResult;
-import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsAction;
-import org.siemac.metamac.common.metadata.web.shared.FindAllConfigurationsResult;
-import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesAction;
-import org.siemac.metamac.common.metadata.web.shared.FindAllOrganisationSchemesResult;
-import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeAction;
-import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeResult;
-import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
-import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
+import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsAction;
+import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusAction;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusResult;
-import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
 
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
 import com.gwtplatform.dispatch.shared.DispatchAsync;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.annotations.ContentSlot;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.annotations.TitleFunction;
 import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.Place;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
-import com.smartgwt.client.widgets.events.HasClickHandlers;
+import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 
 public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.ConfigurationsView, ConfigurationsPresenter.ConfigurationsProxy> implements ConfigurationsUiHandlers {
 
     private final DispatchAsync dispatcher;
+    private final PlaceManager  placeManager;
 
     @ProxyCodeSplit
     @NameToken(NameTokens.configurationListPage)
@@ -54,6 +53,9 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     public interface ConfigurationsProxy extends Proxy<ConfigurationsPresenter>, Place {
 
     }
+
+    @ContentSlot
+    public static final Type<RevealContentHandler<?>> TYPE_SetContextAreaContentConfiguration = new Type<RevealContentHandler<?>>();
 
     @TitleFunction
     public static String getTranslatedTitle() {
@@ -63,20 +65,13 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     public interface ConfigurationsView extends View, HasUiHandlers<ConfigurationsUiHandlers> {
 
         void setConfigurations(List<ConfigurationDto> configurations);
-        void setConfiguration(ConfigurationDto configurationDto);
-        void setOrganisationSchemes(List<ExternalItemDto> schemes);
-        void setOrganisations(List<ExternalItemDto> organisations);
-        ConfigurationDto getConfiguration();
-        List<Long> getSelectedConfigurations();
-        boolean validate();
-        HasClickHandlers getDelete();
-        void onConfigurationSaved(ConfigurationDto configurationDto);
     }
 
     @Inject
-    public ConfigurationsPresenter(EventBus eventBus, ConfigurationsView configurationView, ConfigurationsProxy configurationProxy, DispatchAsync dispatcher) {
+    public ConfigurationsPresenter(EventBus eventBus, ConfigurationsView configurationView, ConfigurationsProxy configurationProxy, DispatchAsync dispatcher, PlaceManager placeManager) {
         super(eventBus, configurationView, configurationProxy);
         this.dispatcher = dispatcher;
+        this.placeManager = placeManager;
         getView().setUiHandlers(this);
     }
 
@@ -94,36 +89,19 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     @Override
     public void prepareFromRequest(PlaceRequest request) {
         super.prepareFromRequest(request);
-        populateOrganisationSchemes();
-        populateConfigurations();
+        retrieveConfigurations();
     }
 
-    private void populateConfigurations() {
-        dispatcher.execute(new FindAllConfigurationsAction(), new WaitingAsyncCallback<FindAllConfigurationsResult>() {
+    private void retrieveConfigurations() {
+        dispatcher.execute(new GetConfigurationsAction(), new WaitingAsyncCallback<GetConfigurationsResult>() {
 
             @Override
             public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingConfigurations()), MessageTypeEnum.ERROR);
             }
             @Override
-            public void onWaitSuccess(FindAllConfigurationsResult result) {
+            public void onWaitSuccess(GetConfigurationsResult result) {
                 getView().setConfigurations(result.getConfigurations());
-            }
-        });
-    }
-
-    @Override
-    public void saveConfiguration(ConfigurationDto configurationDto) {
-        dispatcher.execute(new SaveConfigurationAction(configurationDto), new WaitingAsyncCallback<SaveConfigurationResult>() {
-
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorSavingConfiguration()), MessageTypeEnum.ERROR);
-            }
-            @Override
-            public void onWaitSuccess(SaveConfigurationResult result) {
-                getView().onConfigurationSaved(result.getConfigurationSaved());
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationSaved()), MessageTypeEnum.SUCCESS);
             }
         });
     }
@@ -138,37 +116,8 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
             }
             @Override
             public void onWaitSuccess(DeleteConfigurationListResult result) {
-                populateConfigurations();
+                retrieveConfigurations();
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationDeleted()), MessageTypeEnum.SUCCESS);
-            }
-        });
-    }
-
-    private void populateOrganisationSchemes() {
-        dispatcher.execute(new FindAllOrganisationSchemesAction(), new WaitingAsyncCallback<FindAllOrganisationSchemesResult>() {
-
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
-            }
-            @Override
-            public void onWaitSuccess(FindAllOrganisationSchemesResult result) {
-                getView().setOrganisationSchemes(result.getOrganisationSchemes());
-            }
-        });
-    }
-
-    @Override
-    public void populateOrganisations(String organisationSchemeUri) {
-        dispatcher.execute(new GetOrganisationsFromSchemeAction(organisationSchemeUri), new WaitingAsyncCallback<GetOrganisationsFromSchemeResult>() {
-
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
-            }
-            @Override
-            public void onWaitSuccess(GetOrganisationsFromSchemeResult result) {
-                getView().setOrganisations(result.getOrganisations());
             }
         });
     }
@@ -180,14 +129,21 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
             @Override
             public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorUpdatingConfigurationStatus()), MessageTypeEnum.ERROR);
-                populateConfigurations();
+                retrieveConfigurations();
             }
 
             @Override
             public void onWaitSuccess(UpdateConfigurationsStatusResult result) {
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationStatusUpdated()), MessageTypeEnum.SUCCESS);
-                populateConfigurations();
+                retrieveConfigurations();
             }
         });
+    }
+
+    @Override
+    public void goToConfiguration(String urn) {
+        if (!StringUtils.isBlank(urn)) {
+            placeManager.revealPlace(PlaceRequestUtils.buildRelativeConfigurationPlaceRequest(urn));
+        }
     }
 }

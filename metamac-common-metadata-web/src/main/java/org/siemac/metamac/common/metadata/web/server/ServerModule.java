@@ -1,6 +1,7 @@
 package org.siemac.metamac.common.metadata.web.server;
 
 import org.siemac.metamac.common.metadata.web.server.handlers.DeleteConfigurationListActionHandler;
+import org.siemac.metamac.common.metadata.web.server.handlers.GetConfigurationActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetConfigurationsActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetOrganisationSchemesActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetOrganisationsFromSchemeActionHandler;
@@ -9,6 +10,7 @@ import org.siemac.metamac.common.metadata.web.server.handlers.SaveConfigurationA
 import org.siemac.metamac.common.metadata.web.server.handlers.UpdateConfigurationsStatusActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.ValidateTicketActionHandler;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListAction;
+import org.siemac.metamac.common.metadata.web.shared.GetConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationSchemesAction;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeAction;
@@ -39,7 +41,9 @@ public class ServerModule extends HandlerModule {
     public ServerModule() {
     }
 
+    @Override
     protected void configureHandlers() {
+        bindHandler(GetConfigurationAction.class, GetConfigurationActionHandler.class);
         bindHandler(GetConfigurationsAction.class, GetConfigurationsActionHandler.class);
         bindHandler(SaveConfigurationAction.class, SaveConfigurationActionHandler.class);
         bindHandler(DeleteConfigurationListAction.class, DeleteConfigurationListActionHandler.class);
@@ -58,5 +62,4 @@ public class ServerModule extends HandlerModule {
         // This action should be removed to use CAS authentication
         bindHandler(MockCASUserAction.class, MockCASUserActionHandler.class);
     }
-
 }
