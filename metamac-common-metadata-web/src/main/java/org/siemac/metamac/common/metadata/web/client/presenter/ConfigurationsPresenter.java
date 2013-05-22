@@ -16,6 +16,8 @@ import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListActi
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationListResult;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsResult;
+import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
+import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusAction;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusResult;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
@@ -37,6 +39,7 @@ import com.gwtplatform.mvp.client.annotations.TitleFunction;
 import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.Place;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
@@ -64,6 +67,7 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     public interface ConfigurationsView extends View, HasUiHandlers<ConfigurationsUiHandlers> {
 
         void setConfigurations(List<ConfigurationDto> configurations);
+        void deselectConfiguration();
     }
 
     @Inject
@@ -86,6 +90,12 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
         retrieveConfigurations();
     }
 
+    @Override
+    public void prepareFromRequest(PlaceRequest request) {
+        super.prepareFromRequest(request);
+
+    }
+
     private void retrieveConfigurations() {
         dispatcher.execute(new GetConfigurationsAction(), new WaitingAsyncCallback<GetConfigurationsResult>() {
 
@@ -96,6 +106,24 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
             @Override
             public void onWaitSuccess(GetConfigurationsResult result) {
                 getView().setConfigurations(result.getConfigurations());
+            }
+        });
+    }
+
+    @Override
+    public void createConfiguration(ConfigurationDto configurationDto) {
+        dispatcher.execute(new SaveConfigurationAction(configurationDto), new WaitingAsyncCallback<SaveConfigurationResult>() {
+
+            @Override
+            public void onWaitFailure(Throwable caught) {
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorSavingConfiguration()), MessageTypeEnum.ERROR);
+            }
+
+            @Override
+            public void onWaitSuccess(SaveConfigurationResult result) {
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationSaved()), MessageTypeEnum.SUCCESS);
+                retrieveConfigurations();
+                goToConfiguration(result.getConfigurationSaved().getUrn());
             }
         });
     }

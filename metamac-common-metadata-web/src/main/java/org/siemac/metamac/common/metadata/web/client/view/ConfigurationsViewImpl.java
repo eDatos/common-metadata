@@ -13,6 +13,7 @@ import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationsPre
 import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.widgets.NewConfigurationWindow;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.client.widgets.CustomListGrid;
 import org.siemac.metamac.web.common.client.widgets.DeleteConfirmationWindow;
@@ -66,7 +67,17 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
             @Override
             public void onClick(ClickEvent event) {
-                selectConfiguration(new ConfigurationDto());
+                final NewConfigurationWindow newConfigurationWindow = new NewConfigurationWindow(CommonMetadataWeb.getConstants().actionCreate());
+                newConfigurationWindow.getSave().addClickHandler(new com.smartgwt.client.widgets.form.fields.events.ClickHandler() {
+
+                    @Override
+                    public void onClick(com.smartgwt.client.widgets.form.fields.events.ClickEvent event) {
+                        if (newConfigurationWindow.validateForm()) {
+                            getUiHandlers().createConfiguration(newConfigurationWindow.getNewConfigurationDto());
+                            newConfigurationWindow.markForDestroy();
+                        }
+                    }
+                });
             }
         });
         newToolStripButton.setVisibility(ClientSecurityUtils.canCreateConfiguration() ? Visibility.VISIBLE : Visibility.HIDDEN);
@@ -199,11 +210,8 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         return null;
     }
 
-    private void selectConfiguration(ConfigurationDto configurationSelected) {
-        configurationMainFormLayout.show();
-    }
-
-    private void deselectConfiguration() {
+    @Override
+    public void deselectConfiguration() {
         configurationMainFormLayout.hide();
         deleteToolStripButton.hide();
         hideListGridConfigurationButtons();
