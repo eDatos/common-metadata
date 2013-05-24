@@ -2,8 +2,8 @@ package org.siemac.metamac.common.metadata.web.server.handlers;
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataServiceFacade;
-import org.siemac.metamac.common.metadata.web.shared.GetConfigurationAction;
-import org.siemac.metamac.common.metadata.web.shared.GetConfigurationResult;
+import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyAction;
+import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyResult;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
@@ -14,20 +14,20 @@ import org.springframework.stereotype.Component;
 import com.gwtplatform.dispatch.shared.ActionException;
 
 @Component
-public class GetConfigurationActionHandler extends SecurityActionHandler<GetConfigurationAction, GetConfigurationResult> {
+public class PublishConfigurationExternallyActionHandler extends SecurityActionHandler<PublishConfigurationExternallyAction, PublishConfigurationExternallyResult> {
 
     @Autowired
     private CommonMetadataServiceFacade commonMetadataServiceFacade;
 
-    public GetConfigurationActionHandler() {
-        super(GetConfigurationAction.class);
+    public PublishConfigurationExternallyActionHandler() {
+        super(PublishConfigurationExternallyAction.class);
     }
 
     @Override
-    public GetConfigurationResult executeSecurityAction(GetConfigurationAction action) throws ActionException {
+    public PublishConfigurationExternallyResult executeSecurityAction(PublishConfigurationExternallyAction action) throws ActionException {
         try {
-            ConfigurationDto configuration = commonMetadataServiceFacade.findConfigurationByUrn(ServiceContextHolder.getCurrentServiceContext(), action.getUrn());
-            return new GetConfigurationResult(configuration);
+            ConfigurationDto configurationDto = commonMetadataServiceFacade.publishExternallyConfiguration(ServiceContextHolder.getCurrentServiceContext(), action.getUrn());
+            return new PublishConfigurationExternallyResult(configurationDto);
         } catch (MetamacException e) {
             throw WebExceptionUtils.createMetamacWebException(e);
         }

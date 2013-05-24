@@ -1,10 +1,12 @@
 package org.siemac.metamac.common.metadata.web.client.view;
 
+import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
+import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getCoreMessages;
+
 import java.util.List;
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
-import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
 import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
@@ -98,16 +100,19 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     }
 
     private void createViewForm() {
-        ViewTextItem staticCode = new ViewTextItem(ConfigurationDS.CODE, CommonMetadataWeb.getConstants().confCode());
-        ViewTextItem staticOrganisation = new ViewTextItem(ConfigurationDS.ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
-        ViewTextItem status = new ViewTextItem(ConfigurationDS.STATUS, CommonMetadataWeb.getConstants().confStatus());
-        ViewMultiLanguageTextItem staticLegalActs = new ViewMultiLanguageTextItem(ConfigurationDS.LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
-        ViewMultiLanguageTextItem staticDataSharing = new ViewMultiLanguageTextItem(ConfigurationDS.DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
-        ViewMultiLanguageTextItem staticConfPolicy = new ViewMultiLanguageTextItem(ConfigurationDS.CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
-        ViewMultiLanguageTextItem staticConfDataTreatment = new ViewMultiLanguageTextItem(ConfigurationDS.CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment());
 
-        form = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
-        form.setFields(staticCode, staticOrganisation, status, staticLegalActs, staticDataSharing, staticConfPolicy, staticConfDataTreatment);
+        form = new GroupDynamicForm(getConstants().configuration());
+
+        ViewTextItem staticCode = new ViewTextItem(ConfigurationDS.CODE, getConstants().confCode());
+        ViewTextItem staticOrganisation = new ViewTextItem(ConfigurationDS.ORGANISATION, getConstants().confOrganisation());
+        ViewTextItem status = new ViewTextItem(ConfigurationDS.STATUS, getConstants().confStatus());
+        ViewTextItem externallyPublished = new ViewTextItem(ConfigurationDS.EXTERNALLY_PUBLISHED, getConstants().configurationExternallyPublished());
+        ViewMultiLanguageTextItem staticLegalActs = new ViewMultiLanguageTextItem(ConfigurationDS.LEGAL_ACTS, getConstants().confLegalActs());
+        ViewMultiLanguageTextItem staticDataSharing = new ViewMultiLanguageTextItem(ConfigurationDS.DATA_SHARING, getConstants().confDataSharing());
+        ViewMultiLanguageTextItem staticConfPolicy = new ViewMultiLanguageTextItem(ConfigurationDS.CONF_POLYCY, getConstants().confPolicy());
+        ViewMultiLanguageTextItem staticConfDataTreatment = new ViewMultiLanguageTextItem(ConfigurationDS.CONF_DATA_TREATMENT, getConstants().confDataTreatment());
+
+        form.setFields(staticCode, staticOrganisation, status, externallyPublished, staticLegalActs, staticDataSharing, staticConfPolicy, staticConfDataTreatment);
 
         mainFormLayout.addViewCanvas(form);
     }
@@ -125,9 +130,9 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         // Form
         // ····
 
-        editionForm = new GroupDynamicForm(CommonMetadataWeb.getConstants().configuration());
+        editionForm = new GroupDynamicForm(getConstants().configuration());
 
-        RequiredTextItem code = new RequiredTextItem(ConfigurationDS.CODE, CommonMetadataWeb.getConstants().confCode());
+        RequiredTextItem code = new RequiredTextItem(ConfigurationDS.CODE, getConstants().confCode());
         code.setValidators(CommonWebUtils.getSemanticIdentifierCustomValidator());
         code.setShowIfCondition(new FormItemIfFunction() {
 
@@ -138,7 +143,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             }
         });
 
-        ViewTextItem staticCode = new ViewTextItem(ConfigurationDS.STATIC_CODE, CommonMetadataWeb.getConstants().confCode());
+        ViewTextItem staticCode = new ViewTextItem(ConfigurationDS.STATIC_CODE, getConstants().confCode());
         staticCode.setShowIfCondition(new FormItemIfFunction() {
 
             @Override
@@ -148,7 +153,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             }
         });
 
-        ExternalSelectItem organisationItem = new ExternalSelectItem(ConfigurationDS.ORGANISATION, CommonMetadataWeb.getConstants().confOrganisation());
+        ExternalSelectItem organisationItem = new ExternalSelectItem(ConfigurationDS.ORGANISATION, getConstants().confOrganisation());
         organisationItem.getSchemeItem().addChangedHandler(new ChangedHandler() {
 
             @Override
@@ -159,16 +164,18 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             }
         });
 
-        CustomSelectItem status = new CustomSelectItem(ConfigurationDS.STATUS, CommonMetadataWeb.getConstants().confStatus());
+        CustomSelectItem status = new CustomSelectItem(ConfigurationDS.STATUS, getConstants().confStatus());
         status.setRequired(true);
         status.setValueMap(CommonUtils.getCommonMetadataStatusEnumHashMap());
 
-        MultilanguageRichTextEditorItem legalActs = new MultilanguageRichTextEditorItem(ConfigurationDS.LEGAL_ACTS, CommonMetadataWeb.getConstants().confLegalActs());
-        MultilanguageRichTextEditorItem dataSharing = new MultilanguageRichTextEditorItem(ConfigurationDS.DATA_SHARING, CommonMetadataWeb.getConstants().confDataSharing());
-        MultilanguageRichTextEditorItem confPolicy = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_POLYCY, CommonMetadataWeb.getConstants().confPolicy());
-        MultilanguageRichTextEditorItem confDataTreatment = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_DATA_TREATMENT, CommonMetadataWeb.getConstants().confDataTreatment());
+        ViewTextItem externallyPublished = new ViewTextItem(ConfigurationDS.EXTERNALLY_PUBLISHED, getConstants().configurationExternallyPublished());
 
-        editionForm.setFields(staticCode, code, organisationItem, status, legalActs, dataSharing, confPolicy, confDataTreatment);
+        MultilanguageRichTextEditorItem legalActs = new MultilanguageRichTextEditorItem(ConfigurationDS.LEGAL_ACTS, getConstants().confLegalActs());
+        MultilanguageRichTextEditorItem dataSharing = new MultilanguageRichTextEditorItem(ConfigurationDS.DATA_SHARING, getConstants().confDataSharing());
+        MultilanguageRichTextEditorItem confPolicy = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_POLYCY, getConstants().confPolicy());
+        MultilanguageRichTextEditorItem confDataTreatment = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_DATA_TREATMENT, getConstants().confDataTreatment());
+
+        editionForm.setFields(staticCode, code, organisationItem, status, externallyPublished, legalActs, dataSharing, confPolicy, confDataTreatment);
 
         mainFormLayout.addEditionCanvas(editionForm);
     }
@@ -198,10 +205,9 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         this.configurationDto = configurationDto;
         form.setValue(ConfigurationDS.CODE, configurationDto.getCode());
         form.setValue(ConfigurationDS.ORGANISATION, configurationDto.getContact() == null ? new String() : configurationDto.getContact().getUrn());
-        form.setValue(
-                ConfigurationDS.STATUS,
-                configurationDto.getStatus() == null ? new String() : CommonMetadataWeb.getCoreMessages().getString(
-                        CommonMetadataWeb.getCoreMessages().commonMetadataStatusEnum() + configurationDto.getStatus().toString()));
+        form.setValue(ConfigurationDS.STATUS,
+                configurationDto.getStatus() == null ? new String() : getCoreMessages().getString(getCoreMessages().commonMetadataStatusEnum() + configurationDto.getStatus().toString()));
+        form.setValue(ConfigurationDS.EXTERNALLY_PUBLISHED, CommonWebUtils.getBooleanValueAsString(Boolean.valueOf(configurationDto.isExternallyPublished())));
         form.setValue(ConfigurationDS.LEGAL_ACTS, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getLegalActs()));
         form.setValue(ConfigurationDS.DATA_SHARING, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getDataSharing()));
         form.setValue(ConfigurationDS.CONF_POLYCY, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getConfPolicy()));
@@ -215,6 +221,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         editionForm.setValue(ConfigurationDS.CODE, configurationDto.getCode());
         editionForm.setValue(ConfigurationDS.ORGANISATION, configurationDto.getContact() == null ? null : configurationDto.getContact().getUrn());
         editionForm.setValue(ConfigurationDS.STATUS, configurationDto.getStatus() != null ? configurationDto.getStatus().toString() : new String());
+        editionForm.setValue(ConfigurationDS.EXTERNALLY_PUBLISHED, CommonWebUtils.getBooleanValueAsString(Boolean.valueOf(configurationDto.isExternallyPublished())));
         editionForm.setValue(ConfigurationDS.LEGAL_ACTS, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getLegalActs()));
         editionForm.setValue(ConfigurationDS.DATA_SHARING, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getDataSharing()));
         editionForm.setValue(ConfigurationDS.CONF_POLYCY, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getConfPolicy()));

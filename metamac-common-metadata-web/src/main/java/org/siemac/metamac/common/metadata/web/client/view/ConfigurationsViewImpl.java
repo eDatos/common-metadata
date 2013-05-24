@@ -1,11 +1,13 @@
 package org.siemac.metamac.common.metadata.web.client.view;
 
+import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
+import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getCoreMessages;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
-import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.model.ConfigurationRecord;
 import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter.ConfigurationView;
@@ -58,12 +60,12 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
         // ToolStrip
 
-        newToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().actionNew(), GlobalResources.RESOURCE.newListGrid().getURL());
+        newToolStripButton = new ToolStripButton(getConstants().actionNew(), GlobalResources.RESOURCE.newListGrid().getURL());
         newToolStripButton.addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
-                final NewConfigurationWindow newConfigurationWindow = new NewConfigurationWindow(CommonMetadataWeb.getConstants().actionCreate());
+                final NewConfigurationWindow newConfigurationWindow = new NewConfigurationWindow(getConstants().actionCreate());
                 newConfigurationWindow.getSave().addClickHandler(new com.smartgwt.client.widgets.form.fields.events.ClickHandler() {
 
                     @Override
@@ -78,7 +80,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         });
         newToolStripButton.setVisibility(ClientSecurityUtils.canCreateConfiguration() ? Visibility.VISIBLE : Visibility.HIDDEN);
 
-        enableToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().confEnable(), GlobalResources.RESOURCE.success().getURL());
+        enableToolStripButton = new ToolStripButton(getConstants().confEnable(), GlobalResources.RESOURCE.success().getURL());
         enableToolStripButton.setVisibility(Visibility.HIDDEN);
         enableToolStripButton.addClickHandler(new ClickHandler() {
 
@@ -88,7 +90,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
             }
         });
 
-        disableToolStripButton = new ToolStripButton(CommonMetadataWeb.getConstants().confDisable(), GlobalResources.RESOURCE.disable().getURL());
+        disableToolStripButton = new ToolStripButton(getConstants().confDisable(), GlobalResources.RESOURCE.disable().getURL());
         disableToolStripButton.setVisibility(Visibility.HIDDEN);
         disableToolStripButton.addClickHandler(new ClickHandler() {
 
@@ -110,11 +112,14 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         configurationsListGrid = new CustomListGrid();
         configurationsListGrid.setWidth100();
         configurationsListGrid.setHeight(150);
-        ListGridField codeField = new ListGridField(ConfigurationDS.CODE, CommonMetadataWeb.getConstants().configurationIdentifier());
-        ListGridField status = new ListGridField(ConfigurationDS.STATUS, CommonMetadataWeb.getCoreMessages().commonMetadataStatusEnumENABLED());
+        ListGridField codeField = new ListGridField(ConfigurationDS.CODE, getConstants().configurationIdentifier());
+        ListGridField status = new ListGridField(ConfigurationDS.STATUS, getCoreMessages().commonMetadataStatusEnumENABLED());
         status.setType(ListGridFieldType.IMAGE);
-        status.setWidth("20%");
-        configurationsListGrid.setFields(codeField, status);
+        status.setWidth("15%");
+        ListGridField externallyPublished = new ListGridField(ConfigurationDS.EXTERNALLY_PUBLISHED, getConstants().configurationExternallyPublished());
+        externallyPublished.setType(ListGridFieldType.IMAGE);
+        externallyPublished.setWidth("15%");
+        configurationsListGrid.setFields(codeField, status, externallyPublished);
         // Show configuration details when record clicked
         configurationsListGrid.addSelectionChangedHandler(new SelectionChangedHandler() {
 

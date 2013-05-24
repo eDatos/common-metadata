@@ -12,9 +12,10 @@ public class ConfigurationRecord extends ListGridRecord {
     public ConfigurationRecord() {
     }
 
-    public ConfigurationRecord(String name, CommonMetadataStatusEnum status, String urn, ConfigurationDto configurationDto) {
+    public ConfigurationRecord(String name, CommonMetadataStatusEnum status, boolean externallyPublished, String urn, ConfigurationDto configurationDto) {
         setCode(name);
         setStatus(status);
+        setExternallyPublished(externallyPublished);
         setUrn(urn);
         setConfigurationDto(configurationDto);
     }
@@ -29,6 +30,10 @@ public class ConfigurationRecord extends ListGridRecord {
 
     public void setStatus(CommonMetadataStatusEnum status) {
         setAttribute(ConfigurationDS.STATUS, CommonMetadataStatusEnum.ENABLED.equals(status) ? GlobalResources.RESOURCE.success().getURL() : new String());
+    }
+
+    public void setExternallyPublished(boolean externallyPublished) {
+        setAttribute(ConfigurationDS.EXTERNALLY_PUBLISHED, externallyPublished ? GlobalResources.RESOURCE.success().getURL() : new String());
     }
 
     public void setConfigurationDto(ConfigurationDto value) {

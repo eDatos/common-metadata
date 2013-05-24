@@ -156,7 +156,7 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     @Override
     public void goToConfiguration(String urn) {
         if (!StringUtils.isBlank(urn)) {
-            placeManager.revealPlaceHierarchy(PlaceRequestUtils.buildAbsoluteConfigurationPlaceRequest(urn));
+            placeManager.revealRelativePlace(PlaceRequestUtils.buildRelativeConfigurationPlaceRequest(urn));
         }
     }
 }

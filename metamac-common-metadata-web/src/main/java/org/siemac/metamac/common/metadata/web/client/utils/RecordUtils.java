@@ -12,7 +12,8 @@ public class RecordUtils {
      * @return
      */
     public static ConfigurationRecord getConfigurationRecord(ConfigurationDto configurationDto) {
-        ConfigurationRecord record = new ConfigurationRecord(configurationDto.getCode(), configurationDto.getStatus(), configurationDto.getUrn(), configurationDto);
+        ConfigurationRecord record = new ConfigurationRecord(configurationDto.getCode(), configurationDto.getStatus(), configurationDto.isExternallyPublished(), configurationDto.getUrn(),
+                configurationDto);
         return record;
     }
 }
