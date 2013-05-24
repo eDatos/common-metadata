@@ -51,7 +51,6 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     @NameToken(NameTokens.configurationListPage)
     @UseGatekeeper(LoggedInGatekeeper.class)
     public interface ConfigurationsProxy extends Proxy<ConfigurationsPresenter>, Place {
-
     }
 
     @ContentSlot
@@ -116,12 +115,11 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
             public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorSavingConfiguration()), MessageTypeEnum.ERROR);
             }
-
             @Override
             public void onWaitSuccess(SaveConfigurationResult result) {
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationSaved()), MessageTypeEnum.SUCCESS);
                 retrieveConfigurations();
-                goToConfiguration(result.getConfigurationSaved().getUrn());
+                placeManager.revealPlaceHierarchy(PlaceRequestUtils.buildAbsoluteConfigurationPlaceRequest(result.getConfigurationSaved().getUrn()));
             }
         });
     }
@@ -135,7 +133,6 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorUpdatingConfigurationStatus()), MessageTypeEnum.ERROR);
                 retrieveConfigurations();
             }
-
             @Override
             public void onWaitSuccess(UpdateConfigurationsStatusResult result) {
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationStatusUpdated()), MessageTypeEnum.SUCCESS);

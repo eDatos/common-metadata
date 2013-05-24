@@ -12,12 +12,12 @@ import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPres
 import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.widgets.ConfigurationMainFormLayout;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.ExternalItemUtils;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
-import org.siemac.metamac.web.common.client.widgets.form.InternationalMainFormLayout;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ExternalSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.MultilanguageRichTextEditorItem;
@@ -39,7 +39,7 @@ import com.smartgwt.client.widgets.toolbar.ToolStrip;
 
 public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHandlers> implements ConfigurationPresenter.ConfigurationView {
 
-    private InternationalMainFormLayout mainFormLayout;
+    private ConfigurationMainFormLayout mainFormLayout;
 
     private GroupDynamicForm            form;
     private GroupDynamicForm            editionForm;
@@ -51,7 +51,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     public ConfigurationViewImpl() {
         super();
 
-        mainFormLayout = new InternationalMainFormLayout(ClientSecurityUtils.canUpdateConfiguration());
+        mainFormLayout = new ConfigurationMainFormLayout(ClientSecurityUtils.canUpdateConfiguration());
         mainFormLayout.getTranslateToolStripButton().addClickHandler(new ClickHandler() {
 
             @Override
@@ -59,6 +59,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
                 setTranslationsShowed(mainFormLayout.getTranslateToolStripButton().isSelected());
             }
         });
+
         mainFormLayout.getSave().addClickHandler(new ClickHandler() {
 
             @Override
@@ -68,21 +69,29 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
                 }
             }
         });
+
         mainFormLayout.getCancelToolStripButton().addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
-                // If it is a new dimension, hide mainFormLayout
+                // If it is a new configuration, hide mainFormLayout
                 if (configurationDto.getId() == null) {
                     // TODO
-                    // configurationLayout.hide();
                 }
+            }
+        });
+
+        mainFormLayout.getPublishExternally().addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                // TODO Auto-generated method stub
+
             }
         });
 
         createViewForm();
         createEditionForm();
-
     }
 
     @Override
@@ -194,10 +203,14 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     @Override
     public void setConfiguration(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
+
         mainFormLayout.setTitleLabelContents(configurationDto.getCode());
         mainFormLayout.setViewMode();
+        mainFormLayout.setConfiguration(configurationDto);
+
         setConfigurationViewMode(configurationDto);
         setConfigurationEditionMode(configurationDto);
+
         mainFormLayout.show();
     }
 

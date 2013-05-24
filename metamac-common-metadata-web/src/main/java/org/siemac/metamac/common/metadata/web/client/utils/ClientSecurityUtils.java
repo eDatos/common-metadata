@@ -25,6 +25,22 @@ public class ClientSecurityUtils {
         return false;
     }
 
+    public static boolean canDeleteConfiguration() {
+        CommonMetadataRoleEnum[] roles = {JEFE_NORMALIZACION};
+        if (isRoleAllowed(roles)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean canPublishConfigurationExternally() {
+        CommonMetadataRoleEnum[] roles = {JEFE_NORMALIZACION};
+        if (isRoleAllowed(roles)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Checks if logged user has one of the allowed roles
      * 

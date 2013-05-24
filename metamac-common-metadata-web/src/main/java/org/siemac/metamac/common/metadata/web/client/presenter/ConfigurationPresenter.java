@@ -2,6 +2,7 @@ package org.siemac.metamac.common.metadata.web.client.presenter;
 
 import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
@@ -11,12 +12,16 @@ import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
+import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationsAction;
+import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationResult;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationSchemesAction;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationSchemesResult;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeAction;
 import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeResult;
+import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyAction;
+import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
 import org.siemac.metamac.core.common.constants.shared.UrnConstants;
@@ -127,6 +132,38 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     }
 
     @Override
+    public void deleteConfiguration(Long configurationId) {
+        dispatcher.execute(new DeleteConfigurationsAction(Arrays.asList(configurationId)), new WaitingAsyncCallback<DeleteConfigurationsResult>() {
+
+            @Override
+            public void onWaitFailure(Throwable caught) {
+                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorDeletingConfigurations()), MessageTypeEnum.ERROR);
+            }
+            @Override
+            public void onWaitSuccess(DeleteConfigurationsResult result) {
+                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationDeleted()), MessageTypeEnum.SUCCESS);
+                goToConfigurations();
+            }
+        });
+    }
+
+    @Override
+    public void publishExternally(String urn) {
+        dispatcher.execute(new PublishConfigurationExternallyAction(urn), new WaitingAsyncCallback<PublishConfigurationExternallyResult>() {
+
+            @Override
+            public void onWaitFailure(Throwable caught) {
+                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorPublishingConfigurationExternally()), MessageTypeEnum.ERROR);
+            }
+            @Override
+            public void onWaitSuccess(PublishConfigurationExternallyResult result) {
+                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationPublishedExternally()), MessageTypeEnum.SUCCESS);
+                getView().setConfiguration(result.getConfigurationDto());
+            }
+        });
+    }
+
+    @Override
     public void populateOrganisations(String organisationSchemeUri) {
         dispatcher.execute(new GetOrganisationsFromSchemeAction(organisationSchemeUri), new WaitingAsyncCallback<GetOrganisationsFromSchemeResult>() {
 
@@ -153,5 +190,13 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
                 getView().setOrganisationSchemes(result.getOrganisationSchemes());
             }
         });
+    }
+
+    //
+    // NAVIGATION
+    //
+
+    private void goToConfigurations() {
+        placeManager.revealRelativePlace(-1);
     }
 }
