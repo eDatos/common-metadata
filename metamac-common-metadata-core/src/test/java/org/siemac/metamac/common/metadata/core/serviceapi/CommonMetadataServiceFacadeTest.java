@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -168,14 +169,63 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
 
     @Test
     public void testUpdateConfigurationsStatus() throws Exception {
+        // Create configurations
+        ConfigurationDto configurationDto01 = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
+        ConfigurationDto configurationDto02 = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
+        ConfigurationDto configurationDto03 = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
+        assertNotNull(configurationDto01);
+        assertNotNull(configurationDto02);
+        assertNotNull(configurationDto03);
+
+        // Create List to be actualize
+        List<Long> configurationIds = new ArrayList<Long>();
+        configurationIds.add(configurationDto01.getId());
+        configurationIds.add(configurationDto02.getId());
+        configurationIds.add(configurationDto03.getId());
+
+        commonMetadataServiceFacade.updateConfigurationsStatus(getServiceContextAdministrador(), configurationIds, CommonMetadataStatusEnum.DISABLED);
+
+        assertEquals(CommonMetadataStatusEnum.DISABLED, commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), configurationDto01.getId()).getStatus());
+        assertEquals(CommonMetadataStatusEnum.DISABLED, commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), configurationDto02.getId()).getStatus());
+        assertEquals(CommonMetadataStatusEnum.DISABLED, commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), configurationDto03.getId()).getStatus());
+    }
+
+    @Test
+    public void testPublishExternallyConfiguration() throws Exception {
+        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
+        assertNotNull(configurationDto);
+
+        ConfigurationDto updatedConfigurationDto = commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextAdministrador(), configurationDto.getUrn());
+
+        assertNotNull(configurationDto);
+        assertEquals(true, updatedConfigurationDto.isExternallyPublished());
+    }
+
+    @Test
+    public void testPublishExternallyConfigurationDisabled() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
         assertNotNull(configurationDto);
 
         configurationDto.setStatus(CommonMetadataStatusEnum.DISABLED);
 
         ConfigurationDto updatedConfigurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
+        updatedConfigurationDto = commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextAdministrador(), updatedConfigurationDto.getUrn());
 
         assertNotNull(configurationDto);
-        CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, updatedConfigurationDto);
+        assertEquals(true, updatedConfigurationDto.isExternallyPublished());
+    }
+
+    @Test
+    public void testPublishExternallyConfigurationEnabled() throws Exception {
+        ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
+        assertNotNull(configurationDto);
+
+        configurationDto.setStatus(CommonMetadataStatusEnum.ENABLED);
+
+        ConfigurationDto updatedConfigurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
+        updatedConfigurationDto = commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextAdministrador(), updatedConfigurationDto.getUrn());
+
+        assertNotNull(configurationDto);
+        assertEquals(true, updatedConfigurationDto.isExternallyPublished());
     }
 }

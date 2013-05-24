@@ -21,7 +21,8 @@ Application CommonMetadata {
 			@ConfigurationDto createConfiguration(@ConfigurationDto configuration) throws MetamacException;
 			@ConfigurationDto updateConfiguration(@ConfigurationDto configuration) throws MetamacException;
 			deleteConfiguration(Long configurationId) throws MetamacException;
-			List<@ConfigurationDto> updateConfigurationsStatus(List<Long> configurationIds, @CommonMetadataStatusEnum status) throws MetamacException; 
+			List<@ConfigurationDto> updateConfigurationsStatus(List<Long> configurationIds, @CommonMetadataStatusEnum status) throws MetamacException;
+			@ConfigurationDto publishExternallyConfiguration(String urn) throws MetamacException; 
 		}
 		
 		
@@ -63,6 +64,7 @@ Application CommonMetadata {
 			-@InternationalString confDataTreatment cascade="all" nullable databaseColumn="CONF_DATA_TREATMENT_FK";
 			-@ExternalItem contact cascade="all" nullable databaseColumn="CONTACT_FK" ;
 			
+			boolean externallyPublished not nullable;
 			-@CommonMetadataStatusEnum status not nullable;
 			
 			"Last update to optimistic locking"

@@ -294,4 +294,54 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
         }
     }
 
+    @Override
+    public void testPublishExternallyConfiguration() throws Exception {
+        String configurationUrn = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto()).getUrn();
+
+        commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextAdministrador(), configurationUrn);
+        commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextJefeNormalizacion(), configurationUrn);
+
+        try {
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoNormalizacion(), configurationUrn);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoNormalizacion(), configurationUrn);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoPlanificacion(), configurationUrn);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoPlanificacion(), configurationUrn);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoProduccion(), configurationUrn);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoProduccion(), configurationUrn);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoDifusion(), configurationUrn);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoDifusion(), configurationUrn);
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        
+    }
+
 }

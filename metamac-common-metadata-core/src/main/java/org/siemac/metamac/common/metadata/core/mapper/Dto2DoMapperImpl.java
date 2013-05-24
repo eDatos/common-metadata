@@ -76,6 +76,7 @@ public class Dto2DoMapperImpl implements Dto2DoMapper {
         target.setConfDataTreatment(internationalStringToDo(source.getConfDataTreatment(), target.getConfDataTreatment(), ServiceExceptionParameters.CONFIGURATION_CONF_DATA_TREATMENT));
         target.setContact(externalItemDtoToDo(source.getContact(), target.getContact(), ServiceExceptionParameters.CONFIGURATION_CONTACT));
 
+        target.setExternallyPublished(source.isExternallyPublished());
         target.setStatus(source.getStatus());
 
         // Optimistic locking: Update "update date" attribute to force update of the root entity in order to increase attribute "version"

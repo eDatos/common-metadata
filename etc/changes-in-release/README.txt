@@ -2,8 +2,11 @@ Cuando se cree la RELEASE, añadir estos pasos al manual de instalación:
 
 1. Parar Tomcat
 
-NOTA: Los siguientes cambios ya se han añadido al manual de instalación, pero no se ha hecho la instalación en el ISTAC.
-	|	2. Base de datos:
+NOTA (DEPRECATED): Los siguientes cambios ya se han añadido al manual de instalación, pero no se ha hecho la instalación en el ISTAC.
+ACTUALIZAR MANUAL: Para quitar los cambios de BBDD (eso que deprecado) las BBDD se crearán de nuevo al enviar operaciones estadísticas y este módulo.
+
+
+	|	2. Base de datos: ---> DEPRECATED	
 	|		- Ejecutar el script 03-updates-in-release/01-update-columns-length.sql, tanto para Oracle como MSSql
 	|		- Ejecutar el script 03-updates-in-release/02-update-localised-string.sql, tanto para Oracle como MSSql
 	|		

@@ -88,6 +88,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
     public Configuration createConfiguration(ServiceContext ctx, Configuration configuration) throws MetamacException {
         // Fill metadata
         configuration.setUrn(GeneratorUrnUtils.generateSiemacCommonMetadataUrn(configuration.getCode()));
+        configuration.setExternallyPublished(false);
 
         // Validations
         InvocationValidator.checkCreateConfiguration(configuration, null);

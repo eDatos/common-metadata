@@ -102,6 +102,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         assertNotNull(configuration);
         assertEquals("urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=" + configuration.getCode(), configuration.getUrn());
         CommonMetadataAsserts.assertEqualsConfiguration(configurationExpected, configuration);
+        assertEquals(false, configuration.isExternallyPublished());
     }
 
     @Test
