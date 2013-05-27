@@ -9,7 +9,6 @@ import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
-import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
 import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.mapper.Do2RestExternalMapperV10;
@@ -39,8 +38,8 @@ public class CommonMetadataRestExternalFacadeV10Impl implements CommonMetadataV1
     @Autowired
     private RestCriteria2SculptorCriteriaMapper restCriteria2SculptorCriteriaMapper;
 
-    private ServiceContext                      serviceContext = new ServiceContext("restExternal", "restExternal", "restExternal");
-    private Logger                              logger         = LoggerFactory.getLogger(LoggingInterceptor.class);
+    private final ServiceContext                serviceContext = new ServiceContext("restExternal", "restExternal", "restExternal");
+    private final Logger                        logger         = LoggerFactory.getLogger(LoggingInterceptor.class);
 
     @Override
     public Configuration retrieveConfigurationById(String id) {
@@ -62,12 +61,12 @@ public class CommonMetadataRestExternalFacadeV10Impl implements CommonMetadataV1
         try {
             // Retrieve configurations by criteria
             SculptorCriteria sculptorCriteria = restCriteria2SculptorCriteriaMapper.getConfigurationCriteriaMapper().restCriteriaToSculptorCriteria(query, orderBy, null, null);
-            // Find only status 'enabled'
-            ConditionalCriteria conditionalCriteriaStatus = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class)
-                    .withProperty(ConfigurationProperties.status()).eq(CommonMetadataStatusEnum.ENABLED).buildSingle();
+            // Find only published
+            ConditionalCriteria conditionalCriteriaFinal = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class)
+                    .withProperty(ConfigurationProperties.externallyPublished()).eq(Boolean.TRUE).buildSingle();
 
             List<ConditionalCriteria> conditionalCriteria = new ArrayList<ConditionalCriteria>();
-            conditionalCriteria.add(conditionalCriteriaStatus);
+            conditionalCriteria.add(conditionalCriteriaFinal);
             conditionalCriteria.addAll(sculptorCriteria.getConditions());
 
             // Retrieve

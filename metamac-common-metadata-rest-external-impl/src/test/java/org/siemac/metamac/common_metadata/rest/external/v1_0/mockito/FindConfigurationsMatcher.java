@@ -7,7 +7,6 @@ import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
-import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.rest.common.test.mockito.ConditionalCriteriasMatcher;
 
 public class FindConfigurationsMatcher extends ConditionalCriteriasMatcher {
@@ -23,13 +22,13 @@ public class FindConfigurationsMatcher extends ConditionalCriteriasMatcher {
         this.conditionalCriteriaOrderBy = conditionalCriteriaOrderBy;
     }
 
+    @Override
     public boolean matches(Object actual) {
         List<ConditionalCriteria> expected = new ArrayList<ConditionalCriteria>();
-        
-        // By status
-        expected.add(ConditionalCriteriaBuilder.criteriaFor(Configuration.class).withProperty(ConfigurationProperties.status())
-                .eq(CommonMetadataStatusEnum.ENABLED).buildSingle());
-        
+
+        // published
+        expected.add(ConditionalCriteriaBuilder.criteriaFor(Configuration.class).withProperty(ConfigurationProperties.externallyPublished()).eq(true).buildSingle());
+
         // orderBy
         if (conditionalCriteriaOrderBy != null) {
             expected.addAll(conditionalCriteriaOrderBy);
@@ -43,7 +42,7 @@ public class FindConfigurationsMatcher extends ConditionalCriteriasMatcher {
         }
         // distinc root
         expected.add(ConditionalCriteriaBuilder.criteriaFor(Configuration.class).distinctRoot().buildSingle());
-        
+
         // Compare
         return super.matches(expected, actual);
     }
