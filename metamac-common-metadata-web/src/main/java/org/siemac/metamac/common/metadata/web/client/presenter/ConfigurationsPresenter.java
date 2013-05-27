@@ -151,8 +151,7 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
             @Override
             public void onWaitSuccess(DeleteConfigurationsResult result) {
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationDeleted()), MessageTypeEnum.SUCCESS);
-                retrieveConfigurations();
-                getView().hideConfiguration();
+                getView().deselectConfiguration();
             }
         });
     }
@@ -170,7 +169,7 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
             public void onWaitSuccess(UpdateConfigurationsStatusResult result) {
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationStatusUpdated()), MessageTypeEnum.SUCCESS);
                 retrieveConfigurations();
-                getView().hideConfiguration();
+                getView().deselectConfiguration();
             }
         });
     }
@@ -187,7 +186,12 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     @Override
     public void goToConfiguration(String urn) {
         if (!StringUtils.isBlank(urn)) {
-            placeManager.revealRelativePlace(PlaceRequestUtils.buildRelativeConfigurationPlaceRequest(urn));
+            PlaceRequest currentPlaceRequest = placeManager.getCurrentPlaceRequest();
+            if (NameTokens.configurationListPage.equals(currentPlaceRequest.getNameToken())) {
+                placeManager.revealRelativePlace(PlaceRequestUtils.buildRelativeConfigurationPlaceRequest(urn));
+            } else if (NameTokens.configurationPage.equals(currentPlaceRequest.getNameToken())) {
+                placeManager.revealRelativePlace(PlaceRequestUtils.buildRelativeConfigurationPlaceRequest(urn), -1);
+            }
         }
     }
 }
