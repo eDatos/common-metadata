@@ -14,6 +14,8 @@ import org.siemac.metamac.common.metadata.web.client.events.UpdateConfigurations
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
+import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationsAction;
+import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
@@ -71,6 +73,7 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
 
         void setConfigurations(List<ConfigurationDto> configurations);
         void deselectConfiguration();
+        void hideConfiguration();
     }
 
     @Inject
@@ -96,7 +99,8 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     @Override
     public void prepareFromRequest(PlaceRequest request) {
         super.prepareFromRequest(request);
-
+        getView().hideConfiguration();
+        retrieveConfigurations();
     }
 
     @ProxyEvent
@@ -137,6 +141,23 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     }
 
     @Override
+    public void deleteConfigurations(List<Long> configurationIds) {
+        dispatcher.execute(new DeleteConfigurationsAction(configurationIds), new WaitingAsyncCallback<DeleteConfigurationsResult>() {
+
+            @Override
+            public void onWaitFailure(Throwable caught) {
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorDeletingConfigurations()), MessageTypeEnum.ERROR);
+            }
+            @Override
+            public void onWaitSuccess(DeleteConfigurationsResult result) {
+                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationDeleted()), MessageTypeEnum.SUCCESS);
+                retrieveConfigurations();
+                getView().hideConfiguration();
+            }
+        });
+    }
+
+    @Override
     public void updateConfigurationsStatus(List<Long> configurationIds, CommonMetadataStatusEnum statusEnum) {
         dispatcher.execute(new UpdateConfigurationsStatusAction(configurationIds, statusEnum), new WaitingAsyncCallback<UpdateConfigurationsStatusResult>() {
 
@@ -149,6 +170,7 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
             public void onWaitSuccess(UpdateConfigurationsStatusResult result) {
                 ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationStatusUpdated()), MessageTypeEnum.SUCCESS);
                 retrieveConfigurations();
+                getView().hideConfiguration();
             }
         });
     }

@@ -44,7 +44,7 @@ public class ConfigurationMainFormLayout extends InternationalMainFormLayout {
         deleteToolStringButton.hide();
         publishExternally.hide();
 
-        boolean canDelete = !isExternallyPublished && ClientSecurityUtils.canDeleteConfiguration();
+        boolean canDelete = ClientSecurityUtils.canDeleteConfiguration(configurationDto);
         boolean canPublishExternally = !isExternallyPublished && ClientSecurityUtils.canPublishConfigurationExternally();
 
         if (canDelete) {

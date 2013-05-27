@@ -52,6 +52,14 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         super();
 
         mainFormLayout = new ConfigurationMainFormLayout(ClientSecurityUtils.canUpdateConfiguration());
+
+        bindMainFormLayoutEvents();
+
+        createViewForm();
+        createEditionForm();
+    }
+
+    private void bindMainFormLayoutEvents() {
         mainFormLayout.getTranslateToolStripButton().addClickHandler(new ClickHandler() {
 
             @Override
@@ -70,6 +78,14 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             }
         });
 
+        mainFormLayout.getDeleteConfirmationWindow().getYesButton().addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                getUiHandlers().deleteConfiguration(configurationDto.getId());
+            }
+        });
+
         mainFormLayout.getPublishExternally().addClickHandler(new ClickHandler() {
 
             @Override
@@ -77,9 +93,6 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
                 getUiHandlers().publishExternally(configurationDto.getUrn());
             }
         });
-
-        createViewForm();
-        createEditionForm();
     }
 
     @Override

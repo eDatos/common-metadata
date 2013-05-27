@@ -13,4 +13,5 @@ public interface ConfigurationsUiHandlers extends UiHandlers {
     void goToConfiguration(String urn);
     void createConfiguration(ConfigurationDto configurationDto);
     void updateConfigurationsStatus(List<Long> configurationIds, CommonMetadataStatusEnum statusEnum);
+    void deleteConfigurations(List<Long> ids);
 }

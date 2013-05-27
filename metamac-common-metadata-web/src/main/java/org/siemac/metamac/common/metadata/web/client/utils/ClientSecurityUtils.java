@@ -2,6 +2,7 @@ package org.siemac.metamac.common.metadata.web.client.utils;
 
 import static org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataRoleEnum.JEFE_NORMALIZACION;
 
+import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataRoleEnum;
 import org.siemac.metamac.common.metadata.core.security.shared.SharedSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
@@ -25,7 +26,11 @@ public class ClientSecurityUtils {
         return false;
     }
 
-    public static boolean canDeleteConfiguration() {
+    public static boolean canDeleteConfiguration(ConfigurationDto configurationDto) {
+        if (configurationDto.isExternallyPublished()) {
+            return false;
+        }
+
         CommonMetadataRoleEnum[] roles = {JEFE_NORMALIZACION};
         if (isRoleAllowed(roles)) {
             return true;
