@@ -149,7 +149,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             @Override
             public boolean execute(FormItem item, Object value, DynamicForm form) {
                 // Code cannot be edited
-                return configurationDto.getId() == null;
+                return !configurationDto.isExternallyPublished();
             }
         });
 
@@ -159,7 +159,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             @Override
             public boolean execute(FormItem item, Object value, DynamicForm form) {
                 // Code cannot be edited
-                return configurationDto.getId() != null;
+                return configurationDto.isExternallyPublished();
             }
         });
 
