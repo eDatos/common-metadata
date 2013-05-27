@@ -9,6 +9,7 @@ import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
+import org.siemac.metamac.common.metadata.web.client.events.UpdateConfigurationsEvent;
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
@@ -159,6 +160,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
             public void onWaitSuccess(PublishConfigurationExternallyResult result) {
                 ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationPublishedExternally()), MessageTypeEnum.SUCCESS);
                 getView().setConfiguration(result.getConfigurationDto());
+                UpdateConfigurationsEvent.fire(ConfigurationPresenter.this);
             }
         });
     }

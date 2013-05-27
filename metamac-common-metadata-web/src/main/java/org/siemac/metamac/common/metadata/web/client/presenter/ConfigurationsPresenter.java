@@ -9,6 +9,8 @@ import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatus
 import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
+import org.siemac.metamac.common.metadata.web.client.events.UpdateConfigurationsEvent;
+import org.siemac.metamac.common.metadata.web.client.events.UpdateConfigurationsEvent.UpdateConfigurationsHandler;
 import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
@@ -33,6 +35,7 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.ContentSlot;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
+import com.gwtplatform.mvp.client.annotations.ProxyEvent;
 import com.gwtplatform.mvp.client.annotations.TitleFunction;
 import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.Place;
@@ -42,7 +45,10 @@ import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 
-public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.ConfigurationsView, ConfigurationsPresenter.ConfigurationsProxy> implements ConfigurationsUiHandlers {
+public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.ConfigurationsView, ConfigurationsPresenter.ConfigurationsProxy>
+        implements
+            ConfigurationsUiHandlers,
+            UpdateConfigurationsHandler {
 
     private final DispatchAsync dispatcher;
     private final PlaceManager  placeManager;
@@ -91,6 +97,12 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     public void prepareFromRequest(PlaceRequest request) {
         super.prepareFromRequest(request);
 
+    }
+
+    @ProxyEvent
+    @Override
+    public void onUpdateConfigurations(UpdateConfigurationsEvent event) {
+        retrieveConfigurations();
     }
 
     private void retrieveConfigurations() {

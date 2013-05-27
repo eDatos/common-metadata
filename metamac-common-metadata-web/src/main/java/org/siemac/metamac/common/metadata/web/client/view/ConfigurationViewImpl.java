@@ -70,23 +70,11 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             }
         });
 
-        mainFormLayout.getCancelToolStripButton().addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                // If it is a new configuration, hide mainFormLayout
-                if (configurationDto.getId() == null) {
-                    // TODO
-                }
-            }
-        });
-
         mainFormLayout.getPublishExternally().addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
-                // TODO Auto-generated method stub
-
+                getUiHandlers().publishExternally(configurationDto.getUrn());
             }
         });
 

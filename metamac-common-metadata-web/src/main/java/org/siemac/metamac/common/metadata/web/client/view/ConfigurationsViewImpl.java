@@ -111,7 +111,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
         configurationsListGrid = new CustomListGrid();
         configurationsListGrid.setWidth100();
-        configurationsListGrid.setHeight(150);
+        configurationsListGrid.setHeight(250);
         ListGridField codeField = new ListGridField(ConfigurationDS.CODE, getConstants().configurationIdentifier());
         ListGridField status = new ListGridField(ConfigurationDS.STATUS, getCoreMessages().commonMetadataStatusEnumENABLED());
         status.setType(ListGridFieldType.IMAGE);
