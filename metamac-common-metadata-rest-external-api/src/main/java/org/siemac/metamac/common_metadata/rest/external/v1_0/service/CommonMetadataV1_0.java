@@ -1,6 +1,6 @@
 package org.siemac.metamac.common_metadata.rest.external.v1_0.service;
 
-import javax.ws.rs.GET; 
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -10,6 +10,7 @@ import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
 
 @Path("v1.0")
+// IMPORTANT: If a new version of API is added, remember change latest url y urlrewrite.xml in war
 public interface CommonMetadataV1_0 {
 
     /**
@@ -25,7 +26,7 @@ public interface CommonMetadataV1_0 {
      *            - Metadata to order: ID<br/>
      *            - Example: ID ASC<br/>
      * @return List of configurations
-     */    
+     */
     @GET
     @Produces("application/xml")
     @Path("configurations")
