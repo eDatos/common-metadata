@@ -9,5 +9,5 @@ public interface ConfigurationUiHandlers extends UiHandlers {
     void saveConfiguration(ConfigurationDto configurationDto);
     void populateOrganisations(String organisationSchemeUri);
     void deleteConfiguration(Long configurationId);
-    void publishExternally(String urn);
+    void publishExternally(Long id);
 }

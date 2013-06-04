@@ -10,7 +10,7 @@ import com.gwtplatform.dispatch.annotation.Out;
 public class PublishConfigurationExternally {
 
     @In(1)
-    String           urn;
+    Long             id;
 
     @Out(1)
     ConfigurationDto configurationDto;

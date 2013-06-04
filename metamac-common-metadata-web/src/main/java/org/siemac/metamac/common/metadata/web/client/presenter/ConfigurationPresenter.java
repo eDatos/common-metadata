@@ -149,8 +149,8 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     }
 
     @Override
-    public void publishExternally(String urn) {
-        dispatcher.execute(new PublishConfigurationExternallyAction(urn), new WaitingAsyncCallback<PublishConfigurationExternallyResult>() {
+    public void publishExternally(Long id) {
+        dispatcher.execute(new PublishConfigurationExternallyAction(id), new WaitingAsyncCallback<PublishConfigurationExternallyResult>() {
 
             @Override
             public void onWaitFailure(Throwable caught) {

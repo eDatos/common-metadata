@@ -26,7 +26,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
     @Override
     public PublishConfigurationExternallyResult executeSecurityAction(PublishConfigurationExternallyAction action) throws ActionException {
         try {
-            ConfigurationDto configurationDto = commonMetadataServiceFacade.publishExternallyConfiguration(ServiceContextHolder.getCurrentServiceContext(), action.getUrn());
+            ConfigurationDto configurationDto = commonMetadataServiceFacade.publishExternallyConfiguration(ServiceContextHolder.getCurrentServiceContext(), action.getId());
             return new PublishConfigurationExternallyResult(configurationDto);
         } catch (MetamacException e) {
             throw WebExceptionUtils.createMetamacWebException(e);

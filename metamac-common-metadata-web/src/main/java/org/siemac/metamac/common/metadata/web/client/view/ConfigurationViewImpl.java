@@ -90,7 +90,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
             @Override
             public void onClick(ClickEvent event) {
-                getUiHandlers().publishExternally(configurationDto.getUrn());
+                getUiHandlers().publishExternally(configurationDto.getId());
             }
         });
     }
