@@ -77,7 +77,7 @@ public class CommonMetadataBaseAsserts extends MetamacAsserts {
                 assertEquals(baseApi + entity.getUri(), dto.getUri());
             } else if (MapperEnum.DTO2DO.equals(mapperEnum)) {
                 String expectedDoUri = dto.getUri().replaceFirst(baseApi, StringUtils.EMPTY);
-                expectedDoUri = expectedDoUri.replaceFirst(RegularExpressionConstants.URN_VERSION_REG_EXP, API_LATEST);
+                expectedDoUri = expectedDoUri.replaceFirst(RegularExpressionConstants.API_VERSION_REG_EXP, API_LATEST);
                 assertEquals(expectedDoUri, entity.getUri());
             } else {
                 fail("Mapper unexpected: " + mapperEnum);
