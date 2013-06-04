@@ -2,6 +2,8 @@ package org.siemac.metamac.common.metadata.core.serviceapi;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.siemac.metamac.common.metadata.core.mapper.ExternalItemsDo2DtoMapperTest;
+import org.siemac.metamac.common.metadata.core.mapper.ExternalItemsDto2DoMapperTest;
 
 /**
  * Spring based transactional test with DbUnit support.
@@ -10,6 +12,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({CommonMetadataServiceFacadeTest.class, 
                         CommonMetadataServiceTest.class, 
-                        SecurityCommonMetadataServiceFacadeTest.class})
+                        SecurityCommonMetadataServiceFacadeTest.class,
+                        ExternalItemsDo2DtoMapperTest.class,
+                        ExternalItemsDto2DoMapperTest.class})
 public class CommonMetadataSuite {
 }

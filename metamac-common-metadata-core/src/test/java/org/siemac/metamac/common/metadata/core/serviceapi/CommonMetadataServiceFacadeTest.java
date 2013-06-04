@@ -16,7 +16,7 @@ import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatus
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataAsserts;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDtoMocks;
-import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import org.siemac.metamac.common.test.utils.MetamacMocks;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.exception.MetamacException;
@@ -102,15 +102,8 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
     @Test
     public void testUpdateConfiguration() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
-
-        ExternalItemDto contact = new ExternalItemDto();
-        contact.setCode("new-contact-code");
-        contact.setUri("new-contact-uri");
-        contact.setUrn("new-contact-urn");
-        contact.setType(TypeExternalArtefactsEnum.AGENCY);
-        contact.setManagementAppUrl("new-management-app-url");
-        contact.setTitle(CommonMetadataDtoMocks.mockInternationalStringDto("es", "new-contact-title-es"));
-        configurationDto.setContact(contact);
+        
+        configurationDto.setContact(MetamacMocks.mockExternalItemDtoComplete("new-contact-urn", TypeExternalArtefactsEnum.AGENCY));
 
         LocalisedStringDto legalActs_ca = new LocalisedStringDto();
         legalActs_ca.setLabel("CATALAN Legal Acts");

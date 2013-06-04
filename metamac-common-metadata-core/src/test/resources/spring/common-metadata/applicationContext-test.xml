@@ -22,6 +22,12 @@
 		</property>
 	</bean>
 
+    <!-- Metamac environment configuration -->
+    <bean id="configurationService" class="org.siemac.metamac.core.common.conf.ConfigurationServiceImpl">
+        <property name="systemConfigurationFile">
+            <value>classpath:metamac/environment-test.xml</value>
+        </property>
+    </bean>
 
 	<!-- metamac-core-common -->
 	<import resource="classpath:/spring/logging-beans-advice.xml" />

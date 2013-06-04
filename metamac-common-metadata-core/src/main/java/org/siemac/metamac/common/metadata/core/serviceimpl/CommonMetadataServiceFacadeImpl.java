@@ -116,7 +116,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
     // TRANSFORM LISTS
     // --------------------------------------------------------------------------------
 
-    private List<ConfigurationDto> configurationsListDo2Dto(List<Configuration> configurations) {
+    private List<ConfigurationDto> configurationsListDo2Dto(List<Configuration> configurations) throws MetamacException {
         List<ConfigurationDto> configurationsDto = new ArrayList<ConfigurationDto>();
         for (Configuration configuration : configurations) {
             configurationsDto.add(do2DtoMapper.configurationDoToDto(configuration));

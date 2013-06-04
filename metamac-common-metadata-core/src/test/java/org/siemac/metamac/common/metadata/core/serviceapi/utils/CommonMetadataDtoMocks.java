@@ -4,7 +4,6 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.test.utils.MetamacMocks;
-import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
@@ -67,14 +66,7 @@ public class CommonMetadataDtoMocks extends MetamacMocks {
         configurationDto.setConfDataTreatment(confidentialityDataTreatment);
         
         // Contact
-        ExternalItemDto contact = new ExternalItemDto();
-        contact.setCode("CONTACT-CODE");
-        contact.setUri("CONTACT-URI");
-        contact.setUrn("CONTACT-URN");
-        contact.setType(TypeExternalArtefactsEnum.AGENCY);
-        contact.setManagementAppUrl("CONTACT-MANAGEMENT_APP_URL");
-        contact.setTitle(mockInternationalStringDto("es", "contact-title-es", "en", "contact-title-en"));
-        configurationDto.setContact(contact);
+        configurationDto.setContact(mockExternalItemDtoComplete("CONTACT-URN", TypeExternalArtefactsEnum.AGENCY));
         
         // Status
         configurationDto.setStatus(CommonMetadataStatusEnum.ENABLED);
