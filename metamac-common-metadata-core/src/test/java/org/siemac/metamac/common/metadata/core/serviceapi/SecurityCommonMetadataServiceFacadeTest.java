@@ -329,55 +329,55 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
 
     @Override
     public void testPublishExternallyConfiguration() throws Exception {
-        String configurationUrn = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto()).getUrn();
+        Long configurationId = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto()).getId();
 
-        commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextAdministrador(), configurationUrn);
-        commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextJefeNormalizacion(), configurationUrn);
+        commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextAdministrador(), configurationId);
+        commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextJefeNormalizacion(), configurationId);
 
         try {
-            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoNormalizacion(), configurationUrn);
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoNormalizacion(), configurationId);
             fail("security exception - operation not allowed");
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoNormalizacion(), configurationUrn);
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoNormalizacion(), configurationId);
             fail("security exception - operation not allowed");
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoPlanificacion(), configurationUrn);
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoPlanificacion(), configurationId);
             fail("security exception - operation not allowed");
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoPlanificacion(), configurationUrn);
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoPlanificacion(), configurationId);
             fail("security exception - operation not allowed");
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoProduccion(), configurationUrn);
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoProduccion(), configurationId);
             fail("security exception - operation not allowed");
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoProduccion(), configurationUrn);
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoProduccion(), configurationId);
             fail("security exception - operation not allowed");
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoDifusion(), configurationUrn);
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoDifusion(), configurationId);
             fail("security exception - operation not allowed");
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
         try {
-            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoDifusion(), configurationUrn);
+            commonMetadataServiceFacade.publishExternallyConfiguration(getServiceContextTecnicoApoyoDifusion(), configurationId);
             fail("security exception - operation not allowed");
         } catch (MetamacException e) {
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());

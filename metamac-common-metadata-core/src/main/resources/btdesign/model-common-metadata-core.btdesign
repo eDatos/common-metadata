@@ -22,7 +22,7 @@ Application CommonMetadata {
 			@ConfigurationDto updateConfiguration(@ConfigurationDto configuration) throws MetamacException;
 			deleteConfiguration(Long configurationId) throws MetamacException;
 			List<@ConfigurationDto> updateConfigurationsStatus(List<Long> configurationIds, @CommonMetadataStatusEnum status) throws MetamacException;
-			@ConfigurationDto publishExternallyConfiguration(String urn) throws MetamacException; 
+			@ConfigurationDto publishExternallyConfiguration(Long id) throws MetamacException; 
 		}
 		
 		

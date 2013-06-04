@@ -207,17 +207,6 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     }
 
     @Test
-    @Transactional
-    public void testUpdateConfigurationCodeUnmodifiable() throws Exception {
-        expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_UNMODIFIABLE, ServiceExceptionParameters.CONFIGURATION_CODE));
-
-        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
-
-        configuration.setCode("Conf-modified");
-        commonMetadataService.updateConfiguration(getServiceContextAdministrador(), configuration);
-    }
-
-    @Test
     @DirtyDatabase
     public void testUpdateConfigurationStatusRequired() throws Exception {
         expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_REQUIRED, ServiceExceptionParameters.CONFIGURATION_STATUS));

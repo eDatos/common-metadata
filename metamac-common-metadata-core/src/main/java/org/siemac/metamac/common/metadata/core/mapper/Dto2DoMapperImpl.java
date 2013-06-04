@@ -55,9 +55,11 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
             OptimisticLockingUtils.checkVersion(target.getVersion(), source.getOptimisticLockingVersion());
 
             // Metadata unmodifiable
-            // It's necessary to check that all the metadata that conforms the URN are unmodifibale.
+            // It's necessary to check that all the metadata that conforms the URN are unmodifibale once the configuration is published
             List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
-            ValidationUtils.checkMetadataUnmodifiable(target.getCode(), source.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
+            if (target.isExternallyPublished()) {
+                ValidationUtils.checkMetadataUnmodifiable(target.getCode(), source.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
+            }
             ExceptionUtils.throwIfException(exceptions);
         }
 

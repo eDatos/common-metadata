@@ -140,12 +140,12 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
     }
 
     @Override
-    public ConfigurationDto publishExternallyConfiguration(ServiceContext ctx, String urn) throws MetamacException {
+    public ConfigurationDto publishExternallyConfiguration(ServiceContext ctx, Long id) throws MetamacException {
         // Security 
         SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.JEFE_NORMALIZACION);
         
         // Service call
-        Configuration configuration = getCommonMetadataService().findConfigurationByUrn(ctx, urn);
+        Configuration configuration = getCommonMetadataService().findConfigurationById(ctx, id);
         configuration.setExternallyPublished(true);
         configuration = getCommonMetadataService().updateConfiguration(ctx, configuration);
         
