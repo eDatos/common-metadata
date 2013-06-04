@@ -133,13 +133,13 @@ public class CommonMetadataDoMocks extends MetamacMocks {
     // -----------------------------------------------------------------
 
     private static ExternalItem mockStatisticalOperationAppExternalItem(String code, String urn, TypeExternalArtefactsEnum type) {
-        ExternalItem item = new ExternalItem(code, CoreCommonConstants.URL_SEPARATOR + code, urn, type, mockInternationalString(), CoreCommonConstants.URL_SEPARATOR + code);
+        ExternalItem item = new ExternalItem(code, CoreCommonConstants.API_LATEST_WITH_SLASHES + code, urn, type, mockInternationalString(), CoreCommonConstants.URL_SEPARATOR + code);
         item.setVersion(Long.valueOf(0));
         return item;
     }
 
     private static ExternalItem mockSrmAppExternalItem(String code, String urn, TypeExternalArtefactsEnum type) {
-        ExternalItem item = new ExternalItem(code, CoreCommonConstants.URL_SEPARATOR + code, urn, type, mockInternationalString(), CoreCommonConstants.URL_SEPARATOR + code);
+        ExternalItem item = new ExternalItem(code, CoreCommonConstants.API_LATEST_WITH_SLASHES + code, urn, type, mockInternationalString(), CoreCommonConstants.URL_SEPARATOR + code);
         item.setVersion(Long.valueOf(0));
         return item;
     }
