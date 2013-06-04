@@ -60,11 +60,10 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
 
     @Test
     public void testFindConfigurationByIdNotFound() throws MetamacException {
-        try {
-            commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), Long.valueOf(-1));
-        } catch (MetamacException e) {
-            assertEquals(ServiceExceptionType.CONFIGURATION_NOT_FOUND.getCode(), e.getExceptionItems().get(0).getCode());
-        }
+        Long code = Long.valueOf(-1);
+
+        expectedMetamacException(new MetamacException(ServiceExceptionType.CONFIGURATION_NOT_FOUND, code));
+        commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), Long.valueOf(-1));
     }
 
     @Test
@@ -93,6 +92,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
 
         try {
             commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
+            fail("code unmodifiable");
         } catch (MetamacException e) {
             assertEquals(1, e.getExceptionItems().size());
             assertEquals(ServiceExceptionType.METADATA_UNMODIFIABLE.getCode(), e.getExceptionItems().get(0).getCode());
@@ -102,7 +102,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
     @Test
     public void testUpdateConfiguration() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
-        
+
         configurationDto.setContact(MetamacMocks.mockExternalItemDtoComplete("new-contact-urn", TypeExternalArtefactsEnum.AGENCY));
 
         LocalisedStringDto legalActs_ca = new LocalisedStringDto();
