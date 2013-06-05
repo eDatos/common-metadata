@@ -35,6 +35,16 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.siemac.metamac.metamac-srm</groupId>
+            <artifactId>metamac-srm-rest-internal-api</artifactId>
+            <version>${metamac-srm-rest-internal-api.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.siemac.metamac.metamac-common-metadata</groupId>
             <artifactId>metamac-common-metadata-core</artifactId>
             <version>${project.version}</version>
