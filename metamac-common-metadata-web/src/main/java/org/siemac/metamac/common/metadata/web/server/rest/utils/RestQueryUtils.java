@@ -6,7 +6,6 @@ import org.siemac.metamac.rest.common.v1_0.domain.ComparisonOperator;
 import org.siemac.metamac.rest.common.v1_0.domain.LogicalOperator;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationCriteriaPropertyRestriction;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationSchemeCriteriaPropertyRestriction;
-import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ProcStatus;
 import org.siemac.metamac.web.common.shared.criteria.ExternalResourceWebCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
 
@@ -58,15 +57,22 @@ public class RestQueryUtils {
             queryBuilder.append(")");
         }
         // Filter by URN
-        // TODO 
+        if (StringUtils.isNotBlank(itemWebCriteria.getUrn())) {
+            if (StringUtils.isNotBlank(queryBuilder.toString())) {
+                queryBuilder.append(" ").append(LogicalOperator.AND.name()).append(" ");
+            }
+            queryBuilder.append("(");
+            queryBuilder.append(OrganisationCriteriaPropertyRestriction.URN).append(" ").append(ComparisonOperator.EQ.name()).append(" \"").append(itemWebCriteria.getUrn()).append("\"");
+            queryBuilder.append(")");
+        }
         // Only find externally published agencies
         if (BooleanUtils.isTrue(itemWebCriteria.getIsItemSchemeExternallyPublished())) {
             if (StringUtils.isNotBlank(queryBuilder.toString())) {
                 queryBuilder.append(" ").append(LogicalOperator.AND.name()).append(" ");
             }
             queryBuilder.append("(");
-            queryBuilder.append(OrganisationCriteriaPropertyRestriction.ORGANISATION_SCHEME_PROC_STATUS).append(" ").append(ComparisonOperator.EQ.name()).append(" \"")
-                    .append(ProcStatus.EXTERNALLY_PUBLISHED.name()).append("\"");
+            queryBuilder.append(OrganisationCriteriaPropertyRestriction.ORGANISATION_SCHEME_EXTERNALLY_PUBLISHED).append(" ").append(ComparisonOperator.EQ.name()).append(" \"").append(Boolean.TRUE)
+                    .append("\"");
             queryBuilder.append(")");
         }
         return queryBuilder.toString();

@@ -39,20 +39,35 @@ public class ConfigurationMainFormLayout extends InternationalMainFormLayout {
 
     private void updateButtonsVisibility() {
 
-        boolean isExternallyPublished = configurationDto.isExternallyPublished();
+        if (configurationDto != null) {
 
-        deleteToolStringButton.hide();
+            boolean isExternallyPublished = configurationDto.isExternallyPublished();
+
+            deleteToolStringButton.hide();
+            publishExternally.hide();
+
+            boolean canDelete = ClientSecurityUtils.canDeleteConfiguration(configurationDto);
+            boolean canPublishExternally = !isExternallyPublished && ClientSecurityUtils.canPublishConfigurationExternally();
+
+            if (canDelete) {
+                deleteToolStringButton.show();
+            }
+            if (canPublishExternally) {
+                publishExternally.show();
+            }
+        }
+    }
+
+    @Override
+    public void setViewMode() {
+        super.setViewMode();
+        updateButtonsVisibility();
+    }
+
+    @Override
+    public void setEditionMode() {
+        super.setEditionMode();
         publishExternally.hide();
-
-        boolean canDelete = ClientSecurityUtils.canDeleteConfiguration(configurationDto);
-        boolean canPublishExternally = !isExternallyPublished && ClientSecurityUtils.canPublishConfigurationExternally();
-
-        if (canDelete) {
-            deleteToolStringButton.show();
-        }
-        if (canPublishExternally) {
-            publishExternally.show();
-        }
     }
 
     public HasClickHandlers getPublishExternally() {

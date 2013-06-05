@@ -34,7 +34,7 @@ public class GetExternalResourcesActionHandler extends SecurityActionHandler<Get
                 result = srmRestInternalFacade.findAgencies((SrmItemRestCriteria) action.getExternalResourceWebCriteria(), action.getFirstResult(), action.getMaxResults());
                 break;
             default:
-                throw new MetamacWebException(CommonSharedConstants.EXCEPTION_UNKNOWN, ""); // TODO
+                throw new MetamacWebException(CommonSharedConstants.EXCEPTION_UNKNOWN, "");
         }
         return new GetExternalResourcesResult(result);
     }
