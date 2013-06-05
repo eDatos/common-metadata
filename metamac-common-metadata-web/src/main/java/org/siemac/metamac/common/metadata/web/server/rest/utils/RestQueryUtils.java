@@ -1,14 +1,14 @@
 package org.siemac.metamac.common.metadata.web.server.rest.utils;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.siemac.metamac.rest.common.v1_0.domain.ComparisonOperator;
 import org.siemac.metamac.rest.common.v1_0.domain.LogicalOperator;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationCriteriaPropertyRestriction;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationSchemeCriteriaPropertyRestriction;
-import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationSchemeType;
-import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationType;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ProcStatus;
 import org.siemac.metamac.web.common.shared.criteria.ExternalResourceWebCriteria;
-import org.siemac.metamac.web.common.shared.criteria.SrmItemWebCriteria;
+import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
 
 public class RestQueryUtils {
 
@@ -28,13 +28,6 @@ public class RestQueryUtils {
             queryBuilder.append(OrganisationSchemeCriteriaPropertyRestriction.URN).append(" ").append(ComparisonOperator.ILIKE.name()).append(" \"").append(criteria).append("\"");
             queryBuilder.append(")");
         }
-        if (StringUtils.isNotBlank(queryBuilder.toString())) {
-            queryBuilder.append(" ").append(LogicalOperator.AND.name()).append(" ");
-        }
-        queryBuilder.append("(");
-        queryBuilder.append(OrganisationSchemeCriteriaPropertyRestriction.TYPE).append(" ").append(ComparisonOperator.EQ.name()).append(" \"").append(OrganisationSchemeType.AGENCY_SCHEME.name())
-                .append("\"");
-        queryBuilder.append(")");
         return queryBuilder.toString();
     }
 
@@ -42,7 +35,7 @@ public class RestQueryUtils {
     // AGENCY
     //
 
-    public static String buildAgencyQuery(SrmItemWebCriteria itemWebCriteria) {
+    public static String buildAgencyQuery(SrmItemRestCriteria itemWebCriteria) {
         StringBuilder queryBuilder = new StringBuilder();
         String criteria = itemWebCriteria.getCriteria();
         if (StringUtils.isNotBlank(criteria)) {
@@ -54,6 +47,7 @@ public class RestQueryUtils {
             queryBuilder.append(OrganisationCriteriaPropertyRestriction.URN).append(" ").append(ComparisonOperator.ILIKE.name()).append(" \"").append(criteria).append("\"");
             queryBuilder.append(")");
         }
+        // Filter by agency scheme
         if (StringUtils.isNotBlank(itemWebCriteria.getItemSchemUrn())) {
             if (StringUtils.isNotBlank(queryBuilder.toString())) {
                 queryBuilder.append(" ").append(LogicalOperator.AND.name()).append(" ");
@@ -63,12 +57,18 @@ public class RestQueryUtils {
                     .append(itemWebCriteria.getItemSchemUrn()).append("\"");
             queryBuilder.append(")");
         }
-        if (StringUtils.isNotBlank(queryBuilder.toString())) {
-            queryBuilder.append(" ").append(LogicalOperator.AND.name()).append(" ");
+        // Filter by URN
+        // TODO 
+        // Only find externally published agencies
+        if (BooleanUtils.isTrue(itemWebCriteria.getIsItemSchemeExternallyPublished())) {
+            if (StringUtils.isNotBlank(queryBuilder.toString())) {
+                queryBuilder.append(" ").append(LogicalOperator.AND.name()).append(" ");
+            }
+            queryBuilder.append("(");
+            queryBuilder.append(OrganisationCriteriaPropertyRestriction.ORGANISATION_SCHEME_PROC_STATUS).append(" ").append(ComparisonOperator.EQ.name()).append(" \"")
+                    .append(ProcStatus.EXTERNALLY_PUBLISHED.name()).append("\"");
+            queryBuilder.append(")");
         }
-        queryBuilder.append("(");
-        queryBuilder.append(OrganisationCriteriaPropertyRestriction.TYPE).append(" ").append(ComparisonOperator.EQ.name()).append(" \"").append(OrganisationType.AGENCY.name()).append("\"");
-        queryBuilder.append(")");
         return queryBuilder.toString();
     }
 }

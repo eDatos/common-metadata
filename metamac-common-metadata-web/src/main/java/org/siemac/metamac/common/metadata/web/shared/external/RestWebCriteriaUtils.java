@@ -2,7 +2,7 @@ package org.siemac.metamac.common.metadata.web.shared.external;
 
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.web.common.shared.criteria.ExternalResourceWebCriteria;
-import org.siemac.metamac.web.common.shared.criteria.SrmItemWebCriteria;
+import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
 
 public class RestWebCriteriaUtils {
 
@@ -17,8 +17,8 @@ public class RestWebCriteriaUtils {
         return externalResourceWebCriteria;
     }
 
-    public static SrmItemWebCriteria buildItemWebCriteria(TypeExternalArtefactsEnum[] types, String criteria, String itemSchemeUrn) {
-        SrmItemWebCriteria itemWebCriteria = new SrmItemWebCriteria();
+    public static SrmItemRestCriteria buildItemWebCriteria(TypeExternalArtefactsEnum[] types, String criteria, String itemSchemeUrn) {
+        SrmItemRestCriteria itemWebCriteria = new SrmItemRestCriteria();
         itemWebCriteria.setType(types[0]); // only a type will be passed in this application
         itemWebCriteria.setItemSchemUrn(itemSchemeUrn);
         itemWebCriteria.setCriteria(criteria);
