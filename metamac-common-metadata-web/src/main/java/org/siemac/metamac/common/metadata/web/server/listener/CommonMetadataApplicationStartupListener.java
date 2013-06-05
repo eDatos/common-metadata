@@ -28,9 +28,13 @@ public class CommonMetadataApplicationStartupListener extends ApplicationStartup
         checkNavBarUrlProperty();
         checkOrganisationProperty();
 
+        // WEB APPLICATIONS
+
+        checkRequiredProperty(CommonMetadataConfigurationConstants.WEB_APPLICATION_SRM_INTERNAL_WEB);
+
         // API
 
-        // TODO cuando se integre con la API de metamac-srm, añadir comprobación
+        checkRequiredProperty(CommonMetadataConfigurationConstants.ENDPOINT_SRM_INTERNAL_API);
 
         // COMMON METADATA properties
 

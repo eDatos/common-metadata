@@ -3,8 +3,6 @@ package org.siemac.metamac.common.metadata.web.client.view;
 import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
 import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getCoreMessages;
 
-import java.util.List;
-
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
@@ -13,17 +11,21 @@ import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.ConfigurationMainFormLayout;
+import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchAgencyItem;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
+import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
-import org.siemac.metamac.web.common.client.utils.ExternalItemUtils;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomSelectItem;
-import org.siemac.metamac.web.common.client.widgets.form.fields.ExternalSelectItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.ExternalItemLinkItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.MultilanguageRichTextEditorItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredTextItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.SearchExternalItemLinkItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewMultiLanguageTextItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewTextItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSrmItemItem;
+import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -33,8 +35,6 @@ import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.FormItemIfFunction;
 import com.smartgwt.client.widgets.form.fields.FormItem;
-import com.smartgwt.client.widgets.form.fields.events.ChangedEvent;
-import com.smartgwt.client.widgets.form.fields.events.ChangedHandler;
 import com.smartgwt.client.widgets.toolbar.ToolStrip;
 
 public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHandlers> implements ConfigurationPresenter.ConfigurationView {
@@ -45,7 +45,6 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     private GroupDynamicForm            editionForm;
 
     private ConfigurationDto            configurationDto;
-    private List<ExternalItemDto>       organisations;
 
     @Inject
     public ConfigurationViewImpl() {
@@ -100,6 +99,15 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         return mainFormLayout;
     }
 
+    @Override
+    public void setUiHandlers(ConfigurationUiHandlers uiHandlers) {
+        super.setUiHandlers(uiHandlers);
+
+        // Set uiHandlers in formItems
+
+        ((SearchSrmItemItem) editionForm.getItem(ConfigurationDS.CONTACT)).setUiHandlers(uiHandlers);
+    }
+
     private void setTranslationsShowed(boolean translationsShowed) {
         form.setTranslationsShowed(translationsShowed);
         editionForm.setTranslationsShowed(translationsShowed);
@@ -114,7 +122,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         form = new GroupDynamicForm(getConstants().configuration());
 
         ViewTextItem staticCode = new ViewTextItem(ConfigurationDS.CODE, getConstants().confCode());
-        ViewTextItem staticOrganisation = new ViewTextItem(ConfigurationDS.ORGANISATION, getConstants().confOrganisation());
+        ExternalItemLinkItem staticOrganisation = new ExternalItemLinkItem(ConfigurationDS.CONTACT, getConstants().confOrganisation());
         ViewTextItem status = new ViewTextItem(ConfigurationDS.STATUS, getConstants().confStatus());
         ViewTextItem externallyPublished = new ViewTextItem(ConfigurationDS.EXTERNALLY_PUBLISHED, getConstants().configurationExternallyPublished());
         ViewMultiLanguageTextItem staticLegalActs = new ViewMultiLanguageTextItem(ConfigurationDS.LEGAL_ACTS, getConstants().confLegalActs());
@@ -163,16 +171,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             }
         });
 
-        ExternalSelectItem organisationItem = new ExternalSelectItem(ConfigurationDS.ORGANISATION, getConstants().confOrganisation());
-        organisationItem.getSchemeItem().addChangedHandler(new ChangedHandler() {
-
-            @Override
-            public void onChanged(ChangedEvent event) {
-                if (event.getValue() != null) {
-                    getUiHandlers().populateOrganisations(event.getValue().toString());
-                }
-            }
-        });
+        SearchExternalItemLinkItem agencyItem = createAgencyItem(ConfigurationDS.CONTACT, getConstants().confOrganisation());
 
         CustomSelectItem status = new CustomSelectItem(ConfigurationDS.STATUS, getConstants().confStatus());
         status.setRequired(true);
@@ -185,14 +184,14 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         MultilanguageRichTextEditorItem confPolicy = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_POLYCY, getConstants().confPolicy());
         MultilanguageRichTextEditorItem confDataTreatment = new MultilanguageRichTextEditorItem(ConfigurationDS.CONF_DATA_TREATMENT, getConstants().confDataTreatment());
 
-        editionForm.setFields(staticCode, code, organisationItem, status, externallyPublished, legalActs, dataSharing, confPolicy, confDataTreatment);
+        editionForm.setFields(staticCode, code, agencyItem, status, externallyPublished, legalActs, dataSharing, confPolicy, confDataTreatment);
 
         mainFormLayout.addEditionCanvas(editionForm);
     }
 
     private ConfigurationDto getConfiguration() {
         configurationDto.setCode(editionForm.getValueAsString(ConfigurationDS.CODE));
-        configurationDto.setContact(((ExternalSelectItem) editionForm.getItem(ConfigurationDS.ORGANISATION)).getSelectedExternalItem(organisations));
+        configurationDto.setContact(((ExternalItemLinkItem) editionForm.getItem(ConfigurationDS.CONTACT)).getExternalItemDto());
         configurationDto.setStatus(editionForm.getValueAsString(ConfigurationDS.STATUS) != null ? CommonMetadataStatusEnum.valueOf(editionForm.getValueAsString(ConfigurationDS.STATUS)) : null);
         configurationDto.setLegalActs((InternationalStringDto) editionForm.getValue(ConfigurationDS.LEGAL_ACTS));
         configurationDto.setDataSharing((InternationalStringDto) editionForm.getValue(ConfigurationDS.DATA_SHARING));
@@ -218,7 +217,9 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     private void setConfigurationViewMode(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
         form.setValue(ConfigurationDS.CODE, configurationDto.getCode());
-        form.setValue(ConfigurationDS.ORGANISATION, configurationDto.getContact() == null ? new String() : configurationDto.getContact().getUrn());
+
+        ((ExternalItemLinkItem) form.getItem(ConfigurationDS.CONTACT)).setExternalItem(configurationDto.getContact());
+
         form.setValue(ConfigurationDS.STATUS,
                 configurationDto.getStatus() == null ? new String() : getCoreMessages().getString(getCoreMessages().commonMetadataStatusEnum() + configurationDto.getStatus().toString()));
         form.setValue(ConfigurationDS.EXTERNALLY_PUBLISHED, CommonWebUtils.getBooleanValueAsString(Boolean.valueOf(configurationDto.isExternallyPublished())));
@@ -233,7 +234,9 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         this.configurationDto = configurationDto;
         editionForm.setValue(ConfigurationDS.STATIC_CODE, configurationDto.getCode());
         editionForm.setValue(ConfigurationDS.CODE, configurationDto.getCode());
-        editionForm.setValue(ConfigurationDS.ORGANISATION, configurationDto.getContact() == null ? null : configurationDto.getContact().getUrn());
+
+        ((ExternalItemLinkItem) editionForm.getItem(ConfigurationDS.CONTACT)).setExternalItem(configurationDto.getContact());
+
         editionForm.setValue(ConfigurationDS.STATUS, configurationDto.getStatus() != null ? configurationDto.getStatus().toString() : new String());
         editionForm.setValue(ConfigurationDS.EXTERNALLY_PUBLISHED, CommonWebUtils.getBooleanValueAsString(Boolean.valueOf(configurationDto.isExternallyPublished())));
         editionForm.setValue(ConfigurationDS.LEGAL_ACTS, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getLegalActs()));
@@ -242,14 +245,42 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         editionForm.setValue(ConfigurationDS.CONF_DATA_TREATMENT, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getConfDataTreatment()));
     }
 
+    // ------------------------------------------------------------------------------------------------------------
+    // EXTERNAL RESOURCES DATA SETTERS
+    // ------------------------------------------------------------------------------------------------------------
+
     @Override
-    public void setOrganisationSchemes(List<ExternalItemDto> schemes) {
-        ((ExternalSelectItem) editionForm.getItem(ConfigurationDS.ORGANISATION)).setSchemesValueMap(ExternalItemUtils.getExternalItemsHashMap(schemes));
+    public void setItemSchemes(String formItemName, ExternalItemsResult result) {
+        if (StringUtils.equals(ConfigurationDS.CONTACT, formItemName)) {
+            ((SearchSrmItemItem) editionForm.getItem(formItemName)).setItemSchemes(result);
+        }
     }
 
     @Override
-    public void setOrganisations(List<ExternalItemDto> organisations) {
-        this.organisations = organisations;
-        ((ExternalSelectItem) editionForm.getItem(ConfigurationDS.ORGANISATION)).setItemsValueMap(ExternalItemUtils.getExternalItemsHashMap(organisations));
+    public void setItems(String formItemName, ExternalItemsResult result) {
+        if (StringUtils.equals(ConfigurationDS.CONTACT, formItemName)) {
+            ((SearchSrmItemItem) editionForm.getItem(formItemName)).setItems(result);
+        }
     }
+
+    // ------------------------------------------------------------------------------------------------------------
+    // EXTERNAL RESOURCES ITEMS
+    // ------------------------------------------------------------------------------------------------------------
+
+    private SearchSrmItemItem createAgencyItem(final String name, String title) {
+        final SearchSrmItemItem item = new SearchAgencyItem(name, title);
+        com.smartgwt.client.widgets.form.fields.events.ClickHandler clickHandler = new com.smartgwt.client.widgets.form.fields.events.ClickHandler() {
+
+            @Override
+            public void onClick(com.smartgwt.client.widgets.form.fields.events.ClickEvent event) {
+                ExternalItemDto agency = item.getSelectedItem();
+                item.markSearchWindowForDestroy();
+                ((SearchSrmItemItem) editionForm.getItem(name)).setExternalItem(agency);
+                editionForm.validate(false);
+            }
+        };
+        item.setSaveClickHandler(clickHandler);
+        return item;
+    }
+
 }

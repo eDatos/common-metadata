@@ -26,6 +26,9 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
     @Override
     public PublishConfigurationExternallyResult executeSecurityAction(PublishConfigurationExternallyAction action) throws ActionException {
         try {
+
+            // FIXME check that the agency is externally published too!!
+
             ConfigurationDto configurationDto = commonMetadataServiceFacade.publishExternallyConfiguration(ServiceContextHolder.getCurrentServiceContext(), action.getId());
             return new PublishConfigurationExternallyResult(configurationDto);
         } catch (MetamacException e) {

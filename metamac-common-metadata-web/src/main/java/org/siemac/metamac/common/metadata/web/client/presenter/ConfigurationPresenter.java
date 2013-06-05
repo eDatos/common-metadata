@@ -1,6 +1,7 @@
 package org.siemac.metamac.common.metadata.web.client.presenter;
 
 import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
+import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getMessages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,21 +18,23 @@ import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationResult;
-import org.siemac.metamac.common.metadata.web.shared.GetOrganisationSchemesAction;
-import org.siemac.metamac.common.metadata.web.shared.GetOrganisationSchemesResult;
-import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeAction;
-import org.siemac.metamac.common.metadata.web.shared.GetOrganisationsFromSchemeResult;
 import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyAction;
 import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
+import org.siemac.metamac.common.metadata.web.shared.external.GetExternalResourcesAction;
+import org.siemac.metamac.common.metadata.web.shared.external.GetExternalResourcesResult;
+import org.siemac.metamac.common.metadata.web.shared.external.RestWebCriteriaUtils;
 import org.siemac.metamac.core.common.constants.shared.UrnConstants;
-import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.core.common.util.shared.UrnUtils;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
+import org.siemac.metamac.web.common.shared.criteria.ExternalResourceWebCriteria;
+import org.siemac.metamac.web.common.shared.criteria.SrmItemWebCriteria;
+import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.inject.Inject;
@@ -69,8 +72,11 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     public interface ConfigurationView extends View, HasUiHandlers<ConfigurationUiHandlers> {
 
         void setConfiguration(ConfigurationDto configurationDto);
-        void setOrganisationSchemes(List<ExternalItemDto> schemes);
-        void setOrganisations(List<ExternalItemDto> organisations);
+
+        // External resources
+
+        void setItemSchemes(String formItemName, ExternalItemsResult result);
+        void setItems(String formItemName, ExternalItemsResult result);
     }
 
     @Inject
@@ -98,8 +104,6 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
         } else {
             CommonMetadataWeb.showErrorPage();
         }
-
-        populateOrganisationSchemes(); // TODO remove this call when the application were integrated with SRM
     }
 
     private void retrieveConfiguration(String urn) {
@@ -165,31 +169,48 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
         });
     }
 
+    //
+    // EXTERNAL RESOURCES
+    //
+
     @Override
-    public void populateOrganisations(String organisationSchemeUri) {
-        dispatcher.execute(new GetOrganisationsFromSchemeAction(organisationSchemeUri), new WaitingAsyncCallback<GetOrganisationsFromSchemeResult>() {
+    public void retrieveItemSchemes(final String formItemName, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults, String criteria) {
+        ExternalResourceWebCriteria externalResourceWebCriteria = RestWebCriteriaUtils.buildItemSchemeWebCriteria(types, criteria);
+        retrieveItemSchemes(formItemName, externalResourceWebCriteria, firstResult, maxResults);
+    }
+
+    @Override
+    public void retrieveItemSchemes(final String formItemName, ExternalResourceWebCriteria externalResourceWebCriteria, int firstResult, int maxResults) {
+        dispatcher.execute(new GetExternalResourcesAction(externalResourceWebCriteria, firstResult, maxResults), new WaitingAsyncCallback<GetExternalResourcesResult>() {
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, getMessages().errorRetrievingExternalStructuralResources()), MessageTypeEnum.ERROR);
             }
             @Override
-            public void onWaitSuccess(GetOrganisationsFromSchemeResult result) {
-                getView().setOrganisations(result.getOrganisations());
+            public void onWaitSuccess(GetExternalResourcesResult result) {
+                getView().setItemSchemes(formItemName, result.getExternalItemsResult());
             }
         });
     }
 
-    private void populateOrganisationSchemes() {
-        dispatcher.execute(new GetOrganisationSchemesAction(), new WaitingAsyncCallback<GetOrganisationSchemesResult>() {
+    @Override
+    public void retrieveItems(final String formItemName, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults, String criteria, String itemSchemeUrn) {
+        SrmItemWebCriteria itemWebCriteria = RestWebCriteriaUtils.buildItemWebCriteria(types, criteria, itemSchemeUrn);
+        retrieveItems(formItemName, itemWebCriteria, firstResult, maxResults);
+    }
+
+    @Override
+    public void retrieveItems(final String formItemName, SrmItemWebCriteria itemWebCriteria, int firstResult, int maxResults) {
+        dispatcher.execute(new GetExternalResourcesAction(itemWebCriteria, firstResult, maxResults), new WaitingAsyncCallback<GetExternalResourcesResult>() {
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingOrganisations()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fire(ConfigurationPresenter.this, ErrorUtils.getErrorMessages(caught, getMessages().errorRetrievingExternalStructuralResources()), MessageTypeEnum.ERROR);
             }
             @Override
-            public void onWaitSuccess(GetOrganisationSchemesResult result) {
-                getView().setOrganisationSchemes(result.getOrganisationSchemes());
+            public void onWaitSuccess(GetExternalResourcesResult result) {
+                getView().setItems(formItemName, result.getExternalItemsResult());
             }
         });
     }
@@ -200,5 +221,12 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
     private void goToConfigurations() {
         placeManager.revealRelativePlace(-1);
+    }
+
+    @Override
+    public void goTo(List<PlaceRequest> location) {
+        if (location != null && !location.isEmpty()) {
+            placeManager.revealPlaceHierarchy(location);
+        }
     }
 }
