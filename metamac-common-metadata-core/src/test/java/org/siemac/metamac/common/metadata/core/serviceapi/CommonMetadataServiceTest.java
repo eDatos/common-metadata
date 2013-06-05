@@ -46,11 +46,12 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 public class CommonMetadataServiceTest extends CommonMetadataBaseTests implements CommonMetadataServiceTestBase {
 
     @Autowired
-    protected CommonMetadataService    commonMetadataService;
+    protected CommonMetadataService          commonMetadataService;
 
     @Autowired
-    private PlatformTransactionManager transactionManager = null;
+    private final PlatformTransactionManager transactionManager = null;
 
+    @Override
     @Test
     @Transactional
     public void testFindConfigurationById() throws Exception {
@@ -61,6 +62,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         CommonMetadataAsserts.assertEqualsConfiguration(configuration, configurationRetrieved);
     }
 
+    @Override
     @Test
     @Transactional
     public void testFindConfigurationByUrn() throws Exception {
@@ -80,6 +82,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         commonMetadataService.findConfigurationByUrn(getServiceContextAdministrador(), urn);
     }
 
+    @Override
     @Test
     @Transactional
     public void testFindAllConfigurations() throws Exception {
@@ -90,6 +93,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         assertTrue(!configurations.isEmpty());
     }
 
+    @Override
     @Test
     @Transactional
     public void testCreateConfiguration() throws Exception {
@@ -157,6 +161,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
     }
 
+    @Override
     @Test
     @Transactional
     public void testDeleteConfiguration() throws Exception {
@@ -169,6 +174,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         assertTrue(commonMetadataService.findAllConfigurations(getServiceContextAdministrador()).size() < configurations.size());
     }
 
+    @Override
     @Test
     @Transactional
     public void testFindConfigurationByCondition() throws Exception {
@@ -186,6 +192,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
     }
 
+    @Override
     @Test
     @Transactional
     public void testUpdateConfiguration() throws Exception {
@@ -240,6 +247,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
     }
 
+    @Override
     @Test
     @Transactional
     public void testUpdateConfigurationsStatus() throws Exception {
@@ -344,7 +352,8 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         configuration.setConfDataTreatment(confidentialityDataTreatment);
 
         // Contact
-        configuration.setContact(new ExternalItem("CONTACT-CODE", "CONTACT-URI", "CONTACT-URN", TypeExternalArtefactsEnum.AGENCY, null, "CONTACT-MANAGEMENT_APP_URL-01234567890123456789"));
+        configuration.setContact(new ExternalItem("CONTACT-CODE", "CONTACT-URI", "CONTACT-URN", "CONTACT-URN-INTERNAL", TypeExternalArtefactsEnum.AGENCY, null,
+                "CONTACT-MANAGEMENT_APP_URL-01234567890123456789"));
 
         // Status
         configuration.setStatus(CommonMetadataStatusEnum.ENABLED);

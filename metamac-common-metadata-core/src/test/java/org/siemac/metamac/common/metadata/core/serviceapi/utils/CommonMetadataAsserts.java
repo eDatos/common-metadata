@@ -20,7 +20,7 @@ public class CommonMetadataAsserts extends MetamacAsserts {
         assertEqualsInternationalString(expected.getLegalActs(), actual.getLegalActs());
         assertEqualsExternalItem(expected.getContact(), actual.getContact());
     }
-    
+
     public static void assertEqualsConfigurationDto(ConfigurationDto expected, ConfigurationDto actual) {
         assertEquals(expected.getCode(), actual.getCode());
         assertEqualsInternationalStringDto(expected.getConfDataTreatment(), actual.getConfDataTreatment());
@@ -64,16 +64,17 @@ public class CommonMetadataAsserts extends MetamacAsserts {
     // -----------------------------------------------------------------
 
     public static void assertEqualsExternalItem(ExternalItem expected, ExternalItem actual) {
-        
+
         if (actual == null && expected == null) {
             return;
         } else if ((actual != null && expected == null) || (actual == null && expected != null)) {
             fail();
         }
-        
+
         assertEquals(expected.getCode(), actual.getCode());
         assertEquals(expected.getUri(), actual.getUri());
         assertEquals(expected.getUrn(), actual.getUrn());
+        assertEquals(expected.getUrnInternal(), actual.getUrnInternal());
         assertEquals(expected.getType(), actual.getType());
         assertEqualsInternationalString(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getManagementAppUrl(), actual.getManagementAppUrl());

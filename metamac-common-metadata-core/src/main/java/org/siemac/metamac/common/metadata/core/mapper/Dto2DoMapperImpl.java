@@ -91,7 +91,7 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
 
     private ExternalItem externalItemDtoToDo(ExternalItemDto source, ExternalItem target, String metadataName) throws MetamacException {
         target = externalItemWithoutUrlDtoToEntity(source, target, metadataName);
-        
+
         if (target != null) {
             if (TypeExternalArtefactsEnumUtils.isExternalItemOfCommonMetadataApp(source.getType())) {
                 target = commonMetadataExternalItemDtoToDo(source, target);
@@ -103,11 +103,10 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
                 throw new MetamacException(ServiceExceptionType.UNKNOWN, "Type of externalItem not defined for externalItemDtoToEntity: " + source.getType());
             }
         }
-        
+
         return target;
     }
-    
-    
+
     private ExternalItem externalItemWithoutUrlDtoToEntity(ExternalItemDto source, ExternalItem target, String metadataName) throws MetamacException {
         if (source == null) {
             if (target != null) {
@@ -119,11 +118,12 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
 
         if (target == null) {
             // We set uri because it's required but the information is incorrect because it includes the base
-            target = new ExternalItem(source.getCode(), source.getUri(), source.getUrn(), source.getType(), internationalStringToDo(source.getTitle(), null, metadataName));
+            target = new ExternalItem(source.getCode(), source.getUri(), source.getUrn(), source.getUrnInternal(), source.getType(), internationalStringToDo(source.getTitle(), null, metadataName));
         } else {
             target.setCode(source.getCode());
             target.setUri(source.getUri());
             target.setUrn(source.getUrn());
+            target.setUrnInternal(source.getUrnInternal());
             target.setType(source.getType());
             target.setManagementAppUrl(source.getManagementAppUrl());
             target.setTitle(internationalStringToDo(source.getTitle(), target.getTitle(), metadataName));
@@ -132,13 +132,13 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         return target;
 
     }
-    
+
     private ExternalItem commonMetadataExternalItemDtoToDo(ExternalItemDto source, ExternalItem target) throws MetamacException {
         target.setUri(commonMetadataExternalApiUrlDtoToDo(source.getUri()));
         target.setManagementAppUrl(commonMetadataInternalWebAppUrlDtoToDo(source.getManagementAppUrl()));
         return target;
     }
-    
+
     private ExternalItem srmExternalItemDtoToDo(ExternalItemDto source, ExternalItem target) throws MetamacException {
         target.setUri(srmInternalApiUrlDtoToDo(source.getUri()));
         target.setManagementAppUrl(srmInternalWebAppUrlDtoToDo(source.getManagementAppUrl()));
@@ -150,7 +150,7 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         target.setManagementAppUrl(statisticalOperationsInternalWebAppUrlDtoToDo(source.getManagementAppUrl()));
         return target;
     }
-    
+
     private InternationalString internationalStringToDo(InternationalStringDto source, InternationalString target, String metadataName) throws MetamacException {
         if (source == null) {
             if (target != null) {

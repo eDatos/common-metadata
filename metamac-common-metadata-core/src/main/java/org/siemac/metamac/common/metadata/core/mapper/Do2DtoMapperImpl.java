@@ -42,14 +42,14 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         target.setDataSharing(internationalStringToDto(source.getDataSharing()));
         target.setConfPolicy(internationalStringToDto(source.getConfPolicy()));
         target.setConfDataTreatment(internationalStringToDto(source.getConfDataTreatment()));
-        
+
         target.setExternallyPublished(source.isExternallyPublished());
         target.setStatus(source.getStatus());
 
         if (source.getContact() != null) {
             target.setContact(externalItemToDto(source.getContact()));
         }
-        
+
         target.setOptimisticLockingVersion(source.getVersion());
 
         return target;
@@ -92,13 +92,14 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
 
         return target;
     }
-    
+
     private ExternalItemDto externalItemWithoutUrlsToDto(ExternalItem source) {
         if (source == null) {
             return null;
         }
 
-        ExternalItemDto target = new ExternalItemDto(source.getCode(), source.getUri(), source.getUrn(), source.getType(), internationalStringToDto(source.getTitle()), source.getManagementAppUrl()); 
+        ExternalItemDto target = new ExternalItemDto(source.getCode(), source.getUri(), source.getUrn(), source.getUrnInternal(), source.getType(), internationalStringToDto(source.getTitle()),
+                source.getManagementAppUrl());
 
         return target;
     }
@@ -114,13 +115,13 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         target.setManagementAppUrl(srmInternalWebAppUrlDoToDto(source.getManagementAppUrl()));
         return target;
     }
-    
+
     private ExternalItemDto statisticalOperationsExternalItemDoToDto(ExternalItem source, ExternalItemDto target) throws MetamacException {
         target.setUri(statisticalOperationsInternalApiUrlDoToDto(source.getUri()));
         target.setManagementAppUrl(statisticalOperationsInternalWebAppUrlDoToDto(source.getManagementAppUrl()));
         return target;
     }
-    
+
     private Date dateDoToDto(DateTime source) {
         if (source == null) {
             return null;
