@@ -72,7 +72,7 @@ public class CommonMetadataCoreMocks {
         String uri = "v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/" + code;
         String urn = "urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0)." + code;
         String managementUrlPart = "#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id=" + code;
-        return new ExternalItem(code, uri, urn, TypeExternalArtefactsEnum.AGENCY, mockInternationalString(code, null), managementUrlPart);
+        return new ExternalItem(code, uri, urn, urn, TypeExternalArtefactsEnum.AGENCY, mockInternationalString(code, null), managementUrlPart);
     }
 
     private InternationalString mockInternationalString(String metadata, String subCode) {
