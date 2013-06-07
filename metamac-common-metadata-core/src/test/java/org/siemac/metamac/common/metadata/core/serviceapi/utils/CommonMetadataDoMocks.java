@@ -6,20 +6,11 @@ import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
 import org.siemac.metamac.core.common.ent.domain.LocalisedString;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
-import org.siemac.metamac.core.common.util.GeneratorUrnUtils;
-import org.siemac.metamac.core.common.util.shared.VersionUtil;
 
 /**
  * Mocks
  */
 public class CommonMetadataDoMocks extends MetamacMocks {
-
-    private static final String[] MAINTAINER_MOCK        = new String[]{"MaintainerMock"};
-    private static final String   ORGANIZATION_UNIT_MOCK = "OrganizationUnitMock";
-    private static final String   AGENCY_SCHEME_MOCK     = "AgencySchemeMock";
-    private static final String   CONCEPT_SCHEME_MOCK    = "ConceptSchemeMock";
-    private static final String   CODELIST_MOCK          = "CodelistMock";
-    private static final String   DSD_MOCK               = "DsdMock";
 
     // -----------------------------------------------------------------
     // INTERNATIONAL STRING
@@ -142,49 +133,5 @@ public class CommonMetadataDoMocks extends MetamacMocks {
         ExternalItem item = new ExternalItem(code, CoreCommonConstants.API_LATEST_WITH_SLASHES + code, urn, urn + "internal", type, mockInternationalString(), CoreCommonConstants.URL_SEPARATOR + code);
         item.setVersion(Long.valueOf(0));
         return item;
-    }
-
-    private static String mockCode() {
-        return mockString(8);
-    }
-
-    private static String mockStatisticalOperationUrn(String code) {
-        return GeneratorUrnUtils.generateSiemacStatisticalOperationUrn(code);
-    }
-
-    private static String mockStatisticalOperationInstanceUrn(String code) {
-        return GeneratorUrnUtils.generateSiemacStatisticalOperationUrn(code);
-    }
-
-    private static String mockAgencyUrn(String code) {
-        return GeneratorUrnUtils.generateSdmxAgencyUrn(MAINTAINER_MOCK, AGENCY_SCHEME_MOCK, VersionUtil.PATTERN_X_Y_INITIAL_VERSION, code);
-    }
-
-    private static String mockOrganizationUnitUrn(String code) {
-        return GeneratorUrnUtils.generateSdmxOrganisationUnitUrn(MAINTAINER_MOCK, ORGANIZATION_UNIT_MOCK, VersionUtil.PATTERN_X_Y_INITIAL_VERSION, code);
-    }
-
-    private static String mockConceptUrn(String code) {
-        return GeneratorUrnUtils.generateSdmxConceptUrn(MAINTAINER_MOCK, CONCEPT_SCHEME_MOCK, VersionUtil.PATTERN_X_Y_INITIAL_VERSION, code);
-    }
-
-    private static String mockConceptSchemeUrn(String code) {
-        return GeneratorUrnUtils.generateSdmxConceptSchemeUrn(MAINTAINER_MOCK, code, VersionUtil.PATTERN_X_Y_INITIAL_VERSION);
-    }
-
-    private static String mockCodeListUrn(String code) {
-        return GeneratorUrnUtils.generateSdmxCodelistUrn(MAINTAINER_MOCK, code, VersionUtil.PATTERN_X_Y_INITIAL_VERSION);
-    }
-
-    private static String mockCodeUrn(String code) {
-        return GeneratorUrnUtils.generateSdmxCodeUrn(MAINTAINER_MOCK, CODELIST_MOCK, VersionUtil.PATTERN_X_Y_INITIAL_VERSION, code);
-    }
-
-    private static String mockDsdUrn(String code) {
-        return GeneratorUrnUtils.generateSdmxDatastructureUrn(MAINTAINER_MOCK, code, VersionUtil.PATTERN_X_Y_INITIAL_VERSION);
-    }
-
-    private static String mockDimensionUrn(String code) {
-        return GeneratorUrnUtils.generateSdmxDimensionUrn(MAINTAINER_MOCK, DSD_MOCK, VersionUtil.PATTERN_XX_YYY_INITIAL_VERSION, code);
     }
 }
