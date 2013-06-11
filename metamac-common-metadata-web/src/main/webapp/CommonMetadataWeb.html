@@ -8,14 +8,37 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta name="gwt:property" content="locale=es">
     
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
     <link type="text/css" rel="stylesheet" href="CommonMetadataWeb.css">
 
-    <!--                                           -->
+    
+	<script type="text/javascript">
+		var userLang = (navigator.language) ? navigator.language
+				: navigator.userLanguage;
+		document.write("<meta name='gwt:property' content='locale="+userLang+"'>"); 
+	</script>
+    
+    <!--  
+    <script src="CommonMetadataWeb/js/jquery.min.js"></script>
+    
+	<script type="text/javascript">
+		var language;
+		$.ajax({ 
+		    url: "http://ajaxhttpheaders.appspot.com", 
+		    dataType: 'jsonp', 
+		    success: function(headers) {
+		    	language = headers['Accept-Language'];
+		    	alert("detectado " +  language);
+		    	document.write("<meta name='gwt:property' content='locale="+userLang+"'>");
+		    }
+		});
+	</script>
+	-->
+	
+	<!--                                           -->
     <!-- This script loads your compiled module.   -->
     <!-- If you add any GWT meta tags, they must   -->
     <!-- be added before this line.                -->
