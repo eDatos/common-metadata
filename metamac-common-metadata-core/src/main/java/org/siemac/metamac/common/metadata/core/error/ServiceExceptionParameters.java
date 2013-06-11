@@ -5,7 +5,7 @@ import org.siemac.metamac.core.common.exception.CommonServiceExceptionParameters
 public class ServiceExceptionParameters extends CommonServiceExceptionParameters {
 
     public static final String STATUS                            = "parameter.common_metadata.status";
-    public static final String CONFIGURATION_IDS                 = "parameter.common_metadata.configurationIds";
+    public static final String CONFIGURATION_IDS                 = "parameter.common_metadata.configuration_ids";
 
     public static final String CONFIGURATION                     = "parameter.common_metadata.configuration";
 
