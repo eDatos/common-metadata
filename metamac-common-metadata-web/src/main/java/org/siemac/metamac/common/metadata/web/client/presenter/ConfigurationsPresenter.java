@@ -11,7 +11,6 @@ import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.events.UpdateConfigurationsEvent;
 import org.siemac.metamac.common.metadata.web.client.events.UpdateConfigurationsEvent.UpdateConfigurationsHandler;
-import org.siemac.metamac.common.metadata.web.client.utils.ErrorUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationsAction;
@@ -23,7 +22,6 @@ import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusAction;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusResult;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
-import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
 
@@ -114,7 +112,7 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorRetrievingConfigurations()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
             }
             @Override
             public void onWaitSuccess(GetConfigurationsResult result) {
@@ -129,11 +127,11 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorSavingConfiguration()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
             }
             @Override
             public void onWaitSuccess(SaveConfigurationResult result) {
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationSaved()), MessageTypeEnum.SUCCESS);
+                ShowMessageEvent.fireSuccessMessage(ConfigurationsPresenter.this, CommonMetadataWeb.getMessages().configurationSaved());
                 retrieveConfigurations();
                 placeManager.revealPlaceHierarchy(PlaceRequestUtils.buildAbsoluteConfigurationPlaceRequest(result.getConfigurationSaved().getUrn()));
             }
@@ -146,11 +144,11 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorDeletingConfigurations()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
             }
             @Override
             public void onWaitSuccess(DeleteConfigurationsResult result) {
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationDeleted()), MessageTypeEnum.SUCCESS);
+                ShowMessageEvent.fireSuccessMessage(ConfigurationsPresenter.this, CommonMetadataWeb.getMessages().configurationDeleted());
                 getView().deselectConfiguration();
             }
         });
@@ -162,12 +160,12 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getErrorMessages(caught, CommonMetadataWeb.getMessages().errorUpdatingConfigurationStatus()), MessageTypeEnum.ERROR);
+                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
                 retrieveConfigurations();
             }
             @Override
             public void onWaitSuccess(UpdateConfigurationsStatusResult result) {
-                ShowMessageEvent.fire(ConfigurationsPresenter.this, ErrorUtils.getMessageList(CommonMetadataWeb.getMessages().configurationStatusUpdated()), MessageTypeEnum.SUCCESS);
+                ShowMessageEvent.fireSuccessMessage(ConfigurationsPresenter.this, CommonMetadataWeb.getMessages().configurationStatusUpdated());
                 retrieveConfigurations();
                 getView().deselectConfiguration();
             }
