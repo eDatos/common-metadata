@@ -11,11 +11,10 @@ public class WebTranslateExceptions extends TranslateExceptions {
 
     public String getTranslatedMessage(String code, String localString) {
         Locale locale = LocaleUtil.getLocaleFromLocaleString(localString);
-        return getTranslatedParameter(code, locale);
+        return translateMessage(code, locale);
     }
 
-    @Override
-    protected String getTranslatedParameter(String code, Locale locale) {
+    protected String translateMessage(String code, Locale locale) {
         return LocaleUtil.getLocalizedMessageFromBundle("i18n/messages-common_metadata-web", code, locale);
     }
 }
