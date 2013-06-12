@@ -4,9 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataBaseAsserts;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDoMocks;
 import org.siemac.metamac.common.test.mock.ConfigurationServiceMockImpl;
@@ -16,9 +14,6 @@ import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 
 public class ExternalItemsDo2DtoMapperTest {
-
-    @Rule
-    public ExpectedException     thrown               = ExpectedException.none();
 
     private Do2DtoMapper         do2DtoMapper         = new Do2DtoMapperImpl();
 

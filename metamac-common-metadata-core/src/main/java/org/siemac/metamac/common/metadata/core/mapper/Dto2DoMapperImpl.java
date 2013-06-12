@@ -172,13 +172,16 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         target.getTexts().clear();
         target.getTexts().addAll(localisedStringEntities);
 
+        checkExistsLocaleInDefaultLanguage(target.getTexts(), metadataName);
+        
         return target;
     }
 
     /**
      * Transform LocalisedString, reusing existing locales
+     * @throws MetamacException 
      */
-    private Set<LocalisedString> localisedStringDtoToDo(Set<LocalisedStringDto> sources, Set<LocalisedString> targets, InternationalString internationalStringTarget) {
+    private Set<LocalisedString> localisedStringDtoToDo(Set<LocalisedStringDto> sources, Set<LocalisedString> targets, InternationalString internationalStringTarget) throws MetamacException {
 
         Set<LocalisedString> targetsBefore = targets;
         targets = new HashSet<LocalisedString>();
@@ -196,7 +199,22 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
                 targets.add(localisedStringDtoToDo(source, internationalStringTarget));
             }
         }
+        
         return targets;
+    }
+
+    private void checkExistsLocaleInDefaultLanguage(Set<LocalisedString> targets, String metadataName) throws MetamacException {
+        boolean existsDefaultLanguage = false;
+        for (LocalisedString localisedString : targets) {
+             if (localisedString.getLocale().equals(configurationService.retrieveLanguageDefault())) {
+                 existsDefaultLanguage = true;
+                 break;
+             }
+        }
+        
+        if (!existsDefaultLanguage) {
+            throw new MetamacException(ServiceExceptionType.METADATA_WITHOUT_DEFAULT_LANGUAGE, metadataName);
+        }
     }
 
     private LocalisedString localisedStringDtoToDo(LocalisedStringDto source, InternationalString internationalStringTarget) {
