@@ -3,12 +3,12 @@ package org.siemac.metamac.common.metadata.web.client.view;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.presenter.MainPagePresenter;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHandlers;
-import org.siemac.metamac.common.metadata.web.client.widgets.ErrorMessagePanel;
-import org.siemac.metamac.common.metadata.web.client.widgets.SuccessMessagePanel;
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
+import org.siemac.metamac.web.common.client.widgets.ErrorMessagePanel;
 import org.siemac.metamac.web.common.client.widgets.MasterHead;
 import org.siemac.metamac.web.common.client.widgets.MetamacNavBar;
+import org.siemac.metamac.web.common.client.widgets.SuccessMessagePanel;
 import org.siemac.metamac.web.common.client.widgets.VersionFooter;
 
 import com.google.gwt.user.client.Timer;
