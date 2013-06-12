@@ -67,7 +67,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
             ExternalItemsResult result = srmRestInternalFacade.findAgencies(criteria, 0, 1);
             if (result.getExternalItemDtos().isEmpty()) {
 
-                throwException(serviceContext, WebMessageExceptionsConstants.CONFIGURATION_ERROR_CONTACT_NOT_EXTERNALLY_PUBLISHED);
+                throwMetamacWebException(serviceContext, WebMessageExceptionsConstants.CONFIGURATION_ERROR_CONTACT_NOT_EXTERNALLY_PUBLISHED);
             }
         }
     }
@@ -77,7 +77,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
         String urnInternal = contact.getUrnInternal();
 
         if (StringUtils.isBlank(urn) && StringUtils.isBlank(urnInternal)) {
-            throwException(serviceContext, WebMessageExceptionsConstants.CONFIGURATION_ERROR_CONTACT_NOT_FOUND);
+            throwMetamacWebException(serviceContext, WebMessageExceptionsConstants.CONFIGURATION_ERROR_CONTACT_NOT_FOUND);
         }
 
         if (StringUtils.isNotBlank(urn)) {
@@ -87,7 +87,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
         }
     }
 
-    private void throwException(ServiceContext serviceContext, String exceptionCode) throws MetamacWebException {
+    private void throwMetamacWebException(ServiceContext serviceContext, String exceptionCode) throws MetamacWebException {
         String locale = (String) serviceContext.getProperty(LocaleConstants.locale);
         String exceptionnMessage = webTranslateExceptions.getTranslatedMessage(exceptionCode, locale);
 
