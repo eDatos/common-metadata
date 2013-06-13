@@ -10,7 +10,6 @@ import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
 import org.siemac.metamac.core.common.exception.utils.ExceptionUtils;
-import org.siemac.metamac.core.common.serviceimpl.utils.ValidationUtils;
 
 public class InvocationValidator {
 
@@ -22,7 +21,7 @@ public class InvocationValidator {
             exceptions = new ArrayList<MetamacExceptionItem>();
         }
 
-        ValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, exceptions);
+        CommonMetadataValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
@@ -32,7 +31,7 @@ public class InvocationValidator {
             exceptions = new ArrayList<MetamacExceptionItem>();
         }
 
-        ValidationUtils.checkParameterRequired(urn, ServiceExceptionParameters.URN, exceptions);
+        CommonMetadataValidationUtils.checkParameterRequired(urn, ServiceExceptionParameters.URN, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
         
@@ -55,7 +54,7 @@ public class InvocationValidator {
         }
 
         checkConfiguration(configuration, exceptions);
-        ValidationUtils.checkMetadataEmpty(configuration.getId(), ServiceExceptionParameters.CONFIGURATION_ID, exceptions);
+        CommonMetadataValidationUtils.checkMetadataEmpty(configuration.getId(), ServiceExceptionParameters.CONFIGURATION_ID, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
@@ -66,8 +65,8 @@ public class InvocationValidator {
         }
 
         checkConfiguration(configuration, exceptions);
-        ValidationUtils.checkMetadataRequired(configuration.getId(), ServiceExceptionParameters.CONFIGURATION_ID, exceptions);
-        ValidationUtils.checkMetadataRequired(configuration.getUuid(), ServiceExceptionParameters.CONFIGURATION_UUID, exceptions);
+        CommonMetadataValidationUtils.checkMetadataRequired(configuration.getId(), ServiceExceptionParameters.CONFIGURATION_ID, exceptions);
+        CommonMetadataValidationUtils.checkMetadataRequired(configuration.getUuid(), ServiceExceptionParameters.CONFIGURATION_UUID, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
@@ -77,7 +76,7 @@ public class InvocationValidator {
             exceptions = new ArrayList<MetamacExceptionItem>();
         }
 
-        ValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, exceptions);
+        CommonMetadataValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
@@ -98,8 +97,8 @@ public class InvocationValidator {
             exceptions = new ArrayList<MetamacExceptionItem>();
         }
 
-        ValidationUtils.checkParameterRequired(configurationIds, ServiceExceptionParameters.CONFIGURATION_IDS, exceptions);
-        ValidationUtils.checkParameterRequired(status, ServiceExceptionParameters.STATUS, exceptions);
+        CommonMetadataValidationUtils.checkParameterRequired(configurationIds, ServiceExceptionParameters.CONFIGURATION_IDS, exceptions);
+        CommonMetadataValidationUtils.checkParameterRequired(status, ServiceExceptionParameters.STATUS, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
         
@@ -109,11 +108,12 @@ public class InvocationValidator {
     // PRIVATE METHODS
     // ------------------------------------------------------------------------------------
     private static void checkConfiguration(Configuration configuration, List<MetamacExceptionItem> exceptions) {
-        ValidationUtils.checkParameterRequired(configuration, ServiceExceptionParameters.CONFIGURATION, exceptions);
-        ValidationUtils.checkMetadataRequired(configuration.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
-        ValidationUtils.checkMetadataRequired(configuration.getUrn(), ServiceExceptionParameters.CONFIGURATION_URN, exceptions);
-        ValidationUtils.checkMetadataRequired(configuration.getStatus(), ServiceExceptionParameters.CONFIGURATION_STATUS, exceptions);
-        ValidationUtils.checkSemanticIdentifierAsMetamacID(configuration.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
+        CommonMetadataValidationUtils.checkParameterRequired(configuration, ServiceExceptionParameters.CONFIGURATION, exceptions);
+        CommonMetadataValidationUtils.checkMetadataRequired(configuration.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
+        CommonMetadataValidationUtils.checkMetadataRequired(configuration.getUrn(), ServiceExceptionParameters.CONFIGURATION_URN, exceptions);
+        CommonMetadataValidationUtils.checkMetadataRequired(configuration.getStatus(), ServiceExceptionParameters.CONFIGURATION_STATUS, exceptions);
+        CommonMetadataValidationUtils.checkSemanticIdentifierAsMetamacID(configuration.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
+        CommonMetadataValidationUtils.checkMetadataRequired(configuration.getContact(), ServiceExceptionParameters.CONFIGURATION_CONTACT, exceptions);
     }
 
 

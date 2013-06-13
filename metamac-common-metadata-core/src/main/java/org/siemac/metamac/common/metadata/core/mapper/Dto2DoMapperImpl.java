@@ -12,6 +12,7 @@ import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
+import org.siemac.metamac.common.metadata.core.serviceimpl.utils.CommonMetadataValidationUtils;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
@@ -25,7 +26,6 @@ import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
 import org.siemac.metamac.core.common.exception.utils.ExceptionUtils;
 import org.siemac.metamac.core.common.mapper.BaseDto2DoMapperImpl;
-import org.siemac.metamac.core.common.serviceimpl.utils.ValidationUtils;
 import org.siemac.metamac.core.common.util.OptimisticLockingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -58,7 +58,7 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
             // It's necessary to check that all the metadata that conforms the URN are unmodifibale once the configuration is published
             List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
             if (target.isExternallyPublished()) {
-                ValidationUtils.checkMetadataUnmodifiable(target.getCode(), source.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
+                CommonMetadataValidationUtils.checkMetadataUnmodifiable(target.getCode(), source.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
             }
             ExceptionUtils.throwIfException(exceptions);
         }
@@ -164,7 +164,7 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
             target = new InternationalString();
         }
 
-        if (ValidationUtils.isEmpty(source)) {
+        if (CommonMetadataValidationUtils.isEmpty(source)) {
             throw new MetamacException(ServiceExceptionType.METADATA_REQUIRED, metadataName);
         }
 

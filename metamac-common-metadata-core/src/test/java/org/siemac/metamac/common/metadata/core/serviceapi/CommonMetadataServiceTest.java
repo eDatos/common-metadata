@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +16,7 @@ import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatus
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataAsserts;
+import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDoMocks;
 import org.siemac.metamac.common.test.utils.DirtyDatabase;
 import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
@@ -140,6 +140,16 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
     @Test
     @Transactional
+    public void testCreateConfigurationErrorContactRequired() throws Exception {
+        expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_REQUIRED, ServiceExceptionParameters.CONFIGURATION_CONTACT));
+        
+        Configuration configuration = createEnableConfiguration();
+        configuration.setContact(null);
+        commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
+    }
+    
+    @Test
+    @Transactional
     public void testCreateConfigurationCodeDuplicated() throws Exception {
         String code = "ISTAC";
         expectedMetamacException(new MetamacException(ServiceExceptionType.CONFIGURATION_ALREADY_EXIST_CODE_DUPLICATED, code));
@@ -160,6 +170,8 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         }
 
     }
+    
+    
 
     @Override
     @Test
@@ -211,6 +223,24 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         assertNotNull(configuration);
         CommonMetadataAsserts.assertEqualsConfiguration(configuration, updatedConfiguration);
 
+    }
+    
+    @Test
+    @Transactional
+    public void testUpdateConfigurationErrorContactRequired() throws Exception {
+        expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_REQUIRED, ServiceExceptionParameters.CONFIGURATION_CONTACT));
+
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        TransactionStatus status = transactionManager.getTransaction(defaultTransactionDefinition);
+
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
+        assertNotNull(configuration);
+
+        transactionManager.commit(status);
+
+        configuration.setContact(null);
+        commonMetadataService.updateConfiguration(getServiceContextAdministrador(), configuration);
     }
 
     @Test
@@ -298,10 +328,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     // ------------------------------------------------------------------------------------
 
     private Configuration createEnableConfiguration() {
-        Configuration configuration = new Configuration();
-
-        // Code
-        configuration.setCode("configuration-" + RandomStringUtils.randomAlphabetic(5));
+        Configuration configuration = createConfigurationBase();
 
         // Legal Acts
         InternationalString legalActs = new InternationalString();
@@ -351,10 +378,6 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
         configuration.setConfDataTreatment(confidentialityDataTreatment);
 
-        // Contact
-        configuration.setContact(new ExternalItem("CONTACT-CODE", "CONTACT-URI", "CONTACT-URN", "CONTACT-URN-INTERNAL", TypeExternalArtefactsEnum.AGENCY, null,
-                "CONTACT-MANAGEMENT_APP_URL-01234567890123456789"));
-
         // Status
         configuration.setStatus(CommonMetadataStatusEnum.ENABLED);
 
@@ -365,10 +388,14 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         Configuration configuration = new Configuration();
 
         // Code
-        configuration.setCode("configuration-0123456789");
+        configuration.setCode(CommonMetadataDoMocks.mockCode());
 
         // Status
         configuration.setStatus(CommonMetadataStatusEnum.ENABLED);
+
+        // Contact
+        configuration.setContact(new ExternalItem("CONTACT-CODE", "CONTACT-URI", "CONTACT-URN", "CONTACT-URN-INTERNAL", TypeExternalArtefactsEnum.AGENCY, null,
+                "CONTACT-MANAGEMENT_APP_URL-01234567890123456789"));
 
         return configuration;
     }
