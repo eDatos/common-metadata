@@ -25,10 +25,10 @@
         <cdomain:id>contact1</cdomain:id>
         <cdomain:urn>urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0).contact1</cdomain:urn>
         <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/srm/v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/contact1"/>
-        <cdomain:title>
+        <cdomain:name>
             <cdomain:text xml:lang="en">contact1 in English</cdomain:text>
             <cdomain:text xml:lang="es">contact1 en Español</cdomain:text>
-        </cdomain:title>
+        </cdomain:name>
         <cmetadata:managementAppLink>http://localhost:8080/metamac-srm-web/#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id=contact1</cmetadata:managementAppLink>
     </cmetadata:contact>
     <cmetadata:status>ENABLED</cmetadata:status>

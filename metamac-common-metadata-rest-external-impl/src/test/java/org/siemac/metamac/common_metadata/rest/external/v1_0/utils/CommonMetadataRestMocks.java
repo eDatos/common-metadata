@@ -110,7 +110,7 @@ public class CommonMetadataRestMocks {
         resource.setKind(RestExternalConstants.KIND_CONFIGURATION);
         resource.setSelfLink(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATION, commonMetadataExternalApiBaseV10 + "/configurations/" + configurationId));
         resource.setManagementAppLink(commonMetadataInternalWebApplicationBase + "/#configurations/configuration;id=" + configurationId);
-        resource.setTitle(null); // no title
+        resource.setName(null); // no title
         return resource;
     }
 
@@ -126,7 +126,7 @@ public class CommonMetadataRestMocks {
         resource.setKind("structuralResources#agency");
         resource.setSelfLink(MetamacRestMocks.mockResourceLink(resource.getKind(), srmApiExternalEndpoint + "/v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/" + id));
         resource.setManagementAppLink(srmInternalWebApplicationBase + "/#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id=" + id);
-        resource.setTitle(MetamacRestMocks.mockInternationalString("es", id + " en Español", "en", id + " in English"));
+        resource.setName(MetamacRestMocks.mockInternationalString("es", id + " en Español", "en", id + " in English"));
         return resource;
     }
 }

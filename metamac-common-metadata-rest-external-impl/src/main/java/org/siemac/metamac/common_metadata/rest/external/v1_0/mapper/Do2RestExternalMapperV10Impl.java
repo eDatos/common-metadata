@@ -102,7 +102,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setKind(RestExternalConstants.KIND_CONFIGURATION);
         target.setSelfLink(toConfigurationSelfLink(source));
         target.setManagementAppLink(toConfigurationManagementApplicationLink(source));
-        target.setTitle(null); // configuration has not title
+        target.setName(null); // configuration has not title
         return target;
     }
 
@@ -125,7 +125,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         if (source.getManagementAppUrl() != null) {
             target.setManagementAppLink(RestUtils.createLink(managementAppBaseUrl, source.getManagementAppUrl()));
         }
-        target.setTitle(toInternationalString(source.getTitle()));
+        target.setName(toInternationalString(source.getTitle()));
         return target;
     }
 
