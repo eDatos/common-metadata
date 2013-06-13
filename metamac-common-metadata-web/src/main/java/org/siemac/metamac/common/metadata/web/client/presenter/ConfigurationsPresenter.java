@@ -21,9 +21,16 @@ import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusAction;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusResult;
+import org.siemac.metamac.common.metadata.web.shared.external.GetExternalResourcesAction;
+import org.siemac.metamac.common.metadata.web.shared.external.GetExternalResourcesResult;
+import org.siemac.metamac.common.metadata.web.shared.external.RestWebCriteriaUtils;
+import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
+import org.siemac.metamac.web.common.shared.criteria.ExternalResourceWebCriteria;
+import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
+import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent.Type;
@@ -72,6 +79,11 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
         void setConfigurations(List<ConfigurationDto> configurations);
         void deselectConfiguration();
         void hideConfiguration();
+
+        // External resources
+
+        void setItemSchemes(String formItemName, ExternalItemsResult result);
+        void setItems(String formItemName, ExternalItemsResult result);
     }
 
     @Inject
@@ -173,8 +185,61 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     }
 
     //
+    // EXTERNAL RESOURCES
+    //
+
+    @Override
+    public void retrieveItemSchemes(final String formItemName, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults, String criteria) {
+        ExternalResourceWebCriteria externalResourceWebCriteria = RestWebCriteriaUtils.buildItemSchemeWebCriteria(types, criteria);
+        retrieveItemSchemes(formItemName, externalResourceWebCriteria, firstResult, maxResults);
+    }
+
+    @Override
+    public void retrieveItemSchemes(final String formItemName, ExternalResourceWebCriteria externalResourceWebCriteria, int firstResult, int maxResults) {
+        dispatcher.execute(new GetExternalResourcesAction(externalResourceWebCriteria, firstResult, maxResults), new WaitingAsyncCallback<GetExternalResourcesResult>() {
+
+            @Override
+            public void onWaitFailure(Throwable caught) {
+                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
+            }
+            @Override
+            public void onWaitSuccess(GetExternalResourcesResult result) {
+                getView().setItemSchemes(formItemName, result.getExternalItemsResult());
+            }
+        });
+    }
+
+    @Override
+    public void retrieveItems(final String formItemName, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults, String criteria, String itemSchemeUrn) {
+        SrmItemRestCriteria itemWebCriteria = RestWebCriteriaUtils.buildItemWebCriteria(types, criteria, itemSchemeUrn);
+        retrieveItems(formItemName, itemWebCriteria, firstResult, maxResults);
+    }
+
+    @Override
+    public void retrieveItems(final String formItemName, SrmItemRestCriteria itemWebCriteria, int firstResult, int maxResults) {
+        dispatcher.execute(new GetExternalResourcesAction(itemWebCriteria, firstResult, maxResults), new WaitingAsyncCallback<GetExternalResourcesResult>() {
+
+            @Override
+            public void onWaitFailure(Throwable caught) {
+                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
+            }
+            @Override
+            public void onWaitSuccess(GetExternalResourcesResult result) {
+                getView().setItems(formItemName, result.getExternalItemsResult());
+            }
+        });
+    }
+
+    //
     // NAVIGATION
     //
+
+    @Override
+    public void goTo(List<PlaceRequest> location) {
+        if (location != null && !location.isEmpty()) {
+            placeManager.revealPlaceHierarchy(location);
+        }
+    }
 
     @Override
     public void goToConfigurations() {

@@ -1,16 +1,25 @@
 package org.siemac.metamac.common.metadata.web.client.widgets;
 
+import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
+
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
 import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
+import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchAgencyItem;
+import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
+import org.siemac.metamac.web.common.client.view.handlers.SrmExternalResourcesUiHandlers;
 import org.siemac.metamac.web.common.client.widgets.CustomWindow;
 import org.siemac.metamac.web.common.client.widgets.form.CustomDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomButtonItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredTextItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.SearchExternalItemLinkItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSrmItemItem;
+import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
 import com.smartgwt.client.widgets.form.fields.events.HasClickHandlers;
 
@@ -21,7 +30,7 @@ public class NewConfigurationWindow extends CustomWindow {
 
     private CustomDynamicForm   form;
 
-    public NewConfigurationWindow(String title) {
+    public NewConfigurationWindow(String title, SrmExternalResourcesUiHandlers uiHandlers) {
         super(title);
         setAutoSize(true);
 
@@ -33,11 +42,13 @@ public class NewConfigurationWindow extends CustomWindow {
         statusItem.setValueMap(CommonUtils.getCommonMetadataStatusEnumHashMap());
         statusItem.setWidth(FORM_ITEM_CUSTOM_WIDTH);
 
+        SearchExternalItemLinkItem agencyItem = createAgencyItem(ConfigurationDS.CONTACT, getConstants().confOrganisation(), uiHandlers);
+
         CustomButtonItem createItem = new CustomButtonItem(FIELD_SAVE, CommonMetadataWeb.getConstants().confCreate());
 
         form = new CustomDynamicForm();
         form.setMargin(5);
-        form.setFields(codeItem, statusItem, createItem);
+        form.setFields(codeItem, statusItem, agencyItem, createItem);
 
         addItem(form);
         show();
@@ -55,6 +66,45 @@ public class NewConfigurationWindow extends CustomWindow {
         ConfigurationDto configurationDto = new ConfigurationDto();
         configurationDto.setCode(form.getValueAsString(ConfigurationDS.CODE));
         configurationDto.setStatus(form.getValueAsString(ConfigurationDS.STATUS) != null ? CommonMetadataStatusEnum.valueOf(form.getValueAsString(ConfigurationDS.STATUS)) : null);
+        configurationDto.setContact(((SearchSrmItemItem) form.getItem(ConfigurationDS.CONTACT)).getExternalItemDto());
         return configurationDto;
+    }
+
+    // ------------------------------------------------------------------------------------------------------------
+    // EXTERNAL RESOURCES DATA SETTERS
+    // ------------------------------------------------------------------------------------------------------------
+
+    public void setItemSchemes(String formItemName, ExternalItemsResult result) {
+        if (StringUtils.equals(ConfigurationDS.CONTACT, formItemName)) {
+            ((SearchSrmItemItem) form.getItem(formItemName)).setItemSchemes(result);
+        }
+    }
+
+    public void setItems(String formItemName, ExternalItemsResult result) {
+        if (StringUtils.equals(ConfigurationDS.CONTACT, formItemName)) {
+            ((SearchSrmItemItem) form.getItem(formItemName)).setItems(result);
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------------------------
+    // EXTERNAL RESOURCES ITEMS
+    // ------------------------------------------------------------------------------------------------------------
+
+    private SearchSrmItemItem createAgencyItem(final String name, String title, SrmExternalResourcesUiHandlers uiHandlers) {
+        final SearchSrmItemItem item = new SearchAgencyItem(name, title);
+        item.setUiHandlers(uiHandlers);
+        item.setRequired(true);
+        com.smartgwt.client.widgets.form.fields.events.ClickHandler clickHandler = new com.smartgwt.client.widgets.form.fields.events.ClickHandler() {
+
+            @Override
+            public void onClick(com.smartgwt.client.widgets.form.fields.events.ClickEvent event) {
+                ExternalItemDto agency = item.getSelectedItem();
+                item.markSearchWindowForDestroy();
+                ((SearchSrmItemItem) form.getItem(name)).setExternalItem(agency);
+                form.validate(false);
+            }
+        };
+        item.setSaveClickHandler(clickHandler);
+        return item;
     }
 }

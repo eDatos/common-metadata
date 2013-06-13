@@ -16,11 +16,14 @@ import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationsPre
 import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.widgets.ConfigurationsListGrid;
 import org.siemac.metamac.common.metadata.web.client.widgets.NewConfigurationWindow;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
-import org.siemac.metamac.web.common.client.widgets.CustomListGrid;
+import org.siemac.metamac.web.common.client.widgets.CustomLinkListGridField;
+import org.siemac.metamac.web.common.client.widgets.CustomListGridField;
 import org.siemac.metamac.web.common.client.widgets.DeleteConfirmationWindow;
 import org.siemac.metamac.web.common.client.widgets.form.InternationalMainFormLayout;
+import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -30,7 +33,6 @@ import com.smartgwt.client.types.Overflow;
 import com.smartgwt.client.types.Visibility;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
-import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.grid.events.RecordClickEvent;
 import com.smartgwt.client.widgets.grid.events.RecordClickHandler;
@@ -45,13 +47,14 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
     private VLayout                     panel;
     private InternationalMainFormLayout configurationMainFormLayout;
 
-    private CustomListGrid              configurationsListGrid;
+    private ConfigurationsListGrid      configurationsListGrid;
 
     private ToolStripButton             newToolStripButton;
     private ToolStripButton             deleteToolStripButton;
     private ToolStripButton             enableToolStripButton;
     private ToolStripButton             disableToolStripButton;
 
+    private NewConfigurationWindow      newConfigurationWindow;
     private DeleteConfirmationWindow    deleteConfirmationWindow;
 
     @Inject
@@ -70,7 +73,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
             @Override
             public void onClick(ClickEvent event) {
-                final NewConfigurationWindow newConfigurationWindow = new NewConfigurationWindow(getConstants().actionCreate());
+                newConfigurationWindow = new NewConfigurationWindow(getConstants().actionCreate(), getUiHandlers());
                 newConfigurationWindow.getSave().addClickHandler(new com.smartgwt.client.widgets.form.fields.events.ClickHandler() {
 
                     @Override
@@ -135,17 +138,18 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
         // ListGrid
 
-        configurationsListGrid = new CustomListGrid();
+        configurationsListGrid = new ConfigurationsListGrid();
         configurationsListGrid.setWidth100();
         configurationsListGrid.setHeight(250);
-        ListGridField codeField = new ListGridField(ConfigurationDS.CODE, getConstants().configurationIdentifier());
-        ListGridField status = new ListGridField(ConfigurationDS.STATUS, getCoreMessages().commonMetadataStatusEnumENABLED());
+        CustomListGridField codeField = new CustomListGridField(ConfigurationDS.CODE, getConstants().configurationIdentifier());
+        CustomLinkListGridField agency = new CustomLinkListGridField(ConfigurationDS.CONTACT, getConstants().confOrganisation());
+        CustomListGridField status = new CustomListGridField(ConfigurationDS.STATUS, getCoreMessages().commonMetadataStatusEnumENABLED());
         status.setType(ListGridFieldType.IMAGE);
         status.setWidth("15%");
-        ListGridField externallyPublished = new ListGridField(ConfigurationDS.EXTERNALLY_PUBLISHED, getConstants().configurationExternallyPublished());
+        CustomListGridField externallyPublished = new CustomListGridField(ConfigurationDS.EXTERNALLY_PUBLISHED, getConstants().configurationExternallyPublished());
         externallyPublished.setType(ListGridFieldType.IMAGE);
         externallyPublished.setWidth("15%");
-        configurationsListGrid.setFields(codeField, status, externallyPublished);
+        configurationsListGrid.setFields(codeField, agency, status, externallyPublished);
         // Show configuration details when record clicked
         configurationsListGrid.addSelectionChangedHandler(new SelectionChangedHandler() {
 
@@ -284,5 +288,23 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
             }
         }
         return allConfigurationsDisabled;
+    }
+
+    // ------------------------------------------------------------------------------------------------------------
+    // EXTERNAL RESOURCES DATA SETTERS
+    // ------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public void setItemSchemes(String formItemName, ExternalItemsResult result) {
+        if (newConfigurationWindow != null) {
+            newConfigurationWindow.setItemSchemes(formItemName, result);
+        }
+    }
+
+    @Override
+    public void setItems(String formItemName, ExternalItemsResult result) {
+        if (newConfigurationWindow != null) {
+            newConfigurationWindow.setItems(formItemName, result);
+        }
     }
 }

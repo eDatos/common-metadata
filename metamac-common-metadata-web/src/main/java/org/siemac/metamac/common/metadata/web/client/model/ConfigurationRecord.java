@@ -3,21 +3,13 @@ package org.siemac.metamac.common.metadata.web.client.model;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
+import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.web.common.client.resources.GlobalResources;
+import org.siemac.metamac.web.common.client.widgets.NavigableListGridRecord;
 
-import com.smartgwt.client.widgets.grid.ListGridRecord;
-
-public class ConfigurationRecord extends ListGridRecord {
+public class ConfigurationRecord extends NavigableListGridRecord {
 
     public ConfigurationRecord() {
-    }
-
-    public ConfigurationRecord(String name, CommonMetadataStatusEnum status, boolean externallyPublished, String urn, ConfigurationDto configurationDto) {
-        setCode(name);
-        setStatus(status);
-        setExternallyPublished(externallyPublished);
-        setUrn(urn);
-        setConfigurationDto(configurationDto);
     }
 
     public void setCode(String value) {
@@ -50,5 +42,9 @@ public class ConfigurationRecord extends ListGridRecord {
 
     public String getUrn() {
         return getAttribute(ConfigurationDS.URN);
+    }
+
+    public void setContact(ExternalItemDto externalItemDto) {
+        setExternalItem(ConfigurationDS.CONTACT, externalItemDto);
     }
 }
