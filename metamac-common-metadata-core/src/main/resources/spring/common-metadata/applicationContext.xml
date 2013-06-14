@@ -22,7 +22,6 @@
 	<!-- metamac-core-common -->
 	<import resource="classpath:/spring/error-beans-advice.xml" />
 	<import resource="classpath:/spring/general-beans-advice.xml" />
-    <import resource="classpath:/spring/translation-beans-advice.xml" />
 
 	<!-- import additional spring configuration files -->
     <import resource="classpath:/spring/common-metadata/include/datasource.xml" />
