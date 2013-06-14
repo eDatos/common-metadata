@@ -64,7 +64,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
             criteria.setUrn(contactUrn);
             criteria.setIsItemSchemeExternallyPublished(Boolean.TRUE);
 
-            ExternalItemsResult result = srmRestInternalFacade.findAgencies(criteria, 0, 1);
+            ExternalItemsResult result = srmRestInternalFacade.findAgencies(serviceContext, criteria, 0, 1);
             if (result.getExternalItemDtos().isEmpty()) {
 
                 throwMetamacWebException(serviceContext, WebMessageExceptionsConstants.CONFIGURATION_ERROR_CONTACT_NOT_EXTERNALLY_PUBLISHED);
