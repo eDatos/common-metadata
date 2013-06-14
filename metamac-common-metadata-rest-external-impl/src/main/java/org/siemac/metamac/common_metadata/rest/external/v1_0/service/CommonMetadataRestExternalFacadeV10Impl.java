@@ -13,7 +13,6 @@ import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
 import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.mapper.Do2RestExternalMapperV10;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.mapper.RestCriteria2SculptorCriteriaMapper;
-import org.siemac.metamac.core.common.aop.LoggingInterceptor;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
@@ -39,7 +38,7 @@ public class CommonMetadataRestExternalFacadeV10Impl implements CommonMetadataV1
     private RestCriteria2SculptorCriteriaMapper restCriteria2SculptorCriteriaMapper;
 
     private final ServiceContext                serviceContext = new ServiceContext("restExternal", "restExternal", "restExternal");
-    private final Logger                        logger         = LoggerFactory.getLogger(LoggingInterceptor.class);
+    private final Logger                        logger         = LoggerFactory.getLogger(CommonMetadataRestExternalFacadeV10Impl.class);
 
     @Override
     public Configuration retrieveConfigurationById(String id) {
