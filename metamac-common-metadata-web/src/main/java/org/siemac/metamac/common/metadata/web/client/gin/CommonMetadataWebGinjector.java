@@ -8,22 +8,15 @@ import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationsPre
 import org.siemac.metamac.common.metadata.web.client.presenter.ErrorPagePresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.MainPagePresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.UnauthorizedPagePresenter;
+import org.siemac.metamac.web.common.client.gin.MetamacWebGinjector;
 
-import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.inject.client.GinModules;
-import com.google.gwt.inject.client.Ginjector;
 import com.google.inject.Provider;
 import com.gwtplatform.dispatch.client.gin.DispatchAsyncModule;
-import com.gwtplatform.dispatch.shared.DispatchAsync;
-import com.gwtplatform.mvp.client.proxy.PlaceManager;
 
 @GinModules({DispatchAsyncModule.class, ClientModule.class})
-public interface CommonMetadataWebGinjector extends Ginjector {
-
-    PlaceManager getPlaceManager();
-    EventBus getEventBus();
-    DispatchAsync getDispatcher();
+public interface CommonMetadataWebGinjector extends MetamacWebGinjector {
 
     LoggedInGatekeeper getLoggedInGatekeeper();
 
