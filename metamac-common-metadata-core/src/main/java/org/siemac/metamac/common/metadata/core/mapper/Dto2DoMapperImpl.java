@@ -152,6 +152,10 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
     }
 
     private InternationalString internationalStringToDo(InternationalStringDto source, InternationalString target, String metadataName) throws MetamacException {
+        // Check it is valid
+        checkInternationalStringDtoValid(source, metadataName);
+
+        // Transform
         if (source == null) {
             if (target != null) {
                 // delete previous entity
@@ -160,26 +164,25 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
             return null;
         }
 
-        if (target == null) {
-            target = new InternationalString();
-        }
-
         if (CommonMetadataValidationUtils.isEmpty(source)) {
             throw new MetamacException(ServiceExceptionType.METADATA_REQUIRED, metadataName);
+        }
+
+        if (target == null) {
+            target = new InternationalString();
         }
 
         Set<LocalisedString> localisedStringEntities = localisedStringDtoToDo(source.getTexts(), target.getTexts(), target);
         target.getTexts().clear();
         target.getTexts().addAll(localisedStringEntities);
 
-        checkExistsLocaleInDefaultLanguage(target.getTexts(), metadataName);
-        
         return target;
     }
 
     /**
      * Transform LocalisedString, reusing existing locales
-     * @throws MetamacException 
+     * 
+     * @throws MetamacException
      */
     private Set<LocalisedString> localisedStringDtoToDo(Set<LocalisedStringDto> sources, Set<LocalisedString> targets, InternationalString internationalStringTarget) throws MetamacException {
 
@@ -199,22 +202,8 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
                 targets.add(localisedStringDtoToDo(source, internationalStringTarget));
             }
         }
-        
-        return targets;
-    }
 
-    private void checkExistsLocaleInDefaultLanguage(Set<LocalisedString> targets, String metadataName) throws MetamacException {
-        boolean existsDefaultLanguage = false;
-        for (LocalisedString localisedString : targets) {
-             if (localisedString.getLocale().equals(configurationService.retrieveLanguageDefault())) {
-                 existsDefaultLanguage = true;
-                 break;
-             }
-        }
-        
-        if (!existsDefaultLanguage) {
-            throw new MetamacException(ServiceExceptionType.METADATA_WITHOUT_DEFAULT_LANGUAGE, metadataName);
-        }
+        return targets;
     }
 
     private LocalisedString localisedStringDtoToDo(LocalisedStringDto source, InternationalString internationalStringTarget) {

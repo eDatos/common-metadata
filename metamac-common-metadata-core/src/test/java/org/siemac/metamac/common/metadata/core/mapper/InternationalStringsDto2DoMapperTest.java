@@ -16,6 +16,7 @@ import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDo
 import org.siemac.metamac.common.test.MetamacBaseTest;
 import org.siemac.metamac.common.test.dbunit.MetamacDBUnitBaseTests.DataBaseProvider;
 import org.siemac.metamac.common.test.mock.ConfigurationServiceMockImpl;
+import org.siemac.metamac.common.test.utils.MetamacMocks;
 import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.ent.domain.InternationalString;
@@ -26,9 +27,9 @@ import org.springframework.beans.factory.annotation.Value;
 public class InternationalStringsDto2DoMapperTest extends MetamacBaseTest {
 
     @Value("${metamac.common.metadata.db.provider}")
-    private String databaseProvider;
-    
-    private Dto2DoMapper           dto2DoMapper         = new Dto2DoMapperImpl();
+    private String                 databaseProvider;
+
+    private final Dto2DoMapper     dto2DoMapper         = new Dto2DoMapperImpl();
 
     protected ConfigurationService configurationService = new ConfigurationServiceMockImpl();
     InternationalStringRepository  repository           = Mockito.mock(InternationalStringRepository.class);
@@ -87,18 +88,26 @@ public class InternationalStringsDto2DoMapperTest extends MetamacBaseTest {
         testInternationalStringDtoToEntity(internationalStringDto, null);
         Mockito.verify(repository, never()).delete(Mockito.any(InternationalString.class));
     }
-    
+
     @Test
     public void testInternationalStringDto2DoWithDtoNullAndWithoutLocaleInDefaultLanguage() throws Exception {
         expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_WITHOUT_DEFAULT_LANGUAGE, METADATA_NAME));
         testInternationalStringDtoToEntity(mockInternationalStringDto("rs", "text"), null);
         Mockito.verify(repository, never()).delete(Mockito.any(InternationalString.class));
     }
-    
+
     @Test
     public void testInternationalStringDto2DoWithoutLocaleInDefaultLanguage() throws Exception {
         expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_WITHOUT_DEFAULT_LANGUAGE, METADATA_NAME));
         testInternationalStringDtoToEntity(mockInternationalStringDto("rs", "text"), CommonMetadataDoMocks.mockInternationalString(configurationService.retrieveLanguageDefault(), "texto"));
+        Mockito.verify(repository, never()).delete(Mockito.any(InternationalString.class));
+    }
+
+    @Test
+    public void testInternationalStringDto2DoWithDtoMaximumLength() throws Exception {
+        expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_MAXIMUM_LENGTH, METADATA_NAME, "4000"));
+        testInternationalStringDtoToEntity(mockInternationalStringDto("rs", MetamacMocks.mockString(4050)),
+                CommonMetadataDoMocks.mockInternationalString(configurationService.retrieveLanguageDefault(), "texto"));
         Mockito.verify(repository, never()).delete(Mockito.any(InternationalString.class));
     }
 
@@ -136,7 +145,7 @@ public class InternationalStringsDto2DoMapperTest extends MetamacBaseTest {
         InternationalString result = (InternationalString) internationalStringDtoToEntityMethod.invoke(dto2DoMapper, parameters);
         CommonMetadataBaseAsserts.assertEqualsInternationalString(result, internationalStringDto);
     }
-    
+
     @Override
     protected DataBaseProvider getDatabaseProvider() {
         return DataBaseProvider.valueOf(databaseProvider);
