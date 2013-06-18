@@ -175,8 +175,10 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
             @Override
             public void onRecordClick(RecordClickEvent event) {
-                String urn = ((ConfigurationRecord) event.getRecord()).getAttribute(ConfigurationDS.URN);
-                getUiHandlers().goToConfiguration(urn);
+                if (event.getFieldNum() != 0) { // CheckBox is not clicked
+                    String urn = ((ConfigurationRecord) event.getRecord()).getAttribute(ConfigurationDS.URN);
+                    getUiHandlers().goToConfiguration(urn);
+                }
             }
         });
 
