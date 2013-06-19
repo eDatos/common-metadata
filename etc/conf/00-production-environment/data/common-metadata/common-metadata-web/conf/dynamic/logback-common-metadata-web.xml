@@ -2,25 +2,29 @@
 <!DOCTYPE configuration>
 <configuration scan="true" scanPeriod="60 seconds">
 
-  <property name="LOGS_HOME" value="${environment.metamac.data}/common-metadata/common-metadata-web/logs" />
+    <property name="LOGS_HOME" value="${environment.metamac.data}/common-metadata/common-metadata-web/logs" />
 
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"> 
-    <encoder> 
-      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> 
-    </encoder> 
-  </appender>  
-  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>${LOGS_HOME}/common-metadata-web.log</file>
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <!-- daily rollover -->
-      <fileNamePattern>${LOGS_HOME}/common-metadata-web-%d{yyyy-MM-dd}.log</fileNamePattern>
-    </rollingPolicy>
-    <encoder>
-      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-    </encoder>
-  </appender> 
-  <root level="INFO"> 
-    <appender-ref ref="STDOUT"/> 
-    <appender-ref ref="FILE"/> 
-  </root> 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_HOME}/common-metadata-web.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOGS_HOME}/common-metadata-web-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Uncomment to show SQL -->
+    <!-- <logger name="org.hibernate.SQL" level="DEBUG" /> -->
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
 </configuration>
