@@ -28,8 +28,8 @@ import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
-import org.siemac.metamac.web.common.shared.criteria.ExternalResourceWebCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
+import org.siemac.metamac.web.common.shared.criteria.SrmItemSchemeRestCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
 import com.google.gwt.event.shared.EventBus;
@@ -189,14 +189,14 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     //
 
     @Override
-    public void retrieveItemSchemes(final String formItemName, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults, String criteria) {
-        ExternalResourceWebCriteria externalResourceWebCriteria = RestWebCriteriaUtils.buildItemSchemeWebCriteria(types, criteria);
-        retrieveItemSchemes(formItemName, externalResourceWebCriteria, firstResult, maxResults);
+    public void retrieveItemSchemes(final String formItemName, SrmItemSchemeRestCriteria itemSchemeRestCriteria, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults) {
+        itemSchemeRestCriteria = RestWebCriteriaUtils.buildItemSchemeWebCriteria(itemSchemeRestCriteria, types);
+        retrieveItemSchemes(formItemName, itemSchemeRestCriteria, firstResult, maxResults);
     }
 
     @Override
-    public void retrieveItemSchemes(final String formItemName, ExternalResourceWebCriteria externalResourceWebCriteria, int firstResult, int maxResults) {
-        dispatcher.execute(new GetExternalResourcesAction(externalResourceWebCriteria, firstResult, maxResults), new WaitingAsyncCallback<GetExternalResourcesResult>() {
+    public void retrieveItemSchemes(final String formItemName, SrmItemSchemeRestCriteria itemSchemeRestCriteria, int firstResult, int maxResults) {
+        dispatcher.execute(new GetExternalResourcesAction(itemSchemeRestCriteria, firstResult, maxResults), new WaitingAsyncCallback<GetExternalResourcesResult>() {
 
             @Override
             public void onWaitFailure(Throwable caught) {
@@ -210,9 +210,9 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     }
 
     @Override
-    public void retrieveItems(final String formItemName, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults, String criteria, String itemSchemeUrn) {
-        SrmItemRestCriteria itemWebCriteria = RestWebCriteriaUtils.buildItemWebCriteria(types, criteria, itemSchemeUrn);
-        retrieveItems(formItemName, itemWebCriteria, firstResult, maxResults);
+    public void retrieveItems(final String formItemName, SrmItemRestCriteria itemRestCriteria, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults) {
+        itemRestCriteria = RestWebCriteriaUtils.buildItemWebCriteria(itemRestCriteria, types);
+        retrieveItems(formItemName, itemRestCriteria, firstResult, maxResults);
     }
 
     @Override

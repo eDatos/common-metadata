@@ -47,13 +47,13 @@ public class RestQueryUtils {
             queryBuilder.append(")");
         }
         // Filter by agency scheme
-        if (StringUtils.isNotBlank(itemWebCriteria.getItemSchemUrn())) {
+        if (StringUtils.isNotBlank(itemWebCriteria.getItemSchemeUrn())) {
             if (StringUtils.isNotBlank(queryBuilder.toString())) {
                 queryBuilder.append(" ").append(LogicalOperator.AND.name()).append(" ");
             }
             queryBuilder.append("(");
             queryBuilder.append(OrganisationCriteriaPropertyRestriction.ORGANISATION_SCHEME_URN).append(" ").append(ComparisonOperator.EQ.name()).append(" \"")
-                    .append(itemWebCriteria.getItemSchemUrn()).append("\"");
+                    .append(itemWebCriteria.getItemSchemeUrn()).append("\"");
             queryBuilder.append(")");
         }
         // Filter by URN

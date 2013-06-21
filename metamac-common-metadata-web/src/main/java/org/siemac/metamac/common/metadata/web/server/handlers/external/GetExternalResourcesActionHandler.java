@@ -8,6 +8,7 @@ import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
 import org.siemac.metamac.web.common.shared.constants.CommonSharedConstants;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
+import org.siemac.metamac.web.common.shared.criteria.SrmItemSchemeRestCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 import org.siemac.metamac.web.common.shared.exception.MetamacWebException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class GetExternalResourcesActionHandler extends SecurityActionHandler<Get
         ExternalItemsResult result = null;
         switch (action.getExternalResourceWebCriteria().getType()) {
             case AGENCY_SCHEME:
-                result = srmRestInternalFacade.findAgencySchemes(serviceContext, action.getExternalResourceWebCriteria(), action.getFirstResult(), action.getMaxResults());
+                result = srmRestInternalFacade.findAgencySchemes(serviceContext, (SrmItemSchemeRestCriteria) action.getExternalResourceWebCriteria(), action.getFirstResult(), action.getMaxResults());
                 break;
             case AGENCY:
                 result = srmRestInternalFacade.findAgencies(serviceContext, (SrmItemRestCriteria) action.getExternalResourceWebCriteria(), action.getFirstResult(), action.getMaxResults());
