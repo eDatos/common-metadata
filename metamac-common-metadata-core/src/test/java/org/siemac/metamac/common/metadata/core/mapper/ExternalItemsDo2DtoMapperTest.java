@@ -39,7 +39,7 @@ public class ExternalItemsDo2DtoMapperTest {
         field.setAccessible(true);
         field.set(do2DtoMapper, fieldValue);
     }
-    
+
     @SuppressWarnings("rawtypes")
     private Method getVisibleExternalItemDoToDtoMethod() throws Exception {
         Class[] parameterTypes = new Class[1];
