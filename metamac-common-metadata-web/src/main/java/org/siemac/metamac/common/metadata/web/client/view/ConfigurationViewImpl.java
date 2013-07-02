@@ -269,6 +269,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
     private SearchSrmItemItem createAgencyItem(final String name, String title) {
         final SearchSrmItemItem item = new SearchAgencyItem(name, title);
+        item.setIsLastVersionItemVisible(false);
         item.setRequired(true);
         com.smartgwt.client.widgets.form.fields.events.ClickHandler clickHandler = new com.smartgwt.client.widgets.form.fields.events.ClickHandler() {
 
