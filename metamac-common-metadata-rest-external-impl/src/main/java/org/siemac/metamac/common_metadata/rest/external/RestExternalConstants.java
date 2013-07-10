@@ -1,9 +1,8 @@
 package org.siemac.metamac.common_metadata.rest.external;
 
+import org.siemac.metamac.rest.api.constants.RestApiConstants;
 
-public class RestExternalConstants {
-
-    public static String KIND_SEPARATOR              = "#";
+public class RestExternalConstants extends RestApiConstants {
 
     public static String LINK_SUBPATH_CONFIGURATIONS = "configurations";
 
