@@ -10,15 +10,15 @@ import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExc
 import org.siemac.metamac.core.common.util.CoreCommonUtil;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestOrder;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestQueryPropertyRestriction;
-import org.siemac.metamac.rest.common.query.domain.SculptorPropertyCriteria;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.ConfigurationCriteriaPropertyOrder;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.ConfigurationCriteriaPropertyRestriction;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
-import org.siemac.metamac.rest.search.criteria.mapper.CriteriaUtils;
-import org.siemac.metamac.rest.search.criteria.mapper.CriteriaUtils.PropertyValueRestToPropertyValueEntityInterface;
+import org.siemac.metamac.rest.search.criteria.SculptorPropertyCriteria;
 import org.siemac.metamac.rest.search.criteria.mapper.RestCriteria2SculptorCriteria;
 import org.siemac.metamac.rest.search.criteria.mapper.RestCriteria2SculptorCriteria.CriteriaCallback;
+import org.siemac.metamac.rest.search.criteria.utils.CriteriaUtils;
+import org.siemac.metamac.rest.search.criteria.utils.CriteriaUtils.PropertyValueRestToPropertyValueEntityInterface;
 import org.springframework.stereotype.Component;
 
 @Component
