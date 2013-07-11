@@ -122,6 +122,7 @@ public class CommonMetadataRestMocks {
     private ResourceInternal mockOrganisationResourceFromExternalItemSrm(String id) {
         ResourceInternal resource = new ResourceInternal();
         resource.setId(id);
+        resource.setNestedId(id + "Nested");
         resource.setUrn("urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0)." + id);
         resource.setKind("structuralResources#agency");
         resource.setSelfLink(MetamacRestMocks.mockResourceLink(resource.getKind(), srmApiExternalEndpoint + "/v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/" + id));

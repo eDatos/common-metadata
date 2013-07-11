@@ -23,6 +23,7 @@
     </cmetadata:confDataTreatment>
     <cmetadata:contact kind="structuralResources#agency">
         <cdomain:id>contact1</cdomain:id>
+        <cdomain:nestedId>contact1Nested</cdomain:nestedId>
         <cdomain:urn>urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0).contact1</cdomain:urn>
         <cdomain:selfLink kind="structuralResources#agency" href="http://data.istac.es/apis/srm/v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/contact1"/>
         <cdomain:name>
