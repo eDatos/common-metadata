@@ -7,6 +7,7 @@ import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
+import org.siemac.metamac.core.common.util.CoreCommonUtil;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestOrder;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestQueryPropertyRestriction;
 import org.siemac.metamac.rest.common.query.domain.SculptorPropertyCriteria;
@@ -14,6 +15,8 @@ import org.siemac.metamac.rest.common_metadata.v1_0.domain.ConfigurationCriteria
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.ConfigurationCriteriaPropertyRestriction;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
+import org.siemac.metamac.rest.search.criteria.mapper.CriteriaUtils;
+import org.siemac.metamac.rest.search.criteria.mapper.CriteriaUtils.PropertyValueRestToPropertyValueEntityInterface;
 import org.siemac.metamac.rest.search.criteria.mapper.RestCriteria2SculptorCriteria;
 import org.siemac.metamac.rest.search.criteria.mapper.RestCriteria2SculptorCriteria.CriteriaCallback;
 import org.springframework.stereotype.Component;
@@ -21,9 +24,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2SculptorCriteriaMapper {
 
-    private RestCriteria2SculptorCriteria<Configuration> configurationCriteriaMapper = null;
+    private PropertyValueRestToPropertyValueEntityInterface propertyValueRestToPropertyValueEntity = null;
+    private RestCriteria2SculptorCriteria<Configuration>    configurationCriteriaMapper            = null;
+
+    private enum PropertyTypeEnum {
+        STRING, DATE, BOOLEAN, STATUS
+    }
 
     public RestCriteria2SculptorCriteriaMapperImpl() {
+        propertyValueRestToPropertyValueEntity = new PropertyValueRestToPropertyValueEntity();
         configurationCriteriaMapper = new RestCriteria2SculptorCriteria<Configuration>(Configuration.class, ConfigurationCriteriaPropertyOrder.class, ConfigurationCriteriaPropertyRestriction.class,
                 new ConfigurationCriteriaCallback());
     }
@@ -40,13 +49,13 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
             ConfigurationCriteriaPropertyRestriction propertyNameCriteria = ConfigurationCriteriaPropertyRestriction.fromValue(propertyRestriction.getPropertyName());
             switch (propertyNameCriteria) {
                 case ID:
-                    return new SculptorPropertyCriteria(ConfigurationProperties.code(), propertyRestriction.getValue(), propertyRestriction.getOperationType());
+                    return buildSculptorPropertyCriteria(ConfigurationProperties.code(), PropertyTypeEnum.STRING, propertyRestriction);
                 case URN:
-                    return new SculptorPropertyCriteria(ConfigurationProperties.urn(), propertyRestriction.getValue(), propertyRestriction.getOperationType());
+                    return buildSculptorPropertyCriteria(ConfigurationProperties.urn(), PropertyTypeEnum.STRING, propertyRestriction);
                 case CONTACT_URN:
-                    return new SculptorPropertyCriteria(ConfigurationProperties.contact().urn(), propertyRestriction.getValue(), propertyRestriction.getOperationType());
+                    return buildSculptorPropertyCriteria(ConfigurationProperties.contact().urn(), PropertyTypeEnum.STRING, propertyRestriction);
                 case STATUS:
-                    return new SculptorPropertyCriteria(ConfigurationProperties.status(), propertyRestrictionValueToStatusEnum(propertyRestriction.getValue()), propertyRestriction.getOperationType());
+                    return buildSculptorPropertyCriteria(ConfigurationProperties.status(), PropertyTypeEnum.STATUS, propertyRestriction);
                 default:
                     throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
             }
@@ -70,12 +79,37 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
         }
     }
 
-    private RestException toRestExceptionParameterIncorrect(String parameter) {
-        org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.PARAMETER_INCORRECT, parameter);
-        throw new RestException(exception, Status.INTERNAL_SERVER_ERROR);
+    @SuppressWarnings("rawtypes")
+    private SculptorPropertyCriteria buildSculptorPropertyCriteria(Property propertyEntity, PropertyTypeEnum propertyEntityType, MetamacRestQueryPropertyRestriction restPropertyRestriction) {
+        return CriteriaUtils.buildSculptorPropertyCriteria(propertyEntity, propertyEntityType.name(), restPropertyRestriction, propertyValueRestToPropertyValueEntity);
     }
 
-    private CommonMetadataStatusEnum propertyRestrictionValueToStatusEnum(String value) {
-        return value != null ? CommonMetadataStatusEnum.valueOf(value) : null;
+    private class PropertyValueRestToPropertyValueEntity implements PropertyValueRestToPropertyValueEntityInterface {
+
+        @Override
+        public Object restValueToEntityValue(String propertyName, String value, String propertyType) {
+            if (value == null) {
+                return null;
+            }
+
+            PropertyTypeEnum propertyTypeEnum = PropertyTypeEnum.valueOf(propertyType);
+            switch (propertyTypeEnum) {
+                case STRING:
+                    return value;
+                case DATE:
+                    return CoreCommonUtil.transformISODateTimeLexicalRepresentationToDateTime(value).toDate();
+                case BOOLEAN:
+                    return Boolean.valueOf(value);
+                case STATUS:
+                    return CommonMetadataStatusEnum.valueOf(value);
+                default:
+                    throw toRestExceptionParameterIncorrect(propertyName);
+            }
+        }
+    }
+
+    private RestException toRestExceptionParameterIncorrect(String parameter) {
+        org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.PARAMETER_INCORRECT, parameter);
+        return new RestException(exception, Status.INTERNAL_SERVER_ERROR);
     }
 }
