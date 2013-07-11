@@ -117,20 +117,15 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         }
 
         if (target == null) {
-            // We set uri because it's required but the information is incorrect because it includes the base
-            target = new ExternalItem(source.getCode(), source.getUri(), source.getUrn(), source.getUrnInternal(), source.getType(), internationalStringToDo(source.getTitle(), null, metadataName));
-        } else {
-            target.setCode(source.getCode());
-            target.setUri(source.getUri());
-            target.setUrn(source.getUrn());
-            target.setUrnInternal(source.getUrnInternal());
-            target.setType(source.getType());
-            target.setManagementAppUrl(source.getManagementAppUrl());
-            target.setTitle(internationalStringToDo(source.getTitle(), target.getTitle(), metadataName));
+            target = new ExternalItem();
         }
-
+        target.setCode(source.getCode());
+        target.setCodeNested(source.getCodeNested());
+        target.setUrn(source.getUrn());
+        target.setUrnInternal(source.getUrnInternal());
+        target.setType(source.getType());
+        target.setTitle(internationalStringToDo(source.getTitle(), target.getTitle(), metadataName));
         return target;
-
     }
 
     private ExternalItem commonMetadataExternalItemDtoToDo(ExternalItemDto source, ExternalItem target) throws MetamacException {

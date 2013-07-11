@@ -69,10 +69,16 @@ public class CommonMetadataCoreMocks {
     }
 
     private ExternalItem mockExternalItemOrganisationSrm(String code) {
-        String uri = "v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/" + code;
-        String urn = "urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0)." + code;
-        String managementUrlPart = "#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id=" + code;
-        return new ExternalItem(code, uri, urn, urn, TypeExternalArtefactsEnum.AGENCY, mockInternationalString(code, null), managementUrlPart);
+        ExternalItem target = new ExternalItem();
+        target.setCode(code);
+        target.setCodeNested(code + "Nested");
+        target.setUri("v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/" + code);
+        target.setUrn("urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0)." + code);
+        target.setUrnInternal(target.getUrn());
+        target.setType(TypeExternalArtefactsEnum.AGENCY);
+        target.setTitle(mockInternationalString(code, null));
+        target.setManagementAppUrl("#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id=" + code);
+        return target;
     }
 
     private InternationalString mockInternationalString(String metadata, String subCode) {

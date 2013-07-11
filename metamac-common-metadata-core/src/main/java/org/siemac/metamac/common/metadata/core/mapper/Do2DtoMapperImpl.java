@@ -97,10 +97,16 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         if (source == null) {
             return null;
         }
-
-        ExternalItemDto target = new ExternalItemDto(source.getCode(), source.getUri(), source.getUrn(), source.getUrnInternal(), source.getType(), internationalStringToDto(source.getTitle()),
-                source.getManagementAppUrl());
-
+        ExternalItemDto target = new ExternalItemDto();
+        target.setId(source.getId());
+        target.setCode(source.getCode());
+        target.setCodeNested(source.getCodeNested());
+        target.setUri(source.getUri());
+        target.setUrn(source.getUrn());
+        target.setUrnInternal(source.getUrnInternal());
+        target.setType(source.getType());
+        target.setManagementAppUrl(source.getManagementAppUrl());
+        target.setTitle(internationalStringToDto(source.getTitle()));
         return target;
     }
 

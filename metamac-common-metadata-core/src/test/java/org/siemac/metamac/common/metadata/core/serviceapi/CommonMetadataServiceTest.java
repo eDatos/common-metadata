@@ -142,12 +142,12 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     @Transactional
     public void testCreateConfigurationErrorContactRequired() throws Exception {
         expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_REQUIRED, ServiceExceptionParameters.CONFIGURATION_CONTACT));
-        
+
         Configuration configuration = createEnableConfiguration();
         configuration.setContact(null);
         commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
     }
-    
+
     @Test
     @Transactional
     public void testCreateConfigurationCodeDuplicated() throws Exception {
@@ -170,8 +170,6 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         }
 
     }
-    
-    
 
     @Override
     @Test
@@ -224,7 +222,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         CommonMetadataAsserts.assertEqualsConfiguration(configuration, updatedConfiguration);
 
     }
-    
+
     @Test
     @Transactional
     public void testUpdateConfigurationErrorContactRequired() throws Exception {
@@ -394,8 +392,14 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         configuration.setStatus(CommonMetadataStatusEnum.ENABLED);
 
         // Contact
-        configuration.setContact(new ExternalItem("CONTACT-CODE", "CONTACT-URI", "CONTACT-URN", "CONTACT-URN-INTERNAL", TypeExternalArtefactsEnum.AGENCY, null,
-                "CONTACT-MANAGEMENT_APP_URL-01234567890123456789"));
+        ExternalItem contact = new ExternalItem();
+        contact.setCode("CONTACT-CODE");
+        contact.setUri("CONTACT-URI");
+        contact.setUrn("CONTACT-URN");
+        contact.setUrnInternal("CONTACT-URN-INTERNAL");
+        contact.setType(TypeExternalArtefactsEnum.AGENCY);
+        contact.setManagementAppUrl("CONTACT-MANAGEMENT_APP_URL-01234567890123456789");
+        configuration.setContact(contact);
 
         return configuration;
     }

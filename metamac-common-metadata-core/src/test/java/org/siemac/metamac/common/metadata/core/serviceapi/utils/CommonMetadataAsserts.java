@@ -72,6 +72,7 @@ public class CommonMetadataAsserts extends MetamacAsserts {
         }
 
         assertEquals(expected.getCode(), actual.getCode());
+        assertEquals(expected.getCodeNested(), actual.getCodeNested());
         assertEquals(expected.getUri(), actual.getUri());
         assertEquals(expected.getUrn(), actual.getUrn());
         assertEquals(expected.getUrnInternal(), actual.getUrnInternal());
