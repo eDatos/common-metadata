@@ -50,6 +50,7 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
     private static ExternalItemDto getExternalItemDtoFromSrmResourceInternal(ResourceInternal resourceInternal) {
         ExternalItemDto externalItemDto = new ExternalItemDto();
         externalItemDto.setCode(resourceInternal.getId());
+        externalItemDto.setCodeNested(resourceInternal.getNestedId());
         externalItemDto.setUri(resourceInternal.getSelfLink().getHref());
         externalItemDto.setUrn(resourceInternal.getUrn());
         externalItemDto.setUrnInternal(resourceInternal.getUrnInternal());
