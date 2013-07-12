@@ -1,6 +1,6 @@
 package org.siemac.metamac.common.metadata.web.server.rest;
 
-import static org.siemac.metamac.srm.rest.internal.RestInternalConstants.WILDCARD;
+import static org.siemac.metamac.rest.api.constants.RestApiConstants.WILDCARD_ALL;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,7 +72,7 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
         String query = RestQueryUtils.buildAgencyQuery(itemWebCriteria);
 
         try {
-            Agencies agencies = restApiLocator.getSrmRestInternalFacadeV10().findAgencies(WILDCARD, WILDCARD, WILDCARD, query, orderBy, limit, offset);
+            Agencies agencies = restApiLocator.getSrmRestInternalFacadeV10().findAgencies(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset);
             return ExternalItemUtils.getAgenciesAsExternalItemsResult(agencies);
         } catch (ServerWebApplicationException e) {
             throwMetamacWebExceptionFromServerWebApplicationException(serviceContext, e);
