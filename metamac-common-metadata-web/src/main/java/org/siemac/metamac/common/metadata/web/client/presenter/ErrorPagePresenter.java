@@ -3,7 +3,7 @@ package org.siemac.metamac.common.metadata.web.client.presenter;
 import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ErrorPageUiHandlers;
 
-import com.google.gwt.event.shared.EventBus;
+import com.google.web.bindery.event.shared.EventBus;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
