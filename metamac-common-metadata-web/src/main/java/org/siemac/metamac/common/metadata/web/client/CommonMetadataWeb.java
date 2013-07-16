@@ -5,8 +5,6 @@ import org.siemac.metamac.common.metadata.web.client.gin.CommonMetadataWebGinjec
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.web.common.client.MetamacSecurityEntryPoint;
 import org.siemac.metamac.web.common.client.gin.MetamacWebGinjector;
-import org.siemac.metamac.web.common.client.utils.ApplicationOrganisation;
-import org.siemac.metamac.web.common.shared.LoadConfigurationPropertiesResult;
 
 import com.google.gwt.core.client.GWT;
 
@@ -27,10 +25,9 @@ public class CommonMetadataWeb extends MetamacSecurityEntryPoint {
     @Override
     public void onModuleLoad() {
         setUncaughtExceptionHandler();
-        
+
         prepareApplication(SECURITY_ENABLED);
     }
-
 
     public static MetamacPrincipal getCurrentUser() {
         return CommonMetadataWeb.principal;
@@ -64,32 +61,31 @@ public class CommonMetadataWeb extends MetamacSecurityEntryPoint {
     public static void showErrorPage() {
         ginjector.getPlaceManager().revealErrorPlace(null);
     }
-    
-    //Security Entry point
-    
+
+    // Security Entry point
+
     @Override
     protected String getApplicationTitle() {
         return getConstants().appTitle();
     }
-    
+
     @Override
     protected MetamacPrincipal getPrincipal() {
         return CommonMetadataWeb.principal;
     }
-    
+
     @Override
     protected void setPrincipal(MetamacPrincipal principal) {
-        CommonMetadataWeb.principal = principal; 
+        CommonMetadataWeb.principal = principal;
     }
-    
+
     @Override
     protected String getSecurityApplicationId() {
         return CommonMetadataConstants.SECURITY_APPLICATION_ID;
     }
-    
+
     @Override
     protected MetamacWebGinjector getWebGinjector() {
         return ginjector;
     }
-    
 }
