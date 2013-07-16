@@ -6,6 +6,7 @@ import org.siemac.metamac.rest.common.v1_0.domain.ComparisonOperator;
 import org.siemac.metamac.rest.common.v1_0.domain.LogicalOperator;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationCriteriaPropertyRestriction;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.OrganisationSchemeCriteriaPropertyRestriction;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ProcStatus;
 import org.siemac.metamac.web.common.shared.criteria.ExternalResourceWebCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
 
@@ -71,8 +72,8 @@ public class RestQueryUtils {
                 queryBuilder.append(" ").append(LogicalOperator.AND.name()).append(" ");
             }
             queryBuilder.append("(");
-            queryBuilder.append(OrganisationCriteriaPropertyRestriction.ORGANISATION_SCHEME_EXTERNALLY_PUBLISHED).append(" ").append(ComparisonOperator.EQ.name()).append(" \"").append(Boolean.TRUE)
-                    .append("\"");
+            queryBuilder.append(OrganisationCriteriaPropertyRestriction.ORGANISATION_SCHEME_PROC_STATUS).append(" ").append(ComparisonOperator.EQ.name()).append(" \"")
+                    .append(ProcStatus.EXTERNALLY_PUBLISHED).append("\"");
             queryBuilder.append(")");
         }
         return queryBuilder.toString();
