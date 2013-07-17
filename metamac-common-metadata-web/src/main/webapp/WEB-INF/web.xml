@@ -72,7 +72,7 @@
 
     <!-- ******************* Default page to serve ******************** -->
     <welcome-file-list>
-        <welcome-file>CommonMetadataWeb.html</welcome-file>
+        <welcome-file>CommonMetadataWeb.jsp</welcome-file>
     </welcome-file-list>
 
 </web-app>

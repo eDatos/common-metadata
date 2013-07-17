@@ -14,51 +14,7 @@
     <!--                                                               -->
     <link type="text/css" rel="stylesheet" href="CommonMetadataWeb.css">
 
-	<meta name="gwt:property" content="locale=es">
-
-    <!--  
-	<script type="text/javascript">
-		var userLang = (navigator.language) ? navigator.language
-				: navigator.userLanguage;
-		document.write("<meta name='gwt:property' content='locale="+userLang+"'>"); 
-	</script>
-    -->
-    
-    <!--  
-    <script src="CommonMetadataWeb/js/jquery.min.js"></script>
-    
-	<script type="text/javascript">
-		var language;
-		$.ajax({ 
-		    url: "http://ajaxhttpheaders.appspot.com", 
-		    dataType: 'jsonp', 
-		    success: function(headers) {
-		    	language = headers['Accept-Language'];
-		    	alert("detectado " +  language);
-		    	document.write("<meta name='gwt:property' content='locale="+userLang+"'>");
-		    }
-		});
-	</script>
-	-->
-    
-	<!-- 
-	<script
-		src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-	
-	<script type="text/javascript">
-		var lan = "en";
-	
-		if (!jQuery.browser.msie) {
-			lan = window.navigator.language.split('-')[0];
-		} else {
-			lan = window.navigator.userLanguage.split('-')[0];
-		}
-	
-		if (lan == "pt" || lan == "es") {
-			$("meta[name='gwt:property']").attr("content", "locale=" + lan);
-		}
-	</script>
-	-->
+	<meta name="gwt:property" content="locale=<%=request.getLocale()%>">
 
 	<!--                                           -->
     <!-- This script loads your compiled module.   -->
