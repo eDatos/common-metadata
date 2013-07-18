@@ -17,12 +17,12 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class InternationalStringsDo2DtoMapperTest extends MetamacBaseTest {
 
-    @Value("${metamac.common.metadata.db.provider}")
-    private String               databaseProvider;
+    @Value("${metamac.common_metadata.db.provider}")
+    private String                     databaseProvider;
 
-    private Do2DtoMapper         do2DtoMapper         = new Do2DtoMapperImpl();
+    private final Do2DtoMapper         do2DtoMapper         = new Do2DtoMapperImpl();
 
-    private ConfigurationService configurationService = new ConfigurationServiceMockImpl();
+    private final ConfigurationService configurationService = new ConfigurationServiceMockImpl();
 
     @Before
     public void setConfigurationToMapper() throws Exception {

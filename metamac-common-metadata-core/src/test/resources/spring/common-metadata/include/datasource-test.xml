@@ -10,7 +10,7 @@
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="databasePlatform" value="${metamac.common.metadata.db.dialect}" />
+                <property name="databasePlatform" value="${metamac.common_metadata.db.dialect}" />
             </bean>
         </property>
         <property name="dataSource" ref="dataSource" />
@@ -29,10 +29,10 @@
     </bean>
 
    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName"    value="${metamac.common.metadata.db.driverName}"/>
-        <property name="url"                value="${metamac.common.metadata.db.url}"/>
-        <property name="username"           value="${metamac.common.metadata.db.username}"/>
-        <property name="password"           value="${metamac.common.metadata.db.password}"/>
+        <property name="driverClassName"    value="${metamac.common_metadata.db.driver_name}"/>
+        <property name="url"                value="${metamac.common_metadata.db.url}"/>
+        <property name="username"           value="${metamac.common_metadata.db.username}"/>
+        <property name="password"           value="${metamac.common_metadata.db.password}"/>
     </bean>
 
 

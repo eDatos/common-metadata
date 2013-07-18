@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class InternationalStringsDto2DoMapperTest extends MetamacBaseTest {
 
-    @Value("${metamac.common.metadata.db.provider}")
+    @Value("${metamac.common_metadata.db.provider}")
     private String                 databaseProvider;
 
     private final Dto2DoMapper     dto2DoMapper         = new Dto2DoMapperImpl();
