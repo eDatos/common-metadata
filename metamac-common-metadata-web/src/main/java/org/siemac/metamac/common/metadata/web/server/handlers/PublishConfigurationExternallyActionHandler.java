@@ -1,5 +1,7 @@
 package org.siemac.metamac.common.metadata.web.server.handlers;
 
+import java.util.Locale;
+
 import org.apache.commons.lang.StringUtils;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
@@ -88,7 +90,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
     }
 
     private void throwMetamacWebException(ServiceContext serviceContext, String exceptionCode) throws MetamacWebException {
-        String locale = (String) serviceContext.getProperty(LocaleConstants.locale);
+        Locale locale = (Locale) serviceContext.getProperty(LocaleConstants.locale);
         String exceptionnMessage = webTranslateExceptions.getTranslatedMessage(exceptionCode, locale);
 
         throw new MetamacWebException(exceptionCode, exceptionnMessage);
