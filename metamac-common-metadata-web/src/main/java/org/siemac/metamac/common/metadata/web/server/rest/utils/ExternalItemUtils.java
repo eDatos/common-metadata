@@ -8,6 +8,7 @@ import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.rest.common.v1_0.domain.ListBase;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Agencies;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.AgencySchemes;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ItemResourceInternal;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.web.common.server.utils.DtoUtils;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
@@ -30,7 +31,7 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
 
     public static ExternalItemsResult getAgenciesAsExternalItemsResult(Agencies agencies) {
         ExternalItemsResult result = getListBaseAsExternalItemsResult(agencies);
-        result.setExternalItemDtos(getExternalItemDtosFromResourceInternals(agencies.getAgencies()));
+        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals(agencies.getAgencies()));
         return result;
     }
 
@@ -53,7 +54,7 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
         externalItemDto.setCodeNested(resourceInternal.getNestedId());
         externalItemDto.setUri(resourceInternal.getSelfLink().getHref());
         externalItemDto.setUrn(resourceInternal.getUrn());
-        externalItemDto.setUrnInternal(resourceInternal.getUrnInternal());
+        externalItemDto.setUrnInternal(resourceInternal.getUrnSiemac());
         externalItemDto.setType(TypeExternalArtefactsEnum.fromValue(resourceInternal.getKind()));
         externalItemDto.setTitle(DtoUtils.getInternationalStringDtoFromInternationalString(resourceInternal.getName()));
         externalItemDto.setManagementAppUrl(resourceInternal.getManagementAppLink());
@@ -61,6 +62,14 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
     }
 
     private static List<ExternalItemDto> getExternalItemDtosFromResourceInternals(List<ResourceInternal> resources) {
+        List<ExternalItemDto> externalItemDtos = new ArrayList<ExternalItemDto>(resources.size());
+        for (ResourceInternal resource : resources) {
+            externalItemDtos.add(getExternalItemDtoFromSrmResourceInternal(resource));
+        }
+        return externalItemDtos;
+    }
+
+    private static List<ExternalItemDto> getExternalItemDtosFromItemResourceInternals(List<ItemResourceInternal> resources) {
         List<ExternalItemDto> externalItemDtos = new ArrayList<ExternalItemDto>(resources.size());
         for (ResourceInternal resource : resources) {
             externalItemDtos.add(getExternalItemDtoFromSrmResourceInternal(resource));
