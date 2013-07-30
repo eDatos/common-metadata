@@ -396,7 +396,7 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         contact.setCode("CONTACT-CODE");
         contact.setUri("CONTACT-URI");
         contact.setUrn("CONTACT-URN");
-        contact.setUrnInternal("CONTACT-URN-INTERNAL");
+        contact.setUrnProvider("CONTACT-URN-PROVIDER");
         contact.setType(TypeExternalArtefactsEnum.AGENCY);
         contact.setManagementAppUrl("CONTACT-MANAGEMENT_APP_URL-01234567890123456789");
         configuration.setContact(contact);

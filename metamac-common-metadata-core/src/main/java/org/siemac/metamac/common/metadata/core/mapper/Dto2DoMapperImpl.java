@@ -122,7 +122,7 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         target.setCode(source.getCode());
         target.setCodeNested(source.getCodeNested());
         target.setUrn(source.getUrn());
-        target.setUrnInternal(source.getUrnInternal());
+        target.setUrnProvider(source.getUrnProvider());
         target.setType(source.getType());
         target.setTitle(internationalStringToDo(source.getTitle(), target.getTitle(), metadataName));
         return target;

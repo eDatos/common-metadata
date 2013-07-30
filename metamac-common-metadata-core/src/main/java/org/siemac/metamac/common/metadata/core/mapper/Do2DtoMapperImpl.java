@@ -103,7 +103,7 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         target.setCodeNested(source.getCodeNested());
         target.setUri(source.getUri());
         target.setUrn(source.getUrn());
-        target.setUrnInternal(source.getUrnInternal());
+        target.setUrnProvider(source.getUrnProvider());
         target.setType(source.getType());
         target.setManagementAppUrl(source.getManagementAppUrl());
         target.setTitle(internationalStringToDto(source.getTitle()));

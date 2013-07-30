@@ -131,7 +131,7 @@ public class CommonMetadataDoMocks extends MetamacMocks {
         item.setCodeNested(code + "nested");
         item.setUri(CoreCommonConstants.API_LATEST_WITH_SLASHES + code);
         item.setUrn(urn);
-        item.setUrnInternal(urn + "internal");
+        item.setUrnProvider(urn + "provider");
         item.setType(type);
         item.setTitle(mockInternationalString());
         item.setManagementAppUrl(CoreCommonConstants.URL_SEPARATOR + code);

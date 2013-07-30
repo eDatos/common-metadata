@@ -74,7 +74,7 @@ public class CommonMetadataCoreMocks {
         target.setCodeNested(code + "Nested");
         target.setUri("v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/" + code);
         target.setUrn("urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0)." + code);
-        target.setUrnInternal(target.getUrn());
+        target.setUrnProvider(target.getUrn());
         target.setType(TypeExternalArtefactsEnum.AGENCY);
         target.setTitle(mockInternationalString(code, null));
         target.setManagementAppUrl("#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id=" + code);

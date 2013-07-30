@@ -35,7 +35,7 @@ public class CommonMetadataBaseAsserts extends MetamacAsserts {
         assertEquals(expected.getCodeNested(), actual.getCodeNested());
         assertEquals(expected.getUri(), actual.getUri());
         assertEquals(expected.getUrn(), actual.getUrn());
-        assertEquals(expected.getUrnInternal(), actual.getUrnInternal());
+        assertEquals(expected.getUrnProvider(), actual.getUrnProvider());
         assertEquals(expected.getType(), actual.getType());
         assertEqualsInternationalString(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getManagementAppUrl(), actual.getManagementAppUrl());
@@ -102,7 +102,7 @@ public class CommonMetadataBaseAsserts extends MetamacAsserts {
         assertEquals(entity.getCode(), dto.getCode());
         assertEquals(entity.getCodeNested(), dto.getCodeNested());
         assertEquals(entity.getUrn(), dto.getUrn());
-        assertEquals(entity.getUrnInternal(), dto.getUrnInternal());
+        assertEquals(entity.getUrnProvider(), dto.getUrnProvider());
         assertEquals(entity.getType(), dto.getType());
         assertEqualsInternationalString(entity.getTitle(), dto.getTitle());
     }
