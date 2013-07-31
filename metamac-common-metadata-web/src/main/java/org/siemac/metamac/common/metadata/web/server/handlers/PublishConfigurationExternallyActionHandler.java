@@ -75,17 +75,17 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
     }
 
     private String getContactUrn(ServiceContext serviceContext, ExternalItemDto contact) throws MetamacWebException {
+        String urnProvider = contact.getUrnProvider();
         String urn = contact.getUrn();
-        String urnInternal = contact.getUrnInternal();
 
-        if (StringUtils.isBlank(urn) && StringUtils.isBlank(urnInternal)) {
+        if (StringUtils.isBlank(urnProvider) && StringUtils.isBlank(urn)) {
             throwMetamacWebException(serviceContext, WebMessageExceptionsConstants.CONFIGURATION_ERROR_CONTACT_NOT_FOUND);
         }
 
         if (StringUtils.isNotBlank(urn)) {
             return urn;
         } else {
-            return urnInternal;
+            return urnProvider;
         }
     }
 

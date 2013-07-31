@@ -53,8 +53,8 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
         externalItemDto.setCode(resourceInternal.getId());
         externalItemDto.setCodeNested(resourceInternal.getNestedId());
         externalItemDto.setUri(resourceInternal.getSelfLink().getHref());
-        externalItemDto.setUrn(resourceInternal.getUrn());
-        externalItemDto.setUrnInternal(resourceInternal.getUrnSiemac());
+        externalItemDto.setUrn(resourceInternal.getUrnSiemac());
+        externalItemDto.setUrnProvider(resourceInternal.getUrn());
         externalItemDto.setType(TypeExternalArtefactsEnum.fromValue(resourceInternal.getKind()));
         externalItemDto.setTitle(DtoUtils.getInternationalStringDtoFromInternationalString(resourceInternal.getName()));
         externalItemDto.setManagementAppUrl(resourceInternal.getManagementAppLink());
