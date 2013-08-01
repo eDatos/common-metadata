@@ -14,6 +14,7 @@ Application CommonMetadataDto {
         	-@InternationalStringDto confPolicy nullable;
         	-@InternationalStringDto confDataTreatment nullable;
         	-@ExternalItemDto contact nullable;
+        	-@InternationalStringDto license nullable;
         	
         	boolean externallyPublished not nullable;
         	-@CommonMetadataStatusEnum status not nullable;

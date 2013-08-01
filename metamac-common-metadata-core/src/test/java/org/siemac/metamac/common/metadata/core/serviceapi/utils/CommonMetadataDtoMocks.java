@@ -65,6 +65,18 @@ public class CommonMetadataDtoMocks extends MetamacMocks {
         confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
         configurationDto.setConfDataTreatment(confidentialityDataTreatment);
         
+        // License
+        InternationalStringDto license = new InternationalStringDto();
+        LocalisedStringDto license_es = new LocalisedStringDto();
+        license_es.setLabel("ESPAÑOL Licencia");
+        license_es.setLocale("es");
+        LocalisedStringDto license_en = new LocalisedStringDto();
+        license_en.setLabel("ENGLISH License");
+        license_en.setLocale("en");
+        license.addText(license_es);
+        license.addText(license_en);
+        configurationDto.setLicense(license);
+        
         // Contact
         configurationDto.setContact(mockExternalItemDtoComplete("CONTACT-URN", TypeExternalArtefactsEnum.AGENCY));
         

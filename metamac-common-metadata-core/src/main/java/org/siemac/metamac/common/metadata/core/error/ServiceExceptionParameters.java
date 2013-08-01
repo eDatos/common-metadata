@@ -17,6 +17,7 @@ public class ServiceExceptionParameters extends CommonServiceExceptionParameters
     public static final String CONFIGURATION_DATA_SHARING        = "parameter.common_metadata.configuration.data_sharing";
     public static final String CONFIGURATION_CONF_POLICY         = "parameter.common_metadata.configuration.conf_policy";
     public static final String CONFIGURATION_CONF_DATA_TREATMENT = "parameter.common_metadata.configuration.data_treatment";
+    public static final String CONFIGURATION_LICENSE             = "parameter.common_metadata.configuration.license";
     public static final String CONFIGURATION_CONTACT             = "parameter.common_metadata.configuration.contact";
 
     public static final String CONFIGURATION_STATUS              = "parameter.common_metadata.configuration.status";

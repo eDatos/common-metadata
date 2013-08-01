@@ -42,6 +42,7 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         target.setDataSharing(internationalStringToDto(source.getDataSharing()));
         target.setConfPolicy(internationalStringToDto(source.getConfPolicy()));
         target.setConfDataTreatment(internationalStringToDto(source.getConfDataTreatment()));
+        target.setLicense(internationalStringToDto(source.getLicense()));
 
         target.setExternallyPublished(source.isExternallyPublished());
         target.setStatus(source.getStatus());

@@ -63,6 +63,7 @@ Application CommonMetadata {
 			-@InternationalString confPolicy cascade="all" nullable databaseColumn="CONF_POLICY_FK";
 			-@InternationalString confDataTreatment cascade="all" nullable databaseColumn="CONF_DATA_TREATMENT_FK";
 			-@ExternalItem contact cascade="all" nullable databaseColumn="CONTACT_FK" ;
+			-@InternationalString license cascade="all" nullable databaseColumn="LICENSE_FK";
 			
 			boolean externallyPublished not nullable;
 			-@CommonMetadataStatusEnum status not nullable;

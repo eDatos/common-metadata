@@ -147,6 +147,16 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         configuration.setContact(null);
         commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
     }
+    
+    @Test
+    @Transactional
+    public void testCreateConfigurationErrorLicenseRequired() throws Exception {
+        expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_REQUIRED, ServiceExceptionParameters.CONFIGURATION_LICENSE));
+
+        Configuration configuration = createEnableConfiguration();
+        configuration.setLicense(null);
+        commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
+    }
 
     @Test
     @Transactional
@@ -240,6 +250,24 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         configuration.setContact(null);
         commonMetadataService.updateConfiguration(getServiceContextAdministrador(), configuration);
     }
+    
+    @Test
+    @Transactional
+    public void testUpdateConfigurationErrorLicenseRequired() throws Exception {
+        expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_REQUIRED, ServiceExceptionParameters.CONFIGURATION_LICENSE));
+
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        TransactionStatus status = transactionManager.getTransaction(defaultTransactionDefinition);
+
+        Configuration configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), createEnableConfiguration());
+        assertNotNull(configuration);
+
+        transactionManager.commit(status);
+
+        configuration.setLicense(null);
+        commonMetadataService.updateConfiguration(getServiceContextAdministrador(), configuration);
+    }
 
     @Test
     @DirtyDatabase
@@ -328,6 +356,31 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     private Configuration createEnableConfiguration() {
         Configuration configuration = createConfigurationBase();
 
+        // Status
+        configuration.setStatus(CommonMetadataStatusEnum.ENABLED);
+
+        return configuration;
+    }
+
+    private Configuration createConfigurationBase() {
+        Configuration configuration = new Configuration();
+
+        // Code
+        configuration.setCode(CommonMetadataDoMocks.mockCode());
+
+        // Status
+        configuration.setStatus(CommonMetadataStatusEnum.DISABLED);
+
+        // Contact
+        ExternalItem contact = new ExternalItem();
+        contact.setCode("CONTACT-CODE");
+        contact.setUri("CONTACT-URI");
+        contact.setUrn("CONTACT-URN");
+        contact.setUrnProvider("CONTACT-URN-PROVIDER");
+        contact.setType(TypeExternalArtefactsEnum.AGENCY);
+        contact.setManagementAppUrl("CONTACT-MANAGEMENT_APP_URL-01234567890123456789");
+        configuration.setContact(contact);
+
         // Legal Acts
         InternationalString legalActs = new InternationalString();
         LocalisedString legalActs_es = new LocalisedString();
@@ -375,31 +428,18 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         confidentialityDataTreatment.addText(confidentialityDataTreatment_es);
         confidentialityDataTreatment.addText(confidentialityDataTreatment_en);
         configuration.setConfDataTreatment(confidentialityDataTreatment);
-
-        // Status
-        configuration.setStatus(CommonMetadataStatusEnum.ENABLED);
-
-        return configuration;
-    }
-
-    private Configuration createConfigurationBase() {
-        Configuration configuration = new Configuration();
-
-        // Code
-        configuration.setCode(CommonMetadataDoMocks.mockCode());
-
-        // Status
-        configuration.setStatus(CommonMetadataStatusEnum.ENABLED);
-
-        // Contact
-        ExternalItem contact = new ExternalItem();
-        contact.setCode("CONTACT-CODE");
-        contact.setUri("CONTACT-URI");
-        contact.setUrn("CONTACT-URN");
-        contact.setUrnProvider("CONTACT-URN-PROVIDER");
-        contact.setType(TypeExternalArtefactsEnum.AGENCY);
-        contact.setManagementAppUrl("CONTACT-MANAGEMENT_APP_URL-01234567890123456789");
-        configuration.setContact(contact);
+        
+        // License
+        InternationalString license = new InternationalString();
+        LocalisedString license_es = new LocalisedString();
+        license_es.setLabel("ESPAÑOL Licencia");
+        license_es.setLocale("es");
+        LocalisedString license_en = new LocalisedString();
+        license_en.setLabel("ENGLISH License");
+        license_en.setLocale("en");
+        license.addText(license_es);
+        license.addText(license_en);
+        configuration.setLicense(license);
 
         return configuration;
     }

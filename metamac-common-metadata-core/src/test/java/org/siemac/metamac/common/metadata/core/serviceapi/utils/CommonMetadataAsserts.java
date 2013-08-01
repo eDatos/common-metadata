@@ -18,6 +18,7 @@ public class CommonMetadataAsserts extends MetamacAsserts {
         assertEqualsInternationalString(expected.getConfPolicy(), actual.getConfPolicy());
         assertEqualsInternationalString(expected.getDataSharing(), actual.getDataSharing());
         assertEqualsInternationalString(expected.getLegalActs(), actual.getLegalActs());
+        assertEqualsInternationalString(expected.getLicense(), actual.getLicense());
         assertEqualsExternalItem(expected.getContact(), actual.getContact());
     }
 
@@ -27,6 +28,7 @@ public class CommonMetadataAsserts extends MetamacAsserts {
         assertEqualsInternationalStringDto(expected.getConfPolicy(), actual.getConfPolicy());
         assertEqualsInternationalStringDto(expected.getDataSharing(), actual.getDataSharing());
         assertEqualsInternationalStringDto(expected.getLegalActs(), actual.getLegalActs());
+        assertEqualsInternationalStringDto(expected.getLicense(), actual.getLicense());
         assertEqualsExternalItemDto(expected.getContact(), actual.getContact());
     }
 

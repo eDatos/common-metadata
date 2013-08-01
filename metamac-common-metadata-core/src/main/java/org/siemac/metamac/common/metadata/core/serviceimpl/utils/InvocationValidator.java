@@ -109,10 +109,19 @@ public class InvocationValidator {
     // ------------------------------------------------------------------------------------
     private static void checkConfiguration(Configuration configuration, List<MetamacExceptionItem> exceptions) {
         CommonMetadataValidationUtils.checkParameterRequired(configuration, ServiceExceptionParameters.CONFIGURATION, exceptions);
+        
         CommonMetadataValidationUtils.checkMetadataRequired(configuration.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
-        CommonMetadataValidationUtils.checkMetadataRequired(configuration.getUrn(), ServiceExceptionParameters.CONFIGURATION_URN, exceptions);
-        CommonMetadataValidationUtils.checkMetadataRequired(configuration.getStatus(), ServiceExceptionParameters.CONFIGURATION_STATUS, exceptions);
         CommonMetadataValidationUtils.checkSemanticIdentifierAsMetamacID(configuration.getCode(), ServiceExceptionParameters.CONFIGURATION_CODE, exceptions);
+        CommonMetadataValidationUtils.checkMetadataRequired(configuration.getUrn(), ServiceExceptionParameters.CONFIGURATION_URN, exceptions);
+        
+        CommonMetadataValidationUtils.checkMetadataRequired(configuration.getStatus(), ServiceExceptionParameters.CONFIGURATION_STATUS, exceptions);
+        
+        CommonMetadataValidationUtils.checkMetadataOptionalIsValid(configuration.getLegalActs(), ServiceExceptionParameters.CONFIGURATION_LEGAL_ACTS, exceptions);
+        CommonMetadataValidationUtils.checkMetadataOptionalIsValid(configuration.getDataSharing(), ServiceExceptionParameters.CONFIGURATION_DATA_SHARING, exceptions);
+        CommonMetadataValidationUtils.checkMetadataOptionalIsValid(configuration.getConfPolicy(), ServiceExceptionParameters.CONFIGURATION_CONF_POLICY, exceptions);
+        CommonMetadataValidationUtils.checkMetadataOptionalIsValid(configuration.getConfDataTreatment(), ServiceExceptionParameters.CONFIGURATION_CONF_DATA_TREATMENT, exceptions);
+        CommonMetadataValidationUtils.checkMetadataRequired(configuration.getLicense(), ServiceExceptionParameters.CONFIGURATION_LICENSE, exceptions);
+        
         CommonMetadataValidationUtils.checkMetadataRequired(configuration.getContact(), ServiceExceptionParameters.CONFIGURATION_CONTACT, exceptions);
     }
 
