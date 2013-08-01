@@ -9,12 +9,15 @@ import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
 import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
 import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchAgencyItem;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
+import org.siemac.metamac.web.common.client.utils.InternationalStringUtils;
 import org.siemac.metamac.web.common.client.view.handlers.SrmExternalResourcesUiHandlers;
 import org.siemac.metamac.web.common.client.widgets.CustomWindow;
 import org.siemac.metamac.web.common.client.widgets.form.CustomDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomButtonItem;
+import org.siemac.metamac.web.common.client.widgets.form.fields.CustomTextItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredTextItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.SearchExternalItemLinkItem;
@@ -43,12 +46,17 @@ public class NewConfigurationWindow extends CustomWindow {
         statusItem.setWidth(FORM_ITEM_CUSTOM_WIDTH);
 
         SearchExternalItemLinkItem agencyItem = createAgencyItem(ConfigurationDS.CONTACT, getConstants().confOrganisation(), uiHandlers);
+        agencyItem.setExternalItem(null);
+
+        CustomTextItem licenseItem = new CustomTextItem(ConfigurationDS.LICENSE, getConstants().confLicense());
+        licenseItem.setRequired(true);
+        licenseItem.setWidth(FORM_ITEM_CUSTOM_WIDTH);
 
         CustomButtonItem createItem = new CustomButtonItem(FIELD_SAVE, CommonMetadataWeb.getConstants().confCreate());
 
         form = new CustomDynamicForm();
         form.setMargin(5);
-        form.setFields(codeItem, statusItem, agencyItem, createItem);
+        form.setFields(codeItem, statusItem, agencyItem, licenseItem, createItem);
 
         addItem(form);
         show();
@@ -67,6 +75,7 @@ public class NewConfigurationWindow extends CustomWindow {
         configurationDto.setCode(form.getValueAsString(ConfigurationDS.CODE));
         configurationDto.setStatus(form.getValueAsString(ConfigurationDS.STATUS) != null ? CommonMetadataStatusEnum.valueOf(form.getValueAsString(ConfigurationDS.STATUS)) : null);
         configurationDto.setContact(((SearchSrmItemItem) form.getItem(ConfigurationDS.CONTACT)).getExternalItemDto());
+        configurationDto.setLicense(InternationalStringUtils.updateInternationalString(new InternationalStringDto(), form.getValueAsString(ConfigurationDS.LICENSE)));
         return configurationDto;
     }
 

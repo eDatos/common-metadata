@@ -17,6 +17,7 @@ public class ConfigurationDS extends DataSource {
     public static final String CONF_POLYCY          = "policy";
     public static final String CONF_DATA_TREATMENT  = "data";
     public static final String CONTACT              = "organ";
+    public static final String LICENSE              = "license";
 
     public static final String CONFIGURATION_DTO    = "conf-dto";
 
