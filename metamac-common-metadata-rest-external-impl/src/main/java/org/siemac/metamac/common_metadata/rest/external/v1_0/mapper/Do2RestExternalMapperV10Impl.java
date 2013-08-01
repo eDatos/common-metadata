@@ -65,6 +65,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setDataSharing(toInternationalString(source.getDataSharing()));
         target.setConfPolicy(toInternationalString(source.getConfPolicy()));
         target.setConfDataTreatment(toInternationalString(source.getConfDataTreatment()));
+        target.setLicense(toInternationalString(source.getLicense()));
         target.setContact(toResourceExternalItemSrm(source.getContact()));
         target.setStatus(toCommonMetadataStatusEnum(source.getStatus()));
         target.setParentLink(toConfigurationParent());

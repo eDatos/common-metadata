@@ -21,6 +21,7 @@ public class CommonMetadataRestAsserts {
         MetamacRestAsserts.assertEqualsInternationalString(expected.getDataSharing(), actual.getDataSharing());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getConfPolicy(), actual.getConfPolicy());
         MetamacRestAsserts.assertEqualsInternationalString(expected.getConfDataTreatment(), actual.getConfDataTreatment());
+        MetamacRestAsserts.assertEqualsInternationalString(expected.getLicense(), actual.getLicense());
         assertEqualsResource(expected.getContact(), actual.getContact());
         assertEquals(expected.getStatus(), actual.getStatus());
         MetamacRestAsserts.assertEqualsResourceLink(expected.getParentLink(), actual.getParentLink());

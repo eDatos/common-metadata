@@ -17,6 +17,7 @@
             <xs:element name="legalActs" type="common:InternationalString" minOccurs="0" />
             <xs:element name="confPolicy" type="common:InternationalString" minOccurs="0" />
             <xs:element name="confDataTreatment" type="common:InternationalString" minOccurs="0" />
+            <xs:element name="license" type="common:InternationalString" minOccurs="1" />
             <xs:element name="contact" type="tns:ResourceInternal" minOccurs="0" />
             <xs:element name="status" type="tns:CommonMetadataStatus" />
             <xs:element name="childLinks" type="common:ChildLinks" minOccurs="1" />

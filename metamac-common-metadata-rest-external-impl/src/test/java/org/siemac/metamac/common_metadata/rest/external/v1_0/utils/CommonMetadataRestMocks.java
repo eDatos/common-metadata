@@ -82,6 +82,7 @@ public class CommonMetadataRestMocks {
         configuration.setDataSharing(mockInternationalString("dataSharing", subCode));
         configuration.setConfPolicy(mockInternationalString("confPolicy", subCode));
         configuration.setConfDataTreatment(mockInternationalString("confDataTreatment", subCode));
+        configuration.setLicense(mockInternationalString("license", subCode));
         configuration.setContact(mockOrganisationResourceFromExternalItemSrm("contact1"));
         configuration.setStatus(status);
         configuration.setParentLink(MetamacRestMocks.mockResourceLink(RestExternalConstants.KIND_CONFIGURATIONS, commonMetadataExternalApiBaseV10 + "/configurations"));

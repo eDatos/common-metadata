@@ -63,6 +63,7 @@ public class CommonMetadataCoreMocks {
         configuration.setLegalActs(mockInternationalString("legalActs", subCode));
         configuration.setConfPolicy(mockInternationalString("confPolicy", subCode));
         configuration.setConfDataTreatment(mockInternationalString("confDataTreatment", subCode));
+        configuration.setLicense(mockInternationalString("license", subCode));
         configuration.setStatus(status);
         configuration.setContact(mockExternalItemOrganisationSrm("contact1"));
         return configuration;

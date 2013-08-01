@@ -21,6 +21,10 @@
         <cdomain:text xml:lang="es">confDataTreatment1 en Español</cdomain:text>
         <cdomain:text xml:lang="en">confDataTreatment1 in English</cdomain:text>
     </cmetadata:confDataTreatment>
+    <cmetadata:license>
+        <cdomain:text xml:lang="es">license1 en Español</cdomain:text>
+        <cdomain:text xml:lang="en">license1 in English</cdomain:text>
+    </cmetadata:license>
     <cmetadata:contact kind="structuralResources#agency">
         <cdomain:id>contact1</cdomain:id>
         <cdomain:nestedId>contact1Nested</cdomain:nestedId>
