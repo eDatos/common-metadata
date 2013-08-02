@@ -126,7 +126,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
     public void testUpdateConfiguration() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
 
-        configurationDto.setContact(MetamacMocks.mockExternalItemDtoComplete("new-contact-urn", TypeExternalArtefactsEnum.AGENCY));
+        configurationDto.setContact(MetamacMocks.mockExternalItemDtoComplete("new-contact-code", "new-contact-urn", TypeExternalArtefactsEnum.AGENCY));
 
         LocalisedStringDto legalActs_ca = new LocalisedStringDto();
         legalActs_ca.setLabel("CATALAN Legal Acts");

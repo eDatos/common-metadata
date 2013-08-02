@@ -12,7 +12,10 @@ import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
  * Mocks
  */
 public class CommonMetadataDtoMocks extends MetamacMocks {
-
+    
+    private static final String                     CODE_01                       = "mock01";
+    private static final String                     URN_01                        = "lorem:ipsum:externalItem:mock01:01";
+    
     public static ConfigurationDto mockEnableConfigurationDto() {
         ConfigurationDto configurationDto = new ConfigurationDto();
         configurationDto.setCode("configuration-" + RandomStringUtils.randomAlphabetic(5));
@@ -78,7 +81,7 @@ public class CommonMetadataDtoMocks extends MetamacMocks {
         configurationDto.setLicense(license);
         
         // Contact
-        configurationDto.setContact(mockExternalItemDtoComplete("CONTACT-URN", TypeExternalArtefactsEnum.AGENCY));
+        configurationDto.setContact(mockExternalItemDtoComplete(CODE_01, URN_01, TypeExternalArtefactsEnum.AGENCY));
         
         // Status
         configurationDto.setStatus(CommonMetadataStatusEnum.ENABLED);

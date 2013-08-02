@@ -31,6 +31,7 @@ public class ExternalItemsDto2DoMapperTest {
     protected ConfigurationService configurationService = new ConfigurationServiceMockImpl();
     ExternalItemRepository         repository           = Mockito.mock(ExternalItemRepository.class);
 
+    private static final String    CODE_01              = "mock01";
     private static final String    URN_01               = "lorem:ipsum:externalItem:mock:01";
     private static final String    METADATA_NAME        = "LOREM_IPSUM";
 
@@ -54,7 +55,7 @@ public class ExternalItemsDto2DoMapperTest {
     @Test
     public void testExternalItemDtoToEntityExistsDtoAndNullDo() throws Exception {
         // EXISTS, NULL
-        ExternalItemDto externalItemDto = CommonMetadataDtoMocks.mockExternalItemDtoComplete(URN_01, TypeExternalArtefactsEnum.AGENCY);
+        ExternalItemDto externalItemDto = CommonMetadataDtoMocks.mockExternalItemDtoComplete(CODE_01, URN_01, TypeExternalArtefactsEnum.AGENCY);
         testExternalItemDtoToEntity(externalItemDto, null);
     }
 
@@ -69,7 +70,7 @@ public class ExternalItemsDto2DoMapperTest {
     @Test
     public void testExternalItemDtoToEntityExistsDtoAndExistsDo() throws Exception {
         // EXISTS, EXISTS
-        ExternalItemDto externalItemDto = MetamacMocks.mockExternalItemDtoComplete(URN_01, TypeExternalArtefactsEnum.AGENCY);
+        ExternalItemDto externalItemDto = MetamacMocks.mockExternalItemDtoComplete(CODE_01, URN_01, TypeExternalArtefactsEnum.AGENCY);
         ExternalItem externalItem = CommonMetadataDoMocks.mockAgencyExternalItem();
         testExternalItemDtoToEntity(externalItemDto, externalItem);
     }
@@ -79,7 +80,7 @@ public class ExternalItemsDto2DoMapperTest {
         field.setAccessible(true);
         field.set(dto2DoMapper, fieldValue);
     }
-    
+
     private void setFieldToMapper(String fieldName, Object fieldValue) throws Exception {
         Field field = dto2DoMapper.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
