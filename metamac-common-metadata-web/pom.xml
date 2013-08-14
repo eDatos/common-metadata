@@ -103,7 +103,7 @@
                 <exclusion>
                     <groupId>com.gwtplatform</groupId>
                     <artifactId>gwtp-crawler-service</artifactId>
-                </exclusion>            
+                </exclusion>
                 <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-core</artifactId>
@@ -199,6 +199,13 @@
     <build>
         <!-- Generate compiled stuff in the folder used for developing mode -->
         <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
         <plugins>
 

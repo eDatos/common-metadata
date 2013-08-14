@@ -77,7 +77,7 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
         footerLayout = new VLayout();
         footerLayout.addMember(this.successMessagePanel);
         footerLayout.addMember(this.errorMessagePanel);
-        footerLayout.addMember(new VersionFooter(CommonMetadataWeb.getConstants().appVersion()));
+        footerLayout.addMember(new VersionFooter(CommonMetadataWeb.getProjectVersion()));
 
         // Set user name
         masterHead.getUserNameLabel().setContents(getUserName());
@@ -112,7 +112,6 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
         panel.addMember(southLayout);
         panel.addMember(footerLayout);
     }
-
     @Override
     public Widget asWidget() {
         return panel;

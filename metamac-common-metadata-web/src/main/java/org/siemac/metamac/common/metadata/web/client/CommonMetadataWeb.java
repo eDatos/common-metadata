@@ -88,4 +88,9 @@ public class CommonMetadataWeb extends MetamacSecurityEntryPoint {
     protected MetamacWebGinjector getWebGinjector() {
         return ginjector;
     }
+
+    @Override
+    protected String getBundleName() {
+        return "messages-common_metadata-web";
+    }
 }
