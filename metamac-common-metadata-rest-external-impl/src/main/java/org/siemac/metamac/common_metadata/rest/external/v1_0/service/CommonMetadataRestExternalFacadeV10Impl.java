@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteria;
 import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBuilder;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
@@ -44,7 +45,12 @@ public class CommonMetadataRestExternalFacadeV10Impl implements CommonMetadataV1
     public Configuration retrieveConfigurationById(String id) {
         try {
             // Retrieve
-            org.siemac.metamac.common.metadata.core.domain.Configuration configurationEntity = retrieveConfigurationEntityAnyStatus(id);
+            List<org.siemac.metamac.common.metadata.core.domain.Configuration> configurationEntities = findConfigurationsPublishedCore(id, null);
+            if (configurationEntities.size() != 1) {
+                org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.CONFIGURATION_NOT_FOUND, id);
+                throw new RestException(exception, Status.NOT_FOUND);
+            }
+            org.siemac.metamac.common.metadata.core.domain.Configuration configurationEntity = configurationEntities.get(0);
 
             // Transform
             Configuration configuration = do2RestExternalMapper.toConfiguration(configurationEntity);
@@ -60,16 +66,9 @@ public class CommonMetadataRestExternalFacadeV10Impl implements CommonMetadataV1
         try {
             // Retrieve configurations by criteria
             SculptorCriteria sculptorCriteria = restCriteria2SculptorCriteriaMapper.getConfigurationCriteriaMapper().restCriteriaToSculptorCriteria(query, orderBy, null, null);
-            // Find only published
-            ConditionalCriteria conditionalCriteriaFinal = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class)
-                    .withProperty(ConfigurationProperties.externallyPublished()).eq(Boolean.TRUE).buildSingle();
 
-            List<ConditionalCriteria> conditionalCriteria = new ArrayList<ConditionalCriteria>();
-            conditionalCriteria.add(conditionalCriteriaFinal);
-            conditionalCriteria.addAll(sculptorCriteria.getConditions());
-
-            // Retrieve
-            List<org.siemac.metamac.common.metadata.core.domain.Configuration> configurationsEntitiesResult = commonMetadataService.findConfigurationByCondition(serviceContext, conditionalCriteria);
+            // Find
+            List<org.siemac.metamac.common.metadata.core.domain.Configuration> configurationsEntitiesResult = findConfigurationsPublishedCore(null, sculptorCriteria.getConditions());
 
             // Transform
             Configurations configurations = do2RestExternalMapper.toConfigurations(configurationsEntitiesResult);
@@ -80,20 +79,25 @@ public class CommonMetadataRestExternalFacadeV10Impl implements CommonMetadataV1
         }
     }
 
-    /**
-     * Retrieve configuration by code (id in Api) in any status
-     */
-    private org.siemac.metamac.common.metadata.core.domain.Configuration retrieveConfigurationEntityAnyStatus(String id) throws MetamacException {
+    private List<org.siemac.metamac.common.metadata.core.domain.Configuration> findConfigurationsPublishedCore(String id, List<ConditionalCriteria> conditionalCriteriaQuery) throws MetamacException {
 
-        List<ConditionalCriteria> conditionalCriteria = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class)
-                .withProperty(ConfigurationProperties.code()).eq(id).distinctRoot().build();
-        List<org.siemac.metamac.common.metadata.core.domain.Configuration> configurationEntities = commonMetadataService.findConfigurationByCondition(serviceContext, conditionalCriteria);
-
-        if (configurationEntities.size() != 1) {
-            org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.CONFIGURATION_NOT_FOUND, id);
-            throw new RestException(exception, Status.NOT_FOUND);
+        List<ConditionalCriteria> conditionalCriteria = new ArrayList<ConditionalCriteria>();
+        if (CollectionUtils.isNotEmpty(conditionalCriteriaQuery)) {
+            conditionalCriteria.addAll(conditionalCriteriaQuery);
+        } else {
+            // init
+            conditionalCriteria.addAll(ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class).distinctRoot().build());
         }
-        return configurationEntities.get(0);
+        if (id != null) {
+            conditionalCriteria.add(ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class).withProperty(ConfigurationProperties.code()).eq(id)
+                    .buildSingle());
+        }
+        // Find only published
+        conditionalCriteria.add(ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class).withProperty(ConfigurationProperties.externallyPublished())
+                .eq(Boolean.TRUE).buildSingle());
+
+        // Find
+        return commonMetadataService.findConfigurationByCondition(serviceContext, conditionalCriteria);
     }
 
     /**

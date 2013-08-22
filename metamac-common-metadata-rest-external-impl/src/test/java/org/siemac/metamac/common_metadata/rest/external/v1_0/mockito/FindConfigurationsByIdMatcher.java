@@ -9,14 +9,15 @@ import org.siemac.metamac.rest.common.test.mockito.ConditionalCriteriasMatcher;
 
 public class FindConfigurationsByIdMatcher extends ConditionalCriteriasMatcher {
 
-    private String configurationId;
+    private final String configurationId;
 
     public FindConfigurationsByIdMatcher(String configurationId) {
         this.configurationId = configurationId;
     }
+    @Override
     public boolean matches(Object actual) {
-        List<ConditionalCriteria> expected = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class).withProperty(ConfigurationProperties.code())
-                .eq(configurationId).distinctRoot().build();
+        List<ConditionalCriteria> expected = ConditionalCriteriaBuilder.criteriaFor(org.siemac.metamac.common.metadata.core.domain.Configuration.class).distinctRoot()
+                .withProperty(ConfigurationProperties.code()).eq(configurationId).withProperty(ConfigurationProperties.externallyPublished()).eq(Boolean.TRUE).build();
         return super.matches(expected, actual);
     }
 }

@@ -26,9 +26,6 @@ public class FindConfigurationsMatcher extends ConditionalCriteriasMatcher {
     public boolean matches(Object actual) {
         List<ConditionalCriteria> expected = new ArrayList<ConditionalCriteria>();
 
-        // published
-        expected.add(ConditionalCriteriaBuilder.criteriaFor(Configuration.class).withProperty(ConfigurationProperties.externallyPublished()).eq(true).buildSingle());
-
         // orderBy
         if (conditionalCriteriaOrderBy != null) {
             expected.addAll(conditionalCriteriaOrderBy);
@@ -40,8 +37,11 @@ public class FindConfigurationsMatcher extends ConditionalCriteriasMatcher {
         if (conditionalCriteriaQueries != null) {
             expected.addAll(conditionalCriteriaQueries);
         }
-        // distinc root
+        // distinct root
         expected.add(ConditionalCriteriaBuilder.criteriaFor(Configuration.class).distinctRoot().buildSingle());
+
+        // published
+        expected.add(ConditionalCriteriaBuilder.criteriaFor(Configuration.class).withProperty(ConfigurationProperties.externallyPublished()).eq(true).buildSingle());
 
         // Compare
         return super.matches(expected, actual);
