@@ -130,7 +130,7 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
                     successMessagePanel.animateHide(AnimationEffect.FADE);
                 }
             };
-            timer.schedule(6000);
+            timer.schedule(12000);
         } else if (MessageTypeEnum.ERROR.equals(type)) {
             errorMessagePanel.showMessage(throwable);
         }
