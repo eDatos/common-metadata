@@ -29,14 +29,18 @@
         
         <jaxrs:providers>
             <ref bean="jaxbProvider" />
+            <ref bean="wadlGenerator" />
         </jaxrs:providers>
-
     </jaxrs:server>
 
     <bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
         <property name="marshallerProperties" ref="marshallerProperties" />
     </bean>
 
+    <bean id="wadlGenerator" class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
+        <property name="namespacePrefix" value="ns" />
+    </bean>
+    
     <util:map id="marshallerProperties">
         <entry key="jaxb.formatted.output">
             <value type="java.lang.Boolean">true</value>
