@@ -2,12 +2,20 @@ package org.siemac.metamac.common.metadata.web.server.listener;
 
 import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConfigurationConstants;
 import org.siemac.metamac.web.common.server.listener.ApplicationStartupListener;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class CommonMetadataApplicationStartupListener extends ApplicationStartupListener {
 
+    private static final Log     LOG = LogFactory.getLog(CommonMetadataApplicationStartupListener.class);
+    
     @Override
     public void checkConfiguration() {
 
+        LOG.info("****************************************************************");
+        LOG.info("[metamac-common-metadata-web] Checking application configuration");
+        LOG.info("****************************************************************");
+        
         // SECURITY
 
         checkSecurityProperties();
@@ -39,5 +47,9 @@ public class CommonMetadataApplicationStartupListener extends ApplicationStartup
         // COMMON METADATA properties
 
         checkRequiredProperty(CommonMetadataConfigurationConstants.USER_GUIDE_FILE_NAME);
+        
+        LOG.info("****************************************************************");
+        LOG.info("[metamac-common-metadata-web] Application configuration checked");
+        LOG.info("****************************************************************");
     }
 }
