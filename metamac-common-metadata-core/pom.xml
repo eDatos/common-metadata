@@ -42,18 +42,6 @@
             <type>zip</type>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.siemac.metamac</groupId>
-            <artifactId>metamac-common-test</artifactId>
-            <version>${metamac-common-test.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>metamac-core-common</artifactId>
-                    <groupId>org.siemac.metamac</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
         <!-- JAVAX -->
         <dependency>
@@ -74,12 +62,6 @@
             <groupId>javax.transaction</groupId>
             <artifactId>jta</artifactId>
             <version>${jta.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${servlet-api.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- HIBERNATE -->
@@ -274,33 +256,6 @@
             <version>${commons-dbcp.version}</version>
         </dependency>
 
-        <!-- TESTS -->
-        <dependency>
-            <groupId>org.dbunit</groupId>
-            <artifactId>dbunit</artifactId>
-            <version>${dbunit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>${hsqldb.version}</version>
-            <!-- Add scope test when running with a persistent database (mysql etc) -->
-            <!-- <scope>test</scope> -->
-        </dependency>
-
         <!-- SCULPTOR -->
         <dependency>
             <groupId>org.fornax.cartridges</groupId>
@@ -317,12 +272,6 @@
                 <!-- <artifactId>com.google.inject</artifactId> -->
                 <!-- </exclusion> -->
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.fornax.cartridges</groupId>
-            <artifactId>fornax-cartridges-sculptor-framework-test</artifactId>
-            <version>${sculptor.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- JODA TIME -->
@@ -383,6 +332,58 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>sqljdbc</artifactId>
             <version>${mssql.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- TESTS -->
+        <dependency>
+            <groupId>org.siemac.metamac</groupId>
+            <artifactId>metamac-core-common</artifactId>
+            <version>${metamac-core-common.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>   
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>${dbunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsqldb.version}</version>
+            <!-- Add scope test when running with a persistent database (mysql etc) -->
+            <!-- <scope>test</scope> -->
+        </dependency>        
+        <dependency>
+            <groupId>org.fornax.cartridges</groupId>
+            <artifactId>fornax-cartridges-sculptor-framework-test</artifactId>
+            <version>${sculptor.version}</version>
+            <scope>test</scope>
+        </dependency>        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

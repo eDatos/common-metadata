@@ -29,7 +29,6 @@
     </repositories>
 
     <properties>
-        <metamac-common-test.version>1.5.1-SNAPSHOT</metamac-common-test.version>
         <metamac-core-common.version>1.7.1-SNAPSHOT</metamac-core-common.version>
         <metamac-sso.version>1.4.0</metamac-sso.version>
         <metamac-web-common.version>1.8.1-SNAPSHOT</metamac-web-common.version>
