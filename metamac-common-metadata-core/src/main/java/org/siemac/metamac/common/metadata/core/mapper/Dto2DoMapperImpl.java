@@ -8,7 +8,9 @@ import java.util.Set;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.joda.time.DateTime;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
+import org.siemac.metamac.common.metadata.core.domain.DataConfiguration;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
+import org.siemac.metamac.common.metadata.core.dto.DataConfigurationDto;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
@@ -41,6 +43,10 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
 
     @Autowired
     private ExternalItemRepository        externalItemRepository;
+
+    // ------------------------------------------------------------------------------------
+    // CONFIGURATIONS (metadata)
+    // ------------------------------------------------------------------------------------
 
     @Override
     public Configuration configurationDtoToDo(ServiceContext ctx, ConfigurationDto source) throws MetamacException {
@@ -89,6 +95,51 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
 
         return target;
     }
+
+    // ------------------------------------------------------------------------------------
+    // DATA CONFIGURATIONS
+    // ------------------------------------------------------------------------------------
+
+    @Override
+    public DataConfiguration dataConfigurationDtoToDo(ServiceContext ctx, DataConfigurationDto source) throws MetamacException {
+        if (source == null) {
+            return null;
+        }
+
+        // If exists, retrieves existing entity. Otherwise, creates new entity
+        DataConfiguration target = new DataConfiguration();
+        if (source.getId() != null) {
+            target = commonMetadataService.findDataConfigurationById(ctx, source.getId());
+            OptimisticLockingUtils.checkVersion(target.getVersion(), source.getOptimisticLockingVersion());
+
+            // Metadata unmodifiable
+            // It's necessary check configurationKey has not be mdoified
+            List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
+            CommonMetadataValidationUtils.checkMetadataUnmodifiable(target.getConfigurationKey(), source.getConfigurationKey(), ServiceExceptionParameters.DATA_CONFIGURATION_KEY, exceptions);
+            CommonMetadataValidationUtils.checkMetadataUnmodifiable(target.isSystemProperty(), source.isSystemProperty(), ServiceExceptionParameters.DATA_CONFIGURATION_IS_SYSTEM_PROPERTY, exceptions);
+            ExceptionUtils.throwIfException(exceptions);
+        }
+
+        dataConfigurationDtoToDo(source, target);
+        return target;
+    }
+
+    private DataConfiguration dataConfigurationDtoToDo(DataConfigurationDto source, DataConfiguration target) throws MetamacException {
+        if (target == null) {
+            throw new MetamacException(ServiceExceptionType.PARAMETER_REQUIRED, ServiceExceptionParameters.DATA_CONFIGURATION);
+        }
+
+        target.setConfigurationValue(source.getConfigurationValue());
+
+        // Optimistic locking: Update "update date" attribute to force update of the root entity in order to increase attribute "version"
+        target.setUpdateDate(new DateTime());
+
+        return target;
+    }
+
+    // ------------------------------------------------------------------------------------
+    // EXTERNAL ITEMS
+    // ------------------------------------------------------------------------------------
 
     private ExternalItem externalItemDtoToDo(ExternalItemDto source, ExternalItem target, String metadataName) throws MetamacException {
         target = externalItemWithoutUrlDtoToEntity(source, target, metadataName);
@@ -146,6 +197,10 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         target.setManagementAppUrl(statisticalOperationsInternalWebAppUrlDtoToDo(source.getManagementAppUrl()));
         return target;
     }
+
+    // ------------------------------------------------------------------------------------
+    // INTERNATIONAL STRINGS
+    // ------------------------------------------------------------------------------------
 
     private InternationalString internationalStringToDo(InternationalStringDto source, InternationalString target, String metadataName) throws MetamacException {
         // Preprocess international string

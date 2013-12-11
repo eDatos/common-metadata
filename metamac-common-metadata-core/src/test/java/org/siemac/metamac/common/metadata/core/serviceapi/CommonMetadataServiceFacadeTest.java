@@ -12,7 +12,9 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
+import org.siemac.metamac.common.metadata.core.dto.DataConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
+import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataAsserts;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDtoMocks;
@@ -41,6 +43,11 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
     @Autowired
     protected CommonMetadataServiceFacade commonMetadataServiceFacade;
 
+    // --------------------------------------------------------------------------------
+    // CONFIGURATIONS (metadata)
+    // --------------------------------------------------------------------------------
+
+    @Override
     @Test
     public void testFindConfigurationById() throws MetamacException {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
@@ -49,6 +56,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         CommonMetadataAsserts.assertEqualsConfigurationDto(configurationDto, configurationRetrieved);
     }
 
+    @Override
     @Test
     public void testFindConfigurationByUrn() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
@@ -60,12 +68,13 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
 
     @Test
     public void testFindConfigurationByIdNotFound() throws MetamacException {
-        Long code = Long.valueOf(-1);
+        Long code = NOT_EXISTS_ID;
 
         expectedMetamacException(new MetamacException(ServiceExceptionType.CONFIGURATION_NOT_FOUND, code));
-        commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), Long.valueOf(-1));
+        commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), NOT_EXISTS_ID);
     }
 
+    @Override
     @Test
     public void testFindAllConfigurations() throws MetamacException {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
@@ -76,6 +85,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
 
     }
 
+    @Override
     @Test
     public void testCreateConfiguration() throws MetamacException {
         ConfigurationDto expectedConfigurationDto = CommonMetadataDtoMocks.mockEnableConfigurationDto();
@@ -92,17 +102,17 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         configurationDto.setCode("Conf-modified");
         configurationDto.setExternallyPublished(true);
         configurationDto = commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
-        
+
         assertEquals("Conf-modified", configurationDto.getCode());
     }
-    
+
     @Test
     public void testUpdateConfigurationCodeModifiableBeforePublishExternally() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
 
         configurationDto.setCode("Conf-modified");
         commonMetadataServiceFacade.updateConfiguration(getServiceContextAdministrador(), configurationDto);
-        
+
         assertEquals("Conf-modified", configurationDto.getCode());
 
     }
@@ -122,6 +132,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         }
     }
 
+    @Override
     @Test
     public void testUpdateConfiguration() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
@@ -174,6 +185,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
 
     }
 
+    @Override
     @Test
     public void testDeleteConfiguration() throws MetamacException {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
@@ -183,6 +195,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         assertTrue(commonMetadataServiceFacade.findAllConfigurations(getServiceContextAdministrador()).size() == (numberConfigurations - 1));
     }
 
+    @Override
     @Test
     public void testUpdateConfigurationsStatus() throws Exception {
         // Create configurations
@@ -206,6 +219,7 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         assertEquals(CommonMetadataStatusEnum.DISABLED, commonMetadataServiceFacade.findConfigurationById(getServiceContextAdministrador(), configurationDto03.getId()).getStatus());
     }
 
+    @Override
     @Test
     public void testPublishExternallyConfiguration() throws Exception {
         ConfigurationDto configurationDto = commonMetadataServiceFacade.createConfiguration(getServiceContextAdministrador(), CommonMetadataDtoMocks.mockEnableConfigurationDto());
@@ -243,5 +257,110 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
 
         assertNotNull(configurationDto);
         assertEquals(true, updatedConfigurationDto.isExternallyPublished());
+    }
+
+    // --------------------------------------------------------------------------------
+    // DATA CONFIGURATIONS
+    // --------------------------------------------------------------------------------
+
+    @Override
+    @Test
+    public void testFindDataConfigurationById() throws Exception {
+        DataConfigurationDto dataConfiguration = commonMetadataServiceFacade.findDataConfigurationById(getServiceContextAdministrador(), DATA_CONFIGURATION_01_ID);
+        assertNotNull(dataConfiguration);
+    }
+
+    @Test
+    public void testFindDataConfigurationByIdNotFound() throws MetamacException {
+        expectedMetamacException(new MetamacException(ServiceExceptionType.DATA_CONFIGURATION_NOT_FOUND, NOT_EXISTS_ID));
+        commonMetadataServiceFacade.findDataConfigurationById(getServiceContextAdministrador(), NOT_EXISTS_ID);
+    }
+
+    @Override
+    @Test
+    public void testFindDataConfigurationByConfigurationKey() throws Exception {
+        DataConfigurationDto dataConfiguration = commonMetadataServiceFacade.findDataConfigurationByConfigurationKey(getServiceContextAdministrador(), DATA_CONFIGURATION_01_KEY);
+        assertNotNull(dataConfiguration);
+    }
+
+    @Test
+    public void testFindDataConfigurationByConfigurationKeyNotFound() throws MetamacException {
+        expectedMetamacException(new MetamacException(ServiceExceptionType.DATA_CONFIGURATION_NOT_FOUND_CONFIGURATION_KEY, NOT_EXISTS_CODE));
+        commonMetadataServiceFacade.findDataConfigurationByConfigurationKey(getServiceContextAdministrador(), NOT_EXISTS_CODE);
+    }
+
+    @Override
+    @Test
+    public void testFindDataConfigurationsOfSystemProperties() throws Exception {
+        int sytemProperties = commonMetadataServiceFacade.findDataConfigurationsOfSystemProperties(getServiceContextAdministrador()).size();
+        assertEquals(NUMBER_DATA_CONFIGURATIONS_SYSTEM_PROPERTIES, sytemProperties);
+    }
+
+    @Override
+    @Test
+    public void testFindDataConfigurationsOfDefaultValues() throws Exception {
+        int defaultValues = commonMetadataServiceFacade.findDataConfigurationsOfDefaultValues(getServiceContextAdministrador()).size();
+        assertEquals(NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES, defaultValues);
+    }
+
+    @Override
+    @Test
+    public void testUpdateDataConfiguration() throws Exception {
+        DataConfigurationDto dataConfigurationDtoBefore = commonMetadataServiceFacade.findDataConfigurationById(getServiceContextAdministrador(), DATA_CONFIGURATION_01_ID);
+        dataConfigurationDtoBefore.setConfigurationValue("MODIFIED-VALUE");
+        DataConfigurationDto dataConfigurationDtoAfter = commonMetadataServiceFacade.updateDataConfiguration(getServiceContextAdministrador(), dataConfigurationDtoBefore);
+        assertEquals(dataConfigurationDtoBefore.getConfigurationValue(), dataConfigurationDtoAfter.getConfigurationValue());
+    }
+
+    @Test
+    public void testUpdateDataConfigurationErrorDataConfigurationKeyUnmodifiable() throws Exception {
+        expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_UNMODIFIABLE, ServiceExceptionParameters.DATA_CONFIGURATION_KEY));
+
+        DataConfigurationDto dataConfigurationDto = commonMetadataServiceFacade.findDataConfigurationById(getServiceContextAdministrador(), DATA_CONFIGURATION_01_ID);
+        dataConfigurationDto.setConfigurationKey("MODIFIED-KEY");
+        commonMetadataServiceFacade.updateDataConfiguration(getServiceContextAdministrador(), dataConfigurationDto);
+    }
+
+    @Test
+    public void testUpdateDataConfigurationErrorDataIsSystemPropertyUnmodifiable() throws Exception {
+        expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_UNMODIFIABLE, ServiceExceptionParameters.DATA_CONFIGURATION_IS_SYSTEM_PROPERTY));
+
+        DataConfigurationDto dataConfigurationDto = commonMetadataServiceFacade.findDataConfigurationById(getServiceContextAdministrador(), DATA_CONFIGURATION_01_ID);
+        dataConfigurationDto.setSystemProperty(!dataConfigurationDto.isSystemProperty());
+        commonMetadataServiceFacade.updateDataConfiguration(getServiceContextAdministrador(), dataConfigurationDto);
+    }
+
+    @Test
+    public void testUpdateDataConfigurationOptimisticLockingError() throws Exception {
+        Long id = DATA_CONFIGURATION_01_ID;
+
+        // Retrieve dataConfiguration - session 1
+        DataConfigurationDto dataConfigurationDtoSession1 = commonMetadataServiceFacade.findDataConfigurationById(getServiceContextAdministrador(), id);
+        assertEquals(Long.valueOf(1), dataConfigurationDtoSession1.getOptimisticLockingVersion());
+        dataConfigurationDtoSession1.setConfigurationValue("new-value-1");
+
+        // Retrieve dataConfiguration - session 2
+        DataConfigurationDto dataConfigurationDtoSession2 = commonMetadataServiceFacade.findDataConfigurationById(getServiceContextAdministrador(), id);
+        assertEquals(Long.valueOf(1), dataConfigurationDtoSession2.getOptimisticLockingVersion());
+        dataConfigurationDtoSession2.setConfigurationValue("new-value-2");
+
+        // Update dataConfiguration - session 1
+        DataConfigurationDto dataConfigurationDtoSession1AfterUpdate = commonMetadataServiceFacade.updateDataConfiguration(getServiceContextAdministrador(), dataConfigurationDtoSession1);
+        assertEquals(Long.valueOf(2), dataConfigurationDtoSession1AfterUpdate.getOptimisticLockingVersion());
+
+        // Update dataConfiguration - session 2
+        try {
+            commonMetadataServiceFacade.updateDataConfiguration(getServiceContextAdministrador(), dataConfigurationDtoSession2);
+            fail("Optimistic locking");
+        } catch (MetamacException e) {
+            assertEquals(1, e.getExceptionItems().size());
+            assertEquals(ServiceExceptionType.OPTIMISTIC_LOCKING.getCode(), e.getExceptionItems().get(0).getCode());
+            assertNull(e.getExceptionItems().get(0).getMessageParameters());
+        }
+
+        // Update dataConfiguration - session 1
+        dataConfigurationDtoSession1AfterUpdate.setConfigurationValue("new-value-second-update");
+        DataConfigurationDto dataConfigurationDtoSession1AfterUpdate2 = commonMetadataServiceFacade.updateDataConfiguration(getServiceContextAdministrador(), dataConfigurationDtoSession1AfterUpdate);
+        assertEquals(Long.valueOf(3), dataConfigurationDtoSession1AfterUpdate2.getOptimisticLockingVersion());
     }
 }

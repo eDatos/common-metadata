@@ -21,6 +21,14 @@ Application CommonMetadataDto {
         	
         	Long optimisticLockingVersion;
         }
+        
+        DataTransferObject DataConfigurationDto extends @AuditableDto   {
+        	String configurationKey;
+        	String configurationValue nullable;
+        	boolean systemProperty not nullable;
+        	
+        	Long optimisticLockingVersion;
+        }
     }
     
     Module enume {

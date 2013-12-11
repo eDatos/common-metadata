@@ -6,7 +6,9 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
+import org.siemac.metamac.common.metadata.core.domain.DataConfiguration;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
+import org.siemac.metamac.common.metadata.core.dto.DataConfigurationDto;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
@@ -22,12 +24,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapper {
 
+    // ------------------------------------------------------------------------------------
+    // CONFIGURATION (metadata)
+    // ------------------------------------------------------------------------------------
+
     @Override
     public ConfigurationDto configurationDoToDto(Configuration source) throws MetamacException {
         ConfigurationDto target = new ConfigurationDto();
 
         target.setId(source.getId());
-        target.setUuid(source.getUuid());
         target.setVersion(source.getVersion());
 
         target.setCreatedDate(dateDoToDto(source.getCreatedDate()));
@@ -56,6 +61,35 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         return target;
     }
 
+    // ------------------------------------------------------------------------------------
+    // DATA CONFIGURATION
+    // ------------------------------------------------------------------------------------
+
+    @Override
+    public DataConfigurationDto dataConfigurationDoToDto(DataConfiguration source) throws MetamacException {
+        DataConfigurationDto target = new DataConfigurationDto();
+
+        target.setId(source.getId());
+        target.setVersion(source.getVersion());
+
+        target.setCreatedDate(dateDoToDto(source.getCreatedDate()));
+        target.setCreatedBy(source.getCreatedBy());
+        target.setLastUpdated(dateDoToDto(source.getLastUpdated()));
+        target.setLastUpdatedBy(source.getLastUpdatedBy());
+
+        target.setConfigurationKey(source.getConfigurationKey());
+        target.setConfigurationValue(source.getConfigurationValue());
+        target.setSystemProperty(source.isSystemProperty());
+
+        target.setOptimisticLockingVersion(source.getVersion());
+
+        return target;
+    }
+
+    // ------------------------------------------------------------------------------------
+    // INTERNATIONAL STRINGS
+    // ------------------------------------------------------------------------------------
+
     private InternationalStringDto internationalStringToDto(InternationalString source) {
         if (source == null) {
             return null;
@@ -76,6 +110,10 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         }
         return targets;
     }
+
+    // ------------------------------------------------------------------------------------
+    // EXTERNAL ITEMS
+    // ------------------------------------------------------------------------------------
 
     private ExternalItemDto externalItemToDto(ExternalItem source) throws MetamacException {
         ExternalItemDto target = externalItemWithoutUrlsToDto(source);

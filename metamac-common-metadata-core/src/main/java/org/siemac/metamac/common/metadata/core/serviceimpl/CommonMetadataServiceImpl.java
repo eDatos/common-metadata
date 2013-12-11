@@ -10,10 +10,13 @@ import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBui
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationRepository;
+import org.siemac.metamac.common.metadata.core.domain.DataConfiguration;
+import org.siemac.metamac.common.metadata.core.domain.DataConfigurationRepository;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceimpl.utils.InvocationValidator;
 import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
 import org.siemac.metamac.core.common.util.GeneratorUrnUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +28,16 @@ import org.springframework.stereotype.Service;
 public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Autowired
-    private ConfigurationRepository configurationRepository;
+    private ConfigurationRepository     configurationRepository;
+
+    @Autowired
+    private DataConfigurationRepository dataConfigurationRepository;
 
     public CommonMetadataServiceImpl() {
     }
 
     // ------------------------------------------------------------------------------------
-    // CONFIGURATIONS
+    // CONFIGURATIONS (metadata)
     // ------------------------------------------------------------------------------------
 
     @Override
@@ -51,13 +57,14 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
         InvocationValidator.checkFindConfigurationByUrn(urn, null);
 
         // Prepare criteria
-        List<ConditionalCriteria> conditions = criteriaFor(Configuration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties.urn()).eq(urn).distinctRoot().build();
+        List<ConditionalCriteria> conditions = criteriaFor(Configuration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties.urn()).eq(urn).distinctRoot()
+                .build();
 
         // Find
         List<Configuration> result = findConfigurationByCondition(ctx, conditions);
 
         if (result.size() == 0) {
-            throw new MetamacException(ServiceExceptionType.CONFIGURATION_NOT_FOUND, urn);
+            throw new MetamacException(ServiceExceptionType.CONFIGURATION_NOT_FOUND_URN, urn);
         } else if (result.size() > 1) {
             throw new MetamacException(ServiceExceptionType.UNKNOWN, "More than one configuration with urn " + urn);
         }
@@ -136,6 +143,79 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
     }
 
     // ----------------------------------------------------------------------
+    // DATA CONFIGURATIONS
+    // ----------------------------------------------------------------------
+
+    @Override
+    public DataConfiguration findDataConfigurationById(ServiceContext ctx, Long id) throws MetamacException {
+        InvocationValidator.checkFindDataConfigurationById(id, null);
+
+        try {
+            return dataConfigurationRepository.findById(id);
+        } catch (Exception e) {
+            throw new MetamacException(ServiceExceptionType.DATA_CONFIGURATION_NOT_FOUND, id);
+        }
+    }
+
+    @Override
+    public DataConfiguration findDataConfigurationByConfigurationKey(ServiceContext ctx, String dataConfigurationKey) throws MetamacException {
+        InvocationValidator.checkFindDataConfigurationByConfigurationKey(dataConfigurationKey, null);
+
+        // Prepare criteria
+        List<ConditionalCriteria> conditions = criteriaFor(DataConfiguration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.configurationKey())
+                .eq(dataConfigurationKey).distinctRoot().build();
+
+        // Find
+        List<DataConfiguration> result = dataConfigurationRepository.findByCondition(conditions);
+
+        if (result.size() == 0) {
+            throw new MetamacException(ServiceExceptionType.DATA_CONFIGURATION_NOT_FOUND_CONFIGURATION_KEY, dataConfigurationKey);
+        } else if (result.size() > 1) {
+            throw new MetamacException(ServiceExceptionType.UNKNOWN, "More than one configuration with configuration key " + dataConfigurationKey);
+        }
+
+        // Return unique result
+        return result.get(0);
+    }
+
+    @Override
+    public DataConfiguration updateDataConfiguration(ServiceContext ctx, DataConfiguration dataConfiguration) throws MetamacException {
+        // Validations
+        InvocationValidator.checkUpdateDataConfiguration(dataConfiguration, null);
+
+        // Repository operation
+        return dataConfigurationRepository.save(dataConfiguration);
+    }
+
+    @Override
+    public List<DataConfiguration> findDataConfigurationsOfSystemProperties(ServiceContext ctx) throws MetamacException {
+        InvocationValidator.checkFindDataConfigurationsOfSystemProperties((List<MetamacExceptionItem>) null);
+
+        // Prepare criteria
+        List<ConditionalCriteria> conditions = criteriaFor(DataConfiguration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.systemProperty())
+                .eq(Boolean.TRUE).distinctRoot().build();
+
+        // Find
+        List<DataConfiguration> result = dataConfigurationRepository.findByCondition(conditions);
+
+        return result;
+    }
+
+    @Override
+    public List<DataConfiguration> findDataConfigurationsOfDefaultValues(ServiceContext ctx) throws MetamacException {
+        InvocationValidator.checkFindDataConfigurationsOfDefaultValues((List<MetamacExceptionItem>) null);
+
+        // Prepare criteria
+        List<ConditionalCriteria> conditions = criteriaFor(DataConfiguration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.systemProperty())
+                .eq(Boolean.FALSE).distinctRoot().build();
+
+        // Find
+        List<DataConfiguration> result = dataConfigurationRepository.findByCondition(conditions);
+
+        return result;
+    }
+
+    // ----------------------------------------------------------------------
     // VALIDATORS
     // ----------------------------------------------------------------------
 
@@ -159,7 +239,6 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
                 }
             }
         }
-
     }
 
     // ----------------------------------------------------------------------

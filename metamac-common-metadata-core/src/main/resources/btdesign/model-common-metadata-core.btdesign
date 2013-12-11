@@ -15,6 +15,7 @@ Application CommonMetadata {
 		Service CommonMetadataServiceFacade {
 			>@CommonMetadataService
 			
+			// Configuration (metadata configurations)
 			@ConfigurationDto findConfigurationById(Long id) throws MetamacException;
 			@ConfigurationDto findConfigurationByUrn(String urn) throws MetamacException;
 			List<@ConfigurationDto> findAllConfigurations throws MetamacException;
@@ -22,9 +23,15 @@ Application CommonMetadata {
 			@ConfigurationDto updateConfiguration(@ConfigurationDto configuration) throws MetamacException;
 			deleteConfiguration(Long configurationId) throws MetamacException;
 			List<@ConfigurationDto> updateConfigurationsStatus(List<Long> configurationIds, @CommonMetadataStatusEnum status) throws MetamacException;
-			@ConfigurationDto publishExternallyConfiguration(Long id) throws MetamacException; 
+			@ConfigurationDto publishExternallyConfiguration(Long id) throws MetamacException;
+			
+			// Data Configuration
+			@DataConfigurationDto findDataConfigurationById(Long id) throws MetamacException;
+			@DataConfigurationDto findDataConfigurationByConfigurationKey(String configurationKey) throws MetamacException;
+			List<@DataConfigurationDto> findDataConfigurationsOfSystemProperties() throws MetamacException;
+			List<@DataConfigurationDto> findDataConfigurationsOfDefaultValues() throws MetamacException;
+			@DataConfigurationDto updateDataConfiguration(@DataConfigurationDto dataConfiguration) throws MetamacException;
 		}
-		
 		
 		
 		// ----------------------------------------------------------------
@@ -33,7 +40,9 @@ Application CommonMetadata {
 		
 		Service CommonMetadataService {
 			> @ConfigurationRepository
+			> @DataConfigurationRepository
 			
+			// Configuration
 			@Configuration findConfigurationById(Long id) throws MetamacException;
 			@Configuration findConfigurationByUrn(String urn) throws MetamacException;
 			List<@Configuration> findAllConfigurations throws MetamacException;
@@ -42,6 +51,13 @@ Application CommonMetadata {
 			@Configuration updateConfiguration(@Configuration configuration) throws MetamacException;
 			deleteConfiguration(Long configurationId) throws MetamacException;
 			List<@Configuration> updateConfigurationsStatus(List<Long> configurationIds, @CommonMetadataStatusEnum status) throws MetamacException;
+			
+			// Data Configuration
+			@DataConfiguration findDataConfigurationById(Long id) throws MetamacException;
+			@DataConfiguration findDataConfigurationByConfigurationKey(String configurationKey) throws MetamacException;
+			@DataConfiguration updateDataConfiguration(@DataConfiguration dataConfiguration) throws MetamacException;
+			List<@DataConfiguration> findDataConfigurationsOfSystemProperties throws MetamacException;
+			List<@DataConfiguration> findDataConfigurationsOfDefaultValues throws MetamacException;
 		}
 		
 		
@@ -55,6 +71,9 @@ Application CommonMetadata {
 			hint="idSequence=CONFIGURATION"
 			
 			gap
+			
+			"Added explicitly to avoid that Sculptor generate UUID"
+			Long id key;
 			
 			String code;
        		String urn length="4000";
@@ -80,6 +99,29 @@ Application CommonMetadata {
 			}
 		}
 		
+		Entity DataConfiguration {
+			databaseTable="TB_DATA_CONFIGURATIONS"
+			hint="idSequence=DATA_CONFIGURATIONS"
+			
+			gap
+			
+			"Added explicitly to avoid that Sculptor generate UUID"
+			Long id key;
+			
+			String configurationKey length="255" not nullable databaseColumn="CONF_KEY";
+			String configurationValue length="4000" nullable databaseColumn="CONF_VALUE";
+			boolean systemProperty not nullable;
+			
+			"Last update to optimistic locking"
+			DateTimeTZ updateDate nullable; 
+			
+			Repository DataConfigurationRepository {
+				findById;
+		   		findAll;
+		   		findByCondition;
+		   		save;
+			}
+		}
     }
 
 }

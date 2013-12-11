@@ -1,5 +1,9 @@
 package org.siemac.metamac.common.metadata.core.serviceapi.utils;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.siemac.metamac.common.metadata.core.domain.Configuration;
+import org.siemac.metamac.common.metadata.core.domain.DataConfiguration;
+import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.test.utils.MetamacMocks;
 import org.siemac.metamac.core.common.constants.CoreCommonConstants;
 import org.siemac.metamac.core.common.ent.domain.ExternalItem;
@@ -11,6 +15,52 @@ import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
  * Mocks
  */
 public class CommonMetadataDoMocks extends MetamacMocks {
+
+    // -----------------------------------------------------------------
+    // CONFIGURATIONS (metadata)
+    // -----------------------------------------------------------------
+
+    public static Configuration createEnableConfiguration() {
+        Configuration configuration = createConfigurationBase();
+        configuration.setStatus(CommonMetadataStatusEnum.ENABLED);
+        return configuration;
+    }
+
+    public static Configuration createConfigurationBase() {
+        Configuration configuration = new Configuration();
+        configuration.setCode(CommonMetadataDoMocks.mockCode());
+        configuration.setStatus(CommonMetadataStatusEnum.DISABLED);
+        configuration.setContact(mockAgencyExternalItem());
+        configuration.setLegalActs(mockInternationalString());
+        configuration.setDataSharing(mockInternationalString());
+        configuration.setConfPolicy(mockInternationalString());
+        configuration.setConfDataTreatment(mockInternationalString());
+        configuration.setLicense(mockInternationalString());
+        return configuration;
+    }
+
+    // -----------------------------------------------------------------
+    // DATA CONFIGURATIONS
+    // -----------------------------------------------------------------
+
+    public static DataConfiguration mockDataConfigurationOfSystemProperty() {
+        DataConfiguration dataConfiguration = mockDataConfiguration();
+        dataConfiguration.setSystemProperty(Boolean.TRUE);
+        return dataConfiguration;
+    }
+
+    public static DataConfiguration mockDataConfigurationOfDefaultValue() {
+        DataConfiguration dataConfiguration = mockDataConfiguration();
+        dataConfiguration.setSystemProperty(Boolean.FALSE);
+        return dataConfiguration;
+    }
+
+    private static DataConfiguration mockDataConfiguration() {
+        DataConfiguration dataConfiguration = new DataConfiguration();
+        dataConfiguration.setConfigurationKey("data_configuration-" + RandomStringUtils.randomAlphabetic(5));
+        dataConfiguration.setConfigurationValue(RandomStringUtils.randomAlphabetic(5));
+        return dataConfiguration;
+    }
 
     // -----------------------------------------------------------------
     // INTERNATIONAL STRING
