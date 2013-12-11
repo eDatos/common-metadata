@@ -26,7 +26,22 @@ ALTER TABLE TB_DATA_CONFIGURATIONS ADD CONSTRAINT DATA_CONF_KEY UNIQUE(CONF_KEY)
 
 ALTER TABLE TB_CONFIGURATIONS DROP COLUMN UUID; 
 
+-- Insert DATA_CONFIGURATIONS sequence
+Insert into TB_SEQUENCES(SEQUENCE_NAME, SEQUENCE_NEXT_VALUE) VALUES ('DATA_CONFIGURATIONS', 1);
+
+-- Create GET_NEXT_SEQUENCE_VALUE function
+CREATE OR REPLACE FUNCTION GET_NEXT_SEQUENCE_VALUE(sequence_name_in IN VARCHAR2)
+  RETURN NUMBER
+  IS sequence_next_value_out NUMBER(19,0);
+  BEGIN
+    SELECT SEQUENCE_NEXT_VALUE INTO sequence_next_value_out
+    FROM TB_SEQUENCES 
+    WHERE SEQUENCE_NAME = sequence_name_in;
+    RETURN (sequence_next_value_out);
+  END;
+/
+
 commit;
 
 /*Examples in db/ directory*/
--- Have to execute 03a, 03b, 04a and 04b
+-- Have to execute 04a and 04b of the properly environment
