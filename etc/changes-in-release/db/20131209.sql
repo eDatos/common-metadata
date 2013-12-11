@@ -29,3 +29,4 @@ ALTER TABLE TB_CONFIGURATIONS DROP COLUMN UUID;
 commit;
 
 /*Examples in db/ directory*/
+-- Have to execute 03a, 03b, 04a and 04b
