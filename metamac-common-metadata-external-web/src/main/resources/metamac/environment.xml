@@ -2,10 +2,6 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
   <comment>Metamac environment definition</comment>
-  
-  <!--  Configuration properties in files -->
-  <entry key="environment.metamac.data">/data/metamac</entry>
-  
   <!--  Configuration properties in database (ORACLE)-->
   <entry key="environment.metamac.configuration.db.url">FILL_ME_WITH_USERNAME</entry>
   <entry key="environment.metamac.configuration.db.username">FILL_ME_WITH_PASSWORD</entry>
