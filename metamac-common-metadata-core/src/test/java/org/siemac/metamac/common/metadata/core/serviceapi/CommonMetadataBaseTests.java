@@ -95,7 +95,7 @@ public abstract class CommonMetadataBaseTests extends MetamacDBUnitBaseTests {
     private void putMetamacPrincipalInServiceContext(ServiceContext serviceContext, CommonMetadataRoleEnum role) {
         MetamacPrincipal metamacPrincipal = new MetamacPrincipal();
         metamacPrincipal.setUserId(serviceContext.getUserId());
-        metamacPrincipal.getAccesses().add(new MetamacPrincipalAccess(role.getName(), CommonMetadataConstants.SECURITY_APPLICATION_ID, null));
+        metamacPrincipal.getAccesses().add(new MetamacPrincipalAccess(role.getName(), CommonMetadataConstants.APPLICATION_ID, null));
         serviceContext.setProperty(SsoClientConstants.PRINCIPAL_ATTRIBUTE, metamacPrincipal);
     }
 
