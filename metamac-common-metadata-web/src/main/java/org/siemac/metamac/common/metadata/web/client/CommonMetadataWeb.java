@@ -81,7 +81,7 @@ public class CommonMetadataWeb extends MetamacSecurityEntryPoint {
 
     @Override
     protected String getSecurityApplicationId() {
-        return CommonMetadataConstants.SECURITY_APPLICATION_ID;
+        return CommonMetadataConstants.APPLICATION_ID;
     }
 
     @Override
