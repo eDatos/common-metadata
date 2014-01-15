@@ -15,6 +15,47 @@ de las incidencias con el id [METAMAC-xxx].
 http://jira.arte-consultores.com/browse/METAMAC
 
 ------------------------------------------------------------------------------
+Release 1.4.1
+------------------------------------------------------------------------------
+
+Notas de publicación - Metamac - hito metamac-common-metadata - 1.4.1
+
+** Defecto
+* [METAMAC-1998] - [CORE] Modificar los tipos de datos de MSSQL que usen "VARCHAR" por "NVARCHAR"
+* [METAMAC-2043] - Corregir problema con factorypathentry para el gwtplatform 0.6
+
+
+
+** Mejora
+* [METAMAC-1621] - Añadir en todos los árboles una columna que muestre un pop-up con la información en detalle
+* [METAMAC-1622] - En las tablas, mostrar más columnas que las que aparecen por defecto. Inicialmente estarán ocultas.
+* [METAMAC-1839] - [Metadatos Comunes] Añadir el metadato licencia
+* [METAMAC-1997] - Las configuraciones en base de datos se guardarán en el common metadata
+
+
+
+
+** Tarea
+* [METAMAC-1674] - [WEB] Permitir borrar un recurso cuando se está visualizando
+* [METAMAC-1695] - External Item con URN opcional
+* [METAMAC-1755] - Configurar la visualización o no de SQL en logback
+* [METAMAC-1756] - Logs: los cambios del logback no se reflejan sin reiniciar el servidor
+* [METAMAC-1811] - Añadir en el listener qué aplicación está iniciándose
+* [METAMAC-1827] - Revisar clientes de API de SRM tras cambios al obtener los items
+* [METAMAC-1832] - ExternalItem: refactor urns
+* [METAMAC-1848] - [Mocks] Modificación del método del metamac-common-test que crea un mock de un ExternalItemComplete
+* [METAMAC-1901] - [APIs] Modificar generación automática de wadl: prefijos con "ns"
+* [METAMAC-1902] - Aplicaciones web externa: eliminar listener y servlet no necesarios
+* [METAMAC-1941] - Refactor y mejora de tipos de criteria SculptorPropertyCriteria*
+* [METAMAC-2000] - Modificar la estructura changes-in-release de los proyectos
+* [METAMAC-2071] - Crear scripts en common-metadata para nueva estructura de properties del metamac-portal
+
+
+** Sub-tarea
+* [METAMAC-1142] - Determinar si es necesario omitir la configuración del logback
+* [METAMAC-1831] - [API] Refactor urn por urnProvider
+
+------------------------------------------------------------------------------
 Release 1.4.0
 ------------------------------------------------------------------------------
 <Sin información vinculada en JIRA>
