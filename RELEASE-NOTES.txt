@@ -24,16 +24,11 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.4.1
 * [METAMAC-1998] - [CORE] Modificar los tipos de datos de MSSQL que usen "VARCHAR" por "NVARCHAR"
 * [METAMAC-2043] - Corregir problema con factorypathentry para el gwtplatform 0.6
 
-
-
 ** Mejora
 * [METAMAC-1621] - Añadir en todos los árboles una columna que muestre un pop-up con la información en detalle
 * [METAMAC-1622] - En las tablas, mostrar más columnas que las que aparecen por defecto. Inicialmente estarán ocultas.
 * [METAMAC-1839] - [Metadatos Comunes] Añadir el metadato licencia
 * [METAMAC-1997] - Las configuraciones en base de datos se guardarán en el common metadata
-
-
-
 
 ** Tarea
 * [METAMAC-1674] - [WEB] Permitir borrar un recurso cuando se está visualizando
@@ -50,7 +45,6 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.4.1
 * [METAMAC-2000] - Modificar la estructura changes-in-release de los proyectos
 * [METAMAC-2071] - Crear scripts en common-metadata para nueva estructura de properties del metamac-portal
 
-
 ** Sub-tarea
 * [METAMAC-1142] - Determinar si es necesario omitir la configuración del logback
 * [METAMAC-1831] - [API] Refactor urn por urnProvider
@@ -58,12 +52,20 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.4.1
 ------------------------------------------------------------------------------
 Release 1.4.0
 ------------------------------------------------------------------------------
-<Sin información vinculada en JIRA>
+
+Notas de publicación - Metamac - hito metamac-common-metadata - 1.4.0
+
+** Soporte
+    * [METAMAC-1816] - Configurar proyectos Maven para que durante el performRelease no se ejecuten los tests
 
 ------------------------------------------------------------------------------
 Release 1.3.0
 ------------------------------------------------------------------------------
-<Sin información vinculada en JIRA>
+
+Notas de publicación - Metamac - hito metamac-common-metadata - 1.3.0
+
+** Tarea
+    * [METAMAC-1807] - Paquete de instalación Julio 2013
 
 ------------------------------------------------------------------------------
 Release 1.2.0
@@ -77,7 +79,6 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.2.0
     * [METAMAC-1754] - Problema con la codificación de URLs con dos puntos (:) en IE y Chrome
     * [METAMAC-1791] - Búsquedas REST: No funcionan las búsquedas por IN
 
-
 ** Historia
     * [METAMAC-1316] - Consultar ayuda
 
@@ -85,9 +86,6 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.2.0
     * [METAMAC-702] - Incluir URL de aplicación interna en los ExternalItems
     * [METAMAC-1516] - [Test] Refactor de la clase MetamacBaseTest para que pase a ser MetamacDBUnitBaseTest
     * [METAMAC-1594] - Modificar los campos de tipo ML para que sean ML+URL 
-
-
-
 
 ** Tarea
     * [METAMAC-525] - Relacionar el externalItem de contact con una organización del gestor de organizaciones
@@ -111,7 +109,6 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.2.0
     * [METAMAC-1678] - Añadir método retrieveConfigurationByUrn en la facade
 
 
-
 ------------------------------------------------------------------------------
 Release 1.1.0
 ------------------------------------------------------------------------------
@@ -123,12 +120,8 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.1.0
     * [METAMAC-1347] - Problema de concurrencia con el Pooled optimizer (generación de ids de Hibernate)
     * [METAMAC-1418] - NO guardar el endpoint de la API en la base de datos
 
-
-
 ** Mejora
     * [METAMAC-1304] - Renombrar los métodos mockInternationalString del MetamacMocks para que sea mockInternationalStringDto
-
-
 
 ** Soporte
     * [METAMAC-1163] - Configuración de tests JUnit: cambio en la estrategia de filtrado de FilteredDataSet
@@ -138,7 +131,6 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.1.0
     * [METAMAC-1298] - Añadir configuración para SQL Server
     * [METAMAC-1415] - Cambio de formato de links: selfLink, parent...
     * [METAMAC-1432] - Dividir directorio DATA para que las aplicaciones internas y externas no utilicen los mismos ficheros de configuración
-
 
 ** Sub-tarea
     * [METAMAC-1318] - Permitir consultar el manual de usuario desde la aplicación
@@ -151,7 +143,6 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.1.0
 Release 1.0.0
 ------------------------------------------------------------------------------
 
-
 Notas de publicación - Metamac - hito metamac-common-metadata - 1.0.0
 
 ** Defecto
@@ -160,8 +151,6 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.0.0
     * [METAMAC-897] - Idioma de los widgets definidos en metamac-web-common
     * [METAMAC-905] - No utilizar mapper JacksonJsonMapper
 
-
-
 ** Mejora
     * [METAMAC-743] - Cambiar formato de los formularios: todos los campos deben tener el máximo ancho que les permita la columna
     * [METAMAC-791] - Cambio en el formato de las URLs de las aplicaciones internas
@@ -169,7 +158,6 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.0.0
 ** Nueva Funcionalidad
     * [METAMAC-591] - Formato de fechas
     * [METAMAC-685] - Añadir la versión de la aplicación en el footer
-
 
 ** Soporte
     * [METAMAC-930] - Subida a demos de todas la aplicaciones de METAMAC
@@ -238,7 +226,6 @@ Notas de publicación - Metamac - hito metamac-common-metadata - 1.0.0
     * [METAMAC-1017] - InternationalString: Hacer más eficiente la creación de los LocalisedString
     * [METAMAC-1035] - Aplicación web externa de CommonMetadata
     * [METAMAC-1057] - Modificar la configuración de Base de Datos para evitar errores de arranque en Cibercentro
-
 
 ** Sub-tarea
     * [METAMAC-579] - Configuración del CAS
