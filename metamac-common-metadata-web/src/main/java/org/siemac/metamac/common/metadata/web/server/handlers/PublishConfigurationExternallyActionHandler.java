@@ -4,8 +4,10 @@ import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
+import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConstants;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataServiceFacade;
+import org.siemac.metamac.common.metadata.web.server.rest.NotificationsRestInternalService;
 import org.siemac.metamac.common.metadata.web.server.rest.SrmRestInternalFacade;
 import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyAction;
 import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyResult;
@@ -13,6 +15,12 @@ import org.siemac.metamac.common.metadata.web.shared.constants.WebMessageExcepti
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.lang.shared.LocaleConstants;
+import org.siemac.metamac.rest.notifications.v1_0.domain.Notification;
+import org.siemac.metamac.rest.notifications.v1_0.domain.NotificationType;
+import org.siemac.metamac.rest.notifications.v1_0.domain.enume.MetamacApplicationsEnum;
+import org.siemac.metamac.rest.notifications.v1_0.domain.enume.MetamacRolesEnum;
+import org.siemac.metamac.rest.notifications.v1_0.domain.utils.ApplicationsUtils;
+import org.siemac.metamac.rest.notifications.v1_0.domain.utils.RolesUtils;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
@@ -29,13 +37,16 @@ import com.gwtplatform.dispatch.shared.ActionException;
 public class PublishConfigurationExternallyActionHandler extends SecurityActionHandler<PublishConfigurationExternallyAction, PublishConfigurationExternallyResult> {
 
     @Autowired
-    private CommonMetadataServiceFacade commonMetadataServiceFacade;
+    private CommonMetadataServiceFacade      commonMetadataServiceFacade;
 
     @Autowired
-    private SrmRestInternalFacade       srmRestInternalFacade;
+    private NotificationsRestInternalService notificationsRestInternalService;
 
     @Autowired
-    private WebTranslateExceptions      webTranslateExceptions;
+    private SrmRestInternalFacade            srmRestInternalFacade;
+
+    @Autowired
+    private WebTranslateExceptions           webTranslateExceptions;
 
     public PublishConfigurationExternallyActionHandler() {
         super(PublishConfigurationExternallyAction.class);
@@ -43,17 +54,27 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
 
     @Override
     public PublishConfigurationExternallyResult executeSecurityAction(PublishConfigurationExternallyAction action) throws ActionException {
+        ConfigurationDto configurationPublished = null;
+        ServiceContext serviceContext = ServiceContextHolder.getCurrentServiceContext();
+
         try {
-            ServiceContext serviceContext = ServiceContextHolder.getCurrentServiceContext();
 
             ConfigurationDto configurationToPublish = commonMetadataServiceFacade.findConfigurationById(serviceContext, action.getId());
             checkContactIsExternallyPublished(serviceContext, configurationToPublish);
 
-            ConfigurationDto configurationPublished = commonMetadataServiceFacade.publishExternallyConfiguration(serviceContext, action.getId());
-            return new PublishConfigurationExternallyResult(configurationPublished);
+            configurationPublished = commonMetadataServiceFacade.publishExternallyConfiguration(serviceContext, action.getId());
+
         } catch (MetamacException e) {
             throw WebExceptionUtils.createMetamacWebException(e);
         }
+
+        try {
+            notificationsRestInternalService.createNotification(serviceContext, generateNotification(serviceContext));
+        } catch (MetamacWebException e) {
+            return new PublishConfigurationExternallyResult(configurationPublished, e);
+        }
+
+        return new PublishConfigurationExternallyResult(configurationPublished, null);
     }
 
     private void checkContactIsExternallyPublished(ServiceContext serviceContext, ConfigurationDto configurationDto) throws ActionException {
@@ -94,5 +115,21 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
         String exceptionnMessage = webTranslateExceptions.getTranslatedMessage(exceptionCode, locale);
 
         throw new MetamacWebException(exceptionCode, exceptionnMessage);
+    }
+
+    public static Notification generateNotification(ServiceContext ctx) {
+        Notification notification = new Notification();
+        notification.setApplications(ApplicationsUtils.createApplicationsList(MetamacApplicationsEnum.GESTOR_RECURSOS_ESTADISTICOS));
+        notification.setRoles(RolesUtils.createRolesList(MetamacRolesEnum.TECNICO_PRODUCCION, MetamacRolesEnum.TECNICO_APOYO_PRODUCCION, MetamacRolesEnum.JEFE_PRODUCCION));
+        notification.setSendingUser(ctx.getUserId());
+        notification.setSendingApplication(CommonMetadataConstants.APPLICATION_ID);
+
+        notification.setSubject("subject pendiente de cambiar");
+
+        // TODO: Añadir mensaje y recursos
+
+        notification.setNotificationType(NotificationType.ADVERTISEMENT);
+
+        return notification;
     }
 }

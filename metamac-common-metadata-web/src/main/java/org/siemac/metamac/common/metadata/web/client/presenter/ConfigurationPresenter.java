@@ -33,8 +33,8 @@ import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemSchemeRestCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
-import com.google.web.bindery.event.shared.EventBus;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.dispatch.shared.DispatchAsync;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
@@ -73,6 +73,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
         // External resources
 
         void setItemSchemes(String formItemName, ExternalItemsResult result);
+
         void setItems(String formItemName, ExternalItemsResult result);
     }
 
@@ -110,6 +111,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
             public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
             }
+
             @Override
             public void onWaitSuccess(GetConfigurationResult result) {
                 getView().setConfiguration(result.getConfiguration());
@@ -125,6 +127,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
             public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
             }
+
             @Override
             public void onWaitSuccess(SaveConfigurationResult result) {
                 ShowMessageEvent.fireSuccessMessage(ConfigurationPresenter.this, CommonMetadataWeb.getMessages().configurationSaved());
@@ -141,6 +144,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
             public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
             }
+
             @Override
             public void onWaitSuccess(DeleteConfigurationsResult result) {
                 ShowMessageEvent.fireSuccessMessage(ConfigurationPresenter.this, CommonMetadataWeb.getMessages().configurationDeleted());
@@ -157,9 +161,16 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
             public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
             }
+
             @Override
             public void onWaitSuccess(PublishConfigurationExternallyResult result) {
-                ShowMessageEvent.fireSuccessMessage(ConfigurationPresenter.this, CommonMetadataWeb.getMessages().configurationPublishedExternally());
+                if (result.getNotificationException() != null) {
+                    ShowMessageEvent.fireWarningMessageWithError(ConfigurationPresenter.this, CommonMetadataWeb.getMessages().configurationPublishedExternallyWithNotificationError(),
+                            result.getNotificationException());
+                } else {
+                    ShowMessageEvent.fireSuccessMessage(ConfigurationPresenter.this, CommonMetadataWeb.getMessages().configurationPublishedExternally());
+                }
+
                 getView().setConfiguration(result.getConfigurationDto());
                 UpdateConfigurationsEvent.fire(ConfigurationPresenter.this);
             }
@@ -184,6 +195,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
             public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
             }
+
             @Override
             public void onWaitSuccess(GetExternalResourcesResult result) {
                 getView().setItemSchemes(formItemName, result.getExternalItemsResult());
@@ -205,6 +217,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
             public void onWaitFailure(Throwable caught) {
                 ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
             }
+
             @Override
             public void onWaitSuccess(GetExternalResourcesResult result) {
                 getView().setItems(formItemName, result.getExternalItemsResult());

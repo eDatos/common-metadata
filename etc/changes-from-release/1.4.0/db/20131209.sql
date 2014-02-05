@@ -42,6 +42,3 @@ CREATE OR REPLACE FUNCTION GET_NEXT_SEQUENCE_VALUE(sequence_name_in IN VARCHAR2)
 /
 
 commit;
-
-/*Examples in db/ directory*/
--- Have to execute 04a and 04b of the properly environment

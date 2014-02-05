@@ -2,22 +2,13 @@ package org.siemac.metamac.common.metadata.web.server.rest;
 
 import static org.siemac.metamac.rest.api.constants.RestApiConstants.WILDCARD_ALL;
 
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.apache.cxf.jaxrs.client.ServerWebApplicationException;
-import org.apache.cxf.jaxrs.client.WebClient;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
+import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.web.server.rest.utils.ExternalItemUtils;
+import org.siemac.metamac.common.metadata.web.server.rest.utils.RestExceptionUtils;
 import org.siemac.metamac.common.metadata.web.server.rest.utils.RestQueryUtils;
-import org.siemac.metamac.common.metadata.web.shared.constants.WebMessageExceptionsConstants;
-import org.siemac.metamac.core.common.lang.shared.LocaleConstants;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Agencies;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.AgencySchemes;
-import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
-import org.siemac.metamac.web.common.server.utils.WebTranslateExceptions;
-import org.siemac.metamac.web.common.shared.constants.CommonSharedConstants;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemSchemeRestCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
@@ -28,13 +19,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
 
-    private static Logger          logger = Logger.getLogger(SrmRestInternalFacadeImpl.class.getName());
+    @Autowired
+    private RestApiLocator     restApiLocator;
 
     @Autowired
-    private RestApiLocator         restApiLocator;
-
-    @Autowired
-    private WebTranslateExceptions webTranslateExceptions;
+    private RestExceptionUtils restExceptionUtils;
 
     //
     // AGENCY SCHEMES
@@ -51,12 +40,8 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
         try {
             AgencySchemes agencySchemes = restApiLocator.getSrmRestInternalFacadeV10().findAgencySchemes(query, orderBy, limit, offset);
             return ExternalItemUtils.getAgencySchemesAsExternalItemsResult(agencySchemes);
-        } catch (ServerWebApplicationException e) {
-            throwMetamacWebExceptionFromServerWebApplicationException(serviceContext, e);
-            return null;
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage());
-            throw new MetamacWebException(CommonSharedConstants.EXCEPTION_UNKNOWN, "Error finding agency schemes");
+            throw manageSrmInternalRestException(serviceContext, e);
         }
     }
 
@@ -75,42 +60,12 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
         try {
             Agencies agencies = restApiLocator.getSrmRestInternalFacadeV10().findAgencies(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset);
             return ExternalItemUtils.getAgenciesAsExternalItemsResult(agencies);
-        } catch (ServerWebApplicationException e) {
-            throwMetamacWebExceptionFromServerWebApplicationException(serviceContext, e);
-            return null;
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage());
-            throw new MetamacWebException(CommonSharedConstants.EXCEPTION_UNKNOWN, "Error finding categories");
+            throw manageSrmInternalRestException(serviceContext, e);
         }
     }
 
-    //
-    // EXCEPTION HANDLERS
-    //
-
-    private void throwMetamacWebExceptionFromServerWebApplicationException(ServiceContext serviceContext, ServerWebApplicationException e) throws MetamacWebException {
-
-        logger.log(Level.SEVERE, e.getMessage());
-
-        org.siemac.metamac.rest.common.v1_0.domain.Exception exception = e.toErrorObject(WebClient.client(restApiLocator.getSrmRestInternalFacadeV10()),
-                org.siemac.metamac.rest.common.v1_0.domain.Exception.class);
-
-        if (exception == null) {
-
-            if (e.getResponse().getStatus() == 404) {
-                throwMetamacWebException(serviceContext, WebMessageExceptionsConstants.REST_API_SRM_INVOCATION_ERROR_404);
-            } else {
-                throwMetamacWebException(serviceContext, WebMessageExceptionsConstants.REST_API_SRM_INVOCATION_ERROR_UNKNOWN);
-            }
-        }
-
-        throw WebExceptionUtils.createMetamacWebException(exception);
-    }
-
-    private void throwMetamacWebException(ServiceContext serviceContext, String exceptionCode) throws MetamacWebException {
-        Locale locale = (Locale) serviceContext.getProperty(LocaleConstants.locale);
-        String exceptionnMessage = webTranslateExceptions.getTranslatedMessage(exceptionCode, locale);
-
-        throw new MetamacWebException(exceptionCode, exceptionnMessage);
+    private MetamacWebException manageSrmInternalRestException(ServiceContext ctx, Exception e) throws MetamacWebException {
+        return restExceptionUtils.manageMetamacRestException(ctx, e, ServiceExceptionParameters.API_SRM_INTERNAL, restApiLocator.getSrmRestInternalFacadeV10());
     }
 }
