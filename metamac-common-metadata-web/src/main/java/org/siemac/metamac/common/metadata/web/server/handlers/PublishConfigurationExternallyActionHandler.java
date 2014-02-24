@@ -7,7 +7,7 @@ import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConstants;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataServiceFacade;
-import org.siemac.metamac.common.metadata.web.server.rest.NotificationsRestInternalService;
+import org.siemac.metamac.common.metadata.web.server.rest.NoticesRestInternalService;
 import org.siemac.metamac.common.metadata.web.server.rest.SrmRestInternalFacade;
 import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyAction;
 import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyResult;
@@ -15,12 +15,12 @@ import org.siemac.metamac.common.metadata.web.shared.constants.WebMessageExcepti
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.lang.shared.LocaleConstants;
-import org.siemac.metamac.rest.notifications.v1_0.domain.Notification;
-import org.siemac.metamac.rest.notifications.v1_0.domain.NotificationType;
-import org.siemac.metamac.rest.notifications.v1_0.domain.enume.MetamacApplicationsEnum;
-import org.siemac.metamac.rest.notifications.v1_0.domain.enume.MetamacRolesEnum;
-import org.siemac.metamac.rest.notifications.v1_0.domain.utils.ApplicationsUtils;
-import org.siemac.metamac.rest.notifications.v1_0.domain.utils.RolesUtils;
+import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
+import org.siemac.metamac.rest.notices.v1_0.domain.NoticeType;
+import org.siemac.metamac.rest.notices.v1_0.domain.enume.MetamacApplicationsEnum;
+import org.siemac.metamac.rest.notices.v1_0.domain.enume.MetamacRolesEnum;
+import org.siemac.metamac.rest.notices.v1_0.domain.utils.ApplicationsUtils;
+import org.siemac.metamac.rest.notices.v1_0.domain.utils.RolesUtils;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
@@ -40,7 +40,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
     private CommonMetadataServiceFacade      commonMetadataServiceFacade;
 
     @Autowired
-    private NotificationsRestInternalService notificationsRestInternalService;
+    private NoticesRestInternalService notificationsRestInternalService;
 
     @Autowired
     private SrmRestInternalFacade            srmRestInternalFacade;
@@ -85,7 +85,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
 
             SrmItemRestCriteria criteria = new SrmItemRestCriteria();
             criteria.setUrn(contactUrn);
-            criteria.setIsItemSchemeExternallyPublished(Boolean.TRUE);
+            criteria.setItemSchemeExternallyPublished(Boolean.TRUE);
 
             ExternalItemsResult result = srmRestInternalFacade.findAgencies(serviceContext, criteria, 0, 1);
             if (result.getExternalItemDtos().isEmpty()) {
@@ -117,8 +117,8 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
         throw new MetamacWebException(exceptionCode, exceptionnMessage);
     }
 
-    public static Notification generateNotification(ServiceContext ctx) {
-        Notification notification = new Notification();
+    public static Notice generateNotification(ServiceContext ctx) {
+        Notice notification = new Notice();
         notification.setApplications(ApplicationsUtils.createApplicationsList(MetamacApplicationsEnum.GESTOR_RECURSOS_ESTADISTICOS));
         notification.setRoles(RolesUtils.createRolesList(MetamacRolesEnum.TECNICO_PRODUCCION, MetamacRolesEnum.TECNICO_APOYO_PRODUCCION, MetamacRolesEnum.JEFE_PRODUCCION));
         notification.setSendingUser(ctx.getUserId());
@@ -128,7 +128,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
 
         // TODO: Añadir mensaje y recursos
 
-        notification.setNotificationType(NotificationType.ADVERTISEMENT);
+        notification.setNoticeType(NoticeType.ANNOUNCEMENT);
 
         return notification;
     }
