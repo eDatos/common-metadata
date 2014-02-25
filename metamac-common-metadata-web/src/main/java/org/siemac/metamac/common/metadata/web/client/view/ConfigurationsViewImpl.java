@@ -23,6 +23,8 @@ import org.siemac.metamac.web.common.client.widgets.CustomLinkListGridField;
 import org.siemac.metamac.web.common.client.widgets.CustomListGridField;
 import org.siemac.metamac.web.common.client.widgets.DeleteConfirmationWindow;
 import org.siemac.metamac.web.common.client.widgets.form.InternationalMainFormLayout;
+import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
+import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -73,17 +75,26 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
 
             @Override
             public void onClick(ClickEvent event) {
-                newConfigurationWindow = new NewConfigurationWindow(getConstants().actionCreate(), getUiHandlers());
-                newConfigurationWindow.getSave().addClickHandler(new com.smartgwt.client.widgets.form.fields.events.ClickHandler() {
+                newConfigurationWindow = new NewConfigurationWindow(getConstants().actionCreate()) {
 
                     @Override
-                    public void onClick(com.smartgwt.client.widgets.form.fields.events.ClickEvent event) {
+                    protected void onSave() {
                         if (newConfigurationWindow.validateForm()) {
                             getUiHandlers().createConfiguration(newConfigurationWindow.getNewConfigurationDto());
                             newConfigurationWindow.markForDestroy();
                         }
                     }
-                });
+
+                    @Override
+                    protected void retrieveAgencies(SrmItemRestCriteria itemRestCriteria, int firstResult, int maxResults) {
+                        getUiHandlers().retrieveAgencies(itemRestCriteria, firstResult, maxResults);
+                    };
+
+                    @Override
+                    protected void retrieveAgencySchemes(SrmExternalResourceRestCriteria itemSchemeRestCriteria, int firstResult, int maxResults) {
+                        getUiHandlers().retrieveAgencySchemes(itemSchemeRestCriteria, firstResult, maxResults);
+                    };
+                };
             }
         });
         newToolStripButton.setVisibility(ClientSecurityUtils.canCreateConfiguration() ? Visibility.VISIBLE : Visibility.HIDDEN);
@@ -191,7 +202,6 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         panel.addMember(configurationsLayout);
         panel.addMember(configurationMainFormLayout);
     }
-
     @Override
     public Widget asWidget() {
         return panel;
@@ -295,16 +305,16 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
     // ------------------------------------------------------------------------------------------------------------
 
     @Override
-    public void setItemSchemes(String formItemName, ExternalItemsResult result) {
+    public void setAgencySchemes(ExternalItemsResult result) {
         if (newConfigurationWindow != null) {
-            newConfigurationWindow.setItemSchemes(formItemName, result);
+            newConfigurationWindow.setAgencySchemes(result);
         }
     }
 
     @Override
-    public void setItems(String formItemName, ExternalItemsResult result) {
+    public void setAgencies(ExternalItemsResult result) {
         if (newConfigurationWindow != null) {
-            newConfigurationWindow.setItems(formItemName, result);
+            newConfigurationWindow.setAgencies(result);
         }
     }
 }

@@ -21,20 +21,21 @@ import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusAction;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusResult;
-import org.siemac.metamac.common.metadata.web.shared.external.GetExternalResourcesAction;
-import org.siemac.metamac.common.metadata.web.shared.external.GetExternalResourcesResult;
-import org.siemac.metamac.common.metadata.web.shared.external.RestWebCriteriaUtils;
+import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemSchemesAction;
+import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemSchemesResult;
+import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemsAction;
+import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemsResult;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
-import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
+import org.siemac.metamac.web.common.client.utils.WaitingAsyncCallbackHandlingError;
+import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
-import org.siemac.metamac.web.common.shared.criteria.SrmItemSchemeRestCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
-import com.google.web.bindery.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.dispatch.shared.DispatchAsync;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
@@ -61,7 +62,7 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     private final PlaceManager  placeManager;
 
     @ProxyCodeSplit
-    @NameToken(NameTokens.configurationListPage)
+    @NameToken(NameTokens.commonMetadataListPage)
     @UseGatekeeper(LoggedInGatekeeper.class)
     public interface ConfigurationsProxy extends Proxy<ConfigurationsPresenter>, Place {
     }
@@ -82,8 +83,8 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
 
         // External resources
 
-        void setItemSchemes(String formItemName, ExternalItemsResult result);
-        void setItems(String formItemName, ExternalItemsResult result);
+        void setAgencySchemes(ExternalItemsResult result);
+        void setAgencies(ExternalItemsResult result);
     }
 
     @Inject
@@ -120,12 +121,8 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     }
 
     private void retrieveConfigurations() {
-        dispatcher.execute(new GetConfigurationsAction(), new WaitingAsyncCallback<GetConfigurationsResult>() {
+        dispatcher.execute(new GetConfigurationsAction(), new WaitingAsyncCallbackHandlingError<GetConfigurationsResult>(ConfigurationsPresenter.this) {
 
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
-            }
             @Override
             public void onWaitSuccess(GetConfigurationsResult result) {
                 getView().setConfigurations(result.getConfigurations());
@@ -135,12 +132,8 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
 
     @Override
     public void createConfiguration(ConfigurationDto configurationDto) {
-        dispatcher.execute(new SaveConfigurationAction(configurationDto), new WaitingAsyncCallback<SaveConfigurationResult>() {
+        dispatcher.execute(new SaveConfigurationAction(configurationDto), new WaitingAsyncCallbackHandlingError<SaveConfigurationResult>(this) {
 
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
-            }
             @Override
             public void onWaitSuccess(SaveConfigurationResult result) {
                 ShowMessageEvent.fireSuccessMessage(ConfigurationsPresenter.this, CommonMetadataWeb.getMessages().configurationSaved());
@@ -152,12 +145,8 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
 
     @Override
     public void deleteConfigurations(List<Long> configurationIds) {
-        dispatcher.execute(new DeleteConfigurationsAction(configurationIds), new WaitingAsyncCallback<DeleteConfigurationsResult>() {
+        dispatcher.execute(new DeleteConfigurationsAction(configurationIds), new WaitingAsyncCallbackHandlingError<DeleteConfigurationsResult>(this) {
 
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
-            }
             @Override
             public void onWaitSuccess(DeleteConfigurationsResult result) {
                 ShowMessageEvent.fireSuccessMessage(ConfigurationsPresenter.this, CommonMetadataWeb.getMessages().configurationDeleted());
@@ -168,11 +157,11 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
 
     @Override
     public void updateConfigurationsStatus(List<Long> configurationIds, CommonMetadataStatusEnum statusEnum) {
-        dispatcher.execute(new UpdateConfigurationsStatusAction(configurationIds, statusEnum), new WaitingAsyncCallback<UpdateConfigurationsStatusResult>() {
+        dispatcher.execute(new UpdateConfigurationsStatusAction(configurationIds, statusEnum), new WaitingAsyncCallbackHandlingError<UpdateConfigurationsStatusResult>(this) {
 
             @Override
             public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
+                super.onWaitFailure(caught);
                 retrieveConfigurations();
             }
             @Override
@@ -189,43 +178,26 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     //
 
     @Override
-    public void retrieveItemSchemes(final String formItemName, SrmItemSchemeRestCriteria itemSchemeRestCriteria, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults) {
-        itemSchemeRestCriteria = RestWebCriteriaUtils.buildItemSchemeWebCriteria(itemSchemeRestCriteria, types);
-        retrieveItemSchemes(formItemName, itemSchemeRestCriteria, firstResult, maxResults);
-    }
+    public void retrieveAgencySchemes(SrmExternalResourceRestCriteria itemSchemeRestCriteria, int firstResult, int maxResults) {
+        itemSchemeRestCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.AGENCY_SCHEME);
 
-    @Override
-    public void retrieveItemSchemes(final String formItemName, SrmItemSchemeRestCriteria itemSchemeRestCriteria, int firstResult, int maxResults) {
-        dispatcher.execute(new GetExternalResourcesAction(itemSchemeRestCriteria, firstResult, maxResults), new WaitingAsyncCallback<GetExternalResourcesResult>() {
+        dispatcher.execute(new GetSrmItemSchemesAction(itemSchemeRestCriteria, firstResult, maxResults), new WaitingAsyncCallbackHandlingError<GetSrmItemSchemesResult>(this) {
 
             @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
-            }
-            @Override
-            public void onWaitSuccess(GetExternalResourcesResult result) {
-                getView().setItemSchemes(formItemName, result.getExternalItemsResult());
+            public void onWaitSuccess(GetSrmItemSchemesResult result) {
+                getView().setAgencySchemes(result.getResult());
             }
         });
     }
 
     @Override
-    public void retrieveItems(final String formItemName, SrmItemRestCriteria itemRestCriteria, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults) {
-        itemRestCriteria = RestWebCriteriaUtils.buildItemWebCriteria(itemRestCriteria, types);
-        retrieveItems(formItemName, itemRestCriteria, firstResult, maxResults);
-    }
-
-    @Override
-    public void retrieveItems(final String formItemName, SrmItemRestCriteria itemWebCriteria, int firstResult, int maxResults) {
-        dispatcher.execute(new GetExternalResourcesAction(itemWebCriteria, firstResult, maxResults), new WaitingAsyncCallback<GetExternalResourcesResult>() {
+    public void retrieveAgencies(SrmItemRestCriteria itemWebCriteria, int firstResult, int maxResults) {
+        itemWebCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.AGENCY);
+        dispatcher.execute(new GetSrmItemsAction(itemWebCriteria, firstResult, maxResults), new WaitingAsyncCallbackHandlingError<GetSrmItemsResult>(this) {
 
             @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationsPresenter.this, caught);
-            }
-            @Override
-            public void onWaitSuccess(GetExternalResourcesResult result) {
-                getView().setItems(formItemName, result.getExternalItemsResult());
+            public void onWaitSuccess(GetSrmItemsResult result) {
+                getView().setAgencies(result.getResult());
             }
         });
     }
@@ -250,9 +222,9 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     public void goToConfiguration(String urn) {
         if (!StringUtils.isBlank(urn)) {
             PlaceRequest currentPlaceRequest = placeManager.getCurrentPlaceRequest();
-            if (NameTokens.configurationListPage.equals(currentPlaceRequest.getNameToken())) {
+            if (NameTokens.commonMetadataListPage.equals(currentPlaceRequest.getNameToken())) {
                 placeManager.revealRelativePlace(PlaceRequestUtils.buildRelativeConfigurationPlaceRequest(urn));
-            } else if (NameTokens.configurationPage.equals(currentPlaceRequest.getNameToken())) {
+            } else if (NameTokens.commonMetadataPage.equals(currentPlaceRequest.getNameToken())) {
                 placeManager.revealRelativePlace(PlaceRequestUtils.buildRelativeConfigurationPlaceRequest(urn), -1);
             }
         }

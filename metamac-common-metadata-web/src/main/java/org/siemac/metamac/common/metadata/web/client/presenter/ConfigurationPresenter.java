@@ -20,17 +20,18 @@ import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExterna
 import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationResult;
-import org.siemac.metamac.common.metadata.web.shared.external.GetExternalResourcesAction;
-import org.siemac.metamac.common.metadata.web.shared.external.GetExternalResourcesResult;
-import org.siemac.metamac.common.metadata.web.shared.external.RestWebCriteriaUtils;
+import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemSchemesAction;
+import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemSchemesResult;
+import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemsAction;
+import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemsResult;
 import org.siemac.metamac.core.common.constants.shared.UrnConstants;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.core.common.util.shared.UrnUtils;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
-import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
+import org.siemac.metamac.web.common.client.utils.WaitingAsyncCallbackHandlingError;
+import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
-import org.siemac.metamac.web.common.shared.criteria.SrmItemSchemeRestCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
 import com.google.inject.Inject;
@@ -55,7 +56,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     private final PlaceManager  placeManager;
 
     @ProxyCodeSplit
-    @NameToken(NameTokens.configurationPage)
+    @NameToken(NameTokens.commonMetadataPage)
     @UseGatekeeper(LoggedInGatekeeper.class)
     public interface ConfigurationProxy extends Proxy<ConfigurationPresenter>, Place {
 
@@ -72,9 +73,8 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
         // External resources
 
-        void setItemSchemes(String formItemName, ExternalItemsResult result);
-
-        void setItems(String formItemName, ExternalItemsResult result);
+        void setAgencySchemes(ExternalItemsResult result);
+        void setAgencies(ExternalItemsResult result);
     }
 
     @Inject
@@ -105,12 +105,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     }
 
     private void retrieveConfiguration(String urn) {
-        dispatcher.execute(new GetConfigurationAction(urn), new WaitingAsyncCallback<GetConfigurationResult>() {
-
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
-            }
+        dispatcher.execute(new GetConfigurationAction(urn), new WaitingAsyncCallbackHandlingError<GetConfigurationResult>(this) {
 
             @Override
             public void onWaitSuccess(GetConfigurationResult result) {
@@ -121,12 +116,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
     @Override
     public void saveConfiguration(ConfigurationDto configurationDto) {
-        dispatcher.execute(new SaveConfigurationAction(configurationDto), new WaitingAsyncCallback<SaveConfigurationResult>() {
-
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
-            }
+        dispatcher.execute(new SaveConfigurationAction(configurationDto), new WaitingAsyncCallbackHandlingError<SaveConfigurationResult>(this) {
 
             @Override
             public void onWaitSuccess(SaveConfigurationResult result) {
@@ -138,12 +128,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
     @Override
     public void deleteConfiguration(Long configurationId) {
-        dispatcher.execute(new DeleteConfigurationsAction(Arrays.asList(configurationId)), new WaitingAsyncCallback<DeleteConfigurationsResult>() {
-
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
-            }
+        dispatcher.execute(new DeleteConfigurationsAction(Arrays.asList(configurationId)), new WaitingAsyncCallbackHandlingError<DeleteConfigurationsResult>(this) {
 
             @Override
             public void onWaitSuccess(DeleteConfigurationsResult result) {
@@ -155,12 +140,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
 
     @Override
     public void publishExternally(Long id) {
-        dispatcher.execute(new PublishConfigurationExternallyAction(id), new WaitingAsyncCallback<PublishConfigurationExternallyResult>() {
-
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
-            }
+        dispatcher.execute(new PublishConfigurationExternallyAction(id), new WaitingAsyncCallbackHandlingError<PublishConfigurationExternallyResult>(this) {
 
             @Override
             public void onWaitSuccess(PublishConfigurationExternallyResult result) {
@@ -182,45 +162,26 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     //
 
     @Override
-    public void retrieveItemSchemes(final String formItemName, SrmItemSchemeRestCriteria itemSchemeRestCriteria, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults) {
-        itemSchemeRestCriteria = RestWebCriteriaUtils.buildItemSchemeWebCriteria(itemSchemeRestCriteria, types);
-        retrieveItemSchemes(formItemName, itemSchemeRestCriteria, firstResult, maxResults);
-    }
-
-    @Override
-    public void retrieveItemSchemes(final String formItemName, SrmItemSchemeRestCriteria itemSchemeRestCriteria, int firstResult, int maxResults) {
-        dispatcher.execute(new GetExternalResourcesAction(itemSchemeRestCriteria, firstResult, maxResults), new WaitingAsyncCallback<GetExternalResourcesResult>() {
+    public void retrieveAgencySchemes(SrmExternalResourceRestCriteria itemSchemeRestCriteria, int firstResult, int maxResults) {
+        itemSchemeRestCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.AGENCY_SCHEME);
+        dispatcher.execute(new GetSrmItemSchemesAction(itemSchemeRestCriteria, firstResult, maxResults), new WaitingAsyncCallbackHandlingError<GetSrmItemSchemesResult>(this) {
 
             @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
+            public void onWaitSuccess(GetSrmItemSchemesResult result) {
+                getView().setAgencySchemes(result.getResult());
             }
 
-            @Override
-            public void onWaitSuccess(GetExternalResourcesResult result) {
-                getView().setItemSchemes(formItemName, result.getExternalItemsResult());
-            }
         });
     }
 
     @Override
-    public void retrieveItems(final String formItemName, SrmItemRestCriteria itemRestCriteria, TypeExternalArtefactsEnum[] types, int firstResult, int maxResults) {
-        itemRestCriteria = RestWebCriteriaUtils.buildItemWebCriteria(itemRestCriteria, types);
-        retrieveItems(formItemName, itemRestCriteria, firstResult, maxResults);
-    }
-
-    @Override
-    public void retrieveItems(final String formItemName, SrmItemRestCriteria itemWebCriteria, int firstResult, int maxResults) {
-        dispatcher.execute(new GetExternalResourcesAction(itemWebCriteria, firstResult, maxResults), new WaitingAsyncCallback<GetExternalResourcesResult>() {
+    public void retrieveAgencies(SrmItemRestCriteria itemWebCriteria, int firstResult, int maxResults) {
+        itemWebCriteria.setExternalArtifactType(TypeExternalArtefactsEnum.AGENCY);
+        dispatcher.execute(new GetSrmItemsAction(itemWebCriteria, firstResult, maxResults), new WaitingAsyncCallbackHandlingError<GetSrmItemsResult>(this) {
 
             @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(ConfigurationPresenter.this, caught);
-            }
-
-            @Override
-            public void onWaitSuccess(GetExternalResourcesResult result) {
-                getView().setItems(formItemName, result.getExternalItemsResult());
+            public void onWaitSuccess(GetSrmItemsResult result) {
+                getView().setAgencies(result.getResult());
             }
         });
     }

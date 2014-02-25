@@ -1,22 +1,28 @@
 package org.siemac.metamac.common.metadata.web.server;
 
 import org.siemac.metamac.common.metadata.web.server.handlers.DeleteConfigurationsActionHandler;
+import org.siemac.metamac.common.metadata.web.server.handlers.GetAppsConfigurationsActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetConfigurationActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetConfigurationsActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetUserGuideUrlActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.PublishConfigurationExternallyActionHandler;
+import org.siemac.metamac.common.metadata.web.server.handlers.SaveAppConfigurationActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.SaveConfigurationActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.UpdateConfigurationsStatusActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.ValidateTicketActionHandler;
-import org.siemac.metamac.common.metadata.web.server.handlers.external.GetExternalResourcesActionHandler;
+import org.siemac.metamac.common.metadata.web.server.handlers.external.GetSrmItemSchemesActionHandler;
+import org.siemac.metamac.common.metadata.web.server.handlers.external.GetSrmItemsActionHandler;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationsAction;
+import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlAction;
 import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyAction;
+import org.siemac.metamac.common.metadata.web.shared.SaveAppConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.UpdateConfigurationsStatusAction;
-import org.siemac.metamac.common.metadata.web.shared.external.GetExternalResourcesAction;
+import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemSchemesAction;
+import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemsAction;
 import org.siemac.metamac.web.common.server.handlers.CloseSessionActionHandler;
 import org.siemac.metamac.web.common.server.handlers.GetLoginPageUrlActionHandler;
 import org.siemac.metamac.web.common.server.handlers.GetNavigationBarUrlActionHandler;
@@ -50,6 +56,9 @@ public class ServerModule extends HandlerModule {
         bindHandler(PublishConfigurationExternallyAction.class, PublishConfigurationExternallyActionHandler.class);
         bindHandler(DeleteConfigurationsAction.class, DeleteConfigurationsActionHandler.class);
 
+        bindHandler(GetAppsConfigurationsAction.class, GetAppsConfigurationsActionHandler.class);
+        bindHandler(SaveAppConfigurationAction.class, SaveAppConfigurationActionHandler.class);
+
         bindHandler(ValidateTicketAction.class, ValidateTicketActionHandler.class);
         bindHandler(GetLoginPageUrlAction.class, GetLoginPageUrlActionHandler.class);
         bindHandler(CloseSessionAction.class, CloseSessionActionHandler.class);
@@ -58,7 +67,8 @@ public class ServerModule extends HandlerModule {
         bindHandler(LoadConfigurationPropertiesAction.class, LoadConfigurationPropertiesActionHandler.class);
         bindHandler(GetUserGuideUrlAction.class, GetUserGuideUrlActionHandler.class);
 
-        bindHandler(GetExternalResourcesAction.class, GetExternalResourcesActionHandler.class);
+        bindHandler(GetSrmItemsAction.class, GetSrmItemsActionHandler.class);
+        bindHandler(GetSrmItemSchemesAction.class, GetSrmItemSchemesActionHandler.class);
 
         // This action should be removed to use CAS authentication
         bindHandler(MockCASUserAction.class, MockCASUserActionHandler.class);

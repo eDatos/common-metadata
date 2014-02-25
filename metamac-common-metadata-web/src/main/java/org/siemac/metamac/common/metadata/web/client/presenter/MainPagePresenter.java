@@ -4,7 +4,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
+import org.siemac.metamac.common.metadata.web.client.enums.CommonMetadataToolStripButtonEnum;
+import org.siemac.metamac.common.metadata.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.widgets.presenter.CommonMetadataToolStripPresenterWidget;
 import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlAction;
 import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlResult;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
@@ -13,17 +16,18 @@ import org.siemac.metamac.web.common.client.events.HideMessageEvent.HideMessageH
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent.ShowMessageHandler;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
+import org.siemac.metamac.web.common.client.utils.WaitingAsyncCallbackHandlingError;
+import org.siemac.metamac.web.common.client.widgets.BreadCrumbsPanel;
 import org.siemac.metamac.web.common.client.widgets.MasterHead;
-import org.siemac.metamac.web.common.client.widgets.WaitingAsyncCallback;
 import org.siemac.metamac.web.common.shared.CloseSessionAction;
 import org.siemac.metamac.web.common.shared.CloseSessionResult;
 import org.siemac.metamac.web.common.shared.utils.SharedTokens;
 
-import com.google.web.bindery.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.dispatch.shared.DispatchAsync;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
@@ -42,17 +46,21 @@ import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
 
 public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView, MainPagePresenter.MainPageProxy> implements MainPageUiHandlers, ShowMessageHandler, HideMessageHandler {
 
-    private static Logger       logger = Logger.getLogger(MainPagePresenter.class.getName());
+    private static Logger                                logger                        = Logger.getLogger(MainPagePresenter.class.getName());
 
-    private final PlaceManager  placeManager;
-    private final DispatchAsync dispatcher;
+    private final PlaceManager                           placeManager;
+    private final DispatchAsync                          dispatcher;
 
-    private static MasterHead   masterHead;
+    private static MasterHead                            masterHead;
+
+    private final CommonMetadataToolStripPresenterWidget toolStripPresenterWidget;
+
+    @ContentSlot
+    public static final Type<RevealContentHandler<?>>    TYPE_SetCommonMetadataToolBar = new Type<RevealContentHandler<?>>();
 
     @ProxyStandard
-    @NameToken(NameTokens.mainPage)
     @NoGatekeeper
-    public interface MainPageProxy extends Proxy<MainPagePresenter>, Place {
+    public interface MainPageProxy extends Proxy<MainPagePresenter> {
 
     }
 
@@ -60,8 +68,12 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView,
 
         MasterHead getMasterHead();
 
+        BreadCrumbsPanel getBreadCrumbsPanel();
+        void clearBreadcrumbs(int size, PlaceManager placeManager);
+        void setBreadcrumb(int index, String title);
         void showMessage(Throwable throwable, String message, MessageTypeEnum type);
         void hideMessages();
+        void setTitle(String title);
     }
 
     /**
@@ -73,17 +85,24 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView,
     public static final Type<RevealContentHandler<?>> TYPE_SetContextAreaContent = new Type<RevealContentHandler<?>>();
 
     @Inject
-    public MainPagePresenter(EventBus eventBus, MainPageView view, MainPageProxy proxy, PlaceManager placeManager, DispatchAsync dispatcher) {
+    public MainPagePresenter(EventBus eventBus, MainPageView view, MainPageProxy proxy, PlaceManager placeManager, DispatchAsync dispatcher,
+            CommonMetadataToolStripPresenterWidget toolStripPresenterWidget) {
         super(eventBus, view, proxy);
+        this.toolStripPresenterWidget = toolStripPresenterWidget;
         getView().setUiHandlers(this);
         this.placeManager = placeManager;
         this.dispatcher = dispatcher;
         MainPagePresenter.masterHead = getView().getMasterHead();
     }
-
     @Override
     protected void revealInParent() {
         RevealRootContentEvent.fire(this, this);
+    }
+
+    @Override
+    protected void onReveal() {
+        super.onReveal();
+        setInSlot(TYPE_SetCommonMetadataToolBar, toolStripPresenterWidget);
     }
 
     @Override
@@ -140,12 +159,8 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView,
 
     @Override
     public void downloadUserGuide() {
-        dispatcher.execute(new GetUserGuideUrlAction(), new WaitingAsyncCallback<GetUserGuideUrlResult>() {
+        dispatcher.execute(new GetUserGuideUrlAction(), new WaitingAsyncCallbackHandlingError<GetUserGuideUrlResult>(this) {
 
-            @Override
-            public void onWaitFailure(Throwable caught) {
-                ShowMessageEvent.fireErrorMessage(MainPagePresenter.this, caught);
-            }
             @Override
             public void onWaitSuccess(GetUserGuideUrlResult result) {
                 CommonWebUtils.showDownloadFileWindow(SharedTokens.FILE_DOWNLOAD_DIR_PATH, SharedTokens.PARAM_FILE_NAME, result.getUserGuideUrl());

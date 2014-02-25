@@ -11,20 +11,19 @@ import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.ConfigurationMainFormLayout;
-import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchAgencyItem;
-import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchAgencyLinkItem;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
-import org.siemac.metamac.core.common.util.shared.StringUtils;
+import org.siemac.metamac.web.common.client.utils.BooleanWebUtils;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ExternalItemLinkItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.MultilanguageRichTextEditorItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredTextItem;
-import org.siemac.metamac.web.common.client.widgets.form.fields.SearchExternalItemLinkItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewMultiLanguageTextItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ViewTextItem;
-import org.siemac.metamac.web.common.client.widgets.form.fields.external.SearchSrmItemItem;
+import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
+import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -99,15 +98,6 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         return mainFormLayout;
     }
 
-    @Override
-    public void setUiHandlers(ConfigurationUiHandlers uiHandlers) {
-        super.setUiHandlers(uiHandlers);
-
-        // Set uiHandlers in formItems
-
-        ((SearchSrmItemItem) editionForm.getItem(ConfigurationDS.CONTACT)).setUiHandlers(uiHandlers);
-    }
-
     private void setTranslationsShowed(boolean translationsShowed) {
         form.setTranslationsShowed(translationsShowed);
         editionForm.setTranslationsShowed(translationsShowed);
@@ -172,7 +162,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
             }
         });
 
-        SearchExternalItemLinkItem agencyItem = createAgencyItem(ConfigurationDS.CONTACT, getConstants().confOrganisation());
+        SearchAgencyLinkItem agencyItem = createAgencyItem(ConfigurationDS.CONTACT, getConstants().confOrganisation());
 
         CustomSelectItem status = new CustomSelectItem(ConfigurationDS.STATUS, getConstants().confStatus());
         status.setRequired(true);
@@ -194,7 +184,8 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
     private ConfigurationDto getConfiguration() {
         configurationDto.setCode(editionForm.getValueAsString(ConfigurationDS.CODE));
-        configurationDto.setContact(((ExternalItemLinkItem) editionForm.getItem(ConfigurationDS.CONTACT)).getExternalItemDto());
+
+        configurationDto.setContact(editionForm.getValueAsExternalItemDto(ConfigurationDS.CONTACT));
         configurationDto.setStatus(editionForm.getValueAsString(ConfigurationDS.STATUS) != null ? CommonMetadataStatusEnum.valueOf(editionForm.getValueAsString(ConfigurationDS.STATUS)) : null);
         configurationDto.setLicense((InternationalStringDto) editionForm.getValue(ConfigurationDS.LICENSE));
         configurationDto.setLegalActs((InternationalStringDto) editionForm.getValue(ConfigurationDS.LEGAL_ACTS));
@@ -221,12 +212,10 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     private void setConfigurationViewMode(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
         form.setValue(ConfigurationDS.CODE, configurationDto.getCode());
-
-        ((ExternalItemLinkItem) form.getItem(ConfigurationDS.CONTACT)).setExternalItem(configurationDto.getContact());
-
+        form.setValue(ConfigurationDS.CONTACT, configurationDto.getContact());
         form.setValue(ConfigurationDS.STATUS,
                 configurationDto.getStatus() == null ? new String() : getCoreMessages().getString(getCoreMessages().commonMetadataStatusEnum() + configurationDto.getStatus().toString()));
-        form.setValue(ConfigurationDS.EXTERNALLY_PUBLISHED, CommonWebUtils.getBooleanValueAsString(Boolean.valueOf(configurationDto.isExternallyPublished())));
+        form.setValue(ConfigurationDS.EXTERNALLY_PUBLISHED, BooleanWebUtils.getBooleanLabel(configurationDto.isExternallyPublished()));
         form.setValue(ConfigurationDS.LICENSE, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getLicense()));
         form.setValue(ConfigurationDS.LEGAL_ACTS, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getLegalActs()));
         form.setValue(ConfigurationDS.DATA_SHARING, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getDataSharing()));
@@ -234,16 +223,13 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         form.setValue(ConfigurationDS.CONF_DATA_TREATMENT, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getConfDataTreatment()));
         form.redraw();
     }
-
     private void setConfigurationEditionMode(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
         editionForm.setValue(ConfigurationDS.STATIC_CODE, configurationDto.getCode());
         editionForm.setValue(ConfigurationDS.CODE, configurationDto.getCode());
-
-        ((ExternalItemLinkItem) editionForm.getItem(ConfigurationDS.CONTACT)).setExternalItem(configurationDto.getContact());
-
+        editionForm.setValue(ConfigurationDS.CONTACT, configurationDto.getContact());
         editionForm.setValue(ConfigurationDS.STATUS, configurationDto.getStatus() != null ? configurationDto.getStatus().toString() : new String());
-        editionForm.setValue(ConfigurationDS.EXTERNALLY_PUBLISHED, CommonWebUtils.getBooleanValueAsString(Boolean.valueOf(configurationDto.isExternallyPublished())));
+        editionForm.setValue(ConfigurationDS.EXTERNALLY_PUBLISHED, BooleanWebUtils.getBooleanLabel(configurationDto.isExternallyPublished()));
         editionForm.setValue(ConfigurationDS.LICENSE, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getLicense()));
         editionForm.setValue(ConfigurationDS.LEGAL_ACTS, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getLegalActs()));
         editionForm.setValue(ConfigurationDS.DATA_SHARING, org.siemac.metamac.web.common.client.utils.RecordUtils.getInternationalStringRecord(configurationDto.getDataSharing()));
@@ -256,38 +242,34 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     // ------------------------------------------------------------------------------------------------------------
 
     @Override
-    public void setItemSchemes(String formItemName, ExternalItemsResult result) {
-        if (StringUtils.equals(ConfigurationDS.CONTACT, formItemName)) {
-            ((SearchSrmItemItem) editionForm.getItem(formItemName)).setItemSchemes(result);
-        }
+    public void setAgencySchemes(ExternalItemsResult result) {
+        ((SearchAgencyLinkItem) editionForm.getItem(ConfigurationDS.CONTACT)).setAgencySchemesFilter(result);
     }
 
     @Override
-    public void setItems(String formItemName, ExternalItemsResult result) {
-        if (StringUtils.equals(ConfigurationDS.CONTACT, formItemName)) {
-            ((SearchSrmItemItem) editionForm.getItem(formItemName)).setItems(result);
-        }
+    public void setAgencies(ExternalItemsResult result) {
+        ((SearchAgencyLinkItem) editionForm.getItem(ConfigurationDS.CONTACT)).setAgenciesFilter(result);
     }
 
     // ------------------------------------------------------------------------------------------------------------
     // EXTERNAL RESOURCES ITEMS
     // ------------------------------------------------------------------------------------------------------------
 
-    private SearchSrmItemItem createAgencyItem(final String name, String title) {
-        final SearchSrmItemItem item = new SearchAgencyItem(name, title);
-        item.setIsLastVersionItemVisible(false);
-        item.setRequired(true);
-        com.smartgwt.client.widgets.form.fields.events.ClickHandler clickHandler = new com.smartgwt.client.widgets.form.fields.events.ClickHandler() {
+    private SearchAgencyLinkItem createAgencyItem(final String name, String title) {
+        SearchAgencyLinkItem item = new SearchAgencyLinkItem(name, title) {
 
             @Override
-            public void onClick(com.smartgwt.client.widgets.form.fields.events.ClickEvent event) {
-                ExternalItemDto agency = item.getSelectedItem();
-                item.markSearchWindowForDestroy();
-                ((SearchSrmItemItem) editionForm.getItem(name)).setExternalItem(agency);
-                editionForm.validate(false);
+            protected void retrieveItems(int firstResult, int maxResults, SrmItemRestCriteria itemRestCriteria) {
+                getUiHandlers().retrieveAgencies(itemRestCriteria, firstResult, maxResults);
+            }
+
+            @Override
+            protected void retrieveItemSchemes(int firstResult, int maxResults, SrmExternalResourceRestCriteria itemSchemeRestCriteria) {
+                getUiHandlers().retrieveAgencySchemes(itemSchemeRestCriteria, firstResult, maxResults);
             }
         };
-        item.setSaveClickHandler(clickHandler);
+
+        item.setRequired(true);
         return item;
     }
 }

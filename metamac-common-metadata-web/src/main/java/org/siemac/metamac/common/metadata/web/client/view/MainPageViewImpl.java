@@ -5,19 +5,18 @@ import org.siemac.metamac.common.metadata.web.client.presenter.MainPagePresenter
 import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHandlers;
 import org.siemac.metamac.sso.client.MetamacPrincipal;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
-import org.siemac.metamac.web.common.client.widgets.ErrorMessagePanel;
+import org.siemac.metamac.web.common.client.widgets.BreadCrumbsPanel;
 import org.siemac.metamac.web.common.client.widgets.MasterHead;
+import org.siemac.metamac.web.common.client.widgets.MessagePanel;
 import org.siemac.metamac.web.common.client.widgets.MetamacNavBar;
-import org.siemac.metamac.web.common.client.widgets.SuccessMessagePanel;
 import org.siemac.metamac.web.common.client.widgets.VersionFooter;
 
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.smartgwt.client.types.Alignment;
-import com.smartgwt.client.types.AnimationEffect;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
@@ -25,27 +24,23 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> implements MainPagePresenter.MainPageView {
 
-    private static final int          NORTH_HEIGHT   = 85;
-    private static final String       DEFAULT_MARGIN = "0px";
+    private static final int       NORTH_HEIGHT   = 85;
+    private static final String    DEFAULT_MARGIN = "0px";
 
-    private MainPageUiHandlers        uiHandlers;
+    private final MasterHead       masterHead;
+    private final BreadCrumbsPanel breadCrumbsPanel;
+    private final MessagePanel     messagePanel;
 
-    private final MasterHead          masterHead;
-
-    private final SuccessMessagePanel successMessagePanel;
-    private final ErrorMessagePanel   errorMessagePanel;
-
-    private VLayout                   panel;
-    private HLayout                   northLayout;
-    private HLayout                   southLayout;
-    private VLayout                   footerLayout;
+    private VLayout                panel;
+    private VLayout                northLayout;
+    private HLayout                southLayout;
+    private VLayout                footerLayout;
 
     @Inject
-    public MainPageViewImpl(MasterHead masterHead, SuccessMessagePanel successMessagePanel, ErrorMessagePanel errorMessagePanel) {
+    public MainPageViewImpl(MasterHead masterHead, BreadCrumbsPanel breadCrumbsPanel, MessagePanel messagePanel) {
         this.masterHead = masterHead;
-        this.successMessagePanel = successMessagePanel;
-        this.errorMessagePanel = errorMessagePanel;
-
+        this.breadCrumbsPanel = breadCrumbsPanel;
+        this.messagePanel = messagePanel;
         // get rid of scroll bars, and clear out the window's built-in margin,
         // because we want to take advantage of the entire client area
         Window.enableScrolling(false);
@@ -59,15 +54,18 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
         panel.setCanDrag(false);
 
         // Initialize the North layout container
-        northLayout = new HLayout();
+        northLayout = new VLayout();
         northLayout.setHeight(NORTH_HEIGHT);
 
+        VLayout breadCrumbLayout = new VLayout();
+        breadCrumbLayout.addMember(this.breadCrumbsPanel);
+        breadCrumbLayout.setMargin(10);
+
         // Nested layout container
-        VLayout vLayout = new VLayout();
-        vLayout.addMember(this.masterHead);
 
         // Nested layout container to the North layout container
-        northLayout.addMember(vLayout);
+        northLayout.addMember(this.masterHead);
+        northLayout.addMember(breadCrumbLayout);
         northLayout.setHeight(65);
 
         // Initialize the South layout container
@@ -75,8 +73,7 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
         southLayout.setHeight100();
 
         footerLayout = new VLayout();
-        footerLayout.addMember(this.successMessagePanel);
-        footerLayout.addMember(this.errorMessagePanel);
+        footerLayout.addMember(this.messagePanel);
         footerLayout.addMember(new VersionFooter(CommonMetadataWeb.getProjectVersion()));
 
         // Set user name
@@ -87,7 +84,7 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
 
             @Override
             public void onClick(ClickEvent event) {
-                uiHandlers.closeSession();
+                getUiHandlers().closeSession();
             }
         });
 
@@ -96,7 +93,7 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
 
             @Override
             public void onClick(ClickEvent event) {
-                uiHandlers.downloadUserGuide();
+                getUiHandlers().downloadUserGuide();
             }
         });
 
@@ -112,34 +109,15 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
         panel.addMember(southLayout);
         panel.addMember(footerLayout);
     }
+
     @Override
     public Widget asWidget() {
         return panel;
     }
 
     @Override
-    public void showMessage(Throwable throwable, String message, MessageTypeEnum type) {
-        // Hide messages before showing the new ones
-        hideMessages();
-        if (MessageTypeEnum.SUCCESS.equals(type)) {
-            successMessagePanel.showMessage(message);
-            Timer timer = new Timer() {
-
-                @Override
-                public void run() {
-                    successMessagePanel.animateHide(AnimationEffect.FADE);
-                }
-            };
-            timer.schedule(12000);
-        } else if (MessageTypeEnum.ERROR.equals(type)) {
-            errorMessagePanel.showMessage(throwable);
-        }
-    }
-
-    @Override
-    public void hideMessages() {
-        successMessagePanel.hide();
-        errorMessagePanel.hide();
+    public void setUiHandlers(MainPageUiHandlers uiHandlers) {
+        super.setUiHandlers(uiHandlers);
     }
 
     /****************************************************
@@ -151,7 +129,11 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
      */
     @Override
     public void setInSlot(Object slot, Widget content) {
-        if (slot == MainPagePresenter.TYPE_SetContextAreaContent) {
+        if (slot == MainPagePresenter.TYPE_SetCommonMetadataToolBar) {
+            if (content != null) {
+                northLayout.addMember(content, 1);
+            }
+        } else if (slot == MainPagePresenter.TYPE_SetContextAreaContent) {
             if (content != null) {
                 southLayout.setMembers((VLayout) content);
             }
@@ -167,18 +149,43 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
         super.removeFromSlot(slot, content);
     }
 
-    @Override
-    public MasterHead getMasterHead() {
-        return masterHead;
-    }
-
     /****************************************************
      * End code for nested presenters.
      ***************************************************/
 
     @Override
-    public void setUiHandlers(MainPageUiHandlers uiHandlers) {
-        this.uiHandlers = uiHandlers;
+    public MasterHead getMasterHead() {
+        return masterHead;
+    }
+
+    @Override
+    public void clearBreadcrumbs(int size, PlaceManager placeManager) {
+        breadCrumbsPanel.clearBreadCrumbs(size, placeManager);
+    }
+
+    @Override
+    public void setBreadcrumb(int index, String title) {
+        breadCrumbsPanel.setBreadCrumbs(index, title);
+    }
+
+    @Override
+    public BreadCrumbsPanel getBreadCrumbsPanel() {
+        return breadCrumbsPanel;
+    }
+
+    @Override
+    public void showMessage(Throwable throwable, String message, MessageTypeEnum type) {
+        messagePanel.showMessage(throwable, message, type);
+    }
+
+    @Override
+    public void hideMessages() {
+        messagePanel.hide();
+    }
+
+    @Override
+    public void setTitle(String title) {
+        masterHead.setTitleLabel(title);
     }
 
     private String getUserName() {
@@ -188,4 +195,5 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
         }
         return new String();
     }
+
 }

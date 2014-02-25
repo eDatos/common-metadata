@@ -3,6 +3,9 @@ package org.siemac.metamac.common.metadata.web.client.gin;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebConstants;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebMessages;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
+import org.siemac.metamac.common.metadata.web.client.presenter.AppsConfigurationsPresenter;
+import org.siemac.metamac.common.metadata.web.client.presenter.AppsDefaultValuesPresenter;
+import org.siemac.metamac.common.metadata.web.client.presenter.AppsSystemPropertiesPresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationsPresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.ErrorPagePresenter;
@@ -23,6 +26,9 @@ public interface CommonMetadataWebGinjector extends MetamacWebGinjector {
     Provider<MainPagePresenter> getMainPagePresenter();
     AsyncProvider<ConfigurationsPresenter> getConfigurationsPresenter();
     AsyncProvider<ConfigurationPresenter> getConfigurationPresenter();
+    AsyncProvider<AppsConfigurationsPresenter> getAppsConfigurationsPresenter();
+    AsyncProvider<AppsSystemPropertiesPresenter> getAppsSystemPropertiesPresenter();
+    AsyncProvider<AppsDefaultValuesPresenter> getAppsDefaultValuesPresenter();
 
     AsyncProvider<ErrorPagePresenter> getErrorPagePresenter();
     AsyncProvider<UnauthorizedPagePresenter> getUnauthorizedPagePresenter();

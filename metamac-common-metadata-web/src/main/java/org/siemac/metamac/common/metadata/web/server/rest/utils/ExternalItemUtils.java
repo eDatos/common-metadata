@@ -8,6 +8,11 @@ import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.rest.common.v1_0.domain.ListBase;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Agencies;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.AgencySchemes;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.CodeResourceInternal;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Codelists;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Codes;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ConceptSchemes;
+import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.Concepts;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ItemResourceInternal;
 import org.siemac.metamac.rest.structural_resources_internal.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.web.common.server.utils.DtoUtils;
@@ -22,22 +27,56 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
     // Agency Schemes
 
     public static ExternalItemsResult getAgencySchemesAsExternalItemsResult(AgencySchemes agencySchemes) {
-        ExternalItemsResult result = getListBaseAsExternalItemsResult(agencySchemes);
-        result.setExternalItemDtos(getExternalItemDtosFromResourceInternals(agencySchemes.getAgencySchemes()));
-        return result;
+        return getItemSchemesAsExternalItemsResult(agencySchemes, agencySchemes.getAgencySchemes());
+    }
+
+    // Codelist
+
+    public static ExternalItemsResult getCodelistsAsExternalItemsResult(Codelists codelists) {
+        return getItemSchemesAsExternalItemsResult(codelists, codelists.getCodelists());
+    }
+
+    // Concept schemes
+
+    public static ExternalItemsResult getConceptSchemesAsExternalItemsResult(ConceptSchemes concepSchemes) {
+        return getItemSchemesAsExternalItemsResult(concepSchemes, concepSchemes.getConceptSchemes());
     }
 
     // Agencies
 
     public static ExternalItemsResult getAgenciesAsExternalItemsResult(Agencies agencies) {
-        ExternalItemsResult result = getListBaseAsExternalItemsResult(agencies);
-        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals(agencies.getAgencies()));
+        return getItemsAsExternalItemsResult(agencies, agencies.getAgencies());
+    }
+
+    // Concepts
+
+    public static ExternalItemsResult getConceptsAsExternalItemsResult(Concepts concepts) {
+        return getItemsAsExternalItemsResult(concepts, concepts.getConcepts());
+    }
+
+    // Codes
+
+    public static ExternalItemsResult getCodesAsExternalItemsResult(Codes codes) {
+        ExternalItemsResult result = getListBaseAsExternalItemsResult(codes);
+        result.setExternalItemDtos(getExternalItemDtosFromCodeResourceInternals(codes.getCodes()));
         return result;
     }
 
     //
     // COMMON METHODS
     //
+
+    private static ExternalItemsResult getItemSchemesAsExternalItemsResult(ListBase listBase, List<ResourceInternal> items) {
+        ExternalItemsResult result = getListBaseAsExternalItemsResult(listBase);
+        result.setExternalItemDtos(getExternalItemDtosFromResourceInternals(items));
+        return result;
+    }
+
+    private static ExternalItemsResult getItemsAsExternalItemsResult(ListBase listBase, List<ItemResourceInternal> items) {
+        ExternalItemsResult result = getListBaseAsExternalItemsResult(listBase);
+        result.setExternalItemDtos(getExternalItemDtosFromItemResourceInternals(items));
+        return result;
+    }
 
     private static ExternalItemsResult getListBaseAsExternalItemsResult(ListBase listBase) {
         ExternalItemsResult result = new ExternalItemsResult();
@@ -70,6 +109,14 @@ public class ExternalItemUtils extends org.siemac.metamac.web.common.client.util
     }
 
     private static List<ExternalItemDto> getExternalItemDtosFromItemResourceInternals(List<ItemResourceInternal> resources) {
+        List<ExternalItemDto> externalItemDtos = new ArrayList<ExternalItemDto>(resources.size());
+        for (ResourceInternal resource : resources) {
+            externalItemDtos.add(getExternalItemDtoFromSrmResourceInternal(resource));
+        }
+        return externalItemDtos;
+    }
+
+    private static List<ExternalItemDto> getExternalItemDtosFromCodeResourceInternals(List<CodeResourceInternal> resources) {
         List<ExternalItemDto> externalItemDtos = new ArrayList<ExternalItemDto>(resources.size());
         for (ResourceInternal resource : resources) {
             externalItemDtos.add(getExternalItemDtoFromSrmResourceInternal(resource));
