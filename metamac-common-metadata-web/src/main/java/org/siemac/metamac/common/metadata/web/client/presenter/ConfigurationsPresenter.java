@@ -72,7 +72,7 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
 
     @TitleFunction
     public static String getTranslatedTitle() {
-        return getConstants().configurations();
+        return getConstants().commonMetadata();
     }
 
     public interface ConfigurationsView extends View, HasUiHandlers<ConfigurationsUiHandlers> {
