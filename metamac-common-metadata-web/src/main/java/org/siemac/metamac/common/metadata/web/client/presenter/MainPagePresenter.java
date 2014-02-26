@@ -38,6 +38,7 @@ import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
+import com.gwtplatform.mvp.client.proxy.SetPlaceTitleHandler;
 
 public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView, MainPagePresenter.MainPageProxy> implements MainPageUiHandlers, ShowMessageHandler, HideMessageHandler {
 
@@ -98,6 +99,27 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView,
     protected void onReveal() {
         super.onReveal();
         setInSlot(TYPE_SetCommonMetadataToolBar, toolStripPresenterWidget);
+    }
+
+    @Override
+    protected void onReset() {
+        super.onReset();
+        updateBreadcrumbs();
+    }
+
+    private void updateBreadcrumbs() {
+        int size = placeManager.getHierarchyDepth();
+        getView().clearBreadcrumbs(size, placeManager);
+        for (int i = 0; i < size; ++i) {
+            final int index = i;
+            placeManager.getTitle(i, new SetPlaceTitleHandler() {
+
+                @Override
+                public void onSetPlaceTitle(String title) {
+                    getView().setBreadcrumb(index, title);
+                }
+            });
+        }
     }
 
     @Override

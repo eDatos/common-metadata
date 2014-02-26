@@ -1,5 +1,7 @@
 package org.siemac.metamac.common.metadata.web.client.presenter;
 
+import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
+
 import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.enums.AppsConfigurationsToolStripButtonEnum;
@@ -13,6 +15,7 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.ContentSlot;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
+import com.gwtplatform.mvp.client.annotations.TitleFunction;
 import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.Place;
 import com.gwtplatform.mvp.client.proxy.Proxy;
@@ -42,6 +45,11 @@ public class AppsConfigurationsPresenter extends Presenter<AppsConfigurationsPre
     public AppsConfigurationsPresenter(EventBus eventBus, AppsConfigurationsView view, AppsConfigurationsProxy proxy, AppsConfigurationsToolStripPresenterWidget presenterWidget) {
         super(eventBus, view, proxy);
         this.presenterWidget = presenterWidget;
+    }
+
+    @TitleFunction
+    public static String getTranslatedTitle() {
+        return getConstants().appsConfigurations();
     }
 
     @Override

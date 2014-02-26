@@ -1,5 +1,7 @@
 package org.siemac.metamac.common.metadata.web.client.presenter;
 
+import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
+
 import java.util.List;
 
 import org.siemac.metamac.common.metadata.core.dto.DataConfigurationDto;
@@ -24,6 +26,7 @@ import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
+import com.gwtplatform.mvp.client.annotations.TitleFunction;
 import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.Place;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
@@ -55,6 +58,11 @@ public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertie
         super(eventBus, view, proxy);
         this.dispatcher = dispatcher;
         view.setUiHandlers(this);
+    }
+
+    @TitleFunction
+    public static String getTranslatedTitle() {
+        return getConstants().systemProperties();
     }
 
     @Override
