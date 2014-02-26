@@ -3,7 +3,10 @@ package org.siemac.metamac.common.metadata.web.client.presenter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.siemac.metamac.common.metadata.web.client.enums.CommonMetadataToolStripButtonEnum;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.widgets.events.SelectMainSectionEvent;
+import org.siemac.metamac.common.metadata.web.client.widgets.events.SelectMainSectionEvent.SelectMainSectionEventHandler;
 import org.siemac.metamac.common.metadata.web.client.widgets.presenter.CommonMetadataToolStripPresenterWidget;
 import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlAction;
 import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlResult;
@@ -40,7 +43,12 @@ import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
 import com.gwtplatform.mvp.client.proxy.SetPlaceTitleHandler;
 
-public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView, MainPagePresenter.MainPageProxy> implements MainPageUiHandlers, ShowMessageHandler, HideMessageHandler {
+public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView, MainPagePresenter.MainPageProxy>
+        implements
+            MainPageUiHandlers,
+            ShowMessageHandler,
+            HideMessageHandler,
+            SelectMainSectionEventHandler {
 
     private static Logger                                logger                        = Logger.getLogger(MainPagePresenter.class.getName());
 
@@ -136,6 +144,13 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView,
             PlaceRequest placeRequest = new PlaceRequest(place);
             placeManager.revealPlace(placeRequest);
         }
+    }
+
+    @ProxyEvent
+    @Override
+    public void onSelectMainSection(SelectMainSectionEvent event) {
+        toolStripPresenterWidget.deselectButtons();
+        toolStripPresenterWidget.selectButton(event.getButtonId().getValue());
     }
 
     @ProxyEvent

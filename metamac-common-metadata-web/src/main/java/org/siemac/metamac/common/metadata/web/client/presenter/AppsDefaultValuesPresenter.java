@@ -8,8 +8,10 @@ import org.siemac.metamac.common.metadata.core.dto.DataConfigurationDto;
 import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
+import org.siemac.metamac.common.metadata.web.client.enums.AppsConfigurationsToolStripButtonEnum;
 import org.siemac.metamac.common.metadata.web.client.enums.AppsConfigurationsType;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.AppsDefaultValuesUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.widgets.events.SelectAppConfigurationSectionEvent;
 import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveAppConfigurationAction;
@@ -90,6 +92,12 @@ public class AppsDefaultValuesPresenter extends Presenter<AppsDefaultValuesPrese
     public void prepareFromRequest(PlaceRequest request) {
         super.prepareFromRequest(request);
         retrieveDefaultValuesPropertiesAndSelect(null);
+    }
+
+    @Override
+    protected void onReveal() {
+        super.onReveal();
+        SelectAppConfigurationSectionEvent.fire(this, AppsConfigurationsToolStripButtonEnum.DEFAULT_VALUES);
     }
 
     private void retrieveDefaultValuesPropertiesAndSelect(final DataConfigurationDto appConfiguration) {

@@ -9,8 +9,10 @@ import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.RoleLoggedInGatekeeper;
+import org.siemac.metamac.common.metadata.web.client.enums.AppsConfigurationsToolStripButtonEnum;
 import org.siemac.metamac.common.metadata.web.client.enums.AppsConfigurationsType;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.AppsDataConfigurationsUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.widgets.events.SelectAppConfigurationSectionEvent;
 import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveAppConfigurationAction;
@@ -71,8 +73,9 @@ public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertie
     }
 
     @Override
-    protected void onReset() {
-        super.onReset();
+    protected void onReveal() {
+        super.onReveal();
+        SelectAppConfigurationSectionEvent.fire(this, AppsConfigurationsToolStripButtonEnum.SYSTEM_PROPERTIES);
     }
 
     @Override

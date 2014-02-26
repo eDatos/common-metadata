@@ -1,13 +1,15 @@
 package org.siemac.metamac.common.metadata.web.client.widgets.presenter;
 
-import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
+import org.siemac.metamac.common.metadata.web.client.enums.CommonMetadataToolStripButtonEnum;
 import org.siemac.metamac.common.metadata.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.web.common.client.widgets.toolstrip.presenter.MetamacToolStripPresenterWidget;
 
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HasHandlers;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
-import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.HasClickHandlers;
@@ -45,4 +47,5 @@ public class CommonMetadataToolStripPresenterWidget extends MetamacToolStripPres
             }
         }));
     }
+
 }

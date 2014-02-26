@@ -9,10 +9,12 @@ import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatus
 import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
+import org.siemac.metamac.common.metadata.web.client.enums.CommonMetadataToolStripButtonEnum;
 import org.siemac.metamac.common.metadata.web.client.events.UpdateConfigurationsEvent;
 import org.siemac.metamac.common.metadata.web.client.events.UpdateConfigurationsEvent.UpdateConfigurationsHandler;
 import org.siemac.metamac.common.metadata.web.client.utils.PlaceRequestUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.widgets.events.SelectMainSectionEvent;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsAction;
@@ -103,6 +105,9 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     @Override
     protected void onReveal() {
         super.onReveal();
+
+        SelectMainSectionEvent.fire(this, CommonMetadataToolStripButtonEnum.COMMON_METADATA);
+
         MainPagePresenter.getMasterHead().setTitleLabel(CommonMetadataWeb.getConstants().configurationMetamac());
         retrieveConfigurations();
     }
