@@ -47,11 +47,6 @@ public class AppsConfigurationsPresenter extends Presenter<AppsConfigurationsPre
         this.presenterWidget = presenterWidget;
     }
 
-    @TitleFunction
-    public static String getTranslatedTitle() {
-        return getConstants().appsConfigurations();
-    }
-
     @Override
     protected void onReset() {
         super.onReset();
