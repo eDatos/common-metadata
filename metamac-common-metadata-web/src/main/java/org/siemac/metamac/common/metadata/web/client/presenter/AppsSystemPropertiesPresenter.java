@@ -6,6 +6,7 @@ import org.siemac.metamac.common.metadata.core.dto.DataConfigurationDto;
 import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
+import org.siemac.metamac.common.metadata.web.client.RoleLoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.enums.AppsConfigurationsType;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.AppsDataConfigurationsUiHandlers;
 import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsAction;
@@ -37,7 +38,7 @@ public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertie
 
     @ProxyCodeSplit
     @NameToken(NameTokens.systemPropertiesListPage)
-    @UseGatekeeper(LoggedInGatekeeper.class)
+    @UseGatekeeper(RoleLoggedInGatekeeper.class)
     public interface AppsSystemPropertiesProxy extends Proxy<AppsSystemPropertiesPresenter>, Place {
     }
 

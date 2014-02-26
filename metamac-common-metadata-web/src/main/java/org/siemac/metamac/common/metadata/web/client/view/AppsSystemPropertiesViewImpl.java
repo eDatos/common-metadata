@@ -5,6 +5,7 @@ import java.util.List;
 import org.siemac.metamac.common.metadata.core.dto.DataConfigurationDto;
 import org.siemac.metamac.common.metadata.web.client.model.AppConfigurationRecord;
 import org.siemac.metamac.common.metadata.web.client.presenter.AppsSystemPropertiesPresenter;
+import org.siemac.metamac.common.metadata.web.client.utils.AppDataConfigClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.AppsDataConfigurationsUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.AppPropertyNoExternalItemPanel;
@@ -53,13 +54,15 @@ public class AppsSystemPropertiesViewImpl extends ViewWithUiHandlers<AppsDataCon
     }
 
     private AppPropertyPanel createDetailPanel() {
-        return new AppPropertyNoExternalItemPanel() {
+        AppPropertyNoExternalItemPanel propertyPanel = new AppPropertyNoExternalItemPanel() {
 
             @Override
             protected void saveProperty(DataConfigurationDto configurationProperty) {
                 getUiHandlers().saveDataCondiguration(configurationProperty);
             }
         };
+        propertyPanel.setCanEdit(AppDataConfigClientSecurityUtils.canEditSystemProperties());
+        return propertyPanel;
     }
 
     @Override

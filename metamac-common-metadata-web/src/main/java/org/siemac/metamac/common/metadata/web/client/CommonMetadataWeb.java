@@ -13,7 +13,7 @@ import com.google.gwt.core.client.GWT;
  */
 public class CommonMetadataWeb extends MetamacSecurityEntryPoint {
 
-    private static final Boolean                   SECURITY_ENABLED = true;
+    private static final Boolean                   SECURITY_ENABLED = false;
 
     private static MetamacPrincipal                principal;
     private static CommonMetadataWebConstants      constants;

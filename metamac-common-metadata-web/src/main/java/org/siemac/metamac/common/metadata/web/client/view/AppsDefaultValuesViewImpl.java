@@ -6,6 +6,7 @@ import org.siemac.metamac.common.metadata.core.dto.DataConfigurationDto;
 import org.siemac.metamac.common.metadata.web.client.model.AppConfigurationRecord;
 import org.siemac.metamac.common.metadata.web.client.presenter.AppsDefaultValuesPresenter.AppsDefaultValuesView;
 import org.siemac.metamac.common.metadata.web.client.presenter.AppsDefaultValuesPresenter.ViewActionHandlers;
+import org.siemac.metamac.common.metadata.web.client.utils.AppDataConfigClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.AppsDefaultValuesUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.AppPropertyPanel;
@@ -47,7 +48,7 @@ public class AppsDefaultValuesViewImpl extends ViewWithUiHandlers<AppsDefaultVal
     }
 
     private AppPropertyPanel createDetailPanel() {
-        return new AppPropertyPanel() {
+        AppPropertyPanel propertyPanel = new AppPropertyPanel() {
 
             @Override
             protected void retrieveConcepts(SrmItemRestCriteria itemRestCriteria, int firstResult, int maxResults) {
@@ -74,6 +75,8 @@ public class AppsDefaultValuesViewImpl extends ViewWithUiHandlers<AppsDefaultVal
                 getUiHandlers().saveDataCondiguration(configurationProperty);
             }
         };
+        propertyPanel.setCanEdit(AppDataConfigClientSecurityUtils.canEditDefaultValues());
+        return propertyPanel;
     }
 
     @Override

@@ -1,5 +1,8 @@
 package org.siemac.metamac.common.metadata.web.client;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,12 +17,14 @@ import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.proxy.Gatekeeper;
 
-public class LoggedInGatekeeper implements Gatekeeper {
+public class RoleLoggedInGatekeeper implements Gatekeeper {
 
-    private static Logger logger = Logger.getLogger(LoggedInGatekeeper.class.getName());
+    private static final Set<String> rolesAllowed = new HashSet<String>(Arrays.asList(CommonMetadataRoleEnum.ADMINISTRADOR.name(), CommonMetadataRoleEnum.JEFE_NORMALIZACION.name()));
+
+    private static Logger            logger       = Logger.getLogger(LoggedInGatekeeper.class.getName());
 
     @Inject
-    public LoggedInGatekeeper(EventBus eventBus) {
+    public RoleLoggedInGatekeeper(EventBus eventBus) {
         eventBus.addHandler(LoginAuthenticatedEvent.getType(), new LoginAuthenticatedEventHandler() {
 
             @Override
@@ -44,12 +49,9 @@ public class LoggedInGatekeeper implements Gatekeeper {
     }
 
     protected boolean isRoleAllowed(String role) {
-        for (CommonMetadataRoleEnum roleEnum : CommonMetadataRoleEnum.values()) {
-            if (roleEnum.toString().equals(role)) {
-                return true;
-            }
+        if (rolesAllowed.contains(role)) {
+            return true;
         }
         return false;
     }
-
 }

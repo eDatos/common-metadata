@@ -4,7 +4,7 @@ import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.ge
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.web.client.resources.GlobalResources;
-import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
+import org.siemac.metamac.common.metadata.web.client.utils.ConfigurationClientSecurityUtils;
 import org.siemac.metamac.web.common.client.widgets.MainFormLayoutButton;
 import org.siemac.metamac.web.common.client.widgets.form.InternationalMainFormLayout;
 
@@ -46,8 +46,8 @@ public class ConfigurationMainFormLayout extends InternationalMainFormLayout {
             deleteToolStringButton.hide();
             publishExternally.hide();
 
-            boolean canDelete = ClientSecurityUtils.canDeleteConfiguration(configurationDto);
-            boolean canPublishExternally = !isExternallyPublished && ClientSecurityUtils.canPublishConfigurationExternally();
+            boolean canDelete = ConfigurationClientSecurityUtils.canDeleteConfiguration(configurationDto);
+            boolean canPublishExternally = !isExternallyPublished && ConfigurationClientSecurityUtils.canPublishConfigurationExternally();
 
             if (canDelete) {
                 deleteToolStringButton.show();

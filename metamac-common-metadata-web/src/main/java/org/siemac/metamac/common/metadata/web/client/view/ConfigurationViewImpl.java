@@ -7,7 +7,7 @@ import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
-import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
+import org.siemac.metamac.common.metadata.web.client.utils.ConfigurationClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.ConfigurationMainFormLayout;
@@ -49,7 +49,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
     public ConfigurationViewImpl() {
         super();
 
-        mainFormLayout = new ConfigurationMainFormLayout(ClientSecurityUtils.canUpdateConfiguration());
+        mainFormLayout = new ConfigurationMainFormLayout(ConfigurationClientSecurityUtils.canUpdateConfiguration());
 
         bindMainFormLayoutEvents();
 

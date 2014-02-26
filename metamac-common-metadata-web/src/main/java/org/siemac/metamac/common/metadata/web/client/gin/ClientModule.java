@@ -5,6 +5,7 @@ import org.siemac.metamac.common.metadata.web.client.CommonMetadataPlaceManager;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebConstants;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebMessages;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
+import org.siemac.metamac.common.metadata.web.client.RoleLoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.presenter.AppsConfigurationsPresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.AppsDefaultValuesPresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.AppsSystemPropertiesPresenter;
@@ -44,6 +45,7 @@ public class ClientModule extends AbstractPresenterModule {
 
         // Gate keeper
         bind(LoggedInGatekeeper.class).in(Singleton.class);
+        bind(RoleLoggedInGatekeeper.class).in(Singleton.class);
 
         // Constants
         bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.commonMetadataListPage);

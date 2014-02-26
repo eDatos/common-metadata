@@ -9,6 +9,7 @@ import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.enums.AppConfPropertyValueType;
 import org.siemac.metamac.common.metadata.web.client.model.ds.AppConfigurationDS;
 import org.siemac.metamac.common.metadata.web.client.presenter.AppsDefaultValuesPresenter.ViewActionHandlers;
+import org.siemac.metamac.common.metadata.web.client.utils.AppDataConfigClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchCodeLinkItem;
 import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchCodelistLinkItem;
 import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchConceptLinkItem;
@@ -49,6 +50,9 @@ public abstract class AppPropertyPanel extends VLayout {
     private GroupDynamicForm       editForm;
     private DataConfigurationDto   dataConfigurationDto;
 
+    // actions flag
+    private boolean                canEdit                         = false;
+
     public AppPropertyPanel() {
         super();
 
@@ -69,11 +73,15 @@ public abstract class AppPropertyPanel extends VLayout {
 
         addMember(propertyFormLayout);
     }
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+        propertyFormLayout.setCanEdit(canEdit);
+    }
 
     // CREATION
 
     private MainFormLayout createPropertyFormLayout() {
-        MainFormLayout formLayout = new MainFormLayout(true);
+        MainFormLayout formLayout = new MainFormLayout(canEdit);
 
         appendPropertyFormViewCanvas(formLayout);
         appendPropertyFormEditionCanvas(formLayout);
@@ -164,7 +172,9 @@ public abstract class AppPropertyPanel extends VLayout {
         populateFormLayout(dto);
         propertyFormLayout.setViewMode();
         propertyFormLayout.show();
-        propertyFormLayout.setCanEdit(AppConfigurationsUtils.canPropertyBeEditable(dto.getConfigurationKey()));
+        if (canEdit) {
+            propertyFormLayout.setCanEdit(AppDataConfigClientSecurityUtils.canEditProperty(dto.getConfigurationKey()));
+        }
     }
 
     private void populateFormLayout(DataConfigurationDto dto) {

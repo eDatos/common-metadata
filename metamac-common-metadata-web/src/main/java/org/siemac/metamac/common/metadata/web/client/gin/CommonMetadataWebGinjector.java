@@ -3,6 +3,7 @@ package org.siemac.metamac.common.metadata.web.client.gin;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebConstants;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWebMessages;
 import org.siemac.metamac.common.metadata.web.client.LoggedInGatekeeper;
+import org.siemac.metamac.common.metadata.web.client.RoleLoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.presenter.AppsConfigurationsPresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.AppsDefaultValuesPresenter;
 import org.siemac.metamac.common.metadata.web.client.presenter.AppsSystemPropertiesPresenter;
@@ -22,6 +23,7 @@ import com.gwtplatform.dispatch.client.gin.DispatchAsyncModule;
 public interface CommonMetadataWebGinjector extends MetamacWebGinjector {
 
     LoggedInGatekeeper getLoggedInGatekeeper();
+    RoleLoggedInGatekeeper getRoleLoggedInGatekeeper();
 
     Provider<MainPagePresenter> getMainPagePresenter();
     AsyncProvider<ConfigurationsPresenter> getConfigurationsPresenter();

@@ -41,7 +41,12 @@ public class PlaceRequestUtils extends CommonPlaceRequestUtils {
     }
 
     public static List<PlaceRequest> buildAbsoluteAppsConfigurationsRootPlaceRequest() {
-        return buildAbsoluteAppsConfSystemPropertiesPlaceRequest();
+        if (AppDataConfigClientSecurityUtils.canListSystemProperties()) {
+            return buildAbsoluteAppsConfSystemPropertiesPlaceRequest();
+        } else if (AppDataConfigClientSecurityUtils.canListDefaultValues()) {
+            return buildAbsoluteAppsConfDefaultValuesPlaceRequest();
+        }
+        return null;
     }
 
     public static List<PlaceRequest> buildAbsoluteAppsConfSystemPropertiesPlaceRequest() {

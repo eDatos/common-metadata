@@ -13,7 +13,7 @@ import org.siemac.metamac.common.metadata.web.client.model.ConfigurationRecord;
 import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter.ConfigurationView;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationsPresenter;
-import org.siemac.metamac.common.metadata.web.client.utils.ClientSecurityUtils;
+import org.siemac.metamac.common.metadata.web.client.utils.ConfigurationClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationsUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.ConfigurationsListGrid;
@@ -97,7 +97,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
                 };
             }
         });
-        newToolStripButton.setVisibility(ClientSecurityUtils.canCreateConfiguration() ? Visibility.VISIBLE : Visibility.HIDDEN);
+        newToolStripButton.setVisibility(ConfigurationClientSecurityUtils.canCreateConfiguration() ? Visibility.VISIBLE : Visibility.HIDDEN);
 
         deleteConfirmationWindow = new DeleteConfirmationWindow(CommonMetadataWeb.getConstants().confDeleteConfirmationTitle(), CommonMetadataWeb.getConstants().confDeleteConfirmation());
         deleteConfirmationWindow.setVisibility(Visibility.HIDDEN);
@@ -246,7 +246,7 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
         boolean canAllSelectedConfigurationsBeDeleted = true;
         for (ListGridRecord record : records) {
             ConfigurationRecord configurationRecord = (ConfigurationRecord) record;
-            if (!ClientSecurityUtils.canDeleteConfiguration(configurationRecord.getConfigurationDto())) {
+            if (!ConfigurationClientSecurityUtils.canDeleteConfiguration(configurationRecord.getConfigurationDto())) {
                 canAllSelectedConfigurationsBeDeleted = false;
                 break;
             }
@@ -259,14 +259,14 @@ public class ConfigurationsViewImpl extends ViewWithUiHandlers<ConfigurationsUiH
     }
 
     private void showEnableConfigurationButton() {
-        if (ClientSecurityUtils.canUpdateConfiguration()) {
+        if (ConfigurationClientSecurityUtils.canUpdateConfiguration()) {
             enableToolStripButton.show();
             disableToolStripButton.hide();
         }
     }
 
     private void showDisableConfigurationButton() {
-        if (ClientSecurityUtils.canUpdateConfiguration()) {
+        if (ConfigurationClientSecurityUtils.canUpdateConfiguration()) {
             enableToolStripButton.hide();
             disableToolStripButton.show();
         }

@@ -16,9 +16,6 @@ public class AppConfigurationsUtils {
 
     private static final Set<String>                           potentialUrlPrefixes = new HashSet<String>(Arrays.asList("http://", "https://"));
 
-    private static final Set<String>                           uneditableProperties = new HashSet<String>(Arrays.asList(ConfigurationConstants.METAMAC_ORGANISATION,
-                                                                                            ConfigurationConstants.METAMAC_ORGANISATION_URN));
-
     static {
         propertyKeyExternalTypeMappings = new HashMap<String, AppConfPropertyValueType>();
         propertyKeyExternalTypeMappings.put(ConfigurationConstants.DEFAULT_CODELIST_GEOGRAPHICAL_GRANULARITY_URN, AppConfPropertyValueType.EXTERNAL_ITEM_CODELIST);
@@ -69,7 +66,4 @@ public class AppConfigurationsUtils {
         return false;
     }
 
-    public static boolean canPropertyBeEditable(String propertyKey) {
-        return propertyKey != null && !uneditableProperties.contains(propertyKey);
-    }
 }
