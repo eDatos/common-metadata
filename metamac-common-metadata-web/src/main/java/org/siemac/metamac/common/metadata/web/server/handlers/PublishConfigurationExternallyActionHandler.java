@@ -126,7 +126,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
 
         notification.setSubject("subject pendiente de cambiar");
 
-        // TODO: Añadir mensaje y recursos
+        // TODO: Añadir mensaje y recursos (METAMAC-1994)
 
         notification.setNoticeType(NoticeType.ANNOUNCEMENT);
 
