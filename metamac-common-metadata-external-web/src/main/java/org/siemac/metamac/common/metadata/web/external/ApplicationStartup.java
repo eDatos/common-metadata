@@ -5,20 +5,20 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.siemac.metamac.common.metadata.core.conf.CommonMetadataConfigurationService;
 import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConfigurationConstants;
-import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.util.ApplicationContextProvider;
 
 public class ApplicationStartup implements ServletContextListener {
 
-    private static final Log     LOG = LogFactory.getLog(ApplicationStartup.class);
+    private static final Log                   LOG = LogFactory.getLog(ApplicationStartup.class);
 
-    private ConfigurationService configurationService;
+    private CommonMetadataConfigurationService configurationService;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         try {
-            configurationService = ApplicationContextProvider.getApplicationContext().getBean(ConfigurationService.class);
+            configurationService = ApplicationContextProvider.getApplicationContext().getBean(CommonMetadataConfigurationService.class);
             checkConfiguration();
         } catch (Exception e) {
             // Abort startup application

@@ -22,6 +22,7 @@ import org.fornax.cartridges.sculptor.framework.accessapi.ConditionalCriteriaBui
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.siemac.metamac.common.metadata.core.conf.CommonMetadataConfigurationService;
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataService;
 import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
@@ -30,7 +31,6 @@ import org.siemac.metamac.common_metadata.rest.external.v1_0.mockito.FindConfigu
 import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataCoreMocks;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataRestAsserts;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataRestMocks;
-import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.constants.shared.ConfigurationConstants;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.util.ApplicationContextProvider;
@@ -92,7 +92,7 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
         }
 
         // Configuration
-        ConfigurationService configurationService = applicationContext.getBean(ConfigurationService.class);
+        CommonMetadataConfigurationService configurationService = applicationContext.getBean(CommonMetadataConfigurationService.class);
         commonMetadataInternalWebApplication = configurationService.getProperty(ConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
         srmInternalWebApplication = configurationService.getProperty(ConfigurationConstants.WEB_APPLICATION_SRM_INTERNAL_WEB);
         srmApiExternalEndpoint = configurationService.getProperty(ConfigurationConstants.ENDPOINT_SRM_EXTERNAL_API);

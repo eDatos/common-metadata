@@ -18,7 +18,7 @@
     </context:component-scan>
 
     <!-- Metamac environment configuration -->
-    <bean id="configurationService" class="org.siemac.metamac.core.common.conf.ConfigurationServiceImpl">
+    <bean id="configurationService" class="org.siemac.metamac.common.metadata.core.conf.CommonMetadataConfigurationServiceImpl">
         <property name="systemConfigurationFile">
             <value>classpath:metamac/environment-test.xml</value>
         </property>

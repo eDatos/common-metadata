@@ -7,11 +7,11 @@ import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
+import org.siemac.metamac.common.metadata.core.conf.CommonMetadataConfigurationService;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common_metadata.rest.external.RestExternalConstants;
 import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.service.utils.WebApplicationNavigation;
-import org.siemac.metamac.core.common.conf.ConfigurationService;
 import org.siemac.metamac.core.common.constants.shared.ConfigurationConstants;
 import org.siemac.metamac.core.common.ent.domain.ExternalItem;
 import org.siemac.metamac.rest.common.v1_0.domain.ChildLinks;
@@ -33,16 +33,16 @@ import org.springframework.stereotype.Component;
 public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
 
     @Autowired
-    private ConfigurationService     configurationService;
+    private CommonMetadataConfigurationService configurationService;
 
-    private String                   commonMetadataApiExternalEndpointV10;
-    private String                   srmApiExternalEndpoint;
+    private String                             commonMetadataApiExternalEndpointV10;
+    private String                             srmApiExternalEndpoint;
 
     // Internal webs because links are in these webs
-    private String                   commonMetadataInternalWebApplication;
-    private String                   srmInternalWebApplication;
+    private String                             commonMetadataInternalWebApplication;
+    private String                             srmInternalWebApplication;
 
-    private WebApplicationNavigation webApplicationNavigation;
+    private WebApplicationNavigation           webApplicationNavigation;
 
     @PostConstruct
     public void init() throws Exception {
