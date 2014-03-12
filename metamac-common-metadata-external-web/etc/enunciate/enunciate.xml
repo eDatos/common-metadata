@@ -1,4 +1,4 @@
-<enunciate xsi:noNamespaceSchemaLocation="http://enunciate.codehaus.org/schemas/enunciate-1.27.xsd">
+<enunciate xsi:noNamespaceSchemaLocation="http://enunciate.codehaus.org/schemas/enunciate-1.26.xsd">
 
     <namespaces>
         <namespace uri="http://www.siemac.org/metamac/rest/common-metadata/v1.0/domain" id="cmetadata"/>
