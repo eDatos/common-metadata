@@ -454,7 +454,6 @@
     <build>
         <finalName>${project.artifactId}</finalName>
 
-
         <plugins>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
@@ -553,6 +552,7 @@
                             <systemPropertyVariables>
                                 <TEST_DATABASE_PROVIDER>ORACLE</TEST_DATABASE_PROVIDER>
                             </systemPropertyVariables>
+                            <reportsDirectory>${project.build.directory}/surefire-reports/oracle</reportsDirectory>
                         </configuration>
                     </execution>
                     <execution>
@@ -566,6 +566,7 @@
                             <systemPropertyVariables>
                                 <TEST_DATABASE_PROVIDER>MSSQL</TEST_DATABASE_PROVIDER>
                             </systemPropertyVariables>
+                            <reportsDirectory>${project.build.directory}/surefire-reports/mssql</reportsDirectory>
                         </configuration>
                     </execution>
                 </executions>
