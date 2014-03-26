@@ -33,7 +33,10 @@
                                                                 (execution(public * org.siemac.metamac.common.metadata..serviceapi.*Service.retrieve*(..)) or 
                                                                  execution(public * org.siemac.metamac.common.metadata..serviceapi.*Service.find*(..))))" />
 		<aop:pointcut id="serviceFacadePointCut" expression="execution(public * org.siemac.metamac.common.metadata..serviceapi.*ServiceFacade.*(..))" />
-		<aop:pointcut id="doMapperPointCut" expression="execution(public * org.siemac.metamac.common.metadata.core.mapper.*2DoMapper.*(..))" />
+        
+        <!-- Disable flush for find methods because we need to check unique code constraints -->
+		<aop:pointcut id="disableFlushingPointCut" expression="execution(public * org.siemac.metamac.common.metadata.core.mapper.*2DoMapper.*(..)) or 
+                                                               execution(public * org.siemac.metamac.common.metadata.core.domain.*Repository.findByCondition*(..))" />
 
 		<!-- Repeating the expression, since I can't find a way to refer to the other pointcuts. -->
 		<aop:pointcut id="updatingServiceFacade"
@@ -52,7 +55,7 @@
 		
 		<!-- Flush mode interceptor -->
 		<aop:aspect id="flushingMode" ref="disableFlushHandlingAdvice">
-			<aop:around method="manageFlushMode" pointcut-ref="doMapperPointCut" />
+			<aop:around method="manageFlushMode" pointcut-ref="disableFlushingPointCut" />
 		</aop:aspect>
 	</aop:config>
 </beans>
