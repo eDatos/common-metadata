@@ -263,9 +263,8 @@
             <version>${sculptor.version}</version>
             <scope>provided</scope>
             <exclusions>
-                <!-- La inclusion de esta libreria provoca un BUG en el plugin de eclipse de GWT cuando usamos GIN en un proyecto GWT, es demasiado antigua esta version. No importa que el scope sea PROVIDED, el
-                    plugin de GWT
-                    no es capaz de tragarselo. -->
+                <!-- La inclusion de esta libreria provoca un BUG en el plugin de eclipse de GWT cuando usamos GIN en un proyecto GWT, es demasiado antigua esta version. No importa que el scope sea PROVIDED, 
+                    el plugin de GWT no es capaz de tragarselo. -->
                 <!-- POR TANTO CUANDO SE EJECUTE EL PLUGIN DE GWT DE ECLIPSE ES NECESARIO DESCOMENTAR ESTAS LINEAS -->
                 <!-- <exclusion> -->
                 <!-- <groupId>p2.osgi.bundle</groupId> -->
@@ -334,7 +333,7 @@
             <version>${mssql.version}</version>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- TESTS -->
         <dependency>
             <groupId>org.siemac.metamac</groupId>
@@ -342,7 +341,7 @@
             <version>${metamac-core-common.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
-        </dependency>   
+        </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -373,13 +372,13 @@
             <version>${hsqldb.version}</version>
             <!-- Add scope test when running with a persistent database (mysql etc) -->
             <!-- <scope>test</scope> -->
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>org.fornax.cartridges</groupId>
             <artifactId>fornax-cartridges-sculptor-framework-test</artifactId>
             <version>${sculptor.version}</version>
             <scope>test</scope>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -397,7 +396,9 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.6</version><!--$NO-MVN-MAN-VER$ -->
                         <executions>
                             <execution>
                                 <id>clean-sculptor-conf</id>
@@ -427,7 +428,9 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.6</version><!--$NO-MVN-MAN-VER$ -->
                         <executions>
                             <execution>
                                 <id>clean-sculptor-conf</id>
