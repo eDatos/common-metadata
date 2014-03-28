@@ -310,7 +310,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <dependency>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.jodatime</artifactId>
+            <version>${usertype.jodatime.version}</version>
+        </dependency>
         <!-- CGLIB -->
         <dependency>
             <groupId>cglib</groupId>
