@@ -14,6 +14,42 @@ Por favor, consulta nuestro gestor de incidencia para obtener más información
 de las incidencias con el id [METAMAC-xxx].
 http://jira.arte-consultores.com/browse/METAMAC
 
+
+
+------------------------------------------------------------------------------
+Release 1.4.2
+------------------------------------------------------------------------------
+
+Notas de publicación - Metamac - Versión common-metadata - 1.4.2
+
+** Error
+    * [METAMAC-2044] - Corregir ubicación de los bean de configurationService
+    * [METAMAC-2094] - Añadir commit a los scripts de actualización desde la versión 1.4.0
+    * [METAMAC-2109] - Problemas actualización desde versión anterior instalada a nueva versión enviada
+    * [METAMAC-2116] - Revisar los environment.xml porque están puestas las properties mal
+    * [METAMAC-2117] - Los manuales tienen los ejemplos de environment.xml incorrecto
+    * [METAMAC-2120] - Corregir error en el valor de las propiedades del datasource en el fichero environment.xml
+    * [METAMAC-2215] - [BBDD] Las constraints no pueden ser DEFERRED porque no hay soporte para SQLServer
+    * [METAMAC-2225] - Corregir los mapeos de fecha de los special cases para poder permitir queries con fechas
+
+** Mejora
+    * [METAMAC-2073] - Revisar los CSS necesarios en las aplicaciones y eliminar lo obsoleto
+    * [METAMAC-2104] - Mover el RestCriteriaUtils del statistical-resources al rest-api para que otros proyectos puedan usarlo
+    * [METAMAC-2141] - Refactor de los WaitingAsyncCallback para homogeneizar el manejo de acciones asincronas con menos código
+
+** Nueva función
+    * [METAMAC-1976] - Posibilidad de setear en la WEB los datos por defecto de data
+
+** Tarea
+    * [METAMAC-2020] - Revisar los TODO y FIXME antes de dar por finalizado cada módulo
+    * [METAMAC-2082] - Cambio de los nombres de los war
+    * [METAMAC-2091] - [CORE] Añadir propiedades para la app web de recursos estadísticos y su API Interna.
+    * [METAMAC-2092] - Moviendo de paquete del WaitingAsyncCallback y añadiendo uno nuevo que gestiona errores
+    * [METAMAC-2110] - Mejorar el componente de external item de vista y busqueda
+    * [METAMAC-2131] - [CORE] Añadir método para comprobar que no faltan traducciones de parámetros ni mensajes de error
+    * [METAMAC-2133] - Cambiar driver a oracle 11 para pasar los tests en jenkins
+    * [METAMAC-2198] - [CORE] Desde la aplicación interna del GPE los recursos deben previsualizarse en el portal interno
+
 ------------------------------------------------------------------------------
 Release 1.4.1
 ------------------------------------------------------------------------------

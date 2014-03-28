@@ -35,6 +35,6 @@
         <metamac-rest-api.version>1.3.2</metamac-rest-api.version>
         <metamac-srm-rest-internal-api.version>1.0.1</metamac-srm-rest-internal-api.version>
         <metamac-rest-common.version>1.3.1</metamac-rest-common.version>
-        <metamac-notifications.version>1.0.0-SNAPSHOT</metamac-notifications.version>
+        <metamac-notifications.version>1.0.0</metamac-notifications.version>
     </properties>
 </project>
