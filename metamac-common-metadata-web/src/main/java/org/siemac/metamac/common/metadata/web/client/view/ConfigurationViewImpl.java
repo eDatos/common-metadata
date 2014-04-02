@@ -7,12 +7,11 @@ import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
-import org.siemac.metamac.common.metadata.web.client.utils.ConfigurationClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
+import org.siemac.metamac.common.metadata.web.client.utils.ConfigurationClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.ConfigurationMainFormLayout;
 import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchAgencyLinkItem;
-import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.web.common.client.utils.BooleanWebUtils;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
@@ -187,11 +186,11 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
         configurationDto.setContact(editionForm.getValueAsExternalItemDto(ConfigurationDS.CONTACT));
         configurationDto.setStatus(editionForm.getValueAsString(ConfigurationDS.STATUS) != null ? CommonMetadataStatusEnum.valueOf(editionForm.getValueAsString(ConfigurationDS.STATUS)) : null);
-        configurationDto.setLicense((InternationalStringDto) editionForm.getValue(ConfigurationDS.LICENSE));
-        configurationDto.setLegalActs((InternationalStringDto) editionForm.getValue(ConfigurationDS.LEGAL_ACTS));
-        configurationDto.setDataSharing((InternationalStringDto) editionForm.getValue(ConfigurationDS.DATA_SHARING));
-        configurationDto.setConfPolicy((InternationalStringDto) editionForm.getValue(ConfigurationDS.CONF_POLYCY));
-        configurationDto.setConfDataTreatment((InternationalStringDto) editionForm.getValue(ConfigurationDS.CONF_DATA_TREATMENT));
+        configurationDto.setLicense(editionForm.getValueAsInternationalStringDto(ConfigurationDS.LICENSE));
+        configurationDto.setLegalActs(editionForm.getValueAsInternationalStringDto(ConfigurationDS.LEGAL_ACTS));
+        configurationDto.setDataSharing(editionForm.getValueAsInternationalStringDto(ConfigurationDS.DATA_SHARING));
+        configurationDto.setConfPolicy(editionForm.getValueAsInternationalStringDto(ConfigurationDS.CONF_POLYCY));
+        configurationDto.setConfDataTreatment(editionForm.getValueAsInternationalStringDto(ConfigurationDS.CONF_DATA_TREATMENT));
         return configurationDto;
     }
 
