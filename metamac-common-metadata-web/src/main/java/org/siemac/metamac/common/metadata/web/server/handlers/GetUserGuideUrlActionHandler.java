@@ -5,7 +5,9 @@ import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConfigura
 import org.siemac.metamac.common.metadata.web.client.constants.CommonMetadataWebConstants;
 import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlAction;
 import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlResult;
+import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
+import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +25,12 @@ public class GetUserGuideUrlActionHandler extends SecurityActionHandler<GetUserG
 
     @Override
     public GetUserGuideUrlResult executeSecurityAction(GetUserGuideUrlAction action) throws ActionException {
-        String dataUrl = configurationService.getConfig().getString(CommonMetadataWebConstants.ENVIRONMENT_DATA_URL);
-        String userGuideFileName = configurationService.getConfig().getString(CommonMetadataConfigurationConstants.USER_GUIDE_FILE_NAME);
-        return new GetUserGuideUrlResult(dataUrl + "/common-metadata/common-metadata-web/docs/" + userGuideFileName);
+        try {
+            String docsPath = configurationService.retrieveDocsPath();
+            String userGuideFileName = configurationService.retrieveUserGuideFileName();
+            return new GetUserGuideUrlResult(docsPath + "/" + userGuideFileName);
+        } catch (MetamacException e) {
+            throw WebExceptionUtils.createMetamacWebException(e);
+        }
     }
 }

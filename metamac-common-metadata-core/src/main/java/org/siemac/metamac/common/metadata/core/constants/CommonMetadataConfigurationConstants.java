@@ -9,6 +9,7 @@ public class CommonMetadataConfigurationConstants extends ConfigurationConstants
     // Configuration
 
     public static final String USER_GUIDE_FILE_NAME = "metamac.common_metadata.user_guide.file_name";
+    public static final String DOCS_PATH            = "metamac.data.docs.common_metadata.path";
 
     // DataSource
 

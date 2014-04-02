@@ -6,4 +6,6 @@ import org.siemac.metamac.core.common.exception.MetamacException;
 public interface CommonMetadataConfigurationService extends ConfigurationService {
 
     public String retrieveUserGuideFileName() throws MetamacException;
+
+    public String retrieveDocsPath() throws MetamacException;
 }
