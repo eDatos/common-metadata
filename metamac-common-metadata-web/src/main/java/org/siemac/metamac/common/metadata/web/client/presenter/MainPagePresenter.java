@@ -3,7 +3,6 @@ package org.siemac.metamac.common.metadata.web.client.presenter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.siemac.metamac.common.metadata.web.client.enums.CommonMetadataToolStripButtonEnum;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.events.SelectMainSectionEvent;
 import org.siemac.metamac.common.metadata.web.client.widgets.events.SelectMainSectionEvent.SelectMainSectionEventHandler;
@@ -195,7 +194,7 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView,
 
             @Override
             public void onWaitSuccess(GetUserGuideUrlResult result) {
-                CommonWebUtils.showDownloadFileWindow(SharedTokens.FILE_DOWNLOAD_DIR_PATH, SharedTokens.PARAM_FILE_NAME, result.getUserGuideUrl());
+                CommonWebUtils.showDownloadFileWindow(SharedTokens.FILE_DOWNLOAD_DIR_PATH, SharedTokens.PARAM_DOC, result.getUserGuideUrl());
             }
         });
     }
