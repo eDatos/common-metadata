@@ -16,7 +16,6 @@ import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatus
 import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceimpl.utils.InvocationValidator;
 import org.siemac.metamac.core.common.exception.MetamacException;
-import org.siemac.metamac.core.common.exception.MetamacExceptionItem;
 import org.siemac.metamac.core.common.util.GeneratorUrnUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Override
     public Configuration findConfigurationById(ServiceContext ctx, Long id) throws MetamacException {
-        InvocationValidator.checkFindConfigurationById(id, null);
+        InvocationValidator.checkFindConfigurationById(id);
 
         // Service operation
         try {
@@ -54,7 +53,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Override
     public Configuration findConfigurationByUrn(ServiceContext ctx, String urn) throws MetamacException {
-        InvocationValidator.checkFindConfigurationByUrn(urn, null);
+        InvocationValidator.checkFindConfigurationByUrn(urn);
 
         // Prepare criteria
         List<ConditionalCriteria> conditions = criteriaFor(Configuration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties.urn()).eq(urn).distinctRoot()
@@ -75,14 +74,14 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Override
     public List<Configuration> findAllConfigurations(ServiceContext ctx) throws MetamacException {
-        InvocationValidator.checkFindAllConfigurations(null);
+        InvocationValidator.checkFindAllConfigurations();
         return configurationRepository.findAll();
     }
 
     @Override
     public List<Configuration> findConfigurationByCondition(ServiceContext ctx, List<ConditionalCriteria> conditions) throws MetamacException {
         // Validations
-        InvocationValidator.checkFindConfigurationByCondition(conditions, null);
+        InvocationValidator.checkFindConfigurationByCondition(conditions);
 
         // Initializations
         initCriteriaConditions(conditions, Configuration.class);
@@ -98,7 +97,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
         configuration.setExternallyPublished(false);
 
         // Validations
-        InvocationValidator.checkCreateConfiguration(configuration, null);
+        InvocationValidator.checkCreateConfiguration(configuration);
         validateConfigurationCodeUnique(ctx, configuration.getCode(), null);
 
         // Repository operation
@@ -108,7 +107,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
     @Override
     public Configuration updateConfiguration(ServiceContext ctx, Configuration configuration) throws MetamacException {
         // Validations
-        InvocationValidator.checkUpdateConfiguration(configuration, null);
+        InvocationValidator.checkUpdateConfiguration(configuration);
 
         // Repository operation
         return configurationRepository.save(configuration);
@@ -116,7 +115,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Override
     public void deleteConfiguration(ServiceContext ctx, Long configurationId) throws MetamacException {
-        InvocationValidator.checkDeleteConfiguration(configurationId, null);
+        InvocationValidator.checkDeleteConfiguration(configurationId);
 
         // Repository operation
         Configuration configuration = findConfigurationById(ctx, configurationId);
@@ -126,7 +125,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
     @Override
     public List<Configuration> updateConfigurationsStatus(ServiceContext ctx, List<Long> configurationIds, CommonMetadataStatusEnum status) throws MetamacException {
         // Validations
-        InvocationValidator.checkUpdateConfigurationsStatus(configurationIds, status, null);
+        InvocationValidator.checkUpdateConfigurationsStatus(configurationIds, status);
 
         // Update status
         List<Configuration> updatedCondifurations = new ArrayList<Configuration>();
@@ -148,7 +147,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Override
     public DataConfiguration findDataConfigurationById(ServiceContext ctx, Long id) throws MetamacException {
-        InvocationValidator.checkFindDataConfigurationById(id, null);
+        InvocationValidator.checkFindDataConfigurationById(id);
 
         try {
             return dataConfigurationRepository.findById(id);
@@ -159,7 +158,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Override
     public DataConfiguration findDataConfigurationByConfigurationKey(ServiceContext ctx, String dataConfigurationKey) throws MetamacException {
-        InvocationValidator.checkFindDataConfigurationByConfigurationKey(dataConfigurationKey, null);
+        InvocationValidator.checkFindDataConfigurationByConfigurationKey(dataConfigurationKey);
 
         // Prepare criteria
         List<ConditionalCriteria> conditions = criteriaFor(DataConfiguration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.configurationKey())
@@ -181,7 +180,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
     @Override
     public DataConfiguration updateDataConfiguration(ServiceContext ctx, DataConfiguration dataConfiguration) throws MetamacException {
         // Validations
-        InvocationValidator.checkUpdateDataConfiguration(dataConfiguration, null);
+        InvocationValidator.checkUpdateDataConfiguration(dataConfiguration);
 
         // Repository operation
         return dataConfigurationRepository.save(dataConfiguration);
@@ -189,7 +188,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Override
     public List<DataConfiguration> findDataConfigurationsOfSystemProperties(ServiceContext ctx) throws MetamacException {
-        InvocationValidator.checkFindDataConfigurationsOfSystemProperties((List<MetamacExceptionItem>) null);
+        InvocationValidator.checkFindDataConfigurationsOfSystemProperties();
 
         // Prepare criteria
         List<ConditionalCriteria> conditions = criteriaFor(DataConfiguration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.systemProperty())
@@ -203,7 +202,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Override
     public List<DataConfiguration> findDataConfigurationsOfDefaultValues(ServiceContext ctx) throws MetamacException {
-        InvocationValidator.checkFindDataConfigurationsOfDefaultValues((List<MetamacExceptionItem>) null);
+        InvocationValidator.checkFindDataConfigurationsOfDefaultValues();
 
         // Prepare criteria
         List<ConditionalCriteria> conditions = criteriaFor(DataConfiguration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.systemProperty())

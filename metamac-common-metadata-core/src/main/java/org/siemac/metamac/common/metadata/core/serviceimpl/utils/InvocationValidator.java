@@ -17,20 +17,16 @@ public class InvocationValidator {
     // ------------------------------------------------------------------------------------
     // CONFIGURATIONS (metadata)
     // ------------------------------------------------------------------------------------
-    public static void checkFindConfigurationById(Long id, List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkFindConfigurationById(Long id) throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         CommonMetadataValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
 
-    public static void checkFindConfigurationByUrn(String urn, List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkFindConfigurationByUrn(String urn) throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         CommonMetadataValidationUtils.checkParameterRequired(urn, ServiceExceptionParameters.URN, exceptions);
 
@@ -38,10 +34,8 @@ public class InvocationValidator {
 
     }
 
-    public static void checkFindAllConfigurations(List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkFindAllConfigurations() throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         // nothing to validate
 
@@ -49,10 +43,8 @@ public class InvocationValidator {
 
     }
 
-    public static void checkCreateConfiguration(Configuration configuration, List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkCreateConfiguration(Configuration configuration) throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         checkConfiguration(configuration, exceptions);
         CommonMetadataValidationUtils.checkMetadataEmpty(configuration.getId(), ServiceExceptionParameters.CONFIGURATION_ID, exceptions);
@@ -60,10 +52,8 @@ public class InvocationValidator {
         ExceptionUtils.throwIfException(exceptions);
     }
 
-    public static void checkUpdateConfiguration(Configuration configuration, List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkUpdateConfiguration(Configuration configuration) throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         checkConfiguration(configuration, exceptions);
         CommonMetadataValidationUtils.checkMetadataRequired(configuration.getId(), ServiceExceptionParameters.CONFIGURATION_ID, exceptions);
@@ -71,20 +61,16 @@ public class InvocationValidator {
         ExceptionUtils.throwIfException(exceptions);
     }
 
-    public static void checkDeleteConfiguration(Long id, List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkDeleteConfiguration(Long id) throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         CommonMetadataValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
 
-    public static void checkFindConfigurationByCondition(List<ConditionalCriteria> conditions, List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkFindConfigurationByCondition(List<ConditionalCriteria> conditions) throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         // nothing to validate
 
@@ -92,10 +78,8 @@ public class InvocationValidator {
 
     }
 
-    public static void checkUpdateConfigurationsStatus(List<Long> configurationIds, CommonMetadataStatusEnum status, List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkUpdateConfigurationsStatus(List<Long> configurationIds, CommonMetadataStatusEnum status) throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         CommonMetadataValidationUtils.checkParameterRequired(configurationIds, ServiceExceptionParameters.CONFIGURATION_IDS, exceptions);
         CommonMetadataValidationUtils.checkParameterRequired(status, ServiceExceptionParameters.STATUS, exceptions);
@@ -108,30 +92,24 @@ public class InvocationValidator {
     // DATA CONFIGURATIONS
     // ------------------------------------------------------------------------------------
 
-    public static void checkFindDataConfigurationById(Long id, List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkFindDataConfigurationById(Long id) throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         CommonMetadataValidationUtils.checkParameterRequired(id, ServiceExceptionParameters.ID, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
 
-    public static void checkFindDataConfigurationByConfigurationKey(String configurationKey, List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkFindDataConfigurationByConfigurationKey(String configurationKey) throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         CommonMetadataValidationUtils.checkParameterRequired(configurationKey, ServiceExceptionParameters.DATA_CONFIGURATION_KEY, exceptions);
 
         ExceptionUtils.throwIfException(exceptions);
     }
 
-    public static void checkUpdateDataConfiguration(DataConfiguration dataConfiguration, List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkUpdateDataConfiguration(DataConfiguration dataConfiguration) throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         checkDataConfiguration(dataConfiguration, exceptions);
         CommonMetadataValidationUtils.checkMetadataRequired(dataConfiguration.getId(), ServiceExceptionParameters.DATA_CONFIGURATION_ID, exceptions);
@@ -140,20 +118,16 @@ public class InvocationValidator {
 
     }
 
-    public static void checkFindDataConfigurationsOfSystemProperties(List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkFindDataConfigurationsOfSystemProperties() throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         // nothing
 
         ExceptionUtils.throwIfException(exceptions);
     }
 
-    public static void checkFindDataConfigurationsOfDefaultValues(List<MetamacExceptionItem> exceptions) throws MetamacException {
-        if (exceptions == null) {
-            exceptions = new ArrayList<MetamacExceptionItem>();
-        }
+    public static void checkFindDataConfigurationsOfDefaultValues() throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
 
         // nothing
 
