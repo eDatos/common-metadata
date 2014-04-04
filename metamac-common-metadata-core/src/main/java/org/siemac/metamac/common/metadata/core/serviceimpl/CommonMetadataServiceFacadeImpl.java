@@ -45,9 +45,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         Configuration configuration = getCommonMetadataService().findConfigurationById(ctx, id);
 
         // Transform to Dto
-        ConfigurationDto configurationDto = do2DtoMapper.configurationDoToDto(configuration);
-
-        return configurationDto;
+       return do2DtoMapper.configurationDoToDto(configuration);
     }
 
     @Override
@@ -59,9 +57,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         Configuration configuration = getCommonMetadataService().findConfigurationByUrn(ctx, urn);
 
         // Transform to Dto
-        ConfigurationDto configurationDto = do2DtoMapper.configurationDoToDto(configuration);
-
-        return configurationDto;
+        return do2DtoMapper.configurationDoToDto(configuration);
     }
 
     @Override
@@ -73,9 +69,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         List<Configuration> configurations = getCommonMetadataService().findAllConfigurations(ctx);
 
         // Transform to Dto
-        List<ConfigurationDto> configurationDtos = configurationsListDo2Dto(configurations);
-
-        return configurationDtos;
+        return configurationsListDo2Dto(configurations);
     }
 
     @Override
@@ -90,10 +84,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         configuration = getCommonMetadataService().createConfiguration(ctx, configuration);
 
         // Transform to Dto
-        configurationDto = do2DtoMapper.configurationDoToDto(configuration);
-
-        // Return
-        return configurationDto;
+        return do2DtoMapper.configurationDoToDto(configuration);
     }
 
     @Override
@@ -108,10 +99,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         configuration = getCommonMetadataService().updateConfiguration(ctx, configuration);
 
         // Transform to Dto
-        configurationDto = do2DtoMapper.configurationDoToDto(configuration);
-
-        // Return
-        return configurationDto;
+        return do2DtoMapper.configurationDoToDto(configuration);
     }
 
     @Override
@@ -132,10 +120,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         List<Configuration> configurations = getCommonMetadataService().updateConfigurationsStatus(ctx, configurationIds, status);
 
         // Transform to Dto
-        List<ConfigurationDto> configurationDtos = configurationsListDo2Dto(configurations);
-
-        return configurationDtos;
-
+        return configurationsListDo2Dto(configurations);
     }
 
     @Override
@@ -149,9 +134,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         configuration = getCommonMetadataService().updateConfiguration(ctx, configuration);
 
         // Transform to Dto
-        ConfigurationDto configurationDto = do2DtoMapper.configurationDoToDto(configuration);
-
-        return configurationDto;
+        return do2DtoMapper.configurationDoToDto(configuration);
     }
 
     // ------------------------------------------------------------------------------------
@@ -167,9 +150,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         DataConfiguration dataConfiguration = getCommonMetadataService().findDataConfigurationById(ctx, id);
 
         // Transform to Dto
-        DataConfigurationDto configurationDto = do2DtoMapper.dataConfigurationDoToDto(dataConfiguration);
-
-        return configurationDto;
+        return do2DtoMapper.dataConfigurationDoToDto(dataConfiguration);
     }
 
     @Override
@@ -181,9 +162,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         DataConfiguration dataConfiguration = getCommonMetadataService().findDataConfigurationByConfigurationKey(ctx, configurationKey);
 
         // Transform to Dto
-        DataConfigurationDto configurationDto = do2DtoMapper.dataConfigurationDoToDto(dataConfiguration);
-
-        return configurationDto;
+        return do2DtoMapper.dataConfigurationDoToDto(dataConfiguration);
     }
 
     @Override
@@ -195,9 +174,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         List<DataConfiguration> configurations = getCommonMetadataService().findDataConfigurationsOfSystemProperties(ctx);
 
         // Transform to Dto
-        List<DataConfigurationDto> configurationDtos = dataConfigurationsListDo2Dto(configurations);
-
-        return configurationDtos;
+        return dataConfigurationsListDo2Dto(configurations);
     }
 
     @Override
@@ -209,9 +186,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         List<DataConfiguration> configurations = getCommonMetadataService().findDataConfigurationsOfDefaultValues(ctx);
 
         // Transform to Dto
-        List<DataConfigurationDto> configurationDtos = dataConfigurationsListDo2Dto(configurations);
-
-        return configurationDtos;
+        return dataConfigurationsListDo2Dto(configurations);
     }
 
     @Override
@@ -230,10 +205,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         dataConfiguration = getCommonMetadataService().updateDataConfiguration(ctx, dataConfiguration);
 
         // Transform to Dto
-        dataConfigurationDto = do2DtoMapper.dataConfigurationDoToDto(dataConfiguration);
-
-        // Return
-        return dataConfigurationDto;
+        return do2DtoMapper.dataConfigurationDoToDto(dataConfiguration);
     }
 
     // --------------------------------------------------------------------------------
