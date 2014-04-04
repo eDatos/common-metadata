@@ -8,8 +8,6 @@ public interface NoticesRestInternalService {
 
     public static final String BEAN_ID = "noticesRestInternalService";
 
-    Notice retrieveNotificationByUrn(ServiceContext ctx, String notificationUrn) throws MetamacWebException;
-
     void createNotification(ServiceContext ctx, Notice notice) throws MetamacWebException;
 
 }

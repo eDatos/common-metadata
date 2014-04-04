@@ -22,15 +22,6 @@ public class NoticesRestInternalFacadeImpl implements NoticesRestInternalService
     // ---------------------------------------------------------------------------------
 
     @Override
-    public Notice retrieveNotificationByUrn(ServiceContext ctx, String notificationUrn) throws MetamacWebException {
-        try {
-            return restApiLocator.getNotificationsRestInternalFacadeV10().retrieveNoticeByUrn(notificationUrn);
-        } catch (Exception e) {
-            throw manageNotificationsInternalRestException(ctx, e);
-        }
-    }
-
-    @Override
     public void createNotification(ServiceContext ctx, Notice notification) throws MetamacWebException {
         try {
             restApiLocator.getNotificationsRestInternalFacadeV10().createNotice(notification);
