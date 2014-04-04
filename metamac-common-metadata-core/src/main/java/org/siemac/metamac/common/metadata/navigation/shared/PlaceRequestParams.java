@@ -1,6 +1,9 @@
 package org.siemac.metamac.common.metadata.navigation.shared;
 
-public class PlaceRequestParams {
+public final class PlaceRequestParams {
 
-    public static final String commonMetadataParamId = "id";
+    private PlaceRequestParams() {
+    }
+
+    public static final String COMMON_METADATA_PARAM_ID = "id";
 }

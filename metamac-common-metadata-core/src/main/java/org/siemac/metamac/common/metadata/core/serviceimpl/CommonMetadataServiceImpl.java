@@ -17,6 +17,8 @@ import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceimpl.utils.InvocationValidator;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.util.GeneratorUrnUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,8 @@ import org.springframework.stereotype.Service;
  */
 @Service("commonMetadataService")
 public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
+
+    private static final Logger         LOG = LoggerFactory.getLogger(CommonMetadataServiceImpl.class);
 
     @Autowired
     private ConfigurationRepository     configurationRepository;
@@ -47,6 +51,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
         try {
             return configurationRepository.findById(id);
         } catch (Exception e) {
+            LOG.error("findConfigurationById: id not found", e);
             throw new MetamacException(ServiceExceptionType.CONFIGURATION_NOT_FOUND, id);
         }
     }
@@ -152,6 +157,7 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
         try {
             return dataConfigurationRepository.findById(id);
         } catch (Exception e) {
+            LOG.error("findDataConfigurationById: id not found", e);
             throw new MetamacException(ServiceExceptionType.DATA_CONFIGURATION_NOT_FOUND, id);
         }
     }
@@ -220,24 +226,34 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     private void validateConfigurationCodeUnique(ServiceContext ctx, String code, Long actualId) throws MetamacException {
         List<ConditionalCriteria> condition = criteriaFor(Configuration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties.code()).ignoreCaseEq(code).build();
-
         List<Configuration> configurations = findConfigurationByCondition(ctx, condition);
-
         if (configurations != null) {
-            if (actualId == null) {
-                if (configurations.size() == 1) {
-                    throw new MetamacException(ServiceExceptionType.CONFIGURATION_ALREADY_EXIST_CODE_DUPLICATED, code);
-                } else if (configurations.size() > 1) {
-                    throw new MetamacException(ServiceExceptionType.UNKNOWN, "More than one configuration with code " + code);
-                }
-            } else {
-                if (configurations.size() == 2) {
-                    throw new MetamacException(ServiceExceptionType.CONFIGURATION_ALREADY_EXIST_CODE_DUPLICATED, code);
-                } else if (configurations.size() > 2) {
-                    throw new MetamacException(ServiceExceptionType.UNKNOWN, "More than one configuration with code " + code);
-                }
+            throwErrorForDuplicatedConfigurationCode(code, actualId, configurations);
+        }
+    }
+
+    private void throwErrorForDuplicatedConfigurationCode(String code, Long actualId, List<Configuration> configurations) throws MetamacException {
+        if (actualId == null) {
+            if (configurations.size() == 1) {
+                throwErrorConfigurationAlreadyExistsCodeDuplicated(code);
+            } else if (configurations.size() > 1) {
+                throwErrorUnknownMoreThanOneCofigurationWhithSameCodeInDatabase(code);
+            }
+        } else {
+            if (configurations.size() == 2) {
+                throwErrorConfigurationAlreadyExistsCodeDuplicated(code);
+            } else if (configurations.size() > 2) {
+                throwErrorUnknownMoreThanOneCofigurationWhithSameCodeInDatabase(code);
             }
         }
+    }
+
+    private void throwErrorUnknownMoreThanOneCofigurationWhithSameCodeInDatabase(String code) throws MetamacException {
+        throw new MetamacException(ServiceExceptionType.UNKNOWN, "More than one configuration with code " + code);
+    }
+
+    private void throwErrorConfigurationAlreadyExistsCodeDuplicated(String code) throws MetamacException {
+        throw new MetamacException(ServiceExceptionType.CONFIGURATION_ALREADY_EXIST_CODE_DUPLICATED, code);
     }
 
     // ----------------------------------------------------------------------

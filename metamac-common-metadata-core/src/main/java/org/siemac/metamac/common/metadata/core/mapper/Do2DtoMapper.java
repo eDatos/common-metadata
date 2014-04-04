@@ -9,8 +9,8 @@ import org.siemac.metamac.core.common.mapper.BaseDo2DtoMapper;
 
 public interface Do2DtoMapper extends BaseDo2DtoMapper {
 
-    public ConfigurationDto configurationDoToDto(Configuration configuration) throws MetamacException;
+    ConfigurationDto configurationDoToDto(Configuration configuration) throws MetamacException;
 
-    public DataConfigurationDto dataConfigurationDoToDto(DataConfiguration dataConfiguration) throws MetamacException;
+    DataConfigurationDto dataConfigurationDoToDto(DataConfiguration dataConfiguration) throws MetamacException;
 
 }
