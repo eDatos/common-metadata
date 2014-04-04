@@ -18,17 +18,17 @@ public class PlaceRequestUtils extends CommonPlaceRequestUtils {
     // ---------------------------------------------------------------------------
 
     public static String getConfigurationParamFromUrl(PlaceManager placeManager) {
-        return getParamFromUrl(placeManager, NameTokens.commonMetadataPage, PlaceRequestParams.commonMetadataParamId);
+        return getParamFromUrl(placeManager, NameTokens.COMMON_METADATA_PAGE, PlaceRequestParams.COMMON_METADATA_PARAM_ID);
     }
 
     public static PlaceRequest buildRelativeConfigurationPlaceRequest(String configurationUrn) {
-        PlaceRequest placeRequest = new PlaceRequest(NameTokens.commonMetadataPage).with(PlaceRequestParams.commonMetadataParamId, UrnUtils.removePrefix(configurationUrn));
+        PlaceRequest placeRequest = new PlaceRequest(NameTokens.COMMON_METADATA_PAGE).with(PlaceRequestParams.COMMON_METADATA_PARAM_ID, UrnUtils.removePrefix(configurationUrn));
         return placeRequest;
     }
 
     public static List<PlaceRequest> buildAbsoluteConfigurationsPlaceRequest() {
         List<PlaceRequest> placeRequests = new ArrayList<PlaceRequest>();
-        PlaceRequest configurationsPlace = new PlaceRequest(NameTokens.commonMetadataListPage);
+        PlaceRequest configurationsPlace = new PlaceRequest(NameTokens.COMMON_METADATA_LIST_PAGE);
         placeRequests.add(configurationsPlace);
         return placeRequests;
     }
@@ -51,14 +51,14 @@ public class PlaceRequestUtils extends CommonPlaceRequestUtils {
 
     public static List<PlaceRequest> buildAbsoluteAppsConfSystemPropertiesPlaceRequest() {
         List<PlaceRequest> placeRequests = new ArrayList<PlaceRequest>();
-        PlaceRequest configurationsPlace = new PlaceRequest(NameTokens.systemPropertiesListPage);;
+        PlaceRequest configurationsPlace = new PlaceRequest(NameTokens.SYSTEM_PROPERTIES_LIST_PAGE);;
         placeRequests.add(configurationsPlace);
         return placeRequests;
     }
 
     public static List<PlaceRequest> buildAbsoluteAppsConfDefaultValuesPlaceRequest() {
         List<PlaceRequest> placeRequests = new ArrayList<PlaceRequest>();
-        PlaceRequest configurationsPlace = new PlaceRequest(NameTokens.defaultValuesListPage);;
+        PlaceRequest configurationsPlace = new PlaceRequest(NameTokens.DEFAULT_VALUES_LIST_PAGE);;
         placeRequests.add(configurationsPlace);
         return placeRequests;
     }

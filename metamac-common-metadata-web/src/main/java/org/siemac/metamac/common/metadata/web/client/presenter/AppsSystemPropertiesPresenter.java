@@ -38,10 +38,10 @@ public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertie
         implements
             AppsDataConfigurationsUiHandlers {
 
-    private DispatchAsync dispatcher;
+    private final DispatchAsync dispatcher;
 
     @ProxyCodeSplit
-    @NameToken(NameTokens.systemPropertiesListPage)
+    @NameToken(NameTokens.SYSTEM_PROPERTIES_LIST_PAGE)
     @UseGatekeeper(RoleLoggedInGatekeeper.class)
     public interface AppsSystemPropertiesProxy extends Proxy<AppsSystemPropertiesPresenter>, Place {
     }

@@ -48,7 +48,7 @@ public class ClientModule extends AbstractPresenterModule {
         bind(RoleLoggedInGatekeeper.class).in(Singleton.class);
 
         // Constants
-        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.commonMetadataListPage);
+        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.COMMON_METADATA_LIST_PAGE);
 
         // Presenters
         bindPresenter(MainPagePresenter.class, MainPagePresenter.MainPageView.class, MainPageViewImpl.class, MainPagePresenter.MainPageProxy.class);

@@ -56,7 +56,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
     private final PlaceManager  placeManager;
 
     @ProxyCodeSplit
-    @NameToken(NameTokens.commonMetadataPage)
+    @NameToken(NameTokens.COMMON_METADATA_PAGE)
     @UseGatekeeper(LoggedInGatekeeper.class)
     public interface ConfigurationProxy extends Proxy<ConfigurationPresenter>, Place {
 
@@ -74,6 +74,7 @@ public class ConfigurationPresenter extends Presenter<ConfigurationPresenter.Con
         // External resources
 
         void setAgencySchemes(ExternalItemsResult result);
+
         void setAgencies(ExternalItemsResult result);
     }
 

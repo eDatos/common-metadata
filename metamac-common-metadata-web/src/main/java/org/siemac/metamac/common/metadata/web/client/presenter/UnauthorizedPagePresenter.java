@@ -3,8 +3,8 @@ package org.siemac.metamac.common.metadata.web.client.presenter;
 import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.UnauthorizedPageUiHandlers;
 
-import com.google.web.bindery.event.shared.EventBus;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
@@ -19,7 +19,7 @@ import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 public class UnauthorizedPagePresenter extends Presenter<UnauthorizedPagePresenter.UnauthorizedPageView, UnauthorizedPagePresenter.UnauthorizedPageProxy> implements UnauthorizedPageUiHandlers {
 
     @ProxyCodeSplit
-    @NameToken(NameTokens.unauthorizedAccessPage)
+    @NameToken(NameTokens.UNAUTHORIZED_ACCESS_PAGE)
     @NoGatekeeper
     public interface UnauthorizedPageProxy extends Proxy<UnauthorizedPagePresenter>, Place {
 

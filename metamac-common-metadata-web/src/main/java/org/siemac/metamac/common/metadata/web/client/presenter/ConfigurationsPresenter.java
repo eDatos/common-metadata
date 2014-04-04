@@ -64,7 +64,7 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     private final PlaceManager  placeManager;
 
     @ProxyCodeSplit
-    @NameToken(NameTokens.commonMetadataListPage)
+    @NameToken(NameTokens.COMMON_METADATA_LIST_PAGE)
     @UseGatekeeper(LoggedInGatekeeper.class)
     public interface ConfigurationsProxy extends Proxy<ConfigurationsPresenter>, Place {
     }
@@ -80,12 +80,15 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     public interface ConfigurationsView extends View, HasUiHandlers<ConfigurationsUiHandlers> {
 
         void setConfigurations(List<ConfigurationDto> configurations);
+
         void deselectConfiguration();
+
         void hideConfiguration();
 
         // External resources
 
         void setAgencySchemes(ExternalItemsResult result);
+
         void setAgencies(ExternalItemsResult result);
     }
 
@@ -169,6 +172,7 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
                 super.onWaitFailure(caught);
                 retrieveConfigurations();
             }
+
             @Override
             public void onWaitSuccess(UpdateConfigurationsStatusResult result) {
                 ShowMessageEvent.fireSuccessMessage(ConfigurationsPresenter.this, CommonMetadataWeb.getMessages().configurationStatusUpdated());
@@ -227,9 +231,9 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
     public void goToConfiguration(String urn) {
         if (!StringUtils.isBlank(urn)) {
             PlaceRequest currentPlaceRequest = placeManager.getCurrentPlaceRequest();
-            if (NameTokens.commonMetadataListPage.equals(currentPlaceRequest.getNameToken())) {
+            if (NameTokens.COMMON_METADATA_LIST_PAGE.equals(currentPlaceRequest.getNameToken())) {
                 placeManager.revealRelativePlace(PlaceRequestUtils.buildRelativeConfigurationPlaceRequest(urn));
-            } else if (NameTokens.commonMetadataPage.equals(currentPlaceRequest.getNameToken())) {
+            } else if (NameTokens.COMMON_METADATA_PAGE.equals(currentPlaceRequest.getNameToken())) {
                 placeManager.revealRelativePlace(PlaceRequestUtils.buildRelativeConfigurationPlaceRequest(urn), -1);
             }
         }

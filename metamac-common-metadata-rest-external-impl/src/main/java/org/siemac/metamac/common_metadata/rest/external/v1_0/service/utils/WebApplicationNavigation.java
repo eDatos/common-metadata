@@ -17,8 +17,8 @@ public class WebApplicationNavigation {
     private final UriTemplate configurationTemplate;
 
     public WebApplicationNavigation(String webApplicationPath) {
-        configurationTemplate = new UriTemplate(webApplicationPath + SEPARATOR + ANCHOR + NameTokens.commonMetadataListPage + SEPARATOR + NameTokens.commonMetadataPage + ";"
-                + PlaceRequestParams.commonMetadataParamId + "=" + "{" + RESOURCE_ID_PARAMETER + "}");
+        configurationTemplate = new UriTemplate(webApplicationPath + SEPARATOR + ANCHOR + NameTokens.COMMON_METADATA_LIST_PAGE + SEPARATOR + NameTokens.COMMON_METADATA_PAGE + ";"
+                + PlaceRequestParams.COMMON_METADATA_PARAM_ID + "=" + "{" + RESOURCE_ID_PARAMETER + "}");
     }
 
     public String buildConfigurationUrl(Configuration configuration) {

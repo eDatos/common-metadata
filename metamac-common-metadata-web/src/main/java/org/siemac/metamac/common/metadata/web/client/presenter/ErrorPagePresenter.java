@@ -3,8 +3,8 @@ package org.siemac.metamac.common.metadata.web.client.presenter;
 import org.siemac.metamac.common.metadata.navigation.shared.NameTokens;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ErrorPageUiHandlers;
 
-import com.google.web.bindery.event.shared.EventBus;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
@@ -19,7 +19,7 @@ import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 public class ErrorPagePresenter extends Presenter<ErrorPagePresenter.ErrorPageView, ErrorPagePresenter.ErrorPageProxy> implements ErrorPageUiHandlers {
 
     @ProxyCodeSplit
-    @NameToken(NameTokens.errorPage)
+    @NameToken(NameTokens.ERROR_PAGE)
     @NoGatekeeper
     public interface ErrorPageProxy extends Proxy<ErrorPagePresenter>, Place {
 

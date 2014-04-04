@@ -44,10 +44,10 @@ import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 
 public class AppsDefaultValuesPresenter extends Presenter<AppsDefaultValuesPresenter.AppsDefaultValuesView, AppsDefaultValuesPresenter.AppsDefaultValuesProxy> implements AppsDefaultValuesUiHandlers {
 
-    private DispatchAsync dispatcher;
+    private final DispatchAsync dispatcher;
 
     @ProxyCodeSplit
-    @NameToken(NameTokens.defaultValuesListPage)
+    @NameToken(NameTokens.DEFAULT_VALUES_LIST_PAGE)
     @UseGatekeeper(LoggedInGatekeeper.class)
     public interface AppsDefaultValuesProxy extends Proxy<AppsDefaultValuesPresenter>, Place {
     }
