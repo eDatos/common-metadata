@@ -37,16 +37,16 @@ import com.gwtplatform.dispatch.shared.ActionException;
 public class PublishConfigurationExternallyActionHandler extends SecurityActionHandler<PublishConfigurationExternallyAction, PublishConfigurationExternallyResult> {
 
     @Autowired
-    private CommonMetadataServiceFacade      commonMetadataServiceFacade;
+    private CommonMetadataServiceFacade commonMetadataServiceFacade;
 
     @Autowired
-    private NoticesRestInternalService notificationsRestInternalService;
+    private NoticesRestInternalService  notificationsRestInternalService;
 
     @Autowired
-    private SrmRestInternalFacade            srmRestInternalFacade;
+    private SrmRestInternalFacade       srmRestInternalFacade;
 
     @Autowired
-    private WebTranslateExceptions           webTranslateExceptions;
+    private WebTranslateExceptions      webTranslateExceptions;
 
     public PublishConfigurationExternallyActionHandler() {
         super(PublishConfigurationExternallyAction.class);
