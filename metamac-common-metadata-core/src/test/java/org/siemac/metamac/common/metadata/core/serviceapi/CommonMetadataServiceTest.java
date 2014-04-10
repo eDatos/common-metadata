@@ -122,13 +122,12 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
 
     @Test
     @Transactional
-    public void testCreateConfigurationRequiredStatus() throws Exception {
-        expectedMetamacException(new MetamacException(ServiceExceptionType.METADATA_REQUIRED, ServiceExceptionParameters.CONFIGURATION_STATUS));
-
+    public void testCreateConfigurationInitializeStatus() throws Exception {
         Configuration configuration = CommonMetadataDoMocks.createEnableConfiguration();
         configuration.setStatus(null);
 
-        commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
+        configuration = commonMetadataService.createConfiguration(getServiceContextAdministrador(), configuration);
+        assertEquals(CommonMetadataStatusEnum.ENABLED, configuration.getStatus());
     }
 
     @Test

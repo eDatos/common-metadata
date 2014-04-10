@@ -88,7 +88,8 @@ public class Dto2DoMapperImpl extends BaseDto2DoMapperImpl implements Dto2DoMapp
         target.setContact(externalItemDtoToDo(source.getContact(), target.getContact(), ServiceExceptionParameters.CONFIGURATION_CONTACT));
 
         target.setExternallyPublished(source.isExternallyPublished());
-        target.setStatus(source.getStatus());
+
+        // STATUS: can not be mapped. We have to use a specific service for this purpose.
 
         // Optimistic locking: Update "update date" attribute to force update of the root entity in order to increase attribute "version"
         target.setUpdateDate(new DateTime());
