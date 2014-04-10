@@ -12,8 +12,8 @@ import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatus
 import org.siemac.metamac.common_metadata.rest.external.RestExternalConstants;
 import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.service.utils.WebApplicationNavigation;
-import org.siemac.metamac.core.common.constants.shared.ConfigurationConstants;
 import org.siemac.metamac.core.common.ent.domain.ExternalItem;
+import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.rest.common.v1_0.domain.ChildLinks;
 import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
 import org.siemac.metamac.rest.common.v1_0.domain.LocalisedString;
@@ -25,7 +25,6 @@ import org.siemac.metamac.rest.common_metadata.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.utils.RestUtils;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -197,30 +196,23 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         return target;
     }
 
-    private void initEndpoints() {
+    private void initEndpoints() throws MetamacException {
 
         // Common metadata External Api v1.0
-        String commonMetadataApiExternalEndpoint = readProperty(ConfigurationConstants.ENDPOINT_COMMON_METADATA_EXTERNAL_API);
+        String commonMetadataApiExternalEndpoint = configurationService.retrieveCommonMetadataExternalApiUrlBase();
         commonMetadataApiExternalEndpointV10 = RestUtils.createLink(commonMetadataApiExternalEndpoint, RestExternalConstants.API_VERSION_1_0);
 
         // Common metadata internal web application
-        commonMetadataInternalWebApplication = readProperty(ConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
+        commonMetadataInternalWebApplication = configurationService.retrieveCommonMetadataInternalWebApplicationUrlBase();
+
         commonMetadataInternalWebApplication = StringUtils.removeEnd(commonMetadataInternalWebApplication, "/");
 
         // Srm External Api (do not add api version! it is already stored in database)
-        srmApiExternalEndpoint = readProperty(ConfigurationConstants.ENDPOINT_SRM_EXTERNAL_API);
+        srmApiExternalEndpoint = configurationService.retrieveSrmExternalApiUrlBase();
         srmApiExternalEndpoint = StringUtils.removeEnd(srmApiExternalEndpoint, "/");
 
         // Srm internal web application
-        srmInternalWebApplication = readProperty(ConfigurationConstants.WEB_APPLICATION_SRM_INTERNAL_WEB);
+        srmInternalWebApplication = configurationService.retrieveSrmInternalWebApplicationUrlBase();
         srmInternalWebApplication = StringUtils.removeEnd(srmInternalWebApplication, "/");
-    }
-
-    private String readProperty(String property) {
-        String propertyValue = configurationService.getProperty(property);
-        if (propertyValue == null) {
-            throw new BeanCreationException("Property not found: " + property);
-        }
-        return propertyValue;
     }
 }
