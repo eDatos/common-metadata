@@ -31,7 +31,6 @@ import org.siemac.metamac.common_metadata.rest.external.v1_0.mockito.FindConfigu
 import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataCoreMocks;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataRestAsserts;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.utils.CommonMetadataRestMocks;
-import org.siemac.metamac.core.common.constants.shared.ConfigurationConstants;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.util.ApplicationContextProvider;
 import org.siemac.metamac.rest.common.test.MetamacRestBaseTest;
@@ -93,9 +92,9 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
 
         // Configuration
         CommonMetadataConfigurationService configurationService = applicationContext.getBean(CommonMetadataConfigurationService.class);
-        commonMetadataInternalWebApplication = configurationService.getProperty(ConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
-        srmInternalWebApplication = configurationService.getProperty(ConfigurationConstants.WEB_APPLICATION_SRM_INTERNAL_WEB);
-        srmApiExternalEndpoint = configurationService.getProperty(ConfigurationConstants.ENDPOINT_SRM_EXTERNAL_API);
+        commonMetadataInternalWebApplication = configurationService.retrieveCommonMetadataInternalWebApplicationUrlBase();
+        srmInternalWebApplication = configurationService.retrieveSrmInternalWebApplicationUrlBase();
+        srmApiExternalEndpoint = configurationService.retrieveSrmExternalApiUrlBase();
 
         // Mockito
         commonMetadataRestMocks = new CommonMetadataRestMocks(commonMetadataApiExternalEndpointV10, commonMetadataInternalWebApplication, srmApiExternalEndpoint, srmInternalWebApplication);
