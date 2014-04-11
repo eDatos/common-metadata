@@ -15,7 +15,6 @@ import org.siemac.metamac.common.metadata.web.server.rest.utils.RestExceptionUti
 import org.siemac.metamac.common_metadata.rest.external.v1_0.mapper.Do2RestExternalMapperV10;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.lang.LocaleUtil;
-import org.siemac.metamac.core.common.lang.shared.LocaleConstants;
 import org.siemac.metamac.rest.notices.v1_0.domain.Message;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
 import org.siemac.metamac.rest.notices.v1_0.domain.ResourceInternal;
@@ -52,7 +51,8 @@ public class NoticesRestInternalFacadeImpl implements NoticesRestInternalService
 
     @Override
     public void createNotificationForPublishExternallyConfiguration(ServiceContext ctx, ConfigurationDto configurationDto) throws MetamacWebException {
-        ResourceInternal noticeResource = configurationDtoToResourceInternal(ctx, configurationDto);
+        ResourceInternal resource = configurationDtoToResourceInternal(ctx, configurationDto);
+        ResourceInternal[] noticeResource = {resource};
         MetamacApplicationsEnum[] applications = {MetamacApplicationsEnum.GESTOR_RECURSOS_ESTADISTICOS};
         MetamacRolesEnum[] roles = {MetamacRolesEnum.TECNICO_APOYO_PRODUCCION, MetamacRolesEnum.TECNICO_APOYO_PRODUCCION, MetamacRolesEnum.JEFE_PRODUCCION};
 
@@ -68,17 +68,10 @@ public class NoticesRestInternalFacadeImpl implements NoticesRestInternalService
         createNotification(ctx, ServiceNoticeAction.CONFIGURATION_UPDATE_STATUS, ServiceNoticeMessage.CONFIGURATION_UPDATE_STATUS_OK, noticeResources, applications, roles);
     }
 
-    private void createNotification(ServiceContext ctx, String actionCode, String localisedMessage, ResourceInternal resource, MetamacApplicationsEnum[] applications, MetamacRolesEnum[] roles)
-            throws MetamacWebException {
-        ResourceInternal[] resources = {resource};
-
-        createNotification(ctx, actionCode, localisedMessage, resources, applications, roles);
-    }
-
     private void createNotification(ServiceContext ctx, String actionCode, String messageCode, ResourceInternal[] resources, MetamacApplicationsEnum[] applications, MetamacRolesEnum[] roles)
             throws MetamacWebException {
         try {
-            Locale locale = (Locale) ctx.getProperty(LocaleConstants.locale);
+            Locale locale = configurationService.retrieveLanguageDefaultLocale();
             String localisedAction = LocaleUtil.getMessageForCode(actionCode, locale);
 
             String localisedMessage = LocaleUtil.getMessageForCode(messageCode, locale);
