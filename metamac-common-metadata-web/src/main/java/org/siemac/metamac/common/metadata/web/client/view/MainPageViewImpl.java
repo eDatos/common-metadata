@@ -17,6 +17,7 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.smartgwt.client.types.Alignment;
+import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
@@ -135,7 +136,7 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
             }
         } else if (slot == MainPagePresenter.TYPE_SetContextAreaContent) {
             if (content != null) {
-                southLayout.setMembers((VLayout) content);
+                southLayout.setMembers((Canvas) content);
             }
         } else {
             // To support inheritance in your views it is good practice to call super.setInSlot when you can't handle the call.
