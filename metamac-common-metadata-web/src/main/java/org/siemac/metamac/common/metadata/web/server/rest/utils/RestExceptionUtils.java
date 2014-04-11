@@ -58,8 +58,8 @@ public class RestExceptionUtils {
         return metamacWebException;
     }
 
-    private MetamacWebException throwMetamacWebException(ServiceContext serviceContext, CommonServiceExceptionType errorCode, Serializable... parameter) throws MetamacWebException {
-        Locale locale = (Locale) serviceContext.getProperty(LocaleConstants.locale);
+    private MetamacWebException throwMetamacWebException(ServiceContext ctx, CommonServiceExceptionType errorCode, Serializable... parameter) throws MetamacWebException {
+        Locale locale = (Locale) ctx.getProperty(LocaleConstants.locale);
         String exceptionnMessage = webTranslateExceptions.getTranslatedMessage(errorCode, locale, parameter);
 
         return new MetamacWebException(errorCode.toString(), exceptionnMessage);

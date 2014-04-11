@@ -36,7 +36,7 @@ public class RestApiLocator {
         return srmRestInternalFacadeV10;
     }
 
-    public NoticesV1_0 getNotificationsRestInternalFacadeV10() {
+    public NoticesV1_0 getNoticesRestInternalFacadeV10() {
         // reset thread context
         WebClient.client(noticesRestInternalFacadeV10).reset();
         WebClient.client(noticesRestInternalFacadeV10).accept("application/xml");

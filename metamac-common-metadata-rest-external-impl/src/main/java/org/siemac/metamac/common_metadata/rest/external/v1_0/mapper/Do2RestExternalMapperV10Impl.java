@@ -92,7 +92,7 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         return targets;
     }
 
-    private ResourceInternal toResource(org.siemac.metamac.common.metadata.core.domain.Configuration source) {
+    public ResourceInternal toResource(org.siemac.metamac.common.metadata.core.domain.Configuration source) {
         if (source == null) {
             return null;
         }

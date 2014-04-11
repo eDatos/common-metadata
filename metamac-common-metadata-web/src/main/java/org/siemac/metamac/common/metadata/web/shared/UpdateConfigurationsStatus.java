@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
+import org.siemac.metamac.web.common.shared.exception.MetamacWebException;
 
 import com.gwtplatform.dispatch.annotation.GenDispatch;
 import com.gwtplatform.dispatch.annotation.In;
@@ -20,5 +21,8 @@ public class UpdateConfigurationsStatus {
 
     @Out(1)
     List<ConfigurationDto>   configurationDtos;
+
+    @Out(2)
+    MetamacWebException      notificationException;
 
 }

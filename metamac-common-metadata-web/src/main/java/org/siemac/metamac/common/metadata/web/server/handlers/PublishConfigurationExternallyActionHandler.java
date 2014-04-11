@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
-import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConstants;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.serviceapi.CommonMetadataServiceFacade;
 import org.siemac.metamac.common.metadata.web.server.rest.NoticesRestInternalService;
@@ -15,12 +14,6 @@ import org.siemac.metamac.common.metadata.web.shared.constants.WebMessageExcepti
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.lang.shared.LocaleConstants;
-import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
-import org.siemac.metamac.rest.notices.v1_0.domain.NoticeType;
-import org.siemac.metamac.rest.notices.v1_0.domain.enume.MetamacApplicationsEnum;
-import org.siemac.metamac.rest.notices.v1_0.domain.enume.MetamacRolesEnum;
-import org.siemac.metamac.rest.notices.v1_0.domain.utils.ApplicationsUtils;
-import org.siemac.metamac.rest.notices.v1_0.domain.utils.RolesUtils;
 import org.siemac.metamac.web.common.server.ServiceContextHolder;
 import org.siemac.metamac.web.common.server.handlers.SecurityActionHandler;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
@@ -40,7 +33,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
     private CommonMetadataServiceFacade commonMetadataServiceFacade;
 
     @Autowired
-    private NoticesRestInternalService  notificationsRestInternalService;
+    private NoticesRestInternalService  noticesRestInternalService;
 
     @Autowired
     private SrmRestInternalFacade       srmRestInternalFacade;
@@ -69,7 +62,7 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
         }
 
         try {
-            notificationsRestInternalService.createNotification(serviceContext, generateNotification(serviceContext));
+            noticesRestInternalService.createNotificationForPublishExternallyConfiguration(serviceContext, configurationPublished);
         } catch (MetamacWebException e) {
             return new PublishConfigurationExternallyResult(configurationPublished, e);
         }
@@ -115,21 +108,5 @@ public class PublishConfigurationExternallyActionHandler extends SecurityActionH
         String exceptionnMessage = webTranslateExceptions.getTranslatedMessage(exceptionCode, locale);
 
         throw new MetamacWebException(exceptionCode, exceptionnMessage);
-    }
-
-    public static Notice generateNotification(ServiceContext ctx) {
-        Notice notification = new Notice();
-        notification.setApplications(ApplicationsUtils.createApplicationsList(MetamacApplicationsEnum.GESTOR_RECURSOS_ESTADISTICOS));
-        notification.setRoles(RolesUtils.createRolesList(MetamacRolesEnum.TECNICO_PRODUCCION, MetamacRolesEnum.TECNICO_APOYO_PRODUCCION, MetamacRolesEnum.JEFE_PRODUCCION));
-        notification.setSendingUser(ctx.getUserId());
-        notification.setSendingApplication(CommonMetadataConstants.APPLICATION_ID);
-
-        notification.setSubject("subject pendiente de cambiar");
-
-        // TODO: Añadir mensaje y recursos (METAMAC-1994)
-
-        notification.setNoticeType(NoticeType.ANNOUNCEMENT);
-
-        return notification;
     }
 }
