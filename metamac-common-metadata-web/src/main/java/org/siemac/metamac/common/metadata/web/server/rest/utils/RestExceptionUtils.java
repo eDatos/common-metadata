@@ -42,13 +42,13 @@ public class RestExceptionUtils {
         MetamacWebException metamacWebException;
 
         if (exception == null) {
-            if (Status.NOT_FOUND.equals(e.getResponse().getStatus())) {
+            if (Status.NOT_FOUND.getStatusCode() == e.getResponse().getStatus()) {
                 metamacWebException = throwMetamacWebException(ctx, ServiceExceptionType.REST_API_INVOCATION_ERROR_NOT_FOUND_API, apiName);
             } else {
                 metamacWebException = throwMetamacWebException(ctx, ServiceExceptionType.REST_API_INVOCATION_ERROR_UNKNOWN_API, e);
             }
         } else {
-            if (Status.NOT_FOUND.equals(e.getStatus())) {
+            if (Status.NOT_FOUND.getStatusCode() == e.getStatus()) {
                 metamacWebException = throwMetamacWebException(ctx, ServiceExceptionType.REST_API_INVOCATION_ERROR_NOT_FOUND_RESOURCE, exception.getMessage());
             } else {
                 metamacWebException = throwMetamacWebException(ctx, ServiceExceptionType.REST_API_INVOCATION_ERROR_UNKNOWN_RESOURCE, exception.getMessage());
