@@ -175,7 +175,13 @@ public class ConfigurationsPresenter extends Presenter<ConfigurationsPresenter.C
 
             @Override
             public void onWaitSuccess(UpdateConfigurationsStatusResult result) {
-                ShowMessageEvent.fireSuccessMessage(ConfigurationsPresenter.this, CommonMetadataWeb.getMessages().configurationStatusUpdated());
+                if (result.getNotificationException() != null) {
+                    ShowMessageEvent.fireWarningMessageWithError(ConfigurationsPresenter.this, CommonMetadataWeb.getMessages().configurationStatusUpdatedWithNotificationError(),
+                            result.getNotificationException());
+                } else {
+                    ShowMessageEvent.fireSuccessMessage(ConfigurationsPresenter.this, CommonMetadataWeb.getMessages().configurationStatusUpdated());
+                }
+
                 retrieveConfigurations();
                 getView().deselectConfiguration();
             }

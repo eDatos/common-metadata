@@ -3,18 +3,19 @@ package org.siemac.metamac.common.metadata.web.server.rest;
 import java.util.List;
 import java.util.Locale;
 
+import javax.ws.rs.core.Response;
+
 import org.fornax.cartridges.sculptor.framework.errorhandling.ServiceContext;
 import org.siemac.metamac.common.metadata.core.conf.CommonMetadataConfigurationService;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
-import org.siemac.metamac.common.metadata.core.error.ServiceExceptionParameters;
 import org.siemac.metamac.common.metadata.core.mapper.Dto2DoMapper;
 import org.siemac.metamac.common.metadata.core.notices.ServiceNoticeAction;
 import org.siemac.metamac.common.metadata.core.notices.ServiceNoticeMessage;
-import org.siemac.metamac.common.metadata.web.server.rest.utils.RestExceptionUtils;
 import org.siemac.metamac.common_metadata.rest.external.v1_0.mapper.Do2RestExternalMapperV10;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.siemac.metamac.core.common.lang.LocaleUtil;
+import org.siemac.metamac.core.common.util.ServiceContextUtils;
 import org.siemac.metamac.rest.notices.v1_0.domain.Message;
 import org.siemac.metamac.rest.notices.v1_0.domain.Notice;
 import org.siemac.metamac.rest.notices.v1_0.domain.ResourceInternal;
@@ -22,6 +23,7 @@ import org.siemac.metamac.rest.notices.v1_0.domain.enume.MetamacApplicationsEnum
 import org.siemac.metamac.rest.notices.v1_0.domain.enume.MetamacRolesEnum;
 import org.siemac.metamac.rest.notices.v1_0.domain.utils.MessageBuilder;
 import org.siemac.metamac.rest.notices.v1_0.domain.utils.NoticeBuilder;
+import org.siemac.metamac.web.common.server.rest.utils.RestExceptionUtils;
 import org.siemac.metamac.web.common.server.utils.WebExceptionUtils;
 import org.siemac.metamac.web.common.shared.exception.MetamacWebException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,16 +72,14 @@ public class NoticesRestInternalFacadeImpl implements NoticesRestInternalService
 
     private void createNotification(ServiceContext ctx, String actionCode, String messageCode, ResourceInternal[] resources, MetamacApplicationsEnum[] applications, MetamacRolesEnum[] roles)
             throws MetamacWebException {
-        try {
-            Locale locale = configurationService.retrieveLanguageDefaultLocale();
-            String localisedAction = LocaleUtil.getMessageForCode(actionCode, locale);
+        Locale locale = ServiceContextUtils.getLocale(ctx);
+        String localisedAction = LocaleUtil.getMessageForCode(actionCode, locale);
+        String localisedMessage = LocaleUtil.getMessageForCode(messageCode, locale);
 
-            String localisedMessage = LocaleUtil.getMessageForCode(messageCode, locale);
+        String sendingApp = MetamacApplicationsEnum.GESTOR_METADATOS_COMUNES.getName();
+        String subject = "[" + sendingApp + "] " + localisedAction;
 
-            String sendingApp = MetamacApplicationsEnum.GESTOR_METADATOS_COMUNES.getName();
-            String subject = "[" + sendingApp + "] " + localisedAction;
-
-            // @formatter:off
+        // @formatter:off
             Message message = MessageBuilder.message()
                                             .withText(localisedMessage)
                                             .withResources(resources)
@@ -95,14 +95,8 @@ public class NoticesRestInternalFacadeImpl implements NoticesRestInternalService
                                                 .build();
             // @formatter:on
 
-            restApiLocator.getNoticesRestInternalFacadeV10().createNotice(notification);
-        } catch (Exception e) {
-            throw manageNoticesInternalRestException(ctx, e);
-        }
-    }
-
-    private MetamacWebException manageNoticesInternalRestException(ServiceContext ctx, Exception e) throws MetamacWebException {
-        return restExceptionUtils.manageMetamacRestException(ctx, e, ServiceExceptionParameters.API_STATISTICAL_OPERATIONS_INTERNAL, restApiLocator.getNoticesRestInternalFacadeV10());
+        Response response = restApiLocator.getNoticesRestInternalFacadeV10().createNotice(notification);
+        restExceptionUtils.checkSendNotificationRestResponseAndThrowErrorIfApplicable(ctx, response);
     }
 
     private ResourceInternal[] configurationDtoListToResourceInternalList(ServiceContext ctx, List<ConfigurationDto> configurationDtos) throws MetamacWebException {
