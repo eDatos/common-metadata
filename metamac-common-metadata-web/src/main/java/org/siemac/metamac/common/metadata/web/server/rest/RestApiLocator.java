@@ -16,7 +16,7 @@ public class RestApiLocator {
     @Autowired
     private ConfigurationService     configurationService;
 
-    private SrmRestInternalFacadeV10 srmRestInternalFacadeV10           = null;
+    private SrmRestInternalFacadeV10 srmRestInternalFacadeV10     = null;
     private NoticesV1_0              noticesRestInternalFacadeV10 = null;
 
     @PostConstruct
