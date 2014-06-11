@@ -1,56 +1,30 @@
 package org.siemac.metamac.common.metadata.web.external;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.siemac.metamac.common.metadata.core.conf.CommonMetadataConfigurationService;
 import org.siemac.metamac.common.metadata.core.constants.CommonMetadataConfigurationConstants;
-import org.siemac.metamac.core.common.util.ApplicationContextProvider;
+import org.siemac.metamac.core.common.exception.MetamacException;
+import org.siemac.metamac.core.common.listener.ApplicationStartupListener;
 
-public class ApplicationStartup implements ServletContextListener {
-
-    private static final Log                   LOG = LogFactory.getLog(ApplicationStartup.class);
-
-    private CommonMetadataConfigurationService configurationService;
+public class ApplicationStartup extends ApplicationStartupListener {
 
     @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        try {
-            configurationService = ApplicationContextProvider.getApplicationContext().getBean(CommonMetadataConfigurationService.class);
-            checkConfiguration();
-        } catch (Exception e) {
-            // Abort startup application
-            throw new RuntimeException(e);
-        }
+    public String projectName() {
+        return "common-metadata";
     }
 
-    private void checkConfiguration() {
-        LOG.info("**************************************************************************");
-        LOG.info("[metamac-common-metadata-external-web] Checking application configuration");
-        LOG.info("**************************************************************************");
-
+    @Override
+    public void checkApplicationProperties() throws MetamacException {
         // Datasource
-        configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.DB_DRIVER_NAME);
-        configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.DB_URL);
-        configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.DB_USERNAME);
-        configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.DB_PASSWORD);
-        configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.DB_DIALECT);
+        checkRequiredProperty(CommonMetadataConfigurationConstants.DB_DRIVER_NAME);
+        checkRequiredProperty(CommonMetadataConfigurationConstants.DB_URL);
+        checkRequiredProperty(CommonMetadataConfigurationConstants.DB_USERNAME);
+        checkRequiredProperty(CommonMetadataConfigurationConstants.DB_PASSWORD);
+        checkRequiredProperty(CommonMetadataConfigurationConstants.DB_DIALECT);
 
         // Api
-        configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.ENDPOINT_COMMON_METADATA_EXTERNAL_API);
-        configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.ENDPOINT_SRM_EXTERNAL_API);
-        configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
-        configurationService.checkRequiredProperty(CommonMetadataConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
-
-        LOG.info("**************************************************************************");
-        LOG.info("[metamac-common-metadata-external-web] Application configuration checked");
-        LOG.info("**************************************************************************");
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
+        checkRequiredProperty(CommonMetadataConfigurationConstants.ENDPOINT_COMMON_METADATA_EXTERNAL_API);
+        checkRequiredProperty(CommonMetadataConfigurationConstants.ENDPOINT_SRM_EXTERNAL_API);
+        checkRequiredProperty(CommonMetadataConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
+        checkRequiredProperty(CommonMetadataConfigurationConstants.WEB_APPLICATION_COMMON_METADATA_INTERNAL_WEB);
     }
 
 }

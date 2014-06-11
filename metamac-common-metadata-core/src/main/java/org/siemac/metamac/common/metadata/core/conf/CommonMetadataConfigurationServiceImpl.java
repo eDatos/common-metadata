@@ -8,12 +8,12 @@ public class CommonMetadataConfigurationServiceImpl extends ConfigurationService
 
     @Override
     public String retrieveUserGuideFileName() throws MetamacException {
-        return retrieveProperty(CommonMetadataConfigurationConstants.USER_GUIDE_FILE_NAME, Boolean.TRUE);
+        return retrieveProperty(CommonMetadataConfigurationConstants.USER_GUIDE_FILE_NAME);
     }
 
     @Override
     public String retrieveDocsPath() throws MetamacException {
-        return retrieveProperty(CommonMetadataConfigurationConstants.DOCS_PATH, Boolean.TRUE);
+        return retrieveProperty(CommonMetadataConfigurationConstants.DOCS_PATH);
     }
 
 }
