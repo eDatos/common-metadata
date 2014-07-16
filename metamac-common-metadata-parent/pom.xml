@@ -10,7 +10,7 @@
 
     <groupId>org.siemac.metamac.metamac-common-metadata</groupId>
     <artifactId>metamac-common-metadata-parent</artifactId>
-    <version>1.4.4-SNAPSHOT</version>
+    <version>1.4.3</version>
     <packaging>pom</packaging>
     <name>METAMAC :: COMMON METADATA :: PARENT</name>
     <description>METAMAC :: COMMON METADATA :: PARENT</description>
@@ -37,4 +37,10 @@
         <metamac-rest-common.version>1.3.3</metamac-rest-common.version>
         <metamac-notifications-rest-internal-api.version>2.0.0</metamac-notifications-rest-internal-api.version>
     </properties>
+
+  <scm>
+    <connection>scm:svn:http://svn.arte-consultores.com/svn/arte/istac/metamac/metamac-parent/tags/20140716-1219-v1.4.3/metamac-common-metadata-parent</connection>
+    <developerConnection>scm:svn:http://svn.arte-consultores.com/svn/arte/istac/metamac/metamac-parent/tags/20140716-1219-v1.4.3/metamac-common-metadata-parent</developerConnection>
+    <url>http://svn.arte-consultores.com/viewvc/arte/istac/metamac/metamac-parent/tags/20140716-1219-v1.4.3/metamac-common-metadata-parent</url>
+  </scm>
 </project>
