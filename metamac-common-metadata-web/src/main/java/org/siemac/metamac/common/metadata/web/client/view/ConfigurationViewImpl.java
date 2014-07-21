@@ -4,18 +4,16 @@ import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.ge
 import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getCoreMessages;
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
-import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
 import org.siemac.metamac.common.metadata.web.client.presenter.ConfigurationPresenter;
-import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.ConfigurationClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.ConfigurationUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.ConfigurationMainFormLayout;
 import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchAgencyLinkItem;
+import org.siemac.metamac.core.common.util.shared.StringUtils;
 import org.siemac.metamac.web.common.client.utils.BooleanWebUtils;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
-import org.siemac.metamac.web.common.client.widgets.form.fields.CustomSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ExternalItemLinkItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.MultiLanguageRichTextEditorItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredTextItem;
@@ -163,9 +161,7 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
 
         SearchAgencyLinkItem agencyItem = createAgencyItem(ConfigurationDS.CONTACT, getConstants().confOrganisation());
 
-        CustomSelectItem status = new CustomSelectItem(ConfigurationDS.STATUS, getConstants().confStatus());
-        status.setRequired(true);
-        status.setValueMap(CommonUtils.getCommonMetadataStatusEnumHashMap());
+        ViewTextItem status = new ViewTextItem(ConfigurationDS.STATUS, getConstants().confStatus());
 
         ViewTextItem externallyPublished = new ViewTextItem(ConfigurationDS.EXTERNALLY_PUBLISHED, getConstants().configurationExternallyPublished());
 
@@ -185,7 +181,6 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         configurationDto.setCode(editionForm.getValueAsString(ConfigurationDS.CODE));
 
         configurationDto.setContact(editionForm.getValueAsExternalItemDto(ConfigurationDS.CONTACT));
-        configurationDto.setStatus(editionForm.getValueAsString(ConfigurationDS.STATUS) != null ? CommonMetadataStatusEnum.valueOf(editionForm.getValueAsString(ConfigurationDS.STATUS)) : null);
         configurationDto.setLicense(editionForm.getValueAsInternationalStringDto(ConfigurationDS.LICENSE));
         configurationDto.setLegalActs(editionForm.getValueAsInternationalStringDto(ConfigurationDS.LEGAL_ACTS));
         configurationDto.setDataSharing(editionForm.getValueAsInternationalStringDto(ConfigurationDS.DATA_SHARING));
@@ -222,12 +217,14 @@ public class ConfigurationViewImpl extends ViewWithUiHandlers<ConfigurationUiHan
         form.setValue(ConfigurationDS.CONF_DATA_TREATMENT, configurationDto.getConfDataTreatment());
         form.redraw();
     }
+
     private void setConfigurationEditionMode(ConfigurationDto configurationDto) {
         this.configurationDto = configurationDto;
         editionForm.setValue(ConfigurationDS.STATIC_CODE, configurationDto.getCode());
         editionForm.setValue(ConfigurationDS.CODE, configurationDto.getCode());
         editionForm.setValue(ConfigurationDS.CONTACT, configurationDto.getContact());
-        editionForm.setValue(ConfigurationDS.STATUS, configurationDto.getStatus() != null ? configurationDto.getStatus().toString() : new String());
+        editionForm.setValue(ConfigurationDS.STATUS,
+                configurationDto.getStatus() == null ? StringUtils.EMPTY : getCoreMessages().getString(getCoreMessages().commonMetadataStatusEnum() + configurationDto.getStatus().toString()));
         editionForm.setValue(ConfigurationDS.EXTERNALLY_PUBLISHED, BooleanWebUtils.getBooleanLabel(configurationDto.isExternallyPublished()));
         editionForm.setValue(ConfigurationDS.LICENSE, configurationDto.getLicense());
         editionForm.setValue(ConfigurationDS.LEGAL_ACTS, configurationDto.getLegalActs());

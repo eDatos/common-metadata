@@ -3,10 +3,8 @@ package org.siemac.metamac.common.metadata.web.client.widgets;
 import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
-import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
-import org.siemac.metamac.common.metadata.web.client.utils.CommonUtils;
 import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchAgencyLinkItem;
 import org.siemac.metamac.core.common.dto.InternationalStringDto;
 import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
@@ -15,7 +13,6 @@ import org.siemac.metamac.web.common.client.widgets.CustomWindow;
 import org.siemac.metamac.web.common.client.widgets.form.CustomDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomButtonItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.CustomTextItem;
-import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredSelectItem;
 import org.siemac.metamac.web.common.client.widgets.form.fields.RequiredTextItem;
 import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
@@ -40,10 +37,6 @@ public abstract class NewConfigurationWindow extends CustomWindow {
         codeItem.setValidators(CommonWebUtils.getSemanticIdentifierCustomValidator());
         codeItem.setWidth(FORM_ITEM_CUSTOM_WIDTH);
 
-        RequiredSelectItem statusItem = new RequiredSelectItem(ConfigurationDS.STATUS, CommonMetadataWeb.getConstants().confStatus());
-        statusItem.setValueMap(CommonUtils.getCommonMetadataStatusEnumHashMap());
-        statusItem.setWidth(FORM_ITEM_CUSTOM_WIDTH);
-
         searchContactItem = createAgencyItem(ConfigurationDS.CONTACT, getConstants().confOrganisation());
 
         CustomTextItem licenseItem = new CustomTextItem(ConfigurationDS.LICENSE, getConstants().confLicense());
@@ -61,7 +54,7 @@ public abstract class NewConfigurationWindow extends CustomWindow {
 
         form = new CustomDynamicForm();
         form.setMargin(5);
-        form.setFields(codeItem, statusItem, searchContactItem, licenseItem, createItem);
+        form.setFields(codeItem, searchContactItem, licenseItem, createItem);
 
         addItem(form);
         show();
@@ -74,7 +67,6 @@ public abstract class NewConfigurationWindow extends CustomWindow {
     public ConfigurationDto getNewConfigurationDto() {
         ConfigurationDto configurationDto = new ConfigurationDto();
         configurationDto.setCode(form.getValueAsString(ConfigurationDS.CODE));
-        configurationDto.setStatus(form.getValueAsString(ConfigurationDS.STATUS) != null ? CommonMetadataStatusEnum.valueOf(form.getValueAsString(ConfigurationDS.STATUS)) : null);
         configurationDto.setContact(form.getValueAsExternalItemDto(ConfigurationDS.CONTACT));
         configurationDto.setLicense(InternationalStringUtils.updateInternationalString(new InternationalStringDto(), form.getValueAsString(ConfigurationDS.LICENSE)));
         return configurationDto;
