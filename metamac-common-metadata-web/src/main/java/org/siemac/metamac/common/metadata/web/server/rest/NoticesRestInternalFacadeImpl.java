@@ -73,11 +73,9 @@ public class NoticesRestInternalFacadeImpl implements NoticesRestInternalService
     private void createNotification(ServiceContext ctx, String actionCode, String messageCode, ResourceInternal[] resources, MetamacApplicationsEnum[] applications, MetamacRolesEnum[] roles)
             throws MetamacWebException {
         Locale locale = ServiceContextUtils.getLocale(ctx);
-        String localisedAction = LocaleUtil.getMessageForCode(actionCode, locale);
+        String subject = LocaleUtil.getMessageForCode(actionCode, locale);
         String localisedMessage = LocaleUtil.getMessageForCode(messageCode, locale);
-
         String sendingApp = MetamacApplicationsEnum.GESTOR_METADATOS_COMUNES.getName();
-        String subject = "[" + sendingApp + "] " + localisedAction;
 
         // @formatter:off
             Message message = MessageBuilder.message()
