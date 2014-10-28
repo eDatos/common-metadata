@@ -22,6 +22,7 @@ public class CommonMetadataApplicationStartupListener extends InternalApplicatio
     @Override
     public void checkApiProperties() {
         checkRequiredProperty(CommonMetadataConfigurationConstants.ENDPOINT_SRM_INTERNAL_API);
+        checkRequiredProperty(CommonMetadataConfigurationConstants.ENDPOINT_NOTICES_INTERNAL_API);
     }
 
     @Override
