@@ -4,7 +4,7 @@
 
 
 
-    <property name="LOGS_HOME" value="/data/istac/common-metadata/logs" />
+    <property name="LOGS_HOME" value="/data/metamac/common-metadata/logs" />
 
 
 
