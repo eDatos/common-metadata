@@ -7,13 +7,12 @@ import org.siemac.metamac.core.common.exception.MetamacException;
 public class CommonMetadataConfigurationServiceImpl extends ConfigurationServiceImpl implements CommonMetadataConfigurationService {
 
     @Override
-    public String retrieveUserGuideFileName() throws MetamacException {
-        return retrieveProperty(CommonMetadataConfigurationConstants.USER_GUIDE_FILE_NAME);
+    public String retrieveHelpUrl() throws MetamacException {
+        return retrieveProperty(CommonMetadataConfigurationConstants.HELP_URL);
     }
 
     @Override
     public String retrieveDocsPath() throws MetamacException {
         return retrieveProperty(CommonMetadataConfigurationConstants.DOCS_PATH);
     }
-
 }

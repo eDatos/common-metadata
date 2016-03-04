@@ -4,7 +4,7 @@ import org.siemac.metamac.common.metadata.web.server.handlers.DeleteConfiguratio
 import org.siemac.metamac.common.metadata.web.server.handlers.GetAppsConfigurationsActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetConfigurationActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.GetConfigurationsActionHandler;
-import org.siemac.metamac.common.metadata.web.server.handlers.GetUserGuideUrlActionHandler;
+import org.siemac.metamac.common.metadata.web.server.handlers.GetHelpUrlActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.PublishConfigurationExternallyActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.SaveAppConfigurationActionHandler;
 import org.siemac.metamac.common.metadata.web.server.handlers.SaveConfigurationActionHandler;
@@ -16,7 +16,7 @@ import org.siemac.metamac.common.metadata.web.shared.DeleteConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.GetConfigurationsAction;
-import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlAction;
+import org.siemac.metamac.common.metadata.web.shared.GetHelpUrlAction;
 import org.siemac.metamac.common.metadata.web.shared.PublishConfigurationExternallyAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveAppConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveConfigurationAction;
@@ -65,7 +65,7 @@ public class ServerModule extends HandlerModule {
         bindHandler(GetNavigationBarUrlAction.class, GetNavigationBarUrlActionHandler.class);
 
         bindHandler(LoadConfigurationPropertiesAction.class, LoadConfigurationPropertiesActionHandler.class);
-        bindHandler(GetUserGuideUrlAction.class, GetUserGuideUrlActionHandler.class);
+        bindHandler(GetHelpUrlAction.class, GetHelpUrlActionHandler.class);
 
         bindHandler(GetSrmItemsAction.class, GetSrmItemsActionHandler.class);
         bindHandler(GetSrmItemSchemesAction.class, GetSrmItemSchemesActionHandler.class);

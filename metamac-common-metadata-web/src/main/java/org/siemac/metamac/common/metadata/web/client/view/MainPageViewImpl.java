@@ -92,7 +92,7 @@ public class MainPageViewImpl extends ViewWithUiHandlers<MainPageUiHandlers> imp
 
             @Override
             public void onClick(ClickEvent event) {
-                getUiHandlers().downloadUserGuide();
+                getUiHandlers().openHelpUrl();
             }
         });
 

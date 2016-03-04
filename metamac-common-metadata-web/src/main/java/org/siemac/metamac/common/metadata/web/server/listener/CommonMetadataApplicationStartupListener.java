@@ -27,7 +27,7 @@ public class CommonMetadataApplicationStartupListener extends InternalApplicatio
 
     @Override
     public void checkOtherModuleProperties() {
-        checkRequiredProperty(CommonMetadataConfigurationConstants.USER_GUIDE_FILE_NAME);
+        checkRequiredProperty(CommonMetadataConfigurationConstants.HELP_URL);
     }
 
     @Override

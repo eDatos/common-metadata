@@ -7,20 +7,18 @@ import org.siemac.metamac.common.metadata.web.client.view.handlers.MainPageUiHan
 import org.siemac.metamac.common.metadata.web.client.widgets.events.SelectMainSectionEvent;
 import org.siemac.metamac.common.metadata.web.client.widgets.events.SelectMainSectionEvent.SelectMainSectionEventHandler;
 import org.siemac.metamac.common.metadata.web.client.widgets.presenter.CommonMetadataToolStripPresenterWidget;
-import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlAction;
-import org.siemac.metamac.common.metadata.web.shared.GetUserGuideUrlResult;
+import org.siemac.metamac.common.metadata.web.shared.GetHelpUrlAction;
+import org.siemac.metamac.common.metadata.web.shared.GetHelpUrlResult;
 import org.siemac.metamac.web.common.client.enums.MessageTypeEnum;
 import org.siemac.metamac.web.common.client.events.HideMessageEvent;
 import org.siemac.metamac.web.common.client.events.HideMessageEvent.HideMessageHandler;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent.ShowMessageHandler;
-import org.siemac.metamac.web.common.client.utils.CommonWebUtils;
 import org.siemac.metamac.web.common.client.utils.WaitingAsyncCallbackHandlingError;
 import org.siemac.metamac.web.common.client.widgets.BreadCrumbsPanel;
 import org.siemac.metamac.web.common.client.widgets.MasterHead;
 import org.siemac.metamac.web.common.shared.CloseSessionAction;
 import org.siemac.metamac.web.common.shared.CloseSessionResult;
-import org.siemac.metamac.web.common.shared.utils.SharedTokens;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.Window;
@@ -189,12 +187,12 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MainPageView,
     }
 
     @Override
-    public void downloadUserGuide() {
-        dispatcher.execute(new GetUserGuideUrlAction(), new WaitingAsyncCallbackHandlingError<GetUserGuideUrlResult>(this) {
+    public void openHelpUrl() {
+        dispatcher.execute(new GetHelpUrlAction(), new WaitingAsyncCallbackHandlingError<GetHelpUrlResult>(this) {
 
             @Override
-            public void onWaitSuccess(GetUserGuideUrlResult result) {
-                CommonWebUtils.showDownloadFileWindow(SharedTokens.FILE_DOWNLOAD_DIR_PATH, SharedTokens.PARAM_DOC, result.getUserGuideUrl());
+            public void onWaitSuccess(GetHelpUrlResult result) {
+                Window.open(result.getHelpUrl(), "_blank", "");
             }
         });
     }
