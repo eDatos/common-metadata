@@ -8,7 +8,7 @@ public class CommonMetadataConfigurationConstants extends ConfigurationConstants
 
     // Configuration
 
-    public static final String HELP_URL       = "metamac.data.docs.common_metadata.help.url";
+    public static final String HELP_URL       = "metamac.common_metadata.help.url";
     public static final String DOCS_PATH      = "metamac.data.docs.common_metadata.path";
 
     // DataSource
