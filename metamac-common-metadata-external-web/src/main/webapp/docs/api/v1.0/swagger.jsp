@@ -9,6 +9,12 @@
    "schemes":[
 
    ],
+   "tags" : [
+    {
+      "name" : "Configuraciones",
+      "description" : ""
+    }
+  ],
    "definitions":{
       "ChildLinks":{
          "type":"object",
@@ -409,6 +415,7 @@
    "paths":{
       "/v1.0/configurations":{
          "get":{
+            "tags" : [ "Configuraciones" ],
             "description":"Esta petición aporta la lista de configuraciones de metadatos existentes. Cada configuración de metadatos pertenece a una organización en particular.",
             "operationId":"resource_CommonMetadataV1_0_findConfigurations_GET",
             "produces":[
@@ -450,6 +457,7 @@
       },
       "/v1.0/configurations/{id}":{
          "get":{
+            "tags" : [ "Configuraciones" ],
             "description":"A través de esta petición se pueden obterner los valores de todos los metadatos que forman parte de una configuración de metadatos comunes.",
             "operationId":"resource_CommonMetadataV1_0_retrieveConfigurationById_GET",
             "produces":[
