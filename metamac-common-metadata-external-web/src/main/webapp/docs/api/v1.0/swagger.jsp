@@ -5,8 +5,7 @@
       "version":"1.4.7-SNAPSHOT",
       "title":"API de Metadatos Comunes"
    },
-   "host":"<%=org.siemac.metamac.common.metadata.web.external.WebUtils.getBaseURL(request)%>",
-   "basePath":"/apis/cmetadata",
+   "host":"<%=org.siemac.metamac.common.metadata.web.external.WebUtils.getApiBaseURL()%>",
    "schemes":[
 
    ],

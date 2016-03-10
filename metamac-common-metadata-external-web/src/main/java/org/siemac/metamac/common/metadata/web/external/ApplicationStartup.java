@@ -16,8 +16,8 @@ public class ApplicationStartup extends ApplicationStartupListener {
     public void contextInitialized(ServletContextEvent sce) {
         super.contextInitialized(sce);
         try {
-            String organisation = configurationService.retrieveOrganisation();
-            WebUtils.setOrganisation(organisation);
+            WebUtils.setOrganisation(configurationService.retrieveOrganisation());
+            WebUtils.setApiBaseURL(configurationService.retrieveCommonMetadataExternalApiUrlBase());
         } catch (MetamacException e) {
             log.error("Error retrieving the organisation from the configuration", e);
         }
