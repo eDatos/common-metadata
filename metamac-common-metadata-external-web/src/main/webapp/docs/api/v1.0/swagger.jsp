@@ -3,7 +3,7 @@
    "info":{
       "description":"Existen determinados metadatos que siempre toman el mismo valor para todos los recursos que son publicados por una organización en concreto. Ejemplos de este tipo de metadatos son: los datos de contacto de la organización, la descripción de la organización o la licencia que aplica la organización a los datos que publican. Para evitar definir en cada uno de los recursos el valor que toman estos metadatos (que como hemos dicho siempre es el mismo en la misma organización), se definen las configuraciones de metadatos comunes. Cada organización podrá tener su propia configuración de metadatos y esto nos permite que el mantenimiento de este tipo de documentación sea sencilla y poco propicia a errores.",
       "version":"1.4.7-SNAPSHOT",
-      "title":"API de Metadatos Comunes"
+      "title":"API de Metadatos Comunes v1.0"
    },
    "host":"<%=org.siemac.metamac.common.metadata.web.external.WebUtils.getApiBaseURL()%>",
    "schemes":[
