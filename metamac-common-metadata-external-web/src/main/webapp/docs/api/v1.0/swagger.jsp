@@ -451,6 +451,9 @@
                },
                "500":{
                   "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado."
+               },
+               "503":{
+                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal."
                }
             }
          }
@@ -490,6 +493,9 @@
                },
                "500":{
                   "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado."
+               },
+               "503":{
+                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal."
                }
             }
          }
