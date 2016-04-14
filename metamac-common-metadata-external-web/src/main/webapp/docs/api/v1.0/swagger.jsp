@@ -71,7 +71,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado páginado, este enlace nos permite desplazarnos a la primera página. Si no se muestra es porque ya estamos en ella. Tener en cuenta que cuando sólo existe una página, no existirá ni primera ni última.",
+                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la primera página. Si no se muestra es porque ya estamos en ella. Tener en cuenta que cuando sólo existe una página, no existirá ni primera ni última.",
                      "type":"string"
                   },
                   "kind":{
@@ -87,7 +87,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado páginado, este enlace nos permite desplazarnos a la última página. Si no se muestra es porque ya estamos en ella. Tener en cuenta que cuando sólo existe una página, no existirá ni primera ni última.",
+                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la última página. Si no se muestra es porque ya estamos en ella. Tener en cuenta que cuando sólo existe una página, no existirá ni primera ni última.",
                      "type":"string"
                   },
                   "limit":{
@@ -103,7 +103,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado páginado, este enlace nos permite desplazarnos a la página siguiente a la que nos encontramos. Si no se muestra es porque no existe siguiente.",
+                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la página siguiente a la que nos encontramos. Si no se muestra es porque no existe siguiente.",
                      "type":"string"
                   },
                   "offset":{
@@ -119,7 +119,7 @@
                         "attribute":true,
                         "namespace":""
                      },
-                     "description":"Dado que se trata de un resultado páginado, este enlace nos permite desplazarnos a la página anterior a la que nos encontramos. Si no se muestra es porque no existe siguiente.",
+                     "description":"Dado que se trata de un resultado paginado, este enlace nos permite desplazarnos a la página anterior a la que nos encontramos. Si no se muestra es porque no existe siguiente.",
                      "type":"string"
                   },
                   "selfLink":{
