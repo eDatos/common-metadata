@@ -2,16 +2,5 @@
 <!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.2//EN"
         "http://tuckey.org/res/dtds/urlrewrite3.2.dtd">
 <urlrewrite use-query-string="true">
-    <rule>
-        <from>/apis/cmetadata/latest/</from>
-        <to type="redirect">%{context-path}/v1.0/</to>
-    </rule>
-    <rule>
-        <from>/apis/cmetadata/latest$</from>
-        <to type="redirect">%{context-path}/v1.0/</to>
-    </rule>
-    <rule>
-        <from>/apis/cmetadata/v1.0$</from>
-        <to type="redirect">%{context-path}/v1.0/</to>
-    </rule>
+    <class-rule class="org.siemac.metamac.common.metadata.web.external.urlrewrite.CommonMetadataRewriteRule" />
 </urlrewrite>
