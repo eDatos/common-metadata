@@ -9,6 +9,6 @@ import org.tuckey.web.filters.urlrewrite.extend.RewriteRule;
 public class CommonMetadataRewriteRule extends RewriteRule {
 
     public RewriteMatch matches(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        return new CustomRewriteMatch();
+        return new CommonMetadataRewriteMatch();
     }
 }
