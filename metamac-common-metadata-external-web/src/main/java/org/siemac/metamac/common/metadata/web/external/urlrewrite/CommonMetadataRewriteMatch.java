@@ -13,8 +13,8 @@ class CommonMetadataRewriteMatch extends AbstractRewriteMatch {
     private ConfigurationService configurationService = null;
 
     @Override
-    protected String getApiPrefix() {
-        return "cmetadata";
+    protected String[] getAcceptedApiPrefixes() {
+        return new String[]{"cmetadata"};
     }
 
     @Override
