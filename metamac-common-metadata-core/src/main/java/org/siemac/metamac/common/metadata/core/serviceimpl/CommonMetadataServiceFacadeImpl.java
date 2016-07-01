@@ -12,7 +12,10 @@ import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataRoleEn
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.metadata.core.mapper.Do2DtoMapper;
 import org.siemac.metamac.common.metadata.core.mapper.Dto2DoMapper;
+import org.siemac.metamac.common.metadata.core.mapper.MetamacCriteria2SculptorCriteriaMapper;
 import org.siemac.metamac.common.metadata.core.security.SecurityUtils;
+import org.siemac.metamac.core.common.criteria.MetamacCriteria;
+import org.siemac.metamac.core.common.criteria.SculptorCriteria;
 import org.siemac.metamac.core.common.exception.MetamacException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,9 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
 
     @Autowired
     private Dto2DoMapper dto2DoMapper;
+    
+    @Autowired
+    private MetamacCriteria2SculptorCriteriaMapper metamacCriteria2SculptorCriteriaMapper;
 
     public CommonMetadataServiceFacadeImpl() {
     }
@@ -176,7 +182,22 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         // Transform to Dto
         return dataConfigurationsListDo2Dto(configurations);
     }
+    
+    @Override
+    public List<DataConfigurationDto> findDataConfigurationsOfSystemPropertiesByCondition(ServiceContext ctx, MetamacCriteria criteria) throws MetamacException {
+        // Security
+        SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.JEFE_NORMALIZACION);
+        
+        // Transform
+        SculptorCriteria sculptorCriteria = metamacCriteria2SculptorCriteriaMapper.getDataConfigurationCriteriaMapper().metamacCriteria2SculptorCriteria(criteria);
 
+        // Service call
+        List<DataConfiguration> configurations = getCommonMetadataService().findDataConfigurationsOfSystemPropertiesByCondition(ctx, sculptorCriteria.getConditions());
+
+        // Transform to Dto
+        return dataConfigurationsListDo2Dto(configurations);
+    }
+    
     @Override
     public List<DataConfigurationDto> findDataConfigurationsOfDefaultValues(ServiceContext ctx) throws MetamacException {
         // Security
@@ -184,6 +205,21 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
 
         // Service call
         List<DataConfiguration> configurations = getCommonMetadataService().findDataConfigurationsOfDefaultValues(ctx);
+
+        // Transform to Dto
+        return dataConfigurationsListDo2Dto(configurations);
+    }
+
+    @Override
+    public List<DataConfigurationDto> findDataConfigurationsOfDefaultValuesByCondition(ServiceContext ctx, MetamacCriteria criteria) throws MetamacException {
+        // Security
+        SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.ANY_ROLE_ALLOWED);
+        
+        // Transform
+        SculptorCriteria sculptorCriteria = metamacCriteria2SculptorCriteriaMapper.getDataConfigurationCriteriaMapper().metamacCriteria2SculptorCriteria(criteria);
+
+        // Service call
+        List<DataConfiguration> configurations = getCommonMetadataService().findDataConfigurationsOfDefaultValuesByCondition(ctx, sculptorCriteria.getConditions());
 
         // Transform to Dto
         return dataConfigurationsListDo2Dto(configurations);

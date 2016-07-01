@@ -384,9 +384,49 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
     @Override
     @Test
     @Transactional
+    public void testFindDataConfigurationsOfSystemPropertiesByCondition() throws Exception {
+        String code = "sdmx";
+        
+        //@formatter:off
+        List<ConditionalCriteria> condition = criteriaFor(DataConfiguration.class)
+            .lbrace()
+                .withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.configurationKey()).ignoreCaseLike("%" + code + "%")
+                .or()
+                .withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.configurationValue()).ignoreCaseLike("%" + code + "%")
+             .rbrace()
+            .build();
+        //@formatter:on
+        
+        int systemProperties = commonMetadataService.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextAdministrador(), condition).size();
+        assertEquals(NUMBER_DATA_CONFIGURATIONS_SYSTEM_PROPERTIES_WITH_CODE_SDMX, systemProperties);
+    }
+    
+    @Override
+    @Test
+    @Transactional
     public void testFindDataConfigurationsOfDefaultValues() throws Exception {
         int defaultValues = commonMetadataService.findDataConfigurationsOfDefaultValues(getServiceContextAdministrador()).size();
         assertEquals(NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES, defaultValues);
+    }
+    
+    @Override
+    @Test
+    @Transactional
+    public void testFindDataConfigurationsOfDefaultValuesByCondition() throws Exception {
+        String code = "sdmx";
+        
+        //@formatter:off
+        List<ConditionalCriteria> condition = criteriaFor(DataConfiguration.class)
+            .lbrace()
+                .withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.configurationKey()).ignoreCaseLike("%" + code + "%")
+                .or()
+                .withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.configurationValue()).ignoreCaseLike("%" + code + "%")
+             .rbrace()
+            .build();
+        //@formatter:on
+        
+        int defaultValues = commonMetadataService.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextAdministrador(), condition).size();
+        assertEquals(NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES_WITH_CODE_SDMX, defaultValues);
     }
 
     @Override
@@ -396,4 +436,5 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         DataConfiguration dataConfiguration = commonMetadataService.findDataConfigurationById(getServiceContextAdministrador(), DATA_CONFIGURATION_01_ID);
         assertNotNull(dataConfiguration);
     }
+
 }

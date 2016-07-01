@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.siemac.metamac.common.metadata.core.criteria.DataConfigurationCriteriaPropertyEnum;
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
 import org.siemac.metamac.common.metadata.core.dto.DataConfigurationDto;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
@@ -19,6 +20,10 @@ import org.siemac.metamac.common.metadata.core.error.ServiceExceptionType;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataAsserts;
 import org.siemac.metamac.common.metadata.core.serviceapi.utils.CommonMetadataDtoMocks;
 import org.siemac.metamac.common.test.utils.MetamacMocks;
+import org.siemac.metamac.core.common.criteria.MetamacCriteria;
+import org.siemac.metamac.core.common.criteria.MetamacCriteriaDisjunctionRestriction;
+import org.siemac.metamac.core.common.criteria.MetamacCriteriaPropertyRestriction;
+import org.siemac.metamac.core.common.criteria.MetamacCriteriaPropertyRestriction.OperationType;
 import org.siemac.metamac.core.common.dto.LocalisedStringDto;
 import org.siemac.metamac.core.common.enume.domain.TypeExternalArtefactsEnum;
 import org.siemac.metamac.core.common.exception.MetamacException;
@@ -298,11 +303,36 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
 
     @Override
     @Test
+    public void testFindDataConfigurationsOfSystemPropertiesByCondition() throws Exception {
+        int sytemProperties = commonMetadataServiceFacade.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextAdministrador(), mockCriteriaCodeSdmx()).size();        
+        assertEquals(NUMBER_DATA_CONFIGURATIONS_SYSTEM_PROPERTIES_WITH_CODE_SDMX, sytemProperties);
+    }
+    
+    @Override
+    @Test
     public void testFindDataConfigurationsOfDefaultValues() throws Exception {
         int defaultValues = commonMetadataServiceFacade.findDataConfigurationsOfDefaultValues(getServiceContextAdministrador()).size();
         assertEquals(NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES, defaultValues);
     }
 
+    @Override
+    @Test
+    public void testFindDataConfigurationsOfDefaultValuesByCondition() throws Exception {
+        int defaultValues = commonMetadataServiceFacade.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextAdministrador(), mockCriteriaCodeSdmx()).size();
+        assertEquals(NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES_WITH_CODE_SDMX, defaultValues);
+    }
+    
+    private MetamacCriteria mockCriteriaCodeSdmx() {
+        final String CODE_SDMX = "sdmx";
+        
+        MetamacCriteria criteria = new MetamacCriteria();
+        MetamacCriteriaDisjunctionRestriction disjunction = new MetamacCriteriaDisjunctionRestriction();
+        disjunction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(DataConfigurationCriteriaPropertyEnum.CONF_KEY.name(), CODE_SDMX, OperationType.ILIKE));
+        disjunction.getRestrictions().add(new MetamacCriteriaPropertyRestriction(DataConfigurationCriteriaPropertyEnum.CONF_VALUE.name(), CODE_SDMX, OperationType.ILIKE));
+        criteria.setRestriction(disjunction);
+        return criteria;
+    }
+    
     @Override
     @Test
     public void testUpdateDataConfiguration() throws Exception {
@@ -363,4 +393,5 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         DataConfigurationDto dataConfigurationDtoSession1AfterUpdate2 = commonMetadataServiceFacade.updateDataConfiguration(getServiceContextAdministrador(), dataConfigurationDtoSession1AfterUpdate);
         assertEquals(Long.valueOf(3), dataConfigurationDtoSession1AfterUpdate2.getOptimisticLockingVersion());
     }
+
 }

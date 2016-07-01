@@ -486,6 +486,61 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
         }
     }
 
+
+    @Override
+    public void testFindDataConfigurationsOfSystemPropertiesByCondition() throws Exception {
+        commonMetadataServiceFacade.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextAdministrador(), null);
+        commonMetadataServiceFacade.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextJefeNormalizacion(), null);
+        try {
+            commonMetadataServiceFacade.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextTecnicoNormalizacion(), null);
+            fail("security exception - operation not allowed");
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextTecnicoApoyoNormalizacion(), null);
+            fail("security exception - operation not allowed");
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextTecnicoPlanificacion(), null);
+            fail("security exception - operation not allowed");
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextTecnicoApoyoPlanificacion(), null);
+            fail("security exception - operation not allowed");
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextTecnicoProduccion(), null);
+            fail("security exception - operation not allowed");
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextTecnicoApoyoProduccion(), null);
+            fail("security exception - operation not allowed");
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextTecnicoDifusion(), null);
+            fail("security exception - operation not allowed");
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+        try {
+            commonMetadataServiceFacade.findDataConfigurationsOfSystemPropertiesByCondition(getServiceContextTecnicoApoyoDifusion(), null);
+            fail("security exception - operation not allowed");
+        } catch (MetamacException e) {
+            assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
+        }
+    }
+
     @Override
     @Test
     public void testFindDataConfigurationsOfDefaultValues() throws Exception {
@@ -499,6 +554,21 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
         commonMetadataServiceFacade.findDataConfigurationsOfDefaultValues(getServiceContextTecnicoApoyoProduccion());
         commonMetadataServiceFacade.findDataConfigurationsOfDefaultValues(getServiceContextTecnicoDifusion());
         commonMetadataServiceFacade.findDataConfigurationsOfDefaultValues(getServiceContextTecnicoApoyoDifusion());
+    }
+    
+    @Override
+    @Test
+    public void testFindDataConfigurationsOfDefaultValuesByCondition() throws Exception {
+        commonMetadataServiceFacade.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextAdministrador(), null);
+        commonMetadataServiceFacade.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextJefeNormalizacion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextTecnicoNormalizacion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextTecnicoApoyoNormalizacion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextTecnicoPlanificacion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextTecnicoApoyoPlanificacion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextTecnicoProduccion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextTecnicoApoyoProduccion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextTecnicoDifusion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsOfDefaultValuesByCondition(getServiceContextTecnicoApoyoDifusion(), null);
     }
 
     @Override
@@ -625,4 +695,5 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
             assertEquals(ServiceExceptionType.SECURITY_OPERATION_NOT_ALLOWED.getCode(), e.getExceptionItems().get(0).getCode());
         }
     }
+
 }

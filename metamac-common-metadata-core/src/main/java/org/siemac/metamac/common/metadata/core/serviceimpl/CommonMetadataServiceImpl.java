@@ -195,11 +195,20 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Override
     public List<DataConfiguration> findDataConfigurationsOfSystemProperties(ServiceContext ctx) throws MetamacException {
+        return findDataConfigurationsOfSystemPropertiesByCondition(ctx, null);
+    }
+
+    @Override
+    public List<DataConfiguration> findDataConfigurationsOfSystemPropertiesByCondition(ServiceContext ctx, List<ConditionalCriteria> condition) throws MetamacException {
         InvocationValidator.checkFindDataConfigurationsOfSystemProperties();
 
         // Prepare criteria
         List<ConditionalCriteria> conditions = criteriaFor(DataConfiguration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.systemProperty())
                 .eq(Boolean.TRUE).distinctRoot().build();
+        
+        if (condition != null) {
+            conditions.addAll(condition);
+        }
 
         // Find
         List<DataConfiguration> result = dataConfigurationRepository.findByCondition(conditions);
@@ -209,18 +218,28 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
     @Override
     public List<DataConfiguration> findDataConfigurationsOfDefaultValues(ServiceContext ctx) throws MetamacException {
+        return findDataConfigurationsOfDefaultValuesByCondition(ctx, null);
+    }
+
+    @Override
+    public List<DataConfiguration> findDataConfigurationsOfDefaultValuesByCondition(ServiceContext ctx, List<ConditionalCriteria> condition) throws MetamacException {
         InvocationValidator.checkFindDataConfigurationsOfDefaultValues();
 
         // Prepare criteria
         List<ConditionalCriteria> conditions = criteriaFor(DataConfiguration.class).withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.systemProperty())
                 .eq(Boolean.FALSE).distinctRoot().build();
+        
+        // Merge conditions
+        if (condition != null) {
+            conditions.addAll(condition);
+        }
 
         // Find
         List<DataConfiguration> result = dataConfigurationRepository.findByCondition(conditions);
 
         return result;
     }
-
+    
     // ----------------------------------------------------------------------
     // VALIDATORS
     // ----------------------------------------------------------------------
