@@ -172,6 +172,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
     }
 
     @Override
+    @Deprecated
     public List<DataConfigurationDto> findDataConfigurationsOfSystemProperties(ServiceContext ctx) throws MetamacException {
         // Security
         SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.JEFE_NORMALIZACION);
@@ -199,6 +200,7 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
     }
     
     @Override
+    @Deprecated
     public List<DataConfigurationDto> findDataConfigurationsOfDefaultValues(ServiceContext ctx) throws MetamacException {
         // Security
         SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.ANY_ROLE_ALLOWED);

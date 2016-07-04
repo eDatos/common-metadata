@@ -9,8 +9,11 @@ import org.siemac.metamac.common.metadata.web.client.presenter.AppsDefaultValues
 import org.siemac.metamac.common.metadata.web.client.utils.AppDataConfigClientSecurityUtils;
 import org.siemac.metamac.common.metadata.web.client.utils.RecordUtils;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.AppsDefaultValuesUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.view.handlers.AppsSystemPropertiesUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.AppPropertyPanel;
 import org.siemac.metamac.common.metadata.web.client.widgets.AppsConfigurationsListGrid;
+import org.siemac.metamac.common.metadata.web.client.widgets.view.DefaultValuesSearchSectionStack;
+import org.siemac.metamac.common.metadata.web.client.widgets.view.SystemPropertiesSearchSectionStack;
 import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
@@ -24,6 +27,7 @@ import com.smartgwt.client.widgets.layout.VLayout;
 public class AppsDefaultValuesViewImpl extends ViewWithUiHandlers<AppsDefaultValuesUiHandlers> implements AppsDefaultValuesView {
 
     private VLayout                    panel;
+    private DefaultValuesSearchSectionStack searchSectionStack;
     private AppsConfigurationsListGrid listGrid;
     private AppPropertyPanel           detailPanel;
 
@@ -41,10 +45,16 @@ public class AppsDefaultValuesViewImpl extends ViewWithUiHandlers<AppsDefaultVal
         });
 
         detailPanel = createDetailPanel();
+        createSearchSectionStack();
 
         panel = new VLayout();
+        panel.addMember(searchSectionStack);
         panel.addMember(listGrid);
         panel.addMember(detailPanel);
+    }
+    
+    private void createSearchSectionStack() {
+        searchSectionStack = new DefaultValuesSearchSectionStack();
     }
 
     private AppPropertyPanel createDetailPanel() {
@@ -96,6 +106,12 @@ public class AppsDefaultValuesViewImpl extends ViewWithUiHandlers<AppsDefaultVal
     @Override
     public Widget asWidget() {
         return panel;
+    }
+    
+    @Override
+    public void setUiHandlers(AppsDefaultValuesUiHandlers handlers) {
+        super.setUiHandlers(handlers);
+        searchSectionStack.setUiHandlers(handlers);
     }
 
     // ASYNC ACTION RESULTS

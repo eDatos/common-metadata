@@ -16,6 +16,7 @@ import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsAction
 import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveAppConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveAppConfigurationResult;
+import org.siemac.metamac.common.metadata.web.shared.criteria.DataConfigurationWebCriteria;
 import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemSchemesAction;
 import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemSchemesResult;
 import org.siemac.metamac.common.metadata.web.shared.external.GetSrmItemsAction;
@@ -91,7 +92,7 @@ public class AppsDefaultValuesPresenter extends Presenter<AppsDefaultValuesPrese
     @Override
     public void prepareFromRequest(PlaceRequest request) {
         super.prepareFromRequest(request);
-        retrieveDefaultValuesPropertiesAndSelect(null);
+        retrieveDefaultValuesPropertiesAndSelect(null, new DataConfigurationWebCriteria());
     }
 
     @Override
@@ -100,8 +101,9 @@ public class AppsDefaultValuesPresenter extends Presenter<AppsDefaultValuesPrese
         SelectAppConfigurationSectionEvent.fire(this, AppsConfigurationsToolStripButtonEnum.DEFAULT_VALUES);
     }
 
-    private void retrieveDefaultValuesPropertiesAndSelect(final DataConfigurationDto appConfiguration) {
-        dispatcher.execute(new GetAppsConfigurationsAction(AppsConfigurationsType.DEFAULT_VALUES), new WaitingAsyncCallbackHandlingError<GetAppsConfigurationsResult>(this) {
+    @Override
+    public void retrieveDefaultValuesPropertiesAndSelect(final DataConfigurationDto appConfiguration, DataConfigurationWebCriteria criteria) {
+        dispatcher.execute(new GetAppsConfigurationsAction(AppsConfigurationsType.DEFAULT_VALUES, criteria), new WaitingAsyncCallbackHandlingError<GetAppsConfigurationsResult>(this) {
 
             @Override
             public void onWaitSuccess(GetAppsConfigurationsResult result) {
@@ -167,7 +169,7 @@ public class AppsDefaultValuesPresenter extends Presenter<AppsDefaultValuesPrese
             @Override
             public void onWaitSuccess(SaveAppConfigurationResult result) {
                 ShowMessageEvent.fireSuccessMessage(AppsDefaultValuesPresenter.this, CommonMetadataWeb.getMessages().appConfigurationSaved());
-                retrieveDefaultValuesPropertiesAndSelect(result.getPropertySaved());
+                retrieveDefaultValuesPropertiesAndSelect(result.getPropertySaved(), new DataConfigurationWebCriteria());
             }
         });
 

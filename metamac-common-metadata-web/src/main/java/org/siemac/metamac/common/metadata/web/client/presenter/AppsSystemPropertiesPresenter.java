@@ -11,11 +11,13 @@ import org.siemac.metamac.common.metadata.web.client.RoleLoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.enums.AppsConfigurationsToolStripButtonEnum;
 import org.siemac.metamac.common.metadata.web.client.enums.AppsConfigurationsType;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.AppsDataConfigurationsUiHandlers;
+import org.siemac.metamac.common.metadata.web.client.view.handlers.AppsSystemPropertiesUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.events.SelectAppConfigurationSectionEvent;
 import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsAction;
 import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsResult;
 import org.siemac.metamac.common.metadata.web.shared.SaveAppConfigurationAction;
 import org.siemac.metamac.common.metadata.web.shared.SaveAppConfigurationResult;
+import org.siemac.metamac.common.metadata.web.shared.criteria.DataConfigurationWebCriteria;
 import org.siemac.metamac.web.common.client.events.ShowMessageEvent;
 import org.siemac.metamac.web.common.client.utils.WaitingAsyncCallbackHandlingError;
 
@@ -36,7 +38,7 @@ import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 
 public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertiesPresenter.AppsSystemPropertiesView, AppsSystemPropertiesPresenter.AppsSystemPropertiesProxy>
         implements
-            AppsDataConfigurationsUiHandlers {
+            AppsSystemPropertiesUiHandlers {
 
     private final DispatchAsync dispatcher;
 
@@ -46,7 +48,7 @@ public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertie
     public interface AppsSystemPropertiesProxy extends Proxy<AppsSystemPropertiesPresenter>, Place {
     }
 
-    public interface AppsSystemPropertiesView extends View, HasUiHandlers<AppsDataConfigurationsUiHandlers> {
+    public interface AppsSystemPropertiesView extends View, HasUiHandlers<AppsSystemPropertiesUiHandlers> {
 
         void setAppConfigurations(List<DataConfigurationDto> properties);
 
@@ -80,11 +82,12 @@ public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertie
     @Override
     public void prepareFromRequest(PlaceRequest request) {
         super.prepareFromRequest(request);
-        retrieveSystemPropertiesAndSelect(null);
+        retrieveSystemPropertiesAndSelect(null, new DataConfigurationWebCriteria());
     }
 
-    private void retrieveSystemPropertiesAndSelect(final DataConfigurationDto appConfiguration) {
-        dispatcher.execute(new GetAppsConfigurationsAction(AppsConfigurationsType.SYSTEM), new WaitingAsyncCallbackHandlingError<GetAppsConfigurationsResult>(this) {
+    @Override
+    public void retrieveSystemPropertiesAndSelect(final DataConfigurationDto appConfiguration, DataConfigurationWebCriteria criteria) {
+        dispatcher.execute(new GetAppsConfigurationsAction(AppsConfigurationsType.SYSTEM, criteria), new WaitingAsyncCallbackHandlingError<GetAppsConfigurationsResult>(this) {
 
             @Override
             public void onWaitSuccess(GetAppsConfigurationsResult result) {
@@ -94,6 +97,7 @@ public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertie
         });
     }
 
+
     @Override
     public void saveDataCondiguration(DataConfigurationDto dataConfigurationDto) {
         dispatcher.execute(new SaveAppConfigurationAction(dataConfigurationDto), new WaitingAsyncCallbackHandlingError<SaveAppConfigurationResult>(this) {
@@ -101,8 +105,9 @@ public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertie
             @Override
             public void onWaitSuccess(SaveAppConfigurationResult result) {
                 ShowMessageEvent.fireSuccessMessage(AppsSystemPropertiesPresenter.this, CommonMetadataWeb.getMessages().appConfigurationSaved());
-                retrieveSystemPropertiesAndSelect(result.getPropertySaved());
+                retrieveSystemPropertiesAndSelect(result.getPropertySaved(), new DataConfigurationWebCriteria());
             }
         });
     }
+
 }
