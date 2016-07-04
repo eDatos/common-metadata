@@ -12,6 +12,7 @@ import org.siemac.metamac.common.metadata.web.client.widgets.AppPropertyNoExtern
 import org.siemac.metamac.common.metadata.web.client.widgets.AppPropertyPanel;
 import org.siemac.metamac.common.metadata.web.client.widgets.AppsConfigurationsListGrid;
 import org.siemac.metamac.common.metadata.web.client.widgets.view.SystemPropertiesSearchSectionStack;
+import org.siemac.metamac.common.metadata.web.shared.criteria.DataConfigurationWebCriteria;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
@@ -50,6 +51,14 @@ public class AppsSystemPropertiesViewImpl extends ViewWithUiHandlers<AppsSystemP
 
     private void createSearchSectionStack() {
         searchSectionStack = new SystemPropertiesSearchSectionStack();
+    }
+    
+    @Override
+    public DataConfigurationWebCriteria getDataConfigurationWebCriteria() {
+        if (searchSectionStack == null) {
+            return new DataConfigurationWebCriteria();
+        }
+        return searchSectionStack.getDataConfigurationWebCriteria();
     }
 
     @Override

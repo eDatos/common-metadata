@@ -14,6 +14,7 @@ import org.siemac.metamac.common.metadata.web.client.widgets.AppPropertyPanel;
 import org.siemac.metamac.common.metadata.web.client.widgets.AppsConfigurationsListGrid;
 import org.siemac.metamac.common.metadata.web.client.widgets.view.DefaultValuesSearchSectionStack;
 import org.siemac.metamac.common.metadata.web.client.widgets.view.SystemPropertiesSearchSectionStack;
+import org.siemac.metamac.common.metadata.web.shared.criteria.DataConfigurationWebCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmExternalResourceRestCriteria;
 import org.siemac.metamac.web.common.shared.criteria.SrmItemRestCriteria;
 import org.siemac.metamac.web.common.shared.domain.ExternalItemsResult;
@@ -55,6 +56,14 @@ public class AppsDefaultValuesViewImpl extends ViewWithUiHandlers<AppsDefaultVal
     
     private void createSearchSectionStack() {
         searchSectionStack = new DefaultValuesSearchSectionStack();
+    }
+    
+    @Override
+    public DataConfigurationWebCriteria getDataConfigurationWebCriteria() {
+        if (searchSectionStack == null) {
+            return new DataConfigurationWebCriteria();
+        }
+        return searchSectionStack.getDataConfigurationWebCriteria();
     }
 
     private AppPropertyPanel createDetailPanel() {

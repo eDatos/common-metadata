@@ -10,7 +10,6 @@ import org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb;
 import org.siemac.metamac.common.metadata.web.client.RoleLoggedInGatekeeper;
 import org.siemac.metamac.common.metadata.web.client.enums.AppsConfigurationsToolStripButtonEnum;
 import org.siemac.metamac.common.metadata.web.client.enums.AppsConfigurationsType;
-import org.siemac.metamac.common.metadata.web.client.view.handlers.AppsDataConfigurationsUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.view.handlers.AppsSystemPropertiesUiHandlers;
 import org.siemac.metamac.common.metadata.web.client.widgets.events.SelectAppConfigurationSectionEvent;
 import org.siemac.metamac.common.metadata.web.shared.GetAppsConfigurationsAction;
@@ -54,6 +53,8 @@ public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertie
 
         void selectAppConfiguration(DataConfigurationDto appConfiguration);
 
+        DataConfigurationWebCriteria getDataConfigurationWebCriteria();
+
     }
 
     @Inject
@@ -82,7 +83,7 @@ public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertie
     @Override
     public void prepareFromRequest(PlaceRequest request) {
         super.prepareFromRequest(request);
-        retrieveSystemPropertiesAndSelect(null, new DataConfigurationWebCriteria());
+        retrieveSystemPropertiesAndSelect(null, getView().getDataConfigurationWebCriteria());
     }
 
     @Override
@@ -105,7 +106,7 @@ public class AppsSystemPropertiesPresenter extends Presenter<AppsSystemPropertie
             @Override
             public void onWaitSuccess(SaveAppConfigurationResult result) {
                 ShowMessageEvent.fireSuccessMessage(AppsSystemPropertiesPresenter.this, CommonMetadataWeb.getMessages().appConfigurationSaved());
-                retrieveSystemPropertiesAndSelect(result.getPropertySaved(), new DataConfigurationWebCriteria());
+                retrieveSystemPropertiesAndSelect(result.getPropertySaved(), getView().getDataConfigurationWebCriteria());
             }
         });
     }

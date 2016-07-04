@@ -66,6 +66,8 @@ public class AppsDefaultValuesPresenter extends Presenter<AppsDefaultValuesPrese
         void setCodelists(ExternalItemsResult result, ViewActionHandlers viewHandler);
 
         void selectAppConfiguration(DataConfigurationDto appConfiguration);
+
+        DataConfigurationWebCriteria getDataConfigurationWebCriteria();
     }
 
     public enum ViewActionHandlers {
@@ -92,7 +94,7 @@ public class AppsDefaultValuesPresenter extends Presenter<AppsDefaultValuesPrese
     @Override
     public void prepareFromRequest(PlaceRequest request) {
         super.prepareFromRequest(request);
-        retrieveDefaultValuesPropertiesAndSelect(null, new DataConfigurationWebCriteria());
+        retrieveDefaultValuesPropertiesAndSelect(null, getView().getDataConfigurationWebCriteria());
     }
 
     @Override
@@ -169,7 +171,7 @@ public class AppsDefaultValuesPresenter extends Presenter<AppsDefaultValuesPrese
             @Override
             public void onWaitSuccess(SaveAppConfigurationResult result) {
                 ShowMessageEvent.fireSuccessMessage(AppsDefaultValuesPresenter.this, CommonMetadataWeb.getMessages().appConfigurationSaved());
-                retrieveDefaultValuesPropertiesAndSelect(result.getPropertySaved(), new DataConfigurationWebCriteria());
+                retrieveDefaultValuesPropertiesAndSelect(result.getPropertySaved(), getView().getDataConfigurationWebCriteria());
             }
         });
 
