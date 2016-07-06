@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +9,7 @@
   <link href="<%=org.siemac.metamac.core.common.util.swagger.SwaggerUtils.getResourceBaseURL(request)%>/swagger-ui/css/screen.css" media='screen' rel='stylesheet' type='text/css'/>
   <link href="<%=org.siemac.metamac.core.common.util.swagger.SwaggerUtils.getResourceBaseURL(request)%>/swagger-ui/css/reset.css" media='print' rel='stylesheet' type='text/css'/>
   <link href="<%=org.siemac.metamac.core.common.util.swagger.SwaggerUtils.getResourceBaseURL(request)%>/swagger-ui/css/print.css" media='print' rel='stylesheet' type='text/css'/>
-  <link href="<%=org.siemac.metamac.common.metadata.web.external.WebUtils.getFavicon()%>" rel="shortcut icon"/>
+  <link href="<%=org.siemac.metamac.web.common.server.utils.WebUtils.getFavicon()%>" rel="shortcut icon"/>
   <script src="<%=org.siemac.metamac.core.common.util.swagger.SwaggerUtils.getResourceBaseURL(request)%>/swagger-ui/lib/jquery-1.8.0.min.js" type='text/javascript'></script>
   <script src="<%=org.siemac.metamac.core.common.util.swagger.SwaggerUtils.getResourceBaseURL(request)%>/swagger-ui/lib/jquery.slideto.min.js" type='text/javascript'></script>
   <script src="<%=org.siemac.metamac.core.common.util.swagger.SwaggerUtils.getResourceBaseURL(request)%>/swagger-ui/lib/jquery.wiggle.min.js" type='text/javascript'></script>
@@ -26,6 +26,8 @@
   <!-- Some basic translations -->
   <script src="<%=org.siemac.metamac.core.common.util.swagger.SwaggerUtils.getResourceBaseURL(request)%>/swagger-ui/lang/translator.js" type='text/javascript'></script>
   <script src="<%=org.siemac.metamac.core.common.util.swagger.SwaggerUtils.getResourceBaseURL(request)%>/swagger-ui/lang/es.js" type='text/javascript'></script>
+    
+  <link href="<%=org.siemac.metamac.web.common.server.utils.WebUtils.getApiStyleCssUrl()%>" media='screen' rel='stylesheet' type='text/css' />
 
   <script type="text/javascript">
     $(function () {
@@ -94,9 +96,14 @@
   </script>
 </head>
 
-<body class="swagger-section">
-
-<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+<body>
+	<c:import url="<%=org.siemac.metamac.web.common.server.utils.WebUtils.getApiStyleHeaderUrl()%>" />
+	
+	<div class="swagger-section">
+		<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
+		<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+	</div>
+	
+	<c:import url="<%=org.siemac.metamac.web.common.server.utils.WebUtils.getApiStyleFooterUrl()%>" />
 </body>
 </html>
