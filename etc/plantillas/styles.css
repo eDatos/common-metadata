@@ -1689,3 +1689,6 @@ div#tweets form {
     padding: 20px;
     padding-top: 124px;
 }
+.swagger-section .swagger-ui-wrap {
+    font-size: 16px;
+}
