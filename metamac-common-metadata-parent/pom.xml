@@ -10,7 +10,7 @@
 
 	<groupId>org.siemac.metamac.metamac-common-metadata</groupId>
 	<artifactId>metamac-common-metadata-parent</artifactId>
-	<version>1.6.0</version>
+	<version>1.6.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>METAMAC :: COMMON METADATA :: PARENT</name>
 	<description>METAMAC :: COMMON METADATA :: PARENT</description>
@@ -40,10 +40,4 @@
 		<!-- WEB -->
 		<jstl.version>1.2</jstl.version>
 	</properties>
-
-  <scm>
-    <connection>scm:svn:http://svn.arte-consultores.com/svn/arte/istac/metamac/metamac-parent/tags/20160722-1305-v1.6.0/metamac-common-metadata-parent</connection>
-    <developerConnection>scm:svn:http://svn.arte-consultores.com/svn/arte/istac/metamac/metamac-parent/tags/20160722-1305-v1.6.0/metamac-common-metadata-parent</developerConnection>
-    <url>http://svn.arte-consultores.com/viewvc/arte/istac/metamac/metamac-parent/tags/20160722-1305-v1.6.0/metamac-common-metadata-parent</url>
-  </scm>
 </project>
