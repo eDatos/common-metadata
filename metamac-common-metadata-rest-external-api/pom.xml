@@ -202,29 +202,27 @@
                 </dependencies>
             </plugin>            
         </plugins>
-        
-        <pluginManagement>
+
+		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
 				<plugin>
-	                <groupId>org.jvnet.jaxb2.maven2</groupId>
-	                <artifactId>maven-jaxb22-plugin</artifactId>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
 					<version>1.0.0</version>
 					<configuration>
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>jaxb2-maven-plugin</artifactId>
+										<groupId>org.jvnet.jaxb2.maven2</groupId>
+										<artifactId>maven-jaxb22-plugin</artifactId>
 										<versionRange>[0.8.1,)</versionRange>
 										<goals>
-											<goal>xjc</goal>
+											<goal>generate</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<execute />
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
