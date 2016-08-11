@@ -28,8 +28,8 @@ ssh deploy@estadisticas.arte-consultores.com <<EOF
     sudo rm -rf $DEPLOY_TARGET_PATH/common-metadata-internal.war
     
     # Restore Configuration
-    sudo mv $TMP_PATH/environment_internal.xml $DEPLOY_TARGET_PATH/common-metadata-internal/$ENVIRONMENT_RELATIVE_PATH_FILE
-    sudo mv $TMP_PATH/logback_internal.xml $DEPLOY_TARGET_PATH/common-metadata-internal/$LOGBACK_RELATIVE_PATH_FILE
+    sudo cp $TMP_PATH/environment_internal.xml $DEPLOY_TARGET_PATH/common-metadata-internal/$ENVIRONMENT_RELATIVE_PATH_FILE
+    sudo cp $TMP_PATH/logback_internal.xml $DEPLOY_TARGET_PATH/common-metadata-internal/$LOGBACK_RELATIVE_PATH_FILE
     
     
     ###
@@ -43,8 +43,8 @@ ssh deploy@estadisticas.arte-consultores.com <<EOF
     sudo rm -rf $DEPLOY_TARGET_PATH/common-metadata.war
     
     # Restore Configuration
-    sudo mv $TMP_PATH/environment.xml $DEPLOY_TARGET_PATH/common-metadata/$ENVIRONMENT_RELATIVE_PATH_FILE
-    sudo mv $TMP_PATH/logback.xml $DEPLOY_TARGET_PATH/common-metadata/$LOGBACK_RELATIVE_PATH_FILE
+    sudo cp $TMP_PATH/environment.xml $DEPLOY_TARGET_PATH/common-metadata/$ENVIRONMENT_RELATIVE_PATH_FILE
+    sudo cp $TMP_PATH/logback.xml $DEPLOY_TARGET_PATH/common-metadata/$LOGBACK_RELATIVE_PATH_FILE
     
     sudo chown -R metamac.metamac /servers/metamac
     sudo service metamac01 start
