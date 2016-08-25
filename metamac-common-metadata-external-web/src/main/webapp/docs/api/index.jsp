@@ -115,7 +115,7 @@
 	</div>
 	
 	<c:if test="${!empty apiStyleFooterUrl}">
-	   <c:import url="${apiStyleFooterUrl}" />
+	   <c:import charEncoding="UTF-8" url="${apiStyleFooterUrl}" />
 	</c:if>
 </body>
 </html>
