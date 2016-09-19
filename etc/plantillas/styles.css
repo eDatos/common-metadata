@@ -1692,3 +1692,22 @@ div#tweets form {
 .swagger-section .swagger-ui-wrap {
     font-size: 16px;
 }
+
+/* Index de las Apis */
+.version-list {
+    padding: 20px;
+    clear: both;
+    font-size: 110%;
+}
+
+.version-list h1 {
+    color: #999999;
+}
+
+.version-list ul {
+    padding: 0 0 0 40px;
+}
+
+.version-list .version-title {
+    margin-bottom: 0;
+}
