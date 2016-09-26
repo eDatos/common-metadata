@@ -15,8 +15,8 @@
     <description>METAMAC :: COMMON METADATA</description>
 
     <scm>
-        <connection>scm:svn:http://svn.arte-consultores.com/svn/arte/istac/metamac/metamac-common-metadata/trunk/</connection>
-        <developerConnection>scm:svn:http://svn.arte-consultores.com/svn/arte/istac/metamac/metamac-common-metadata/trunk/</developerConnection>
+        <connection>scm:git:http://git.arte-consultores.com/istac/metamac-common-metadata</connection>
+        <developerConnection>scm:git:http://git.arte-consultores.com/istac/metamac-common-metadata</developerConnection>
         <url>http://git.arte-consultores.com/istac/metamac-common-metadata</url>
     </scm>
 
