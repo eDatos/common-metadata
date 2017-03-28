@@ -6,7 +6,7 @@
       "version":"1.4.7-SNAPSHOT",
       "title":"API de Metadatos Comunes v1.0"
    },
-   "host":"<%=org.siemac.metamac.core.common.util.WebUtils.getApiBaseURL()%>",
+   "host":"<%=org.siemac.metamac.core.common.util.swagger.SwaggerUtils.getApiBaseURLForSwagger()%>",
    "schemes":[
 
    ],
