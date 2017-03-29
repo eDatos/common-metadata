@@ -1,3 +1,4 @@
+<%@page import="org.siemac.metamac.core.common.util.swagger.SwaggerUtils"%>
 <%@page pageEncoding="UTF-8"%>
 {
    "swagger":"2.0",
@@ -6,7 +7,7 @@
       "version":"1.4.7-SNAPSHOT",
       "title":"API de Metadatos Comunes v1.0"
    },
-   "host":"<%=org.siemac.metamac.core.common.util.swagger.SwaggerUtils.getApiBaseURLForSwagger()%>",
+   "host":"<%=SwaggerUtils.getApiBaseURLForSwagger()%>",
    "schemes":[
 
    ],
