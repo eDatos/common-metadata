@@ -36,7 +36,7 @@ public class SharedSecurityUtils {
                 || isRoleInAccesses(metamacPrincipal, CommonMetadataRoleEnum.JEFE_NORMALIZACION) || isRoleInAccesses(metamacPrincipal, CommonMetadataRoleEnum.TECNICO_APOYO_DIFUSION)
                 || isRoleInAccesses(metamacPrincipal, CommonMetadataRoleEnum.TECNICO_APOYO_NORMALIZACION) || isRoleInAccesses(metamacPrincipal, CommonMetadataRoleEnum.TECNICO_APOYO_PLANIFICACION)
                 || isRoleInAccesses(metamacPrincipal, CommonMetadataRoleEnum.TECNICO_APOYO_PRODUCCION) || isRoleInAccesses(metamacPrincipal, CommonMetadataRoleEnum.TECNICO_DIFUSION)
-                || isRoleInAccesses(metamacPrincipal, CommonMetadataRoleEnum.TECNICO_NORMALIZACION) || isRoleInAccesses(metamacPrincipal, CommonMetadataRoleEnum.TECNICO_PLANIFICACION)
+                || isRoleInAccesses(metamacPrincipal, CommonMetadataRoleEnum.TECNICO_NORMALIZACION) || isRoleInAccesses(metamacPrincipal, CommonMetadataRoleEnum.LECTOR)
                 || isRoleInAccesses(metamacPrincipal, CommonMetadataRoleEnum.TECNICO_PRODUCCION);
     }
 
