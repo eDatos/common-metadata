@@ -44,6 +44,7 @@ Application CommonMetadataDto {
     		TECNICO_DIFUSION,
     		TECNICO_APOYO_PLANIFICACION,
     		TECNICO_PLANIFICACION,
+    		LECTOR,
     		ADMINISTRADOR,
     		ANY_ROLE_ALLOWED
     	}
