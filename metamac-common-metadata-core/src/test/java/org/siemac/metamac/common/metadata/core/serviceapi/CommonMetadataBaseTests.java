@@ -17,16 +17,15 @@ import org.springframework.beans.factory.annotation.Value;
 
 public abstract class CommonMetadataBaseTests extends MetamacDBUnitBaseTests {
 
-    protected static Long   NOT_EXISTS_ID                                = Long.valueOf(-1);
-    protected static String NOT_EXISTS_CODE                              = "NOT_EXISTS";
+    protected static Long   NOT_EXISTS_ID                                               = Long.valueOf(-1);
+    protected static String NOT_EXISTS_CODE                                             = "NOT_EXISTS";
 
-    protected static Long   DATA_CONFIGURATION_01_ID                     = Long.valueOf(1);
-    protected static String DATA_CONFIGURATION_01_KEY                    = "metamac.common_metadata.db.url";
-    protected static int    NUMBER_DATA_CONFIGURATIONS_SYSTEM_PROPERTIES = 38;
-    protected static int    NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES    = 5;
+    protected static Long   DATA_CONFIGURATION_01_ID                                    = Long.valueOf(1);
+    protected static String DATA_CONFIGURATION_01_KEY                                   = "metamac.common_metadata.db.url";
+    protected static int    NUMBER_DATA_CONFIGURATIONS_SYSTEM_PROPERTIES                = 38;
+    protected static int    NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES                   = 5;
     protected static int    NUMBER_DATA_CONFIGURATIONS_SYSTEM_PROPERTIES_WITH_CODE_SDMX = 4;
     protected static int    NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES_WITH_CODE_SDMX    = 4;
-    
 
     @Value("${metamac.common_metadata.db.provider}")
     private String          databaseProvider;
