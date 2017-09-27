@@ -2,6 +2,8 @@ package org.siemac.metamac.common.metadata.web.client.model;
 
 import org.siemac.metamac.common.metadata.core.dto.DataConfigurationDto;
 import org.siemac.metamac.common.metadata.web.client.model.ds.AppConfigurationDS;
+import org.siemac.metamac.common.metadata.web.client.model.ds.ConfigurationDS;
+import org.siemac.metamac.web.common.client.resources.GlobalResources;
 import org.siemac.metamac.web.common.client.widgets.NavigableListGridRecord;
 
 public class AppConfigurationRecord extends NavigableListGridRecord {
@@ -24,6 +26,10 @@ public class AppConfigurationRecord extends NavigableListGridRecord {
 
     public String getValue() {
         return getAttributeAsString(AppConfigurationDS.VALUE);
+    }
+    
+    public void setExternallyPublished(boolean externallyPublished) {
+        setAttribute(AppConfigurationDS.EXTERNALLY_PUBLISHED, externallyPublished ? GlobalResources.RESOURCE.success().getURL() : new String());
     }
 
     public void setDto(DataConfigurationDto value) {

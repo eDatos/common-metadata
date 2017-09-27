@@ -116,6 +116,8 @@ Application CommonMetadata {
 			String configurationValue length="4000" nullable databaseColumn="CONF_VALUE";
 			boolean systemProperty not nullable;
 			
+			boolean externallyPublished not nullable;
+			
 			"Last update to optimistic locking"
 			DateTimeTZ updateDate nullable; 
 			

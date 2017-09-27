@@ -1,5 +1,7 @@
 package org.siemac.metamac.common.metadata.web.client.widgets;
 
+import static org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb.getConstants;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +18,7 @@ import org.siemac.metamac.common.metadata.web.client.widgets.external.SearchConc
 import org.siemac.metamac.common.metadata.web.shared.dto.ExternalItemDataConfigurationDto;
 import org.siemac.metamac.common.metadata.web.shared.utils.AppConfigurationsUtils;
 import org.siemac.metamac.core.common.dto.ExternalItemDto;
+import org.siemac.metamac.web.common.client.utils.BooleanWebUtils;
 import org.siemac.metamac.web.common.client.widgets.form.GroupDynamicForm;
 import org.siemac.metamac.web.common.client.widgets.form.MainFormLayout;
 import org.siemac.metamac.web.common.client.widgets.form.fields.ExternalItemLinkItem;
@@ -100,6 +103,8 @@ public abstract class AppPropertyPanel extends VLayout {
         ViewTextItem key = new ViewTextItem(AppConfigurationDS.KEY, CommonMetadataWeb.getConstants().applicationConfigurationKey());
         ViewTextItem rawValue = new ViewTextItem(AppConfigurationDS.VALUE, CommonMetadataWeb.getConstants().applicationConfigurationValue());
         rawValue.setShowIfCondition(new ShowViewFormItemIfPropertyType(AppConfPropertyValueType.STRING));
+        
+        ViewTextItem externallyPublished = new ViewTextItem(AppConfigurationDS.EXTERNALLY_PUBLISHED, CommonMetadataWeb.getConstants().configurationExternallyPublished());
 
         // ADVANCED
         LinkItem linkValue = new LinkItem(VALUE_LINK_ID);
@@ -111,7 +116,7 @@ public abstract class AppPropertyPanel extends VLayout {
         externalItemValue.setShowIfCondition(new ShowViewFormItemIfPropertyType(AppConfPropertyValueType.EXTERNAL_ITEM_CODE, AppConfPropertyValueType.EXTERNAL_ITEM_CODELIST,
                 AppConfPropertyValueType.EXTERNAL_ITEM_CONCEPT));
 
-        viewForm.setFields(key, rawValue, linkValue, externalItemValue);
+        viewForm.setFields(key, rawValue, linkValue, externalItemValue, externallyPublished);
 
         formLayout.addViewCanvas(viewForm);
     }
@@ -123,6 +128,8 @@ public abstract class AppPropertyPanel extends VLayout {
 
         RequiredTextItem rawValue = new RequiredTextItem(AppConfigurationDS.VALUE, CommonMetadataWeb.getConstants().applicationConfigurationValue());
         rawValue.setShowIfCondition(new ShowEditionFormItemIfPropertyType(AppConfPropertyValueType.STRING));
+        
+        ViewTextItem externallyPublished = new ViewTextItem(AppConfigurationDS.EXTERNALLY_PUBLISHED, CommonMetadataWeb.getConstants().configurationExternallyPublished());
 
         searchConceptLinkItem = createSearchConceptExternalItem(VALUE_EXTERNAL_ITEM_CONCEPT_ID, CommonMetadataWeb.getConstants().applicationConfigurationValue());
         searchConceptLinkItem.setRequired(true);
@@ -136,7 +143,7 @@ public abstract class AppPropertyPanel extends VLayout {
         searchCodelistLinkItem.setRequired(true);
         searchCodelistLinkItem.setShowIfCondition(new ShowEditionFormItemIfPropertyType(AppConfPropertyValueType.EXTERNAL_ITEM_CODELIST));
 
-        editForm.setFields(key, rawValue, searchConceptLinkItem, searchCodeLinkItem, searchCodelistLinkItem);
+        editForm.setFields(key, rawValue, externallyPublished, searchConceptLinkItem, searchCodeLinkItem, searchCodelistLinkItem);
 
         formLayout.addEditionCanvas(editForm);
     }
@@ -187,6 +194,7 @@ public abstract class AppPropertyPanel extends VLayout {
 
         viewForm.setValue(AppConfigurationDS.KEY, dto.getConfigurationKey());
         viewForm.setValue(AppConfigurationDS.VALUE, dto.getConfigurationValue());
+        viewForm.setValue(AppConfigurationDS.EXTERNALLY_PUBLISHED, BooleanWebUtils.getBooleanLabel(dto.isExternallyPublished()));
 
         if (AppConfPropertyValueType.LINK.equals(type)) {
             viewForm.setValue(VALUE_LINK_ID, dto.getConfigurationValue());
@@ -201,6 +209,7 @@ public abstract class AppPropertyPanel extends VLayout {
         editForm.clearErrors(true);
         editForm.setValue(AppConfigurationDS.KEY, dto.getConfigurationKey());
         editForm.setValue(AppConfigurationDS.VALUE, dto.getConfigurationValue());
+        editForm.setValue(AppConfigurationDS.EXTERNALLY_PUBLISHED, BooleanWebUtils.getBooleanLabel(dto.isExternallyPublished()));
 
         if (type.isExternalItem()) {
             ExternalItemDto externalItemDto = ((ExternalItemDataConfigurationDto) dto).getExternalItemDto();

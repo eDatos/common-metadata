@@ -80,6 +80,7 @@ public class Do2DtoMapperImpl extends BaseDo2DtoMapperImpl implements Do2DtoMapp
         target.setConfigurationKey(source.getConfigurationKey());
         target.setConfigurationValue(source.getConfigurationValue());
         target.setSystemProperty(source.isSystemProperty());
+        target.setExternallyPublished(source.isExternallyPublished());
 
         target.setOptimisticLockingVersion(source.getVersion());
 
