@@ -58,7 +58,41 @@
         <xs:restriction base="xs:token">
             <xs:enumeration value="ID" />
         </xs:restriction>
+    </xs:simpleType>   
+    
+    <!-- Properties -->
+    <xs:complexType name="Property">
+        <xs:sequence>
+            <xs:element name="key" type="xs:string" />
+            <xs:element name="value" type="xs:string" />
+        </xs:sequence>
+        <xs:attribute name="kind" type="xs:string" use="required" />
+    </xs:complexType> 
+    
+    <!-- Lists -->
+    <xs:complexType name="Properties">
+        <xs:complexContent>
+            <xs:extension base="common:ListBase">
+                <xs:sequence>
+                    <xs:element name="property" type="tns:Property" minOccurs="0" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <!-- Criterias -->
+    <xs:simpleType name="PropertyCriteriaPropertyRestriction">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="KEY" />
+            <xs:enumeration value="VALUE" />            
+        </xs:restriction>
     </xs:simpleType>    
+    
+    <xs:simpleType name="PropertyCriteriaPropertyOrder">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="KEY" />
+        </xs:restriction>
+    </xs:simpleType> 
     
     <!-- Other -->
     <xs:complexType name="ResourceInternal">
@@ -74,4 +108,6 @@
     <!-- Elements -->
     <xs:element name="configuration" type="tns:Configuration" />
     <xs:element name="configurations" type="tns:Configurations" />
+    <xs:element name="properties" type="tns:Properties" />
+    <xs:element name="property" type="tns:Property" />
 </xs:schema>

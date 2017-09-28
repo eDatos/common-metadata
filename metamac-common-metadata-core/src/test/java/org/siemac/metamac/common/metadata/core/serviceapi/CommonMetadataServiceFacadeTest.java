@@ -394,4 +394,10 @@ public class CommonMetadataServiceFacadeTest extends CommonMetadataBaseTests imp
         assertEquals(Long.valueOf(3), dataConfigurationDtoSession1AfterUpdate2.getOptimisticLockingVersion());
     }
 
+    @Override
+    public void testFindDataConfigurationsByCondition() throws Exception {
+        int defaultValues = commonMetadataServiceFacade.findDataConfigurationsByCondition(getServiceContextAdministrador(), mockCriteriaCodeSdmx()).size();
+        assertEquals(NUMBER_DATA_CONFIGURATIONS_WITH_CODE_SDMX, defaultValues);
+    }
+
 }

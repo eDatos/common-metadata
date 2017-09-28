@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 import org.siemac.metamac.common.metadata.core.conf.CommonMetadataConfigurationService;
+import org.siemac.metamac.common.metadata.core.domain.DataConfiguration;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common_metadata.rest.external.RestExternalConstants;
 import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
@@ -21,6 +22,8 @@ import org.siemac.metamac.rest.common.v1_0.domain.ResourceLink;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.CommonMetadataStatus;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Properties;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Property;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.ResourceInternal;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
@@ -92,6 +95,25 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         return targets;
     }
 
+    @Override
+    public Properties toProperties(List<DataConfiguration> sources) {
+
+        Properties targets = new Properties();
+        targets.setKind(RestExternalConstants.KIND_PROPERTIES);
+        
+        if (sources == null) {
+            targets.setTotal(BigInteger.ZERO);
+        } else {
+            for (org.siemac.metamac.common.metadata.core.domain.DataConfiguration source : sources) {
+                Property target = toProperty(source);
+                targets.getProperties().add(target);
+            }
+            targets.setTotal(BigInteger.valueOf(sources.size()));
+        }
+        
+        return targets;
+    }
+
     public ResourceInternal toResource(org.siemac.metamac.common.metadata.core.domain.Configuration source) {
         if (source == null) {
             return null;
@@ -103,6 +125,17 @@ public class Do2RestExternalMapperV10Impl implements Do2RestExternalMapperV10 {
         target.setSelfLink(toConfigurationSelfLink(source));
         target.setManagementAppLink(toConfigurationManagementApplicationLink(source));
         target.setName(null); // configuration has not title
+        return target;
+    }
+    
+    public Property toProperty(org.siemac.metamac.common.metadata.core.domain.DataConfiguration source) {
+        if (source == null) {
+            return null;
+        }
+        Property target = new Property();
+        target.setKey(source.getConfigurationKey());
+        target.setValue(source.getConfigurationValue());
+        target.setKind(RestExternalConstants.KIND_PROPERTY);
         return target;
     }
 

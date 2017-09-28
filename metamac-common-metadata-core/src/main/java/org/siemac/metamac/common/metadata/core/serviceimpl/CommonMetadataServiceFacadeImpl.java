@@ -245,6 +245,23 @@ public class CommonMetadataServiceFacadeImpl extends CommonMetadataServiceFacade
         // Transform to Dto
         return do2DtoMapper.dataConfigurationDoToDto(dataConfiguration);
     }
+    
+
+
+    @Override
+    public List<DataConfigurationDto> findDataConfigurationsByCondition(ServiceContext ctx, MetamacCriteria criteria) throws MetamacException {
+        // Security
+        SecurityUtils.checkServiceOperationAllowed(ctx, CommonMetadataRoleEnum.ANY_ROLE_ALLOWED);
+        
+        // Transform
+        SculptorCriteria sculptorCriteria = metamacCriteria2SculptorCriteriaMapper.getDataConfigurationCriteriaMapper().metamacCriteria2SculptorCriteria(criteria);
+
+        // Service call
+        List<DataConfiguration> configurations = getCommonMetadataService().findDataConfigurationsByCondition(ctx, sculptorCriteria.getConditions());
+
+        // Transform to Dto
+        return dataConfigurationsListDo2Dto(configurations);
+    }
 
     // --------------------------------------------------------------------------------
     // TRANSFORM LISTS

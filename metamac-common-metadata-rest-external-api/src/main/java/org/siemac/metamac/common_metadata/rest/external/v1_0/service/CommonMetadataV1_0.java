@@ -8,6 +8,8 @@ import javax.ws.rs.QueryParam;
 
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configuration;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.Configurations;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Properties;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.Property;
 
 @Path("v1.0")
 // IMPORTANT: If a new version of API is added, remember change latest url y urlrewrite.xml in war
@@ -42,4 +44,28 @@ public interface CommonMetadataV1_0 {
     @Produces("application/xml")
     @Path("configurations/{id}")
     Configuration retrieveConfigurationById(@PathParam("id") String id);
+    
+    /**
+     * Find properties
+     * 
+     * @param query Clause to filter results by metadata <br/>
+     *            - Logical operators: AND, OR <br/>
+     *            - Comparison operators: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL, IN <br/>
+     *            - Metadata to filter: KEY, VALUE <br/>
+     *            - Example: KEY LIKE "metamac.organisation" OR VALUE LIKE EQ "ISTAC"
+     * @param orderBy Clause to order the results by metadata <br/>
+     * @return
+     */
+    @GET
+    @Produces("application/xml")
+    @Path("properties")
+    Properties findProperties(@QueryParam("query") String query, @QueryParam("orderBy") String orderBy);
+    
+    /**
+     * Retrieve property by key
+     * 
+     * @param key Key
+     * @return Property
+     */
+    Property retrievePropertyByKey(@PathParam("key") String key);
 }

@@ -136,6 +136,15 @@ public final class InvocationValidator {
 
         ExceptionUtils.throwIfException(exceptions);
     }
+    
+    public static void checkFindDataConfigurationByCondition(List<ConditionalCriteria> conditions) throws MetamacException {
+        List<MetamacExceptionItem> exceptions = new ArrayList<MetamacExceptionItem>();
+
+        // nothing to validate
+
+        ExceptionUtils.throwIfException(exceptions);
+
+    }
 
     // ------------------------------------------------------------------------------------
     // PRIVATE METHODS

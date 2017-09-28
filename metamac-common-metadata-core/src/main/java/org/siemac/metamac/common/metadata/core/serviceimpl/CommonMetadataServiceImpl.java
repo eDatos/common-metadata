@@ -215,6 +215,15 @@ public class CommonMetadataServiceImpl extends CommonMetadataServiceImplBase {
 
         return result;
     }
+    
+    @Override
+    public List<DataConfiguration> findDataConfigurationsByCondition(ServiceContext ctx, List<ConditionalCriteria> conditions) throws MetamacException {
+        InvocationValidator.checkFindDataConfigurationByCondition(conditions);
+
+        List<DataConfiguration> result = dataConfigurationRepository.findByCondition(conditions);
+
+        return result;
+    }
 
     @Override
     public List<DataConfiguration> findDataConfigurationsOfDefaultValues(ServiceContext ctx) throws MetamacException {
