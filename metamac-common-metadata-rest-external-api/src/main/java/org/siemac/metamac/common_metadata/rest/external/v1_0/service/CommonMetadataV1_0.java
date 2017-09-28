@@ -67,5 +67,8 @@ public interface CommonMetadataV1_0 {
      * @param key Key
      * @return Property
      */
+    @GET
+    @Produces("application/xml")
+    @Path("properties/{key}")
     Property retrievePropertyByKey(@PathParam("key") String key);
 }

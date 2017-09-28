@@ -158,7 +158,22 @@ public class CommonMetadataRestExternalFacadeV10Impl implements CommonMetadataV1
 
     @Override
     public Property retrievePropertyByKey(String key) {
-        // TODO Auto-generated method stub
-        return null;
+        
+        try {
+            // Retrieve
+            List<org.siemac.metamac.common.metadata.core.domain.DataConfiguration> propertiesEntities = findPropertiesPublishedCore(key, null);
+            if (propertiesEntities.size() != 1) {
+                org.siemac.metamac.rest.common.v1_0.domain.Exception exception = RestExceptionUtils.getException(RestServiceExceptionType.CONFIGURATION_NOT_FOUND, key);
+                throw new RestException(exception, Status.NOT_FOUND);
+            }
+            org.siemac.metamac.common.metadata.core.domain.DataConfiguration propertyEntity = propertiesEntities.get(0);
+
+            // Transform
+            Property property = do2RestExternalMapper.toProperty(propertyEntity);
+            return property;
+
+        } catch (Exception e) {
+            throw manageException(e);
+        }
     }
 }
