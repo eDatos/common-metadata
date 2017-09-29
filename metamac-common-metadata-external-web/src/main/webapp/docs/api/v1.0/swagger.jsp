@@ -15,6 +15,10 @@
     {
       "name" : "Configuraciones",
       "description" : ""
+    },
+    {
+      "name" : "Propiedades de configuración",
+      "description" : ""
     }
   ],
    "definitions":{
@@ -412,6 +416,54 @@
             }
          ],
          "description":"Definición del recurso en el ámbito interno de la organización"
+      },
+      "Property":{
+         "type":"object",
+         "title":"Property",
+         "allOf":[
+            {
+               "properties":{
+                  "key":{
+                     "xml":{
+                        "attribute":true,
+                        "namespace":""
+                     },
+                     "description":"Clave de la propiedad",
+                     "type":"string"
+                  },
+                  "value":{
+                     "xml":{
+                        "attribute":true,
+                        "namespace":""
+                     },
+                     "description":"Valor de la propiedad",
+                     "type":"string"
+                  }
+               }
+            }
+         ],
+         "description":"Propiedad de configuración"
+      },
+      "Properties":{
+         "type":"object",
+         "title":"Properties",
+         "allOf":[
+            {
+               "$ref":"#/definitions/ListBase"
+            },
+            {
+               "properties":{
+                  "property":{
+                     "xml":{
+                        "namespace":"http://www.siemac.org/metamac/rest/common-metadata/v1.0/domain"
+                     },
+                     "description":"Propiedad de configuración",
+                     "$ref":"#/definitions/Property"
+                  }
+               }
+            }
+         ],
+         "description":"Listado de configuraciones de metadatos comunes existentes"
       }
    },
    "paths":{
@@ -498,6 +550,90 @@
                },
                "503":{
                   "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situaci�n temporal"
+               }
+            }
+         }
+      },
+      "/v1.0/properties":{
+        "get":{
+            "tags" : [ "Propiedades de configuración" ],
+            "description":"Esta petición aporta la lista de propiedades de configuración existentes.",
+            "operationId":"resource_CommonMetadataV1_0_findProerties_GET",
+            "produces":[
+               "application/xml"
+            ],
+            "parameters":[
+               {
+                  "name":"orderBy",
+                  "in":"query",
+                  "type":"string",
+                  "description":"Permite ordenar la lista de resultados según una determinada propiedad. El orden se especifica mediante una propiedad y el sentido del orden (operador) que se le quiere aplicar.<br/>\r\n Los posibles operadores son ASC y DESC.<br/>\r\n La propiedad que se puede usar es KEY. <br/>Ejemplos:<br/>\r\n- KEY ASC<br/>\r\n- KEY DESC"
+               },
+               {
+                  "name":"query",
+                  "in":"query",
+                  "type":"string",
+                  "description":"Permite realizar una búsquedasobre los resultados. <br/>\r\n Las propiedades sobre las que se puede buscar son: KEY y VALUE. <br/>\r\n Los operadores lógicos que se permite usar son: AND y OR.  <br/>\r\n Los operadores de comparación que se permite usar son: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL e IN.  <br/>\r\n Ejemplos: <br/>\r\n- KEY LIKE \"search.help.url\" <br/>\r\n- (KEY LIKE \"search.help.url\" OR VALUE LIKE \"ISTAC\")"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "schema":{
+                     "description":"",
+                     "$ref":"#/definitions/Properties"
+                  },
+                  "headers":{
+
+                  },
+                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+               },
+               "406":{
+                  "description":"No aceptable. El formato solicitado no es válido"
+               },
+               "500":{
+                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+               },
+               "503":{
+                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
+               }
+            }
+         }
+      },
+      "/v1.0/properties/{key}":{
+        "get":{
+            "tags" : [ "Propiedades de configuración" ],
+            "description":"Esta petición aporta una propiedad de configuración según su clave.",
+            "operationId":"resource_CommonMetadataV1_0_retrievePropertyByKey_GET",
+            "produces":[
+               "application/xml"
+            ],
+            "parameters":[
+               {
+                  "name":"key",
+                  "in":"path",
+                  "type":"string",
+                  "description":"Clave de la propiedad de configuración"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "schema":{
+                     "description":"",
+                     "$ref":"#/definitions/Property"
+                  },
+                  "headers":{
+
+                  },
+                  "description":"Éxito. Indica que la petición ha sido resuelta correctamente"
+               },
+               "406":{
+                  "description":"No aceptable. El formato solicitado no es válido"
+               },
+               "500":{
+                  "description":"Error interno del servidor. Se ha producido un error que impide que se obtenga el recurso solicitado"
+               },
+               "503":{
+                  "description":"Servicio no disponible. Indica que actualmente el servidor no está disponible y por tanto, la solicitud no puede procesarse. El error puede deberse a una sobrecarga temporal o a labores de mantenimiento del servidor. Se trata de una situación temporal"
                }
             }
          }
