@@ -696,4 +696,18 @@ public class SecurityCommonMetadataServiceFacadeTest extends CommonMetadataBaseT
         }
     }
 
+    @Override
+    public void testFindDataConfigurationsByCondition() throws Exception {
+        commonMetadataServiceFacade.findDataConfigurationsByCondition(getServiceContextAdministrador(), null);
+        commonMetadataServiceFacade.findDataConfigurationsByCondition(getServiceContextJefeNormalizacion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsByCondition(getServiceContextTecnicoNormalizacion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsByCondition(getServiceContextTecnicoApoyoNormalizacion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsByCondition(getServiceContextTecnicoPlanificacion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsByCondition(getServiceContextTecnicoApoyoPlanificacion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsByCondition(getServiceContextTecnicoProduccion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsByCondition(getServiceContextTecnicoApoyoProduccion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsByCondition(getServiceContextTecnicoDifusion(), null);
+        commonMetadataServiceFacade.findDataConfigurationsByCondition(getServiceContextTecnicoApoyoDifusion(), null);
+    }
+
 }

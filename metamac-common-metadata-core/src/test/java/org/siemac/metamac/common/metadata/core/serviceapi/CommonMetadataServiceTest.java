@@ -437,4 +437,22 @@ public class CommonMetadataServiceTest extends CommonMetadataBaseTests implement
         assertNotNull(dataConfiguration);
     }
 
+    @Override
+    public void testFindDataConfigurationsByCondition() throws Exception {
+        String code = "sdmx";
+        
+        //@formatter:off
+        List<ConditionalCriteria> condition = criteriaFor(DataConfiguration.class)
+            .lbrace()
+                .withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.configurationKey()).ignoreCaseLike("%" + code + "%")
+                .or()
+                .withProperty(org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties.configurationValue()).ignoreCaseLike("%" + code + "%")
+             .rbrace()
+            .build();
+        //@formatter:on
+        
+        int defaultValues = commonMetadataService.findDataConfigurationsByCondition(getServiceContextAdministrador(), condition).size();
+        assertEquals(NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES_WITH_CODE_SDMX, defaultValues);
+    }
+
 }

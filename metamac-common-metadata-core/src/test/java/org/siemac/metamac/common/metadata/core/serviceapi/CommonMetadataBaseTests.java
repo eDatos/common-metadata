@@ -26,6 +26,7 @@ public abstract class CommonMetadataBaseTests extends MetamacDBUnitBaseTests {
     protected static int    NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES                   = 5;
     protected static int    NUMBER_DATA_CONFIGURATIONS_SYSTEM_PROPERTIES_WITH_CODE_SDMX = 4;
     protected static int    NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES_WITH_CODE_SDMX    = 4;
+    protected static int    NUMBER_DATA_CONFIGURATIONS_WITH_CODE_SDMX                   = NUMBER_DATA_CONFIGURATIONS_SYSTEM_PROPERTIES_WITH_CODE_SDMX + NUMBER_DATA_CONFIGURATIONS_DEFAULT_VALUES_WITH_CODE_SDMX;
 
     @Value("${metamac.common_metadata.db.provider}")
     private String          databaseProvider;

@@ -5,6 +5,8 @@ import javax.ws.rs.core.Response.Status;
 import org.fornax.cartridges.sculptor.framework.domain.Property;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
 import org.siemac.metamac.common.metadata.core.domain.ConfigurationProperties;
+import org.siemac.metamac.common.metadata.core.domain.DataConfiguration;
+import org.siemac.metamac.common.metadata.core.domain.DataConfigurationProperties;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common_metadata.rest.external.exception.RestServiceExceptionType;
 import org.siemac.metamac.core.common.util.CoreCommonUtil;
@@ -12,6 +14,8 @@ import org.siemac.metamac.rest.common.query.domain.MetamacRestOrder;
 import org.siemac.metamac.rest.common.query.domain.MetamacRestQueryPropertyRestriction;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.ConfigurationCriteriaPropertyOrder;
 import org.siemac.metamac.rest.common_metadata.v1_0.domain.ConfigurationCriteriaPropertyRestriction;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.PropertyCriteriaPropertyOrder;
+import org.siemac.metamac.rest.common_metadata.v1_0.domain.PropertyCriteriaPropertyRestriction;
 import org.siemac.metamac.rest.exception.RestException;
 import org.siemac.metamac.rest.exception.utils.RestExceptionUtils;
 import org.siemac.metamac.rest.search.criteria.SculptorPropertyCriteria;
@@ -28,6 +32,7 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
 
     private PropertyValueRestToPropertyValueEntityInterface propertyValueRestToPropertyValueEntity = null;
     private RestCriteria2SculptorCriteria<Configuration>    configurationCriteriaMapper            = null;
+    private RestCriteria2SculptorCriteria<DataConfiguration> dataConfigurationCriteriaMapper       = null;
     private final Logger                                    logger                                 = LoggerFactory.getLogger(RestCriteria2SculptorCriteriaMapperImpl.class);
 
     private enum PropertyTypeEnum {
@@ -38,11 +43,20 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
         propertyValueRestToPropertyValueEntity = new PropertyValueRestToPropertyValueEntity();
         configurationCriteriaMapper = new RestCriteria2SculptorCriteria<Configuration>(Configuration.class, ConfigurationCriteriaPropertyOrder.class, ConfigurationCriteriaPropertyRestriction.class,
                 new ConfigurationCriteriaCallback());
+        dataConfigurationCriteriaMapper = new RestCriteria2SculptorCriteria<DataConfiguration>(DataConfiguration.class, PropertyCriteriaPropertyOrder.class, PropertyCriteriaPropertyRestriction.class,
+                new PropertyCriteriaCallback());
     }
 
     @Override
     public RestCriteria2SculptorCriteria<Configuration> getConfigurationCriteriaMapper() {
         return configurationCriteriaMapper;
+    }
+    
+
+
+    @Override
+    public RestCriteria2SculptorCriteria<DataConfiguration> getPropertyCriteriaMapper() {
+        return dataConfigurationCriteriaMapper;
     }
 
     private class ConfigurationCriteriaCallback implements CriteriaCallback {
@@ -79,6 +93,39 @@ public class RestCriteria2SculptorCriteriaMapperImpl implements RestCriteria2Scu
         @Override
         public Property retrievePropertyOrderDefault() throws RestException {
             return ConfigurationProperties.id();
+        }
+    }
+    
+    private class PropertyCriteriaCallback implements CriteriaCallback {
+
+        @Override
+        public SculptorPropertyCriteria retrieveProperty(MetamacRestQueryPropertyRestriction propertyRestriction) throws RestException {
+            PropertyCriteriaPropertyRestriction propertyNameCriteria = PropertyCriteriaPropertyRestriction.fromValue(propertyRestriction.getPropertyName());
+            switch (propertyNameCriteria) {
+                case KEY:
+                    return buildSculptorPropertyCriteria(DataConfigurationProperties.configurationKey(), PropertyTypeEnum.STRING, propertyRestriction);
+                case VALUE:
+                    return buildSculptorPropertyCriteria(DataConfigurationProperties.configurationValue(), PropertyTypeEnum.STRING, propertyRestriction);
+                default:
+                    throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
+            }
+        }
+        @SuppressWarnings("rawtypes")
+        @Override
+        public Property retrievePropertyOrder(MetamacRestOrder order) throws RestException {
+            PropertyCriteriaPropertyOrder propertyNameCriteria = PropertyCriteriaPropertyOrder.fromValue(order.getPropertyName());
+            switch (propertyNameCriteria) {
+                case KEY:
+                    return DataConfigurationProperties.configurationKey();
+                default:
+                    throw toRestExceptionParameterIncorrect(propertyNameCriteria.name());
+            }
+        }
+
+        @SuppressWarnings("rawtypes")
+        @Override
+        public Property retrievePropertyOrderDefault() throws RestException {
+            return DataConfigurationProperties.configurationKey();
         }
     }
 

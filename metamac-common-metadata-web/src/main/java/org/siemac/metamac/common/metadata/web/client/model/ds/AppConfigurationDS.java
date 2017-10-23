@@ -9,6 +9,7 @@ public class AppConfigurationDS extends DataSource {
 
     public static final String KEY                   = "key";
     public static final String VALUE                 = "value";
+    public static final String EXTERNALLY_PUBLISHED  = "externally-published";
 
     public static final String APP_CONFIGURATION_DTO = "conf-dto";
     public static final String APP_EXTERNAL_ITEM_DTO = "conf-ei-dto";

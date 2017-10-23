@@ -1,6 +1,5 @@
 package org.siemac.metamac.common.metadata.web.client.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.siemac.metamac.common.metadata.core.dto.ConfigurationDto;
@@ -41,6 +40,7 @@ public class RecordUtils {
         record.setKey(configurationDto.getConfigurationKey());
         record.setValue(configurationDto.getConfigurationValue());
         record.setValue(configurationDto.getConfigurationValue());
+        record.setExternallyPublished(configurationDto.isExternallyPublished());
         record.setDto(configurationDto);
         return record;
     }

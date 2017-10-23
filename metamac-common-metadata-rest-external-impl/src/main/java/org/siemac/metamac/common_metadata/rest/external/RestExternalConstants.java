@@ -11,4 +11,7 @@ public class RestExternalConstants extends RestApiConstants {
 
     public static String KIND_CONFIGURATIONS         = API_NAME + KIND_SEPARATOR + "configurations";
     public static String KIND_CONFIGURATION          = API_NAME + KIND_SEPARATOR + "configuration";
+    
+    public static String KIND_PROPERTIES             = API_NAME + KIND_SEPARATOR + "properties";
+    public static String KIND_PROPERTY               = API_NAME + KIND_SEPARATOR + "property";
 }

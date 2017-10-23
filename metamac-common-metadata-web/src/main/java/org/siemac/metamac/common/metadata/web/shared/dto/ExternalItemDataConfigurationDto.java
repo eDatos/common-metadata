@@ -15,6 +15,7 @@ public class ExternalItemDataConfigurationDto extends DataConfigurationDto {
         setId(dto.getId());
         setOptimisticLockingVersion(dto.getOptimisticLockingVersion());
         setConfigurationKey(dto.getConfigurationKey());
+        setExternallyPublished(dto.isExternallyPublished());
         setConfigurationValue(externalItem != null ? externalItem.getUrn() : null);
         this.externalItem = externalItem;
     }

@@ -14,6 +14,7 @@ import org.siemac.metamac.web.common.client.widgets.BaseNavigableListGrid;
 import org.siemac.metamac.web.common.client.widgets.CustomListGridField;
 
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
+import com.smartgwt.client.types.ListGridFieldType;
 import com.smartgwt.client.types.SelectionStyle;
 import com.smartgwt.client.widgets.grid.CellFormatter;
 import com.smartgwt.client.widgets.grid.ListGridField;
@@ -26,6 +27,9 @@ public class AppsConfigurationsListGrid extends BaseNavigableListGrid<ExternalIt
 
         ListGridField code = new ListGridField(AppConfigurationDS.KEY, CommonMetadataWeb.getConstants().applicationConfigurationKey());
         CustomListGridField link = new CustomListGridField(AppConfigurationDS.VALUE, CommonMetadataWeb.getConstants().applicationConfigurationValue());
+        CustomListGridField externallyPublished = new CustomListGridField(AppConfigurationDS.EXTERNALLY_PUBLISHED, CommonMetadataWeb.getConstants().configurationExternallyPublished());
+        externallyPublished.setType(ListGridFieldType.IMAGE);
+        externallyPublished.setWidth("15%");
         link.setCellFormatter(new CellFormatter() {
 
             @Override
@@ -48,7 +52,7 @@ public class AppsConfigurationsListGrid extends BaseNavigableListGrid<ExternalIt
                 return value != null ? value.toString() : null;
             }
         });
-        setFields(code, link);
+        setFields(code, link, externallyPublished);
     }
     @Override
     protected List<PlaceRequest> buildLocation(ExternalItemDto relatedResourceDto) {

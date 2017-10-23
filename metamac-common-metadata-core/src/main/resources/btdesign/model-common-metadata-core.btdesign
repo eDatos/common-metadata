@@ -33,6 +33,7 @@ Application CommonMetadata {
 			List<@DataConfigurationDto> findDataConfigurationsOfDefaultValuesByCondition(MetamacCriteria criteria) throws MetamacException;			
 			List<@DataConfigurationDto> findDataConfigurationsOfDefaultValues() throws MetamacException;
 			@DataConfigurationDto updateDataConfiguration(@DataConfigurationDto dataConfiguration) throws MetamacException;
+			List<@DataConfigurationDto> findDataConfigurationsByCondition(MetamacCriteria criteria) throws MetamacException;	
 		}
 		
 		
@@ -62,6 +63,7 @@ Application CommonMetadata {
 			List<@DataConfiguration> findDataConfigurationsOfSystemPropertiesByCondition(List<ConditionalCriteria> condition) throws MetamacException;
 			List<@DataConfiguration> findDataConfigurationsOfDefaultValues throws MetamacException;
 			List<@DataConfiguration> findDataConfigurationsOfDefaultValuesByCondition(List<ConditionalCriteria> condition) throws MetamacException;
+			List<@DataConfiguration> findDataConfigurationsByCondition(List<ConditionalCriteria> condition) throws MetamacException;
 		}
 		
 		
@@ -115,6 +117,8 @@ Application CommonMetadata {
 			String configurationKey length="255" not nullable databaseColumn="CONF_KEY";
 			String configurationValue length="4000" nullable databaseColumn="CONF_VALUE";
 			boolean systemProperty not nullable;
+			
+			boolean externallyPublished not nullable;
 			
 			"Last update to optimistic locking"
 			DateTimeTZ updateDate nullable; 
