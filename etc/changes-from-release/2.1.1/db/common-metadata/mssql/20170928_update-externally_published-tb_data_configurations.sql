@@ -1,3 +1,7 @@
+-- --------------------------------------------------------------------------------------------------
+-- METAMAC-2669 - Crear API para obtener propiedades de configuración
+-- --------------------------------------------------------------------------------------------------
+
 UPDATE TB_DATA_CONFIGURATIONS SET EXTERNALLY_PUBLISHED=1 WHERE CONF_KEY='metamac.statistical_resources.dot_code_mapping';
 UPDATE TB_DATA_CONFIGURATIONS SET EXTERNALLY_PUBLISHED=1 WHERE CONF_KEY='metamac.notices.help.url';
 UPDATE TB_DATA_CONFIGURATIONS SET EXTERNALLY_PUBLISHED=1 WHERE CONF_KEY='indicators.widgets.typelist.url';
@@ -56,3 +60,5 @@ UPDATE TB_DATA_CONFIGURATIONS SET EXTERNALLY_PUBLISHED=1 WHERE CONF_KEY='metamac
 UPDATE TB_DATA_CONFIGURATIONS SET EXTERNALLY_PUBLISHED=1 WHERE CONF_KEY='metamac.api.style.footer.url';
 UPDATE TB_DATA_CONFIGURATIONS SET EXTERNALLY_PUBLISHED=1 WHERE CONF_KEY='metamac.portal.publicservice.style.css.url';
 UPDATE TB_DATA_CONFIGURATIONS SET EXTERNALLY_PUBLISHED=1 WHERE CONF_KEY='metamac.portal.publicservice.style.footer.url';
+
+COMMIT;
