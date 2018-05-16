@@ -1,8 +1,6 @@
 package org.siemac.metamac.common.metadata.core.serviceapi.utils;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.siemac.metamac.common.metadata.core.domain.Configuration;
-import org.siemac.metamac.common.metadata.core.domain.DataConfiguration;
 import org.siemac.metamac.common.metadata.core.enume.domain.CommonMetadataStatusEnum;
 import org.siemac.metamac.common.test.utils.MetamacMocks;
 import org.siemac.metamac.core.common.constants.CoreCommonConstants;
@@ -40,29 +38,6 @@ public class CommonMetadataDoMocks extends MetamacMocks {
     }
 
     // -----------------------------------------------------------------
-    // DATA CONFIGURATIONS
-    // -----------------------------------------------------------------
-
-    public static DataConfiguration mockDataConfigurationOfSystemProperty() {
-        DataConfiguration dataConfiguration = mockDataConfiguration();
-        dataConfiguration.setSystemProperty(Boolean.TRUE);
-        return dataConfiguration;
-    }
-
-    public static DataConfiguration mockDataConfigurationOfDefaultValue() {
-        DataConfiguration dataConfiguration = mockDataConfiguration();
-        dataConfiguration.setSystemProperty(Boolean.FALSE);
-        return dataConfiguration;
-    }
-
-    private static DataConfiguration mockDataConfiguration() {
-        DataConfiguration dataConfiguration = new DataConfiguration();
-        dataConfiguration.setConfigurationKey("data_configuration-" + RandomStringUtils.randomAlphabetic(5));
-        dataConfiguration.setConfigurationValue(RandomStringUtils.randomAlphabetic(5));
-        return dataConfiguration;
-    }
-
-    // -----------------------------------------------------------------
     // INTERNATIONAL STRING
     // -----------------------------------------------------------------
 
@@ -94,40 +69,10 @@ public class CommonMetadataDoMocks extends MetamacMocks {
         return target;
     }
 
-    /**
-     * Mock an InternationalString with two locales
-     */
-    public static InternationalString mockInternationalString(String locale01, String label01, String locale02, String label02) {
-        InternationalString target = new InternationalString();
-        LocalisedString localisedString01 = new LocalisedString();
-        localisedString01.setLocale(locale01);
-        localisedString01.setLabel(label01);
-        target.addText(localisedString01);
-
-        LocalisedString localisedString02 = new LocalisedString();
-        localisedString02.setLocale(locale02);
-        localisedString02.setLabel(label02);
-        target.addText(localisedString02);
-        return target;
-    }
 
     // -----------------------------------------------------------------
     // EXTERNAL ITEM
     // -----------------------------------------------------------------
-
-    public static ExternalItem mockStatisticalOperationItem() {
-        String code = mockCode();
-        return mockStatisticalOperationItem(code);
-    }
-
-    public static ExternalItem mockStatisticalOperationItem(String code) {
-        return mockStatisticalOperationAppExternalItem(code, mockStatisticalOperationUrn(code), TypeExternalArtefactsEnum.STATISTICAL_OPERATION);
-    }
-
-    public static ExternalItem mockStatisticalOperationInstanceItem() {
-        String code = mockCode();
-        return mockStatisticalOperationAppExternalItem(code, mockStatisticalOperationInstanceUrn(code), TypeExternalArtefactsEnum.STATISTICAL_OPERATION_INSTANCE);
-    }
 
     public static ExternalItem mockAgencyExternalItem() {
         String code = mockCode();
@@ -136,40 +81,6 @@ public class CommonMetadataDoMocks extends MetamacMocks {
         return target;
     }
 
-    public static ExternalItem mockOrganizationUnitExternalItem() {
-        String code = mockCode();
-        return mockSrmAppExternalItem(code, mockOrganizationUnitUrn(code), TypeExternalArtefactsEnum.ORGANISATION_UNIT);
-    }
-
-    public static ExternalItem mockConceptExternalItem() {
-        String code = mockCode();
-        return mockSrmAppExternalItem(code, mockConceptUrn(code), TypeExternalArtefactsEnum.CONCEPT);
-    }
-
-    public static ExternalItem mockConceptSchemeExternalItem() {
-        String code = mockCode();
-        return mockSrmAppExternalItem(code, mockConceptSchemeUrn(code), TypeExternalArtefactsEnum.CONCEPT_SCHEME);
-    }
-
-    public static ExternalItem mockCodeListSchemeExternalItem() {
-        String code = mockCode();
-        return mockSrmAppExternalItem(code, mockCodeListUrn(code), TypeExternalArtefactsEnum.CODELIST);
-    }
-
-    public static ExternalItem mockCodeExternalItem() {
-        String code = mockCode();
-        return mockSrmAppExternalItem(code, mockCodeUrn(code), TypeExternalArtefactsEnum.CODE);
-    }
-
-    public static ExternalItem mockDsdExternalItem() {
-        String code = mockCode();
-        return mockSrmAppExternalItem(code, mockDsdUrn(code), TypeExternalArtefactsEnum.DATASTRUCTURE);
-    }
-
-    public static ExternalItem mockDimensionExternalItem() {
-        String code = mockCode();
-        return mockSrmAppExternalItem(code, mockDimensionUrn(code), TypeExternalArtefactsEnum.DIMENSION);
-    }
 
     // -----------------------------------------------------------------
     // PRIVATE
@@ -187,10 +98,6 @@ public class CommonMetadataDoMocks extends MetamacMocks {
         item.setManagementAppUrl(CoreCommonConstants.URL_SEPARATOR + code);
         item.setVersion(Long.valueOf(0));
         return item;
-    }
-
-    private static ExternalItem mockStatisticalOperationAppExternalItem(String code, String urn, TypeExternalArtefactsEnum type) {
-        return mockExternalItemCommon(code, urn, type);
     }
 
     private static ExternalItem mockSrmAppExternalItem(String code, String urn, TypeExternalArtefactsEnum type) {
