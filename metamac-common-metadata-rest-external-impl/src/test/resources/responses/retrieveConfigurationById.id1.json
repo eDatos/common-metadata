@@ -1,0 +1,98 @@
+{
+    "id": "configuration1",
+    "urn": "urn:siemac:org.siemac.metamac.infomodel.commonmetadata.CommonMetadata=configuration1",
+    "selfLink": {
+    	"href": "http://data.istac.es/apis/cmetadata/v1.0/configurations/configuration1",
+    	"kind": "commonMetadata#configuration"
+	},
+    "parentLink": {
+    	"href": "http://data.istac.es/apis/cmetadata/v1.0/configurations",
+    	"kind": "commonMetadata#configurations"
+	},
+    "managementAppLink": "http://localhost:8080/metamac-common-metadata-web/#configurations/configuration;id=configuration1",
+    "dataSharing": {
+		"text": [
+		  {
+		    "value": "dataSharing1 en Español",
+		    "lang": "es"
+		  },
+		  {
+		    "value": "dataSharing1 in English",
+		    "lang": "en"
+		  }
+		]
+	},
+    "legalActs": {
+		"text": [
+		  {
+		    "value": "legalActs1 en Español",
+		    "lang": "es"
+		  },
+		  {
+		    "value": "legalActs1 in English",
+		    "lang": "en"
+		  }
+		]
+	},
+    "confPolicy": {
+		"text": [
+		  {
+		    "value": "confPolicy1 in English",
+		    "lang": "en"
+		  },
+		  {
+		    "value": "confPolicy1 en Español",
+		    "lang": "es"
+		  }
+		]
+	},
+    "confDataTreatment": {
+		"text": [
+		  {
+		    "value": "confDataTreatment1 en Español",
+		    "lang": "es"
+		  },
+		  {
+		    "value": "confDataTreatment1 in English",
+		    "lang": "en"
+		  }
+		]
+	},
+    "license": {
+		"text": [
+		  {
+		    "value": "license1 en Español",
+		    "lang": "es"
+		  },
+		  {
+		    "value": "license1 in English",
+		    "lang": "en"
+		  }
+		]
+	},
+    "contact": {
+        "id": "contact1",
+        "nestedId": "contact1Nested",
+        "urn": "urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX:AGENCIES(1.0).contact1",
+        "selfLink": {
+	    	"href": "http://data.istac.es/apis/srm/v1.0/agencyschemes/SDMX/AGENCIES/1.0/agencies/contact1",
+	    	"kind": "structuralResources#agency"
+		},
+        "name": {
+			"text": [
+			  {
+			    "value": "contact1 en Español",
+			    "lang": "es"
+			  },
+			  {
+			    "value": "contact1 in English",
+			    "lang": "en"
+			  }
+			]
+		},
+        "managementAppLink": "http://localhost:8080/metamac-srm-web/#structuralResources/organisationSchemes/organisationScheme;type=AGENCY_SCHEME;id=SDMX:AGENCIES(1.0)/organisation;id=contact1",
+        "kind": "structuralResources#agency"
+    },
+	"status": "ENABLED",
+	"kind": "commonMetadata#configuration"
+}

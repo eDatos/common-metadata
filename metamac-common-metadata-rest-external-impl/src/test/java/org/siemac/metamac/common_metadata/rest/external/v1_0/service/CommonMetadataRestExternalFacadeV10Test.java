@@ -191,17 +191,47 @@ public class CommonMetadataRestExternalFacadeV10Test extends MetamacRestBaseTest
         // Request and validate
         testRequestWithoutJaxbTransformation(requestUri, APPLICATION_XML, Status.NOT_FOUND, responseExpected);
     }
+    
+    @Test
+    public void testRetrieveConfigurationByIdJsonWithoutJaxbTransformation() throws Exception {
+        
+        String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1);
+        InputStream responseExpected = CommonMetadataRestExternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.json");
+
+        // Request and validate
+        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.OK, responseExpected);
+    }
+    
+    @Test
+    public void testRetrieveConfigurationByIdJsonWithoutJaxbTransformationWithJsonSufix() throws Exception {
+        
+        String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1) + ".json";
+        InputStream responseExpected = CommonMetadataRestExternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.json");
+
+        // Request and validate
+        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.OK, responseExpected);
+    }
+    
+    @Test
+    public void testRetrieveConfigurationByIdJsonWithoutJaxbTransformationWithTypeParameter() throws Exception {
+        
+        String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1) + "?_type=json";
+        InputStream responseExpected = CommonMetadataRestExternalFacadeV10Test.class.getResourceAsStream("/responses/retrieveConfigurationById.id1.json");
+
+        // Request and validate
+        testRequestWithoutJaxbTransformation(requestUri, APPLICATION_JSON, Status.OK, responseExpected);
+    }
 
     @Test
-    public void testRetrieveConfigurationByIdJsonNonAcceptable() throws Exception {
+    public void testRetrieveConfigurationByIdJsonOk() throws Exception {
 
-        String requestUri = getRequestUriRetrieveConfigurationById(NOT_EXISTS);
+        String requestUri = getRequestUriRetrieveConfigurationById(CONFIGURATION_1);
 
         // Request and validate
         WebClient webClient = WebClient.create(requestUri).accept("application/json");
         Response response = webClient.get();
 
-        assertEquals(Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test

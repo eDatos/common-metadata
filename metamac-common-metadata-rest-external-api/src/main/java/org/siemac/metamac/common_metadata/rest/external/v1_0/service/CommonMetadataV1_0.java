@@ -30,7 +30,7 @@ public interface CommonMetadataV1_0 {
      * @return List of configurations
      */
     @GET
-    @Produces("application/xml")
+    @Produces({"application/xml", "application/json"})
     @Path("configurations")
     Configurations findConfigurations(@QueryParam("query") String query, @QueryParam("orderBy") String orderBy);
 
@@ -41,7 +41,7 @@ public interface CommonMetadataV1_0 {
      * @return Configuration
      */
     @GET
-    @Produces("application/xml")
+    @Produces({"application/xml", "application/json"})
     @Path("configurations/{id}")
     Configuration retrieveConfigurationById(@PathParam("id") String id);
     
@@ -57,7 +57,7 @@ public interface CommonMetadataV1_0 {
      * @return
      */
     @GET
-    @Produces("application/xml")
+    @Produces({"application/xml", "application/json"})
     @Path("properties")
     Properties findProperties(@QueryParam("query") String query, @QueryParam("orderBy") String orderBy);
     
@@ -68,7 +68,7 @@ public interface CommonMetadataV1_0 {
      * @return Property
      */
     @GET
-    @Produces("application/xml")
+    @Produces({"application/xml", "application/json"})
     @Path("properties/{key}")
     Property retrievePropertyByKey(@PathParam("key") String key);
 }

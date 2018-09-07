@@ -473,7 +473,7 @@
             "description":"Esta petición aporta la lista de configuraciones de metadatos existentes. Cada configuración de metadatos pertenece a una organización en particular",
             "operationId":"resource_CommonMetadataV1_0_findConfigurations_GET",
             "produces":[
-               "application/xml"
+               "application/xml", "application/json"
             ],
             "parameters":[
                {
@@ -518,7 +518,7 @@
             "description":"A través de esta petición se pueden obterner los valores de todos los metadatos que forman parte de una configuración de metadatos comunes",
             "operationId":"resource_CommonMetadataV1_0_retrieveConfigurationById_GET",
             "produces":[
-               "application/xml"
+               "application/xml", "application/json"
             ],
             "parameters":[
                {
@@ -560,7 +560,7 @@
             "description":"Esta petición aporta la lista de propiedades de configuración existentes.",
             "operationId":"resource_CommonMetadataV1_0_findProerties_GET",
             "produces":[
-               "application/xml"
+               "application/xml", "application/json"
             ],
             "parameters":[
                {
@@ -605,7 +605,7 @@
             "description":"Esta petición aporta una propiedad de configuración según su clave.",
             "operationId":"resource_CommonMetadataV1_0_retrievePropertyByKey_GET",
             "produces":[
-               "application/xml"
+               "application/xml", "application/json"
             ],
             "parameters":[
                {
