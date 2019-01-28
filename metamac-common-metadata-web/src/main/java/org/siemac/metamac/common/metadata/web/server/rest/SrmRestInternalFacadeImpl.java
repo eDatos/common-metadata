@@ -122,7 +122,7 @@ public class SrmRestInternalFacadeImpl implements SrmRestInternalFacade {
         String query = RestQueryUtils.buildConceptQuery(itemWebCriteria);
 
         try {
-            Concepts concepts = restApiLocator.getSrmRestInternalFacadeV10().findConcepts(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset);
+            Concepts concepts = restApiLocator.getSrmRestInternalFacadeV10().findConcepts(WILDCARD_ALL, WILDCARD_ALL, WILDCARD_ALL, query, orderBy, limit, offset, null);
             return ExternalItemUtils.getConceptsAsExternalItemsResult(concepts);
         } catch (Exception e) {
             throw manageSrmInternalRestException(serviceContext, e);
