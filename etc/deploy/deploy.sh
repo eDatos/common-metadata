@@ -2,7 +2,8 @@
 
 HOME_PATH=metamac-common-metadata
 TRANSFER_PATH=$HOME_PATH/tmp
-DEPLOY_TARGET_PATH=/servers/metamac/tomcats/metamac01/webapps
+DEPLOY_TARGET_PATH=/servers/edatos-external/tomcats/edatos-external01/webapps
+DEPLOY_TARGET_PATH_INTERNAL=/servers/edatos-internal/tomcats/edatos-internal01/webapps
 ENVIRONMENT_RELATIVE_PATH_FILE=WEB-INF/classes/metamac/environment.xml
 LOGBACK_RELATIVE_PATH_FILE=WEB-INF/classes/logback.xml
 RESTART=1
@@ -21,8 +22,10 @@ ssh deploy@estadisticas.arte-consultores.com <<EOF
     . $TRANSFER_PATH/deploy/utilities.sh
 
     if [ $RESTART -eq 1 ]; then
-        sudo service metamac01 stop
-        checkPROC "metamac"
+        sudo service edatos-internal01 stop
+        sudo service edatos-external01 stop
+        checkPROC "edatos-internal"
+        checkPROC "edatos-external"
     fi
 
     ###
@@ -30,14 +33,14 @@ ssh deploy@estadisticas.arte-consultores.com <<EOF
     ###
 
     # Update Process
-    sudo rm -rf $DEPLOY_TARGET_PATH/common-metadata-internal
-    sudo mv $TRANSFER_PATH/common-metadata-internal.war $DEPLOY_TARGET_PATH/common-metadata-internal.war
-    sudo unzip $DEPLOY_TARGET_PATH/common-metadata-internal.war -d $DEPLOY_TARGET_PATH/common-metadata-internal
-    sudo rm -rf $DEPLOY_TARGET_PATH/common-metadata-internal.war
+    sudo rm -rf $DEPLOY_TARGET_PATH_INTERNAL/common-metadata-internal
+    sudo mv $TRANSFER_PATH/common-metadata-internal.war $DEPLOY_TARGET_PATH_INTERNAL/common-metadata-internal.war
+    sudo unzip $DEPLOY_TARGET_PATH_INTERNAL/common-metadata-internal.war -d $DEPLOY_TARGET_PATH_INTERNAL/common-metadata-internal
+    sudo rm -rf $DEPLOY_TARGET_PATH_INTERNAL/common-metadata-internal.war
 
     # Restore Configuration
-    sudo cp $HOME_PATH/environment_internal.xml $DEPLOY_TARGET_PATH/common-metadata-internal/$ENVIRONMENT_RELATIVE_PATH_FILE
-    sudo cp $HOME_PATH/logback_internal.xml $DEPLOY_TARGET_PATH/common-metadata-internal/$LOGBACK_RELATIVE_PATH_FILE
+    sudo cp $HOME_PATH/environment_internal.xml $DEPLOY_TARGET_PATH_INTERNAL/common-metadata-internal/$ENVIRONMENT_RELATIVE_PATH_FILE
+    sudo cp $HOME_PATH/logback_internal.xml $DEPLOY_TARGET_PATH_INTERNAL/common-metadata-internal/$LOGBACK_RELATIVE_PATH_FILE
 
 
     ###
@@ -55,8 +58,10 @@ ssh deploy@estadisticas.arte-consultores.com <<EOF
     sudo cp $HOME_PATH/logback.xml $DEPLOY_TARGET_PATH/common-metadata/$LOGBACK_RELATIVE_PATH_FILE
 
     if [ $RESTART -eq 1 ]; then
-        sudo chown -R metamac.metamac /servers/metamac
-        sudo service metamac01 start
+        sudo chown -R edatos-internal.edatos-internal /servers/edatos-internal
+        sudo chown -R edatos-external.edatos-external /servers/edatos-external        
+        sudo service edatos-internal01 start
+        sudo service edatos-external01 start
     fi
 
     #checkURL "http://estadisticas.arte-consultores.com/common-metadata-internal" "metamac01"
