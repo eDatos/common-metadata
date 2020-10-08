@@ -32,6 +32,9 @@ public abstract class CommonMetadataBaseTests extends MetamacDBUnitBaseTests {
     @Value("${metamac.common_metadata.db.provider}")
     private String          databaseProvider;
 
+    @Value("${metamac.common_metadata.db.default_schema}")
+    private String defaultSchema;
+
     // --------------------------------------------------------------------------------------------------------------
     // SERVICE CONTEXT
     // --------------------------------------------------------------------------------------------------------------
@@ -135,4 +138,8 @@ public abstract class CommonMetadataBaseTests extends MetamacDBUnitBaseTests {
         return DataBaseProvider.valueOf(databaseProvider);
     }
 
+    @Override
+    protected String getDefaultSchema() {
+        return defaultSchema;
+    }
 }
