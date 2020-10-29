@@ -38,6 +38,7 @@
     <inherits name="org.siemac.metamac.web.common.MetamacWebCommon" />
     <inherits name="org.siemac.metamac.SsoClient" />
     <inherits name="org.siemac.metamac.CommonMetadataCore" />
+    <inherits name="org.siemac.EDatosCoreUtils" />
 
     <!-- Specify the app entry point class. -->
     <entry-point class='org.siemac.metamac.common.metadata.web.client.CommonMetadataWeb' />
