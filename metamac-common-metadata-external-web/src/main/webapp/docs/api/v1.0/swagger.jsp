@@ -486,7 +486,7 @@
                   "name":"query",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite realizar una búsquedasobre los resultados. <br/>\r\n Los metadtos sobre los que se puede buscar son: ID, URN, CONTACT_URN y STATUS. <br/>\r\n Los operadores lógicos que se permite usar son: AND y OR.  <br/>\r\n Los operadores de comparación que se permite usar son: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL e IN.  <br/>\r\n Ejemplos: <br/>\r\n- ID LIKE \"ISTAC\" <br/>\r\n- (ID LIKE \"ISTAC\" AND CONTACT_URN LIKE \"urn:contact:1\") OR (CONTACT_URN EQ \"urn:contact:2\")"
+                  "description":"Permite realizar una búsquedasobre los resultados. <br/>\r\n Los metadtos sobre los que se puede buscar son: ID, URN, CONTACT_URN y STATUS. <br/>\r\n Los operadores lógicos que se permite usar son: AND y OR.  <br/>\r\n Los operadores de comparación que se permite usar son: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL e IN.  <br/>\r\n Ejemplos: <br/>\r\n- ID LIKE \"EDATOS\" <br/>\r\n- (ID LIKE \"EDATOS\" AND CONTACT_URN LIKE \"urn:contact:1\") OR (CONTACT_URN EQ \"urn:contact:2\")"
                }
             ],
             "responses":{
@@ -573,7 +573,7 @@
                   "name":"query",
                   "in":"query",
                   "type":"string",
-                  "description":"Permite realizar una búsquedasobre los resultados. <br/>\r\n Las propiedades sobre las que se puede buscar son: KEY y VALUE. <br/>\r\n Los operadores lógicos que se permite usar son: AND y OR.  <br/>\r\n Los operadores de comparación que se permite usar son: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL e IN.  <br/>\r\n Ejemplos: <br/>\r\n- KEY LIKE \"search.help.url\" <br/>\r\n- (KEY LIKE \"search.help.url\" OR VALUE LIKE \"ISTAC\")"
+                  "description":"Permite realizar una búsquedasobre los resultados. <br/>\r\n Las propiedades sobre las que se puede buscar son: KEY y VALUE. <br/>\r\n Los operadores lógicos que se permite usar son: AND y OR.  <br/>\r\n Los operadores de comparación que se permite usar son: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL e IN.  <br/>\r\n Ejemplos: <br/>\r\n- KEY LIKE \"search.help.url\" <br/>\r\n- (KEY LIKE \"search.help.url\" OR VALUE LIKE \"EDATOS\")"
                }
             ],
             "responses":{
