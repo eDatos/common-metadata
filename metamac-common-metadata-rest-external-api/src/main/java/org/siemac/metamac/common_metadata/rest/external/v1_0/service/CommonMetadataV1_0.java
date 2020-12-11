@@ -22,7 +22,7 @@ public interface CommonMetadataV1_0 {
      *            - Logical operators: AND, OR <br/>
      *            - Comparison operators: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL, IN <br/>
      *            - Metadata to filter: ID, URN, CONTACT_URN, STATUS <br/>
-     *            - Example: (ID LIKE "ISTAC" AND CONTACT_URN EQ "urn:contact:1") OR (CONTACT_URN EQ "urn:contact:2")
+     *            - Example: (ID LIKE "EDATOS" AND CONTACT_URN EQ "urn:contact:1") OR (CONTACT_URN EQ "urn:contact:2")
      * @param orderBy Clause to order the results by metadata <br/>
      *            - Order operators: ASC, DESC<br/>
      *            - Metadata to order: ID<br/>
@@ -52,7 +52,7 @@ public interface CommonMetadataV1_0 {
      *            - Logical operators: AND, OR <br/>
      *            - Comparison operators: EQ, IEQ, LIKE, ILIKE, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL, IN <br/>
      *            - Metadata to filter: KEY, VALUE <br/>
-     *            - Example: KEY LIKE "metamac.organisation" OR VALUE LIKE EQ "ISTAC"
+     *            - Example: KEY LIKE "metamac.organisation" OR VALUE LIKE EQ "EDATOS"
      * @param orderBy Clause to order the results by metadata <br/>
      * @return
      */
